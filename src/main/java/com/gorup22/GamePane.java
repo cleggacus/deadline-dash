@@ -5,10 +5,6 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
-enum State {
-    Start, Playing, Paused
-}
-
 public class GamePane extends StackPane {
     private GraphicsContext graphicsContext;
     private MenuPane startMenu;
@@ -23,11 +19,11 @@ public class GamePane extends StackPane {
         this.setUpPauseMenu();
         this.setUpCanvasPane();
 
-        this.setState(State.Start);
+        this.setState(GameState.Start);
     }
 
 
-    public void setState(State state) {
+    public void setState(GameState state) {
         switch (state) {
             case Start:
                 this.startMenu.setVisible(true);
@@ -64,7 +60,7 @@ public class GamePane extends StackPane {
     private void setUpStartMenu() {
         this.startMenu = new MenuPane();
              
-        this.startMenu.addItem("Pause", () -> { this.setState(State.Paused); });
+        this.startMenu.addItem("Start", () -> { this.setState(GameState.Playing); });
 
         this.getChildren().add(startMenu);
     }
@@ -72,7 +68,8 @@ public class GamePane extends StackPane {
     private void setUpPauseMenu() {
         this.pauseMenu = new MenuPane();
              
-        this.pauseMenu.addItem("Resume", () -> { this.setState(State.Start); });
+        this.pauseMenu.addItem("Resume", () -> { this.setState(GameState.Playing); });
+        this.pauseMenu.addItem("Exit", () -> { this.setState(GameState.Start); });
 
         this.getChildren().add(this.pauseMenu);
     }

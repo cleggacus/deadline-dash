@@ -7,14 +7,9 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class App extends Application {
-
-    private static Scene scene;
-
     @Override
     public void start(Stage stage) throws IOException {
-        GamePane pane = new GamePane();
-        scene = new Scene(pane, 640, 480);
-        stage.setScene(scene);
+        stage.setScene(Game.getInstance().createScene());
         stage.show();
     }
 
