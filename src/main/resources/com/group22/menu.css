@@ -1,0 +1,19 @@
+.menu-outer {
+    -fx-background-color: #000a;
+    -fx-alignment: center;
+}
+
+.menu-button {
+    -fx-cursor: hand;
+    -fx-opacity: 0.6;
+    -fx-font-size: 2em;
+    -fx-padding: 15px;
+    -fx-background-color: #0000;
+    -fx-text-fill: #fff;
+    -fx-border-style: hidden;
+    -fx-width: 100%;
+}
+
+.menu-button:hover {
+    -fx-opacity: 1;
+}

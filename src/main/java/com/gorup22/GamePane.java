@@ -13,6 +13,9 @@ public class GamePane extends StackPane {
     private Pane canvasPane = new Pane();
     
     public GamePane() {
+        this.getStylesheets().add(
+            getClass().getResource("/com/group22/menu.css").toExternalForm());
+
         this.setUpStartMenu();
         this.setUpPauseMenu();
 
