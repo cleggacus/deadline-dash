@@ -60,7 +60,7 @@ public class GamePane extends StackPane {
     private void setUpStartMenu() {
         this.startMenu = new MenuPane();
              
-        this.startMenu.addItem("Start", () -> { this.setState(GameState.Playing); });
+        this.startMenu.addItem("Start", () -> { Game.getInstance().setGameState(GameState.Playing); });
 
         this.getChildren().add(startMenu);
     }
@@ -68,8 +68,8 @@ public class GamePane extends StackPane {
     private void setUpPauseMenu() {
         this.pauseMenu = new MenuPane();
              
-        this.pauseMenu.addItem("Resume", () -> { this.setState(GameState.Playing); });
-        this.pauseMenu.addItem("Exit", () -> { this.setState(GameState.Start); });
+        this.pauseMenu.addItem("Resume", () -> { Game.getInstance().setGameState(GameState.Playing); });
+        this.pauseMenu.addItem("Exit", () -> { Game.getInstance().setGameState(GameState.Start); });
 
         this.getChildren().add(this.pauseMenu);
     }
