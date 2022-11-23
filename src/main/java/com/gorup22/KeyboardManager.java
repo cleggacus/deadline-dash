@@ -6,7 +6,6 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 
 public class KeyboardManager {
-    private Scene scene;
     private HashSet<KeyCode> keysDown;
     private HashSet<KeyCode> keysPress;
     private HashSet<KeyCode> keysUp;
@@ -15,8 +14,6 @@ public class KeyboardManager {
         this.keysDown = new HashSet<>();
         this.keysPress = new HashSet<>();
         this.keysUp = new HashSet<>();
-
-        this.scene = scene;
 
         scene.setOnKeyPressed((e -> {
             keysDown.add(e.getCode());

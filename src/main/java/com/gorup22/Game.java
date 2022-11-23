@@ -65,7 +65,22 @@ public class Game {
         return delta;
     }
 
-    private void update() {
+    private void update(long now) {
+        this.updateTimer(now);
+        this.updateState();
+        this.updateEntities();
+        this.updateAfter();
+    }
+
+    private void updateTimer(long now) {
+        if(this.lastTime == 0)
+            this.lastTime = now;
+
+        this.delta = 0.000000001 * (now - lastTime);
+        this.lastTime = now;
+    }
+
+    private void updateState() {
         if(this.keyboardManager.getKeyDown(KeyCode.ESCAPE)) {
             if(this.gameState == GameState.Playing)
                 this.setGameState(GameState.Paused);
@@ -73,7 +88,9 @@ public class Game {
             else if(this.gameState == GameState.Paused)
                 this.setGameState(GameState.Playing);
         }
+    }
 
+    private void updateEntities() {
         if(gameState == GameState.Playing) {
             for(Entity entity : this.entities)
                 entity.callUpdateMovement();
@@ -81,7 +98,9 @@ public class Game {
             for(Entity entity : this.entities)
                 entity.callUpdate();
         }
+    }
 
+    private void updateAfter() {
         this.keyboardManager.nextFrame();
     }
 
@@ -94,22 +113,12 @@ public class Game {
         }
     }
 
-    private void updateTimer(long now) {
-        if(this.lastTime == 0)
-            this.lastTime = now;
-
-        this.delta = 0.000000001 * (now - lastTime);
-        this.lastTime = now;
-    }
-
     private void setUpGameLoop() {
         this.gameLoop = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                updateTimer(now);
-                update();
+                update(now);
                 draw();
-                
             }
         };
     }
