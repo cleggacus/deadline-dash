@@ -56,7 +56,7 @@ public class GamePane extends StackPane {
 
         this.graphicsContext = canvas.getGraphicsContext2D();
 
-        this.getChildren().add(canvas);
+        this.getChildren().add(this.canvasPane);
     }
 
     private void setUpStartMenu() {
