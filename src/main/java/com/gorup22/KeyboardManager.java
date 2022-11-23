@@ -16,7 +16,9 @@ public class KeyboardManager {
         this.keysUp = new HashSet<>();
 
         scene.setOnKeyPressed((e -> {
-            keysDown.add(e.getCode());
+            if(!keysPress.contains(e.getCode()))
+                keysDown.add(e.getCode());
+
             keysPress.add(e.getCode());
             keysUp.remove(e.getCode());
         }));
