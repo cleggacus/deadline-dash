@@ -17,13 +17,23 @@ public class Game {
 
     private GameState gameState;
     private GamePane gamePane;
+    private Renderer renderer;
     private AnimationTimer gameLoop;
+
+    private double delta = 0;
+    private long lastTime = 0;
 
     private Game() {
         this.gamePane = new GamePane();
+        this.renderer = new Renderer(this.gamePane.getGraphicsContext());
+
         this.entities = new ArrayList<>();
 
         this.setGameState(GameState.Start);
+
+
+        this.entities.add(new TestObject());
+
 
         this.setUpGameLoop();
         this.gameLoop.start();
@@ -56,26 +66,40 @@ public class Game {
         return scene;
     }
 
+    public double getDelta() {
+        return delta;
+    }
+
     private void update() {
-        for(Entity entity : this.entities) {
-            entity.update();
-        }
+        for(Entity entity : this.entities)
+            entity.callUpdateMovement();
+
+        for(Entity entity : this.entities)
+            entity.callUpdate();
     }
 
     private void draw() {
-        GraphicsContext ctx = this.gamePane.getGraphicsContext();
+        this.renderer.newFrame();
 
-        for(Entity entity : this.entities) {
-            entity.draw(ctx);
-        }
+        for(Entity entity : this.entities)
+            entity.draw(renderer);
+    }
+
+    private void updateTimer(long now) {
+        if(this.lastTime == 0)
+            this.lastTime = now;
+
+        this.delta = 0.000000001 * (now - lastTime);
+        this.lastTime = now;
     }
 
     private void setUpGameLoop() {
         this.gameLoop = new AnimationTimer() {
             @Override
             public void handle(long now) {
+                updateTimer(now);
+                
                 if(gameState == GameState.Playing) {
-                    System.out.println(now);
                     update();
                     draw();
                 }

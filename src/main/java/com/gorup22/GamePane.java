@@ -15,9 +15,9 @@ public class GamePane extends StackPane {
         this.getStylesheets().add(
             getClass().getResource("/com/group22/menu.css").toExternalForm());
 
-        this.setUpStartMenu();
-        this.setUpPauseMenu();
         this.setUpCanvasPane();
+        this.setUpPauseMenu();
+        this.setUpStartMenu();
 
         this.setState(GameState.Start);
     }
@@ -55,6 +55,8 @@ public class GamePane extends StackPane {
         canvas.heightProperty().bind(this.heightProperty());
 
         this.graphicsContext = canvas.getGraphicsContext2D();
+
+        this.getChildren().add(canvas);
     }
 
     private void setUpStartMenu() {

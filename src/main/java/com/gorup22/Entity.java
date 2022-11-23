@@ -1,25 +1,42 @@
 package com.gorup22;
 
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
 public abstract class Entity {
-    protected int x;
-    protected int y;
+    protected double moveEvery = 0;
+    protected double timeSinceMove = 0;
+    protected int x = 0;
+    protected int y = 0;
+    protected Image sprite;
 
-    private Image sprite;
+    public Entity() {}
 
-    public Entity() {
+    protected abstract void updateMovement();
+    protected abstract void update();
 
+    protected void setSprite(String resourcesPath) {
+        this.sprite = new Image(getClass().getResource("/com/group22/" + resourcesPath).toString());
     }
 
-    public abstract void update();
+    public void callUpdate() {
+        this.update();
+    }
 
-    public void draw(GraphicsContext ctx) {
+    public void callUpdateMovement() {
+        double delta = Game.getInstance().getDelta();
+        this.timeSinceMove += delta;
+
+        if(this.timeSinceMove >= this.moveEvery) {
+            this.updateMovement();
+            this.timeSinceMove -= this.moveEvery;
+        }
+    }
+
+    public void draw(Renderer renderer) {
         if(this.sprite == null)
             return;
 
-        ctx.drawImage(this.sprite, x, y);
+        renderer.drawImage(this.sprite, x, y);
     }
 
 }
