@@ -30,6 +30,9 @@ public abstract class Entity {
             this.updateMovement();
             this.timeSinceMove -= this.moveEvery;
         }
+
+        if(this.moveEvery <= delta)
+            this.timeSinceMove = 0;
     }
 
     public void draw(Renderer renderer) {
