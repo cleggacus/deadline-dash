@@ -18,6 +18,7 @@ public class Game {
     private GamePane gamePane;
     private Renderer renderer;
     private AnimationTimer gameLoop;
+    private KeyboardManager keyboardManager;
 
     private double delta = 0;
     private long lastTime = 0;
@@ -30,9 +31,7 @@ public class Game {
 
         this.setGameState(GameState.Start);
 
-
         this.entities.add(new TestObject());
-
 
         this.setUpGameLoop();
         this.gameLoop.start();
@@ -57,10 +56,7 @@ public class Game {
     public Scene createScene() {
         Scene scene = new Scene(this.gamePane, INITIAL_WIDTH, INITIAL_HEIGHT);
 
-        scene.setOnKeyPressed(e -> {
-            if(e.getCode() == KeyCode.ESCAPE)
-                this.setGameState(GameState.Paused);  
-        });
+        this.keyboardManager = new KeyboardManager(scene);
 
         return scene;
     }
@@ -70,18 +66,32 @@ public class Game {
     }
 
     private void update() {
-        for(Entity entity : this.entities)
-            entity.callUpdateMovement();
+        if(this.keyboardManager.getKeyDown(KeyCode.ESCAPE)) {
+            if(this.gameState == GameState.Playing)
+                this.setGameState(GameState.Paused);
 
-        for(Entity entity : this.entities)
-            entity.callUpdate();
+            else if(this.gameState == GameState.Paused)
+                this.setGameState(GameState.Playing);
+        }
+
+        if(gameState == GameState.Playing) {
+            for(Entity entity : this.entities)
+                entity.callUpdateMovement();
+
+            for(Entity entity : this.entities)
+                entity.callUpdate();
+        }
+
+        this.keyboardManager.nextFrame();
     }
 
     private void draw() {
-        this.renderer.newFrame();
+        if(gameState != GameState.Start) {
+            this.renderer.newFrame();
 
-        for(Entity entity : this.entities)
-            entity.draw(renderer);
+            for(Entity entity : this.entities)
+                entity.draw(renderer);
+        }
     }
 
     private void updateTimer(long now) {
@@ -97,11 +107,9 @@ public class Game {
             @Override
             public void handle(long now) {
                 updateTimer(now);
+                update();
+                draw();
                 
-                if(gameState == GameState.Playing) {
-                    update();
-                    draw();
-                }
             }
         };
     }
