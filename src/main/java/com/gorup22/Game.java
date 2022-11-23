@@ -65,6 +65,18 @@ public class Game {
         return delta;
     }
 
+    public boolean getKeyState(KeyCode keyCode) {
+        return this.keyboardManager.getKeyState(keyCode);
+    }
+
+    public boolean getKeyDown(KeyCode keyCode) {
+        return this.keyboardManager.getKeyDown(keyCode);
+    }
+
+    public boolean getKeyUp(KeyCode keyCode) {
+        return this.keyboardManager.getKeyUp(keyCode);
+    }
+
     private void update(long now) {
         this.updateTimer(now);
         this.updateState();
@@ -78,6 +90,8 @@ public class Game {
 
         this.delta = 0.000000001 * (now - lastTime);
         this.lastTime = now;
+
+        System.out.println(1/this.delta);
     }
 
     private void updateState() {
