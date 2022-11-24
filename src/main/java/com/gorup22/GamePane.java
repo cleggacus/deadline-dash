@@ -1,5 +1,6 @@
 package com.gorup22;
 
+import javafx.scene.CacheHint;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
@@ -21,7 +22,6 @@ public class GamePane extends StackPane {
 
         this.setState(GameState.Start);
     }
-
 
     public void setState(GameState state) {
         switch (state) {
@@ -55,6 +55,9 @@ public class GamePane extends StackPane {
         canvas.heightProperty().bind(this.heightProperty());
 
         this.graphicsContext = canvas.getGraphicsContext2D();
+
+        canvas.setCache(true);
+        canvas.setCacheHint(CacheHint.SPEED);
 
         this.getChildren().add(this.canvasPane);
     }
