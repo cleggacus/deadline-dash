@@ -19,6 +19,7 @@ public class Renderer {
 
     public Renderer(GraphicsContext graphicsContext) {
         this.graphicsContext = graphicsContext;
+        this.graphicsContext.setImageSmoothing(false);
     }
 
     public void setViewSize(int width, int height) {
