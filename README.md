@@ -52,7 +52,7 @@ For more details : [https://code.visualstudio.com/docs/java/java-gui]()
 If you would rather use maven directly you can install maven at [https://maven.apache.org/download.cgi]()
 
 ### How to run using Maven
-If you would rather use the command line you can run maven directly by running this command in the project folder.
+You can run the app using maven by running this command in the project folder.
 ```bash
 mvn javafx:run
 ```
