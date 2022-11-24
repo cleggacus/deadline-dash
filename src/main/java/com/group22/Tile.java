@@ -7,11 +7,27 @@ import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 
-public class Tile extends Entity{
+/**
+ * 
+ * The class {@code Tile} is an {@code Entity} which is used to render the tiles in the game.
+ * 
+ * The tile images are procedurally generated from 4 colors and a grey scale tile sprite.
+ * 
+ * @author Liam Clegg
+ * @version 1.0
+ */
+public class Tile extends Entity {
     private static Image[] tileSprites;
 
     private TileColor[] tileLayout = new TileColor[4];
 
+    /**
+     * Creates a tile based on its position and colors.
+     * 
+     * @param x
+     * @param y
+     * @param colors
+     */
     public Tile(int x, int y, String colors) {
         this.x = x;
         this.y = y;
@@ -22,6 +38,13 @@ public class Tile extends Entity{
         setTileLayout(colors);
     }
 
+    /**
+     * Creates a tile based on its position with a default color.
+     * Note: do not run this if you are going to set TileLayout directly after since 2 images will have to be rendered slowing down performance.
+     * 
+     * @param x
+     * @param y
+     */
     public Tile(int x, int y) {
         this.x = x;
         this.y = y;
@@ -33,19 +56,12 @@ public class Tile extends Entity{
         renderTileImage();
     }
 
-    public static Tile random(int x, int y) {
-        Tile tile = new Tile(x, y);
-
-        tile.setTileLayout(
-            TileColor.getRandomColor(), 
-            TileColor.getRandomColor(), 
-            TileColor.getRandomColor(), 
-            TileColor.getRandomColor()
-        );
-
-        return tile;
-    }
-
+    
+    /** 
+     * Sets the tile layout to the provided string of color labels set in {@code TileColor} and renders a sprite images correspondingly.
+     * 
+     * @param colors
+     */
     public void setTileLayout(String colors) {
         if(colors.length() != 4)
             return;
@@ -58,6 +74,15 @@ public class Tile extends Entity{
         renderTileImage();
     }
 
+    
+    /** 
+     * Sets the tile layout to the provided tile colors and renders a sprite images correspondingly. 
+     * 
+     * @param tl Top left TileColor
+     * @param tr Top right TileColor
+     * @param bl Bottom left TileColor
+     * @param br Bottom rigtht TileColor
+     */
     public void setTileLayout(TileColor tl, TileColor tr, TileColor bl, TileColor br) {
         this.tileLayout[0] = tl;
         this.tileLayout[1] = tr;
@@ -66,6 +91,18 @@ public class Tile extends Entity{
 
         renderTileImage();
     }
+
+    /**
+     * Not implimented.
+     */
+    @Override
+    protected void updateMovement() {}
+
+    /**
+     * Not implimented.
+     */
+    @Override
+    protected void update() {}
 
     private void renderTileImage() {
         Image sprite = getTileSprite();
@@ -99,6 +136,7 @@ public class Tile extends Entity{
         this.setSprite(writableImage);
     }
 
+    
     private Image getTileSprite() {
         int tileCount = tileSprites.length;
         int spriteIndex = ((this.y%tileCount) + (this.x%tileCount))%tileCount;
@@ -122,11 +160,5 @@ public class Tile extends Entity{
             new Image(getClass().getResource("/com/group22/tile2.png").toString())
         };
     }
-
-    @Override
-    protected void updateMovement() {}
-
-    @Override
-    protected void update() {}
 }
 
