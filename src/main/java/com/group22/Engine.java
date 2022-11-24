@@ -1,4 +1,4 @@
-package com.gorup22;
+package com.group22;
 
 import java.util.ArrayList;
 
@@ -94,8 +94,6 @@ public abstract class Engine {
 
         this.delta = 0.000000001 * (now - lastTime);
         this.lastTime = now;
-
-        System.out.println(1/this.delta);
     }
 
     private void updateState() {

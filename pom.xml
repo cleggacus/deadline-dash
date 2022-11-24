@@ -40,7 +40,7 @@
                     <execution>
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>com.gorup22.App</mainClass>
+                            <mainClass>com.group22.App</mainClass>
                         </configuration>
                     </execution>
                 </executions>

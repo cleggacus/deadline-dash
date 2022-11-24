@@ -1,4 +1,4 @@
-package com.gorup22;
+package com.group22;
 
 import java.util.HashSet;
 
