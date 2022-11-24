@@ -27,6 +27,14 @@ public class Renderer {
         this.viewHeight = height;
     }
 
+    public int getViewHeight() {
+        return (int)viewHeight;
+    }
+
+    public int getViewWidth() {
+        return (int)viewWidth;
+    }
+
     public void drawImage(Image image, double x, double y) {
         if(x < 0 || y < 0 || x > viewWidth-1 || y > viewHeight-1)
             return;
