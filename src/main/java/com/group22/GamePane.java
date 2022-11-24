@@ -6,12 +6,24 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
+/**
+ * 
+ * The class {@code GamePane} is a scene layout element which extends stack pane.
+ * 
+ * GamePane is used to abstract the gui into a contained gui element with all functionallity needed for a game. 
+ * 
+ * @author Liam Clegg
+ * @version 1.0
+ */
 public class GamePane extends StackPane {
     private GraphicsContext graphicsContext;
     private MenuPane startMenu;
     private MenuPane pauseMenu = new MenuPane();
     private Pane canvasPane = new Pane();
-    
+
+    /**
+     * Creates a GamePane.
+     */
     public GamePane() {
         this.getStylesheets().add(
             getClass().getResource("/com/group22/menu.css").toExternalForm());
@@ -25,6 +37,13 @@ public class GamePane extends StackPane {
         this.setState(GameState.Start);
     }
 
+    
+    /** 
+     * Changes visibility of child panes based on the game state.
+     * Used when {@code Engine} sets its gameState
+     * 
+     * @param state
+     */
     public void setState(GameState state) {
         switch (state) {
             case Start:
@@ -45,6 +64,12 @@ public class GamePane extends StackPane {
         }
     }
 
+    
+    /** 
+     * Get GraphicsContext of canvas in pane.
+     * 
+     * @return GraphicsContext
+     */
     public GraphicsContext getGraphicsContext() {
         return graphicsContext;
     }
