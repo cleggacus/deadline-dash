@@ -57,6 +57,12 @@ You can run the app using maven by running this command in the project folder.
 mvn javafx:run
 ```
 
+### Generate javadoc
+You can also generate javadoc using maven with the following command. The docs can be found in `target/site/apidocs/`
+```bash
+mvn javadoc:javadoc
+```
+
 <br/>
 
 # License
