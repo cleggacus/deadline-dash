@@ -1,4 +1,4 @@
-module com.gorup22 {
+module com.group22 {
     requires transitive javafx.controls;
     requires transitive javafx.fxml;
 
