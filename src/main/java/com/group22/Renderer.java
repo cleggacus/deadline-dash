@@ -36,7 +36,7 @@ public class Renderer {
     }
 
     public void drawImage(Image image, double x, double y) {
-        if(x < 0 || y < 0 || x > viewWidth-1 || y > viewHeight-1)
+        if(x < -1 || y < -1 || x > viewWidth || y > viewHeight)
             return;
 
         double drawX = x*this.tileSize + this.offsetX;

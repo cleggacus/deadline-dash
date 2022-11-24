@@ -7,6 +7,8 @@ public abstract class Entity {
     protected double timeSinceMove = 0;
     protected int x = 0;
     protected int y = 0;
+    protected double spriteOffsetY = 0;
+    protected double spriteOffsetX = 0;
     protected Image sprite;
 
     public Entity() {}
@@ -16,6 +18,10 @@ public abstract class Entity {
 
     protected void setSprite(String resourcesPath) {
         this.sprite = new Image(getClass().getResource("/com/group22/" + resourcesPath).toString());
+    }
+
+    protected void setSprite(Image image) {
+        this.sprite = image;
     }
 
     public void callUpdate() {
@@ -39,7 +45,7 @@ public abstract class Entity {
         if(this.sprite == null)
             return;
 
-        renderer.drawImage(this.sprite, x, y);
+        renderer.drawImage(this.sprite, spriteOffsetX + x, spriteOffsetY + y);
     }
 
 }

@@ -24,7 +24,6 @@ public abstract class Engine {
     public Engine() {
         this.gamePane = new GamePane();
         this.renderer = new Renderer(this.gamePane.getGraphicsContext());
-
         this.entities = new ArrayList<>();
 
         this.setGameState(GameState.Start);
@@ -55,14 +54,23 @@ public abstract class Engine {
     }
 
     public boolean getKeyState(KeyCode keyCode) {
+        if(this.keyboardManager == null)
+            return false;
+
         return this.keyboardManager.getKeyState(keyCode);
     }
 
     public boolean getKeyDown(KeyCode keyCode) {
+        if(this.keyboardManager == null)
+            return false;
+
         return this.keyboardManager.getKeyDown(keyCode);
     }
 
     public boolean getKeyUp(KeyCode keyCode) {
+        if(this.keyboardManager == null)
+            return false;
+
         return this.keyboardManager.getKeyUp(keyCode);
     }
 
@@ -97,7 +105,7 @@ public abstract class Engine {
     }
 
     private void updateState() {
-        if(this.keyboardManager.getKeyDown(KeyCode.ESCAPE)) {
+        if(this.getKeyDown(KeyCode.ESCAPE)) {
             if(this.gameState == GameState.Playing)
                 this.setGameState(GameState.Paused);
 
