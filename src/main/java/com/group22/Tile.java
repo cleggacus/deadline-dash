@@ -68,9 +68,7 @@ public class Tile extends Entity{
     }
 
     private void renderTileImage() {
-        int tileCount = tileSprites.length;
-        int spriteIndex = ((this.y%tileCount) + (this.x%tileCount))%tileCount;
-        Image sprite = tileSprites[spriteIndex];
+        Image sprite = getTileSprite();
         PixelReader pixelReader = sprite.getPixelReader();
         WritableImage writableImage = new WritableImage((int)sprite.getWidth(), (int)sprite.getHeight());
         PixelWriter pixelWriter = writableImage.getPixelWriter();
@@ -101,8 +99,10 @@ public class Tile extends Entity{
         this.setSprite(writableImage);
     }
 
-    private Image getRandomTileSprite() {
-        return tileSprites[(int)(Math.random()*tileSprites.length)];
+    private Image getTileSprite() {
+        int tileCount = tileSprites.length;
+        int spriteIndex = ((this.y%tileCount) + (this.x%tileCount))%tileCount;
+        return tileSprites[spriteIndex];
     }
 
     private boolean isTopHalfTile(double x, double y, double tileWidth, double tileHeight) {
