@@ -1,3 +1,7 @@
+.game-pane {
+    -fx-background-color: #000;
+}
+
 .menu-outer {
     -fx-background-color: #000a;
     -fx-alignment: center;
