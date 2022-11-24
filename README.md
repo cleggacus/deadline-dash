@@ -17,14 +17,16 @@
 
 <br/>
 
-## Getting started
+# Getting started
 If you would like to directly get the src code run
 ```bash
 git clone https://github.com/cleggacus/deadline-dash.git
 ```
 If you are using an IDE or text editor you can clone the repo there using the URL : https://github.com/cleggacus/deadline-dash.git
 
-### Intelej IDEA
+<br/>
+
+## Intelej IDEA
 In the Settings/Preferences dialog (Ctrl+Alt+S), select Plugins.
 
 1. Switch to the Installed tab and make sure that the JavaFX plugin is enabled.
@@ -33,7 +35,9 @@ In the Settings/Preferences dialog (Ctrl+Alt+S), select Plugins.
 
 For more details : [https://www.jetbrains.com/help/idea/javafx.html]() 
 
-### VSCode
+<br/>
+
+## VSCode
 To run a maven javafx project with vscode you will need to install the [Extension Pack for Java](https://code.visualstudio.com/docs/java/vscode:extension/vscjava.vscode-java-pack) in vscode. You will also need to install the JDK and JavaFX if you havn't already done so.
 
 Version 17 of the JDK can be found at : [https://www.oracle.com/uk/java/technologies/downloads/#java17]()
@@ -42,20 +46,18 @@ Version 17 of JavaFX can be found at : [https://gluonhq.com/products/javafx/http
 
 For more details : [https://code.visualstudio.com/docs/java/java-gui]()
 
-### Maven
-If you would rather use maven directly you can install maven at [https://maven.apache.org/download.cgi]()
-
 <br/>
 
-## Running the application
-Once set up you can use vscode and Intelej the intended way to debug and run the application.
+## Maven
+If you would rather use maven directly you can install maven at [https://maven.apache.org/download.cgi]()
 
-### Using maven on the command line
+### How to run using Maven
 If you would rather use the command line you can run maven directly by running this command in the project folder.
 ```bash
 mvn javafx:run
 ```
+
 <br/>
 
-## License
+# License
 Released under the [MIT](/LICENSE) license. Read the [LICENSE](/LICENSE) file for more info.
