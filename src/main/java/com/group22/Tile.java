@@ -93,6 +93,24 @@ public class Tile extends Entity {
     }
 
     /**
+     * Checks if theres a color in other thats in this.
+     * 
+     * @param other
+     * @return
+     */
+    public boolean colorMatch(Tile other) {
+        for(TileColor color1 : this.tileLayout) {
+            for(TileColor color2 : other.tileLayout) {
+                if(color1 == color2) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Not implimented.
      */
     @Override

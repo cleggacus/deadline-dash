@@ -1,5 +1,7 @@
 package com.group22;
 
+import javafx.scene.paint.Color;
+
 /**
  * The {@code Game} class acts as a game manager handling all the game logic.
  * Since there is only one game and it extends Engine it uses the singleton pattern and can be used with the {@link #getInstance()} method.
@@ -8,6 +10,8 @@ package com.group22;
  * @version 1.0
  */
 public class Game extends Engine {
+    private Tile[][] tiles;
+
     private static Game instance;
 
     /**
@@ -33,10 +37,25 @@ public class Game extends Engine {
         return Game.instance;
     }
 
+    /**
+     * Checks if theres a color at (x1, y1) thats in (x2, y2).
+     * 
+     * @param x1
+     * @param y1
+     * @param x2
+     * @param y2
+     * @return
+     */
+    public boolean colorMatch(int x1, int y1, int x2, int y2) {
+        return this.tiles[x1][y1].colorMatch(this.tiles[x2][y2]);
+    }
+
     // used for testing purposes
     private void testMapSetup() {
         int width = 15;
         int height = 10;
+
+        this.tiles = new Tile[width][height];
 
         this.setViewSize(width, height);
 
@@ -56,8 +75,8 @@ public class Game extends Engine {
 
         for(int y = 0; y < height; y++) {
             for(int x = 0; x < width; x++) {
-                Tile t = new Tile(x, y, tileDataArray[y*width + x]);
-                this.entities.add(t);
+                this.tiles[x][y] = new Tile(x, y, tileDataArray[y*width + x]);
+                this.entities.add(this.tiles[x][y]);
             }
         }
 

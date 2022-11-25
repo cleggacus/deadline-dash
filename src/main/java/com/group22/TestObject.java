@@ -2,42 +2,33 @@ package com.group22;
 
 import javafx.scene.input.KeyCode;
 
-public class TestObject extends Entity {
+public class TestObject extends LandMover {
     public TestObject() {
         super();
 
         this.setSprite("character/0.png");
 
         this.spriteOffsetY = -0.3;
-        this.moveEvery = 0.075;
+        this.moveEvery = 0.1;
     }
 
     @Override
     protected void updateMovement() {
-        if(Game.getInstance().getKeyState(KeyCode.W) && validMove(0, -1)) {
+        if(Game.getInstance().getKeyState(KeyCode.W)) {
             this.setSprite("character/3.png");
-            this.y --;
-        } else if(Game.getInstance().getKeyState(KeyCode.S) && validMove(0, 1)) {
+            move(0, -1);
+        } else if(Game.getInstance().getKeyState(KeyCode.S)) {
             this.setSprite("character/0.png");
-            this.y ++;
+            move(0, 1);
         }
 
-        if(Game.getInstance().getKeyState(KeyCode.A) && validMove(-1, 0)) {
+        if(Game.getInstance().getKeyState(KeyCode.A)) {
             this.setSprite("character/1.png");
-            this.x --;
-        } else if(Game.getInstance().getKeyState(KeyCode.D) && validMove(1, 0)) {
+            move(-1, 0);
+        } else if(Game.getInstance().getKeyState(KeyCode.D)) {
             this.setSprite("character/2.png");
-            this.x ++;
+            move(1, 0);
         }
-    }
-
-    private boolean validMove(double x, double y) {
-        double newX = this.x + x;
-        double newY = this.y + y;
-
-        return 
-            newX >= 0 && newX < Game.getInstance().getViewWidth() &&
-            newY >= 0 && newY < Game.getInstance().getViewHeight();
     }
 
     @Override

@@ -231,6 +231,9 @@ public abstract class Engine {
     }
 
     private void updateAfter() {
+        if(keyboardManager == null)
+            return;
+
         this.keyboardManager.nextFrame();
     }
 
