@@ -44,6 +44,9 @@ public abstract class Engine {
         this.setUpGameLoop();
     }
 
+    public ArrayList<Entity> getEntities() {
+        return this.entities;
+    }
     
     /** 
      * Sets the current game state of the {@code Engine}.
