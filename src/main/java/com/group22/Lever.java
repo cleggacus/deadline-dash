@@ -1,12 +1,20 @@
 package com.group22;
 
+import java.util.ArrayList;
+
 public class Lever extends PickUp {
     private String leverColour;
     private Boolean leverIsOpen = false;
+    private static ArrayList<Gate> gates;
 
     public Lever(int leverX, int leverY, Sprite leverSprite, String leverColour){
         super(leverX, leverY, leverSprite);
         setLeverColour(leverColour);
+        if(gates.isEmpty()){
+            for (Entity gate : Game.getInstance().getEntities(Gate.class)){
+                gates.add((Gate) gate);
+            }
+        }
     }
 
     private void setLeverColour(String leverColour){
@@ -24,15 +32,12 @@ public class Lever extends PickUp {
     public Boolean getIsOpen(){
         return this.leverIsOpen;
     }
-/** Entities is the place holder for the array list of all entities, 
- * if we don't have one already then we should have
+
     public void activatePickUpEffect() {
-        for (Gate gate : Entities){
-            if (gate.getGateColour == this.getLeverColour){
-                gate.setGateIsOpen(True);
+        for (Gate gate : gates){
+                if(gate.getGateColour() == this.getLeverColour()){
+                    gate.setGateIsOpen(true);
+                }
             }
         }
-    }
-*/
-
 }
