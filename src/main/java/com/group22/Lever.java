@@ -33,6 +33,7 @@ public class Lever extends PickUp {
         return this.leverIsOpen;
     }
 
+    @Override
     public void activatePickUpEffect() {
         for (Gate gate : gates){
                 if(gate.getGateColour() == this.getLeverColour()){
@@ -40,4 +41,16 @@ public class Lever extends PickUp {
                 }
             }
         }
+
+    @Override
+    protected void updateMovement() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    protected void update() {
+        // TODO Auto-generated method stub
+        
+    }
 }

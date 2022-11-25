@@ -25,4 +25,22 @@ public class Clock extends PickUp {
         }
     }
 
+    @Override
+    public void activatePickUpEffect() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    protected void updateMovement() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    protected void update() {
+        // TODO Auto-generated method stub
+        
+    }
+
 }

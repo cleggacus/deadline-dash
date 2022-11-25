@@ -11,7 +11,7 @@ import javafx.scene.input.KeyCode;
  * 
  * The class {@code Engine} handles the underlining mechanisms for the game.
  * 
- * An extending class has to override the method {@link #update()} which is exicuted every frame after entities are updated.
+ * An extending class has to override the method {@link #update()} which is executed every frame after entities are updated.
  * 
  * @author Liam Clegg
  * @version 1.0

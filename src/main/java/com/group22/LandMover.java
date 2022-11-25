@@ -54,7 +54,7 @@ public abstract class LandMover extends Entity {
     }
 
     /**
-     * Returns weather move (x, y) is legal according to tile colors.
+     * Returns whether move (x, y) is legal according to tile colors.
      * 
      * @param x
      * @param y
