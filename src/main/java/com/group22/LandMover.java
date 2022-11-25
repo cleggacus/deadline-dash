@@ -1,6 +1,20 @@
 package com.group22;
 
+/**
+ * 
+ * The class {@code LandMover} impliments movement that follows the game tile colors.
+ * 
+ * @author Liam Clegg
+ * @version 1.0
+ */
 public abstract class LandMover extends Entity {
+    
+    /** 
+     * Moves entity by (x, y) according to the tile colors
+     * 
+     * @param x
+     * @param y
+     */
     protected void move(int x, int y) {
         while(x > 0) {
             this.x = nextRight();
