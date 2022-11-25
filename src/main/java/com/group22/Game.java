@@ -8,6 +8,7 @@ package com.group22;
  * @version 1.0
  */
 public class Game extends Engine {
+    private double time;
     private Tile[][] tiles;
 
     private static Game instance;
@@ -42,6 +43,10 @@ public class Game extends Engine {
      */
     public boolean colorMatch(int x1, int y1, int x2, int y2) {
         return this.tiles[x1][y1].colorMatch(this.tiles[x2][y2]);
+    }
+
+    public void addTime(double seconds) {
+        this.time += seconds;
     }
 
     @Override
@@ -82,5 +87,15 @@ public class Game extends Engine {
      * Overridden update method from {@code Engine}.
      */
     @Override
-    protected void update() {}
+    protected void update() {
+        updateTime();
+    }
+
+    private void updateTime() {
+        if(this.time <= 0) {
+            this.time = 0;
+        } else {
+            this.time -= this.getDelta();
+        }
+    }
 }
