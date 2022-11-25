@@ -1,7 +1,5 @@
 package com.group22;
 
-import javafx.scene.paint.Color;
-
 /**
  * The {@code Game} class acts as a game manager handling all the game logic.
  * Since there is only one game and it extends Engine it uses the singleton pattern and can be used with the {@link #getInstance()} method.
