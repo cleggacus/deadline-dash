@@ -42,7 +42,6 @@ public abstract class Engine {
         this.setGameState(GameState.Start);
 
         this.setUpGameLoop();
-        this.gameLoop.start();
     }
 
     
@@ -78,6 +77,8 @@ public abstract class Engine {
 
         this.keyboardManager = new KeyboardManager(scene);
 
+        callStart();
+
         return scene;
     }
 
@@ -102,9 +103,6 @@ public abstract class Engine {
      *      True if key is down, False if key is up.
      */
     public boolean getKeyState(KeyCode keyCode) {
-        if(this.keyboardManager == null)
-            return false;
-
         return this.keyboardManager.getKeyState(keyCode);
     }
 
@@ -119,9 +117,6 @@ public abstract class Engine {
      *      True if key is being pressed on the current frame, False otherwise.
      */
     public boolean getKeyDown(KeyCode keyCode) {
-        if(this.keyboardManager == null)
-            return false;
-
         return this.keyboardManager.getKeyDown(keyCode);
     }
 
@@ -136,10 +131,15 @@ public abstract class Engine {
      *      True if key is being released on the current frame, False otherwise.
      */
     public boolean getKeyUp(KeyCode keyCode) {
-        if(this.keyboardManager == null)
-            return false;
-
         return this.keyboardManager.getKeyUp(keyCode);
+    }
+
+    public boolean isInBounds(int x, int y) {
+        return
+            x >= 0 && 
+            x < this.getViewWidth() && 
+            y >= 0 &&
+            y < this.getViewHeight();
     }
 
     
@@ -169,6 +169,8 @@ public abstract class Engine {
      */
     protected abstract void update();
 
+    protected abstract void start();
+
     
     /** 
      * Sets the width and height in tiles for the renderer.
@@ -180,6 +182,10 @@ public abstract class Engine {
         this.renderer.setViewSize(width, height);
     }
 
+    private void callStart() {
+        this.gameLoop.start();
+        this.start();
+    }
     
     /** 
      * This method is called every frame before the frame is drawn to the GraphicsContext.
@@ -231,9 +237,6 @@ public abstract class Engine {
     }
 
     private void updateAfter() {
-        if(keyboardManager == null)
-            return;
-
         this.keyboardManager.nextFrame();
     }
 
@@ -250,8 +253,10 @@ public abstract class Engine {
         this.gameLoop = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                callUpdate(now);
-                draw();
+                if(keyboardManager != null) {
+                    callUpdate(now);
+                    draw();
+                }
             }
         };
     }

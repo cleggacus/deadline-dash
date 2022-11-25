@@ -33,6 +33,10 @@ public abstract class Entity {
     /** Image sprite drawn to show for entity. */
     protected Image sprite;
 
+    private AnimationType animationType = AnimationType.None;
+    private int fromX = 0;
+    private int fromY = 0;
+
     /**
      * Creates an Entity.
      */
@@ -56,6 +60,7 @@ public abstract class Entity {
         this.timeSinceMove += delta;
 
         if(this.timeSinceMove >= this.moveEvery) {
+            this.animationType = AnimationType.None;
             this.updateMovement();
             this.timeSinceMove -= this.moveEvery;
         }
@@ -74,7 +79,54 @@ public abstract class Entity {
         if(this.sprite == null)
             return;
 
-        renderer.drawImage(this.sprite, spriteOffsetX + x, spriteOffsetY + y);
+        if(this.animationType == AnimationType.Scale) {
+            double scale = Math.abs((this.timeSinceMove / this.moveEvery)*2-1);
+            renderer.drawImage(this.sprite, getDrawX(), getDrawY(), scale);
+        } else {
+            renderer.drawImage(this.sprite, getDrawX(), getDrawY());
+        }
+    }
+
+    private double getDrawY() {
+        double percent = this.timeSinceMove / this.moveEvery;
+
+        switch(this.animationType) {
+            case Linear:
+                double distance = this.y - this.fromY;
+                double animY = this.fromY + distance*percent;
+                return this.spriteOffsetY + animY;
+            case Scale:
+                return this.spriteOffsetY + (percent > 0.5 ? this.y : fromY);
+            default:
+                return this.spriteOffsetY + this.y;
+        }
+    }
+
+    private double getDrawX() {
+        double percent = this.timeSinceMove / this.moveEvery;
+
+        switch(this.animationType) {
+            case Linear:
+                double distance = this.x - this.fromX;
+                double animX = this.fromX + distance*percent;
+                return this.spriteOffsetX + animX;
+            case Scale:
+                return this.spriteOffsetX + (percent > 0.5 ? this.x : fromX);
+            default:
+                return this.spriteOffsetX + this.x;
+        }
+    }
+
+    protected void move(int x, int y) {
+        move(x, y, AnimationType.Linear);
+    }
+
+    protected void move(int x, int y, AnimationType type) {
+        this.animationType = type;
+        this.fromX = this.x;
+        this.fromY = this.y;
+        this.x += x;
+        this.y += y;
     }
 
     /**

@@ -1,43 +1,40 @@
 package com.group22;
 
-import javafx.scene.input.KeyCode;
+// randomly moving land move demo
+public class TestObject extends LandMover {
+    private int moveX = 0;
+    private int moveY = 0;
 
-public class TestObject extends Entity {
     public TestObject() {
         super();
 
         this.setSprite("character/0.png");
 
         this.spriteOffsetY = -0.3;
-        this.moveEvery = 0.075;
+        this.moveEvery = 0.3;
+
+        this.x = (int)(Math.floor(Math.random() * Game.getInstance().getViewWidth()));
+        this.y = (int)(Math.floor(Math.random() * Game.getInstance().getViewHeight()));
     }
 
     @Override
     protected void updateMovement() {
-        if(Game.getInstance().getKeyState(KeyCode.W) && validMove(0, -1)) {
+        if(Math.random() < 0.3) {
+            moveX = (int)(Math.floor(Math.random() * 3 - 1));
+            moveY = (int)(Math.floor(Math.random() * 3 - 1));
+        }
+
+        if(moveY < 0)
             this.setSprite("character/3.png");
-            this.y --;
-        } else if(Game.getInstance().getKeyState(KeyCode.S) && validMove(0, 1)) {
+        else if(moveY > 0)
             this.setSprite("character/0.png");
-            this.y ++;
-        }
 
-        if(Game.getInstance().getKeyState(KeyCode.A) && validMove(-1, 0)) {
+        if(moveX < 0)
             this.setSprite("character/1.png");
-            this.x --;
-        } else if(Game.getInstance().getKeyState(KeyCode.D) && validMove(1, 0)) {
+        else if(moveX > 0)
             this.setSprite("character/2.png");
-            this.x ++;
-        }
-    }
 
-    private boolean validMove(double x, double y) {
-        double newX = this.x + x;
-        double newY = this.y + y;
-
-        return 
-            newX >= 0 && newX < Game.getInstance().getViewWidth() &&
-            newY >= 0 && newY < Game.getInstance().getViewHeight();
+        this.move(moveX, moveY);
     }
 
     @Override

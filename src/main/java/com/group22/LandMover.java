@@ -15,25 +15,41 @@ public abstract class LandMover extends Entity {
      * @param x
      * @param y
      */
-    protected void move(int x, int y) {
+
+    @Override
+    protected void move(int x, int y, AnimationType type) {
+        int newX = this.x;
+        int newY = this.y;
+
         while(x > 0) {
-            this.x = nextRight();
+            newX = nextRight();
             x--;
         }
 
         while(x < 0) {
-            this.x = nextLeft();
+            newX = nextLeft();
             x++;
         }
 
-        while(y > 0) {
-            this.y = nextDown();
-            y--;
+        if(newX == this.x) {
+            while(y > 0) {
+                newY = nextDown();
+                y--;
+            }
+
+            while(y < 0) {
+                newY = nextUp();
+                y++;
+            }
         }
 
-        while(y < 0) {
-            this.y = nextUp();
-            y++;
+        int moveX = newX - this.x;
+        int moveY = newY - this.y;
+
+        if(Math.abs(moveY) > 1 || Math.abs(moveX) > 1) {
+            super.move(moveX, moveY, AnimationType.Scale);
+        } else {
+            super.move(moveX, moveY, type);
         }
     }
 

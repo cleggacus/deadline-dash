@@ -2,6 +2,7 @@ package com.group22;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.effect.BoxBlur;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
@@ -77,18 +78,23 @@ public class Renderer {
      * @param y
      */
     public void drawImage(Image image, double x, double y) {
+        this.drawImage(image, x, y, 1);
+    }
+
+    public void drawImage(Image image, double x, double y, double scale) {
         if(x < -1 || y < -1 || x > viewWidth || y > viewHeight)
             return;
 
-        double drawX = x*this.tileSize + this.offsetX;
-        double drawY = y*this.tileSize + this.offsetY;
+        double scaleOffset = (this.tileSize - this.tileSize * scale) / 2;
+        double drawX = x*this.tileSize + this.offsetX + scaleOffset;
+        double drawY = y*this.tileSize + this.offsetY + scaleOffset;
 
         this.graphicsContext.drawImage(
             image, 
             // 0, 0, 
             // image.getWidth(), image.getHeight(), 
             drawX, drawY, 
-            tileSize, tileSize
+            tileSize * scale, tileSize * scale
         );
     }
 
