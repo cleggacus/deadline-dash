@@ -7,7 +7,7 @@ public abstract class PickUp extends Entity {
         //super(posX, posY, pickUpSprite);
     }
 
-    public abstract void activatePickUpEffect();
+    public abstract void activatePickUpEffect(LandMover landMover);
 
     public void addToInventory (Entity player) {
         //player.getInventory.add(this);

@@ -16,19 +16,14 @@ public class Clock extends PickUp {
     public double getTime() {
         return this.time;
     }
-    
+
+    @Override
     public void activatePickUpEffect(LandMover landMover) {
         if (landMover == Game.getInstance().getPlayer()){
             Game.getInstance().addTime(time);
         } else {
             Game.getInstance().addTime(-time);
         }
-    }
-
-    @Override
-    public void activatePickUpEffect() {
-        // TODO Auto-generated method stub
-        
     }
 
     @Override

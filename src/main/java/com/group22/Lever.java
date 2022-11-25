@@ -34,7 +34,7 @@ public class Lever extends PickUp {
     }
 
     @Override
-    public void activatePickUpEffect() {
+    public void activatePickUpEffect(LandMover landMover) {
         for (Gate gate : gates){
                 if(gate.getGateColour() == this.getLeverColour()){
                     gate.setGateIsOpen(true);
