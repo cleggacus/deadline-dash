@@ -37,6 +37,17 @@ public abstract class LandMover extends Entity {
         }
     }
 
+    /**
+     * Returns weather move (x, y) is legal according to tile colors.
+     * 
+     * @param x
+     * @param y
+     * @return
+     */
+    protected boolean isMoveLegal(int x, int y) {
+        return Game.getInstance().colorMatch(this.x, this.y, this.x + x, this.y + y);
+    }
+
     private int nextUp() {
         boolean found = false;
         int i = this.y;
@@ -99,7 +110,4 @@ public abstract class LandMover extends Entity {
         return i;
     }
 
-    private boolean isMoveLegal(int x, int y) {
-        return Game.getInstance().colorMatch(this.x, this.y, this.x + x, this.y + y);
-    }
 }
