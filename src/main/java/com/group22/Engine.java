@@ -1,5 +1,6 @@
 package com.group22;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import javafx.animation.AnimationTimer;
@@ -42,6 +43,18 @@ public abstract class Engine {
         this.setGameState(GameState.Start);
 
         this.setUpGameLoop();
+    }
+
+    public ArrayList<Entity> getEntities(Class<? extends Entity> withClass) {
+        ArrayList<Entity> returnEntities = new ArrayList<>();
+
+        for(Entity entity : this.entities) {
+            if(withClass.isAssignableFrom(entity.getClass())) {
+                returnEntities.add(entity);
+            }
+        }
+
+        return returnEntities;
     }
 
     public ArrayList<Entity> getEntities() {
