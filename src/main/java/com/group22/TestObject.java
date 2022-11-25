@@ -8,7 +8,39 @@ public class TestObject extends LandMover {
     public TestObject() {
         super();
 
-        this.setSprite("character/0.png");
+        this.getSprite().setAnimationSpeed(0.1);
+
+        this.getSprite().addImageSet("idle", new String[] {
+            "character/tile000.png",
+        });
+
+        this.getSprite().addImageSet("up", new String[] {
+            "character/tile012.png",
+            "character/tile013.png",
+            "character/tile014.png",
+            "character/tile015.png",
+        });
+
+        this.getSprite().addImageSet("down", new String[] {
+            "character/tile000.png",
+            "character/tile001.png",
+            "character/tile002.png",
+            "character/tile003.png",
+        });
+
+        this.getSprite().addImageSet("left", new String[] {
+            "character/tile004.png",
+            "character/tile005.png",
+            "character/tile006.png",
+            "character/tile007.png",
+        });
+
+        this.getSprite().addImageSet("right", new String[] {
+            "character/tile008.png",
+            "character/tile009.png",
+            "character/tile010.png",
+            "character/tile011.png",
+        });
 
         this.spriteOffsetY = -0.3;
         this.moveEvery = 0.3;
@@ -19,20 +51,23 @@ public class TestObject extends LandMover {
 
     @Override
     protected void updateMovement() {
+        this.getSprite().setImageSet("idle");
+
         if(Math.random() < 0.3) {
-            moveX = (int)(Math.floor(Math.random() * 3 - 1));
-            moveY = (int)(Math.floor(Math.random() * 3 - 1));
+            boolean willMoveX = Math.random() < 0.5;
+            moveX = willMoveX ? (int)(Math.floor(Math.random() * 3 - 1)) : 0;
+            moveY = willMoveX ? 0 : (int)(Math.floor(Math.random() * 3 - 1));
         }
 
         if(moveY < 0)
-            this.setSprite("character/3.png");
+            this.getSprite().setImageSet("up");
         else if(moveY > 0)
-            this.setSprite("character/0.png");
+            this.getSprite().setImageSet("down");
 
         if(moveX < 0)
-            this.setSprite("character/1.png");
+            this.getSprite().setImageSet("left");
         else if(moveX > 0)
-            this.setSprite("character/2.png");
+            this.getSprite().setImageSet("right");
 
         this.move(moveX, moveY);
     }

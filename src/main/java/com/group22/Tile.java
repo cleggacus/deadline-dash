@@ -151,7 +151,7 @@ public class Tile extends Entity {
             }
         }
 
-        this.setSprite(writableImage);
+        this.getSprite().setImage(writableImage);
     }
 
     

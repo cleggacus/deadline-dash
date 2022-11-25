@@ -1,7 +1,5 @@
 package com.group22;
 
-import javafx.scene.image.Image;
-
 /**
  * 
  * The class {@code Entity} is used for anything that is drawn or updated in the {@code Engine}.
@@ -30,8 +28,8 @@ public abstract class Entity {
     /** Offset X position added to {@link #x} when drawing sprite. */
     protected double spriteOffsetX = 0;
 
-    /** Image sprite drawn to show for entity. */
-    protected Image sprite;
+    /** Image sprites drawn to show for entity. */
+    protected Sprite sprite = new Sprite();
 
     private AnimationType animationType = AnimationType.None;
     private int fromX = 0;
@@ -47,6 +45,7 @@ public abstract class Entity {
      * This method is used by the engine to update the entities.
      */
     public void callUpdate() {
+        this.sprite.update();
         this.update();
     }
 
@@ -76,14 +75,14 @@ public abstract class Entity {
      * @param renderer
      */
     public void draw(Renderer renderer) {
-        if(this.sprite == null)
+        if(this.sprite.getCurrentImage() == null)
             return;
 
         if(this.animationType == AnimationType.Scale) {
             double scale = Math.abs((this.timeSinceMove / this.moveEvery)*2-1);
-            renderer.drawImage(this.sprite, getDrawX(), getDrawY(), scale);
+            renderer.drawImage(this.sprite.getCurrentImage(), getDrawX(), getDrawY(), scale);
         } else {
-            renderer.drawImage(this.sprite, getDrawX(), getDrawY());
+            renderer.drawImage(this.sprite.getCurrentImage(), getDrawX(), getDrawY());
         }
     }
 
@@ -141,23 +140,7 @@ public abstract class Entity {
      */
     protected abstract void update();
 
-    
-    /** 
-     * Sets the sprite using a path at src/main/resources/com/group22/...
-     * 
-     * @param resourcesPath
-     */
-    protected void setSprite(String resourcesPath) {
-        this.sprite = new Image(getClass().getResource("/com/group22/" + resourcesPath).toString());
-    }
-
-    
-    /** 
-     * Sets the sprite to a given Image object.
-     * 
-     * @param image
-     */
-    protected void setSprite(Image image) {
-        this.sprite = image;
+    public Sprite getSprite() {
+        return sprite;
     }
 }
