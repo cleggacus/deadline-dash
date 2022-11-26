@@ -67,16 +67,14 @@ public abstract class Engine {
      * @param gameState The new gameState
      */
     public void setGameState(GameState gameState) {
-        boolean startToPlaying = 
-            this.gameState == GameState.Start && 
+        boolean restart = 
+            (this.gameState == GameState.Start || 
+            this.gameState == GameState.GameOver) && 
             gameState == GameState.Playing;
 
-        if(startToPlaying) {
-            this.start();
-        }
-
-        if(gameState == GameState.Start) {
+        if(restart) {
             this.entities.clear();
+            this.start();
         }
 
         this.gamePane.setState(gameState);
@@ -225,8 +223,8 @@ public abstract class Engine {
         this.updateState();
 
         if(gameState == GameState.Playing) {
-            this.updateEntities();
             this.update();
+            this.updateEntities();
         }
 
         this.updateAfter();

@@ -60,7 +60,6 @@ public class Game extends Engine {
         int width = 15;
         int height = 10;
 
-        this.time = 100;
         this.tiles = new Tile[width][height];
         this.setViewSize(width, height);
 
@@ -87,6 +86,8 @@ public class Game extends Engine {
 
         for(int i = 0; i < 10; i++)
             this.entities.add(new TestObject());
+
+        this.time = 5;
     }
 
     /**
@@ -98,10 +99,11 @@ public class Game extends Engine {
     }
 
     private void updateTime() {
+        this.time -= this.getDelta();
+
         if(this.time <= 0) {
             this.time = 0;
-        } else {
-            this.time -= this.getDelta();
+            this.setGameState(GameState.GameOver);
         }
 
         this.getGamePane().setGameTime(this.time);

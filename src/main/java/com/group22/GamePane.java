@@ -7,10 +7,14 @@ import javafx.geometry.Pos;
 import javafx.scene.CacheHint;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -32,6 +36,7 @@ public class GamePane extends StackPane {
     private GraphicsContext graphicsContext;
     private MenuPane startMenu;
     private MenuPane pauseMenu;
+    private MenuPane gameOverMenu;
     private StackPane canvasPane;
 
     private BorderPane infoBar;
@@ -50,6 +55,7 @@ public class GamePane extends StackPane {
 
         this.setUpCanvasPane();
         this.setUpPauseMenu();
+        this.setUpGameOverMenu();
         this.setUpStartMenu();
 
         this.setState(GameState.Start);
@@ -68,16 +74,25 @@ public class GamePane extends StackPane {
                 this.startMenu.setVisible(true);
                 this.pauseMenu.setVisible(false);
                 this.canvasPane.setVisible(false);
+                this.gameOverMenu.setVisible(false);
                 break;
             case Playing:
                 this.startMenu.setVisible(false);
                 this.pauseMenu.setVisible(false);
                 this.canvasPane.setVisible(true);
+                this.gameOverMenu.setVisible(false);
                 break;
             case Paused:
                 this.startMenu.setVisible(false);
                 this.pauseMenu.setVisible(true);
                 this.canvasPane.setVisible(true);
+                this.gameOverMenu.setVisible(false);
+                break;
+            case GameOver:
+                this.startMenu.setVisible(false);
+                this.pauseMenu.setVisible(false);
+                this.canvasPane.setVisible(true);
+                this.gameOverMenu.setVisible(true);
                 break;
         }
     }
@@ -191,10 +206,21 @@ public class GamePane extends StackPane {
 
 
 
+    private void setUpGameOverMenu() {
+        this.gameOverMenu = new MenuPane();
+
+        this.gameOverMenu.addTitle("GAME OVER");
+        this.gameOverMenu.addItem("Restart", () -> { Game.getInstance().setGameState(GameState.Playing); });
+        this.gameOverMenu.addItem("Exit", () -> { Game.getInstance().setGameState(GameState.Start); });
+
+        this.getChildren().add(gameOverMenu);
+    }
+
     private void setUpStartMenu() {
         this.startMenu = new MenuPane();
              
-        this.startMenu.addItem("Start", () -> { Game.getInstance().setGameState(GameState.Playing); });
+        this.startMenu.addTitle("DEADLINE DASH");
+        this.startMenu.addItem("START", () -> { Game.getInstance().setGameState(GameState.Playing); });
 
         this.getChildren().add(startMenu);
     }
@@ -202,8 +228,8 @@ public class GamePane extends StackPane {
     private void setUpPauseMenu() {
         this.pauseMenu = new MenuPane();
              
-        this.pauseMenu.addItem("Resume", () -> { Game.getInstance().setGameState(GameState.Playing); });
-        this.pauseMenu.addItem("Exit", () -> { Game.getInstance().setGameState(GameState.Start); });
+        this.pauseMenu.addItem("RESUME", () -> { Game.getInstance().setGameState(GameState.Playing); });
+        this.pauseMenu.addItem("EXIT", () -> { Game.getInstance().setGameState(GameState.Start); });
 
         this.getChildren().add(this.pauseMenu);
     }

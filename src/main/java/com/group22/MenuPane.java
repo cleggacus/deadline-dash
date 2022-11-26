@@ -5,6 +5,11 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 
 /**
  * 
@@ -28,6 +33,18 @@ public class MenuPane extends GridPane {
         this.setVgap(10);
     }
 
+
+    public void addTitle(String name) {
+        Text title = new Text(name);
+        title.setFont(Font.font("Monospaced", FontWeight.BOLD, 40));
+        title.setFill(Color.WHITE);
+        title.setTextAlignment(TextAlignment.CENTER);
+        title.wrappingWidthProperty().bind(this.widthProperty());
+
+        this.add(title, 0, this.count);
+
+        this.count++;
+    }
     
     /** 
      * Adds a button element to the menues list.
