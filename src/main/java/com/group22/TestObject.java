@@ -49,14 +49,34 @@ public class TestObject extends LandMover {
         this.y = (int)(Math.floor(Math.random() * Game.getInstance().getViewHeight()));
     }
 
+    private boolean moveIfValid(int x, int y) {
+        if(x == 0 && y == 0)
+            return false;
+
+        if(x != 0 && y != 0)
+            return false;
+
+        int tempX = this.x;
+        int tempY = this.y;
+
+        this.move(x, y);
+
+        if(tempX != this.x || tempY != this.y)
+            return true;
+
+        return false;
+    }
+
     @Override
     protected void updateMovement() {
         this.getSprite().setImageSet("idle");
 
-        if(Math.random() < 0.3) {
-            boolean willMoveX = Math.random() < 0.5;
-            moveX = willMoveX ? (int)(Math.floor(Math.random() * 3 - 1)) : 0;
-            moveY = willMoveX ? 0 : (int)(Math.floor(Math.random() * 3 - 1));
+        if(Math.random() < 0.3 || !moveIfValid(moveX, moveY)) {
+            do {
+                boolean willMoveX = Math.random() < 0.5;
+                moveX = willMoveX ? (int)(Math.floor(Math.random() * 3 - 1)) : 0;
+                moveY = willMoveX ? 0 : (int)(Math.floor(Math.random() * 3 - 1));
+            } while(!moveIfValid(moveX, moveY));
         }
 
         if(moveY < 0)
@@ -68,8 +88,6 @@ public class TestObject extends LandMover {
             this.getSprite().setImageSet("left");
         else if(moveX > 0)
             this.getSprite().setImageSet("right");
-
-        this.move(moveX, moveY);
     }
 
     @Override

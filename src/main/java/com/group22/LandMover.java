@@ -61,6 +61,9 @@ public abstract class LandMover extends Entity {
      * @return
      */
     protected boolean isMoveLegal(int x, int y) {
+        if(!Game.getInstance().isInBounds(this.x + x, this.y + y))
+            return false;
+
         return Game.getInstance().colorMatch(this.x, this.y, this.x + x, this.y + y);
     }
 
