@@ -2,7 +2,6 @@ package com.group22;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.effect.BoxBlur;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
@@ -21,6 +20,10 @@ public class Renderer {
 
     private double viewWidth = DEFAULT_WIDTH;
     private double viewHeight = DEFAULT_HEIGHT;
+    private double topPadding = 0;
+    private double rightPadding = 0;
+    private double bottomPadding = 0;
+    private double leftPadding = 0;
     private double tileSize;
     private double offsetX;
     private double offsetY;
@@ -69,6 +72,21 @@ public class Renderer {
         return (int)viewWidth;
     }
 
+    public double getOffsetX() {
+        return offsetX;
+    }
+
+    public double getOffsetY() {
+        return offsetY;
+    }
+
+    public void setPadding(double top, double right, double bottom, double left) {
+        this.topPadding = top;
+        this.bottomPadding = bottom;
+        this.leftPadding = left;
+        this.rightPadding = right;
+    }
+
     
     /** 
      * Draws an image at the position (x, y) in the grid.
@@ -113,17 +131,23 @@ public class Renderer {
 
     private void getViewInfo() {
         Canvas canvas = graphicsContext.getCanvas();
-        double canvasRatio = canvas.getWidth() / canvas.getHeight();
+        double canvasHeight = canvas.getHeight() - (topPadding + bottomPadding);
+        double canvasWidth = canvas.getWidth() - (leftPadding + rightPadding);
+
+        double canvasRatio = canvasWidth / canvasHeight;
         double viewRatio = viewWidth / viewHeight;
 
         if(canvasRatio > viewRatio) {
-            this.tileSize = canvas.getHeight() / viewHeight;
-            this.offsetX = (canvas.getWidth() - (this.tileSize * viewWidth)) / 2;
+            this.tileSize = canvasHeight / viewHeight;
+            this.offsetX = (canvasWidth - (this.tileSize * viewWidth)) / 2;
             this.offsetY = 0;
         } else {
-            this.tileSize = canvas.getWidth() / viewWidth;
+            this.tileSize = canvasWidth / viewWidth;
             this.offsetX = 0;
-            this.offsetY = (canvas.getHeight() - (this.tileSize * viewHeight)) / 2;
+            this.offsetY = (canvasHeight - (this.tileSize * viewHeight)) / 2;
         }
+
+        offsetY += topPadding;
+        offsetX += leftPadding;
     }
 }

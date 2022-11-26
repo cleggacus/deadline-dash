@@ -14,8 +14,15 @@ public class Sprite {
     public Sprite() {}
 
     public Image getCurrentImage() {
-        if(this.images.get(currentImageSet) == null)
+        if(
+            this.images.get(currentImageSet) == null || 
+            this.images.get(currentImageSet).length == 0
+        ) {
             return null;
+        }
+
+        if(currentFrame >= this.images.get(currentImageSet).length)
+            currentFrame = 0;
 
         return this.images.get(currentImageSet)[currentFrame];
     }

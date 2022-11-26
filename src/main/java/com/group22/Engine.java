@@ -1,6 +1,5 @@
 package com.group22;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import javafx.animation.AnimationTimer;
@@ -38,6 +37,7 @@ public abstract class Engine {
     public Engine() {
         this.gamePane = new GamePane();
         this.renderer = new Renderer(this.gamePane.getGraphicsContext());
+        this.renderer.setPadding(GamePane.INFO_BAR_HEIGHT, 0, 0, 0);
         this.entities = new ArrayList<>();
 
         this.setGameState(GameState.Start);
@@ -60,13 +60,25 @@ public abstract class Engine {
     public ArrayList<Entity> getEntities() {
         return this.entities;
     }
-    
+
     /** 
      * Sets the current game state of the {@code Engine}.
      * 
      * @param gameState The new gameState
      */
     public void setGameState(GameState gameState) {
+        boolean startToPlaying = 
+            this.gameState == GameState.Start && 
+            gameState == GameState.Playing;
+
+        if(startToPlaying) {
+            this.start();
+        }
+
+        if(gameState == GameState.Start) {
+            this.entities.clear();
+        }
+
         this.gamePane.setState(gameState);
         this.gameState = gameState;
     }
@@ -93,7 +105,7 @@ public abstract class Engine {
 
         this.keyboardManager = new KeyboardManager(scene);
 
-        callStart();
+        this.gameLoop.start();
 
         return scene;
     }
@@ -187,6 +199,10 @@ public abstract class Engine {
 
     protected abstract void start();
 
+    protected GamePane getGamePane() {
+        return gamePane;
+    }
+
     
     /** 
      * Sets the width and height in tiles for the renderer.
@@ -198,11 +214,6 @@ public abstract class Engine {
         this.renderer.setViewSize(width, height);
     }
 
-    private void callStart() {
-        this.gameLoop.start();
-        this.start();
-    }
-    
     /** 
      * This method is called every frame before the frame is drawn to the GraphicsContext.
      * 
@@ -212,8 +223,12 @@ public abstract class Engine {
     private void callUpdate(long now) {
         this.updateTimer(now);
         this.updateState();
-        this.updateEntities();
-        this.update();
+
+        if(gameState == GameState.Playing) {
+            this.updateEntities();
+            this.update();
+        }
+
         this.updateAfter();
     }
 
@@ -243,13 +258,11 @@ public abstract class Engine {
     }
 
     private void updateEntities() {
-        if(gameState == GameState.Playing) {
             for(Entity entity : this.entities)
                 entity.callUpdateMovement();
 
             for(Entity entity : this.entities)
                 entity.callUpdate();
-        }
     }
 
     private void updateAfter() {
@@ -259,6 +272,7 @@ public abstract class Engine {
     private void draw() {
         if(gameState != GameState.Start) {
             this.renderer.newFrame();
+            this.gamePane.setGameOffesetX(this.renderer.getOffsetX());
 
             for(Entity entity : this.entities)
                 entity.draw(renderer);
