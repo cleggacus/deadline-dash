@@ -9,6 +9,7 @@ package com.group22;
  */
 public class Game extends Engine {
     private double time;
+    private int score; 
 
     private Tile[][] tiles;
     private Entity player;
@@ -53,6 +54,10 @@ public class Game extends Engine {
 
     public void addTime(double seconds) {
         this.time += seconds;
+    }
+
+    public void addPoints(int val) {
+        this.score += val;
     }
 
     @Override
