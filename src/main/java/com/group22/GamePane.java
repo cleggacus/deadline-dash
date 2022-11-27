@@ -2,6 +2,9 @@ package com.group22;
 
 import java.text.DecimalFormat;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.CacheHint;
@@ -16,6 +19,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import javafx.util.Duration;
 
 /**
  * 
@@ -37,6 +41,9 @@ public class GamePane extends StackPane {
     private MenuPane gameOverMenu;
     private BorderPane loadingPane;
     private StackPane canvasPane;
+
+    private Text loadingText;
+    private double loadingTimer = 0;
 
     private BorderPane infoBar;
     private Text time;
@@ -109,8 +116,25 @@ public class GamePane extends StackPane {
                 this.gameOverMenu.setVisible(false);
                 this.loadingPane.setVisible(true);
                 setBlurCanvas(false);
+                this.loadingTimer = 0;
                 break;
         }
+    }
+
+    public void update(double delta) {
+        double interval = 0.3;
+        this.loadingTimer += delta;
+
+        if(this.loadingTimer > 4*interval)
+            this.loadingTimer = 0;
+        else if(this.loadingTimer > 3*interval)
+            this.loadingText.setText("   LOADING...");
+        else if(this.loadingTimer > 2*interval)
+            this.loadingText.setText("  LOADING..");
+        else if(this.loadingTimer > 1*interval)
+            this.loadingText.setText(" LOADING.");
+        else
+            this.loadingText.setText("LOADING");
     }
 
     public void setGameTime(double time) {
@@ -257,13 +281,13 @@ public class GamePane extends StackPane {
     private void setUpLoadingPane() {
         this.loadingPane = new BorderPane();
 
-        Text title = new Text("LOADING");
-        title.setFont(Font.font("Monospaced", FontWeight.BOLD, 40));
-        title.setFill(TileColor.LIGHT_RED.color);
-        title.setTextAlignment(TextAlignment.CENTER);
-        title.wrappingWidthProperty().bind(this.loadingPane.widthProperty());
+        this.loadingText = new Text();
+        this.loadingText.setFont(Font.font("Monospaced", FontWeight.BOLD, 40));
+        this.loadingText.setFill(TileColor.LIGHT_RED.color);
+        this.loadingText.setTextAlignment(TextAlignment.CENTER);
+        this.loadingText.wrappingWidthProperty().bind(this.loadingPane.widthProperty());
 
-        this.loadingPane.setCenter(title);
+        this.loadingPane.setCenter(this.loadingText);
 
         this.getChildren().add(this.loadingPane);
     }

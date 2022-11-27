@@ -318,17 +318,18 @@ public abstract class Engine {
      * Updates the entities movements and then there game logic.
      */
     private void updateEntities() {
-            for(Entity entity : this.entities)
-                entity.callUpdateMovement();
+        for(Entity entity : this.entities)
+            entity.callUpdateMovement();
 
-            for(Entity entity : this.entities)
-                entity.callUpdate();
+        for(Entity entity : this.entities)
+            entity.callUpdate();
     }
 
     /**
      * Updates thats should occur after all the other updates in each frame.
      */
     private void updateAfter() {
+        this.gamePane.update(this.delta);
         this.keyboardManager.nextFrame();
     }
 
