@@ -92,12 +92,9 @@ public abstract class Engine {
             this.gameState == GameState.GameOver) && 
             gameState == GameState.Playing;
 
-        if(restart) {
-            this.entities.clear();
-        }
-
         new Thread(() -> {
             if(restart) {
+                this.entities.clear();
                 this.start();
             }
 
@@ -337,7 +334,7 @@ public abstract class Engine {
      * Draws each entity with the renderer.
      */
     private void draw() {
-        if(gameState != GameState.Start) {
+        if(gameState != GameState.Start && gameState != GameState.Loading) {
             this.renderer.newFrame();
             this.gamePane.setGameOffesetX(this.renderer.getOffsetX());
 
@@ -353,10 +350,8 @@ public abstract class Engine {
         this.gameLoop = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                if(keyboardManager != null) {
-                    callUpdate(now);
-                    draw();
-                }
+                callUpdate(now);
+                draw();
             }
         };
     }
