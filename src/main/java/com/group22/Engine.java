@@ -85,16 +85,19 @@ public abstract class Engine {
      *      The new game state.
      */
     public void setGameState(GameState gameState) {
+        this.gamePane.setState(GameState.Loading);
+
+        boolean restart = 
+            (this.gameState == GameState.Start || 
+            this.gameState == GameState.GameOver) && 
+            gameState == GameState.Playing;
+
+        if(restart) {
+            this.entities.clear();
+        }
+
         new Thread(() -> {
-            this.gamePane.setState(GameState.Loading);
-
-            boolean restart = 
-                (this.gameState == GameState.Start || 
-                this.gameState == GameState.GameOver) && 
-                gameState == GameState.Playing;
-
             if(restart) {
-                this.entities.clear();
                 this.start();
             }
 
