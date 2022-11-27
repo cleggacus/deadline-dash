@@ -22,7 +22,8 @@ public class KeyboardManager {
     /**
      * Creates a keyboard manager.
      * 
-     * @param scene to use its evenets to contruct to polling mechanism.
+     * @param scene 
+     *      To use its evenets to contruct to polling mechanism.
      */
     public KeyboardManager(Scene scene) {
         this.keysDown = new HashSet<>();
@@ -59,7 +60,7 @@ public class KeyboardManager {
      * @param keyCode
      *      The key code of the key to be checked.
      * 
-     * @return boolean
+     * @return 
      *      True if key is being pressed on the current frame, False otherwise.
      */
     public boolean getKeyDown(KeyCode keyCode) {
@@ -73,7 +74,7 @@ public class KeyboardManager {
      * @param keyCode
      *      The key code of the key to be checked.
      * 
-     * @return boolean
+     * @return 
      *      True if key is down, False if key is up.
      */
     public boolean getKeyState(KeyCode keyCode) {
@@ -87,7 +88,7 @@ public class KeyboardManager {
      * @param keyCode
      *      The key code of the key to be checked.
      * 
-     * @return boolean
+     * @return
      *      True if key is being released on the current frame, False otherwise.
      */
     public boolean getKeyUp(KeyCode keyCode) {
@@ -98,7 +99,8 @@ public class KeyboardManager {
     /** 
      * Gets an array of keys that are currently down.
      * 
-     * @return KeyCode[]
+     * @return 
+     *      An array of KeyCodes that are currently pressed down.
      */
     public KeyCode[] getKeyStates() {
         KeyCode[] keyCodes = new KeyCode[this.keysPress.size()];

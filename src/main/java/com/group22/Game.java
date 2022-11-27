@@ -1,7 +1,5 @@
 package com.group22;
 
-import java.util.ArrayList;
-
 /**
  * The {@code Game} class acts as a game manager handling all the game logic.
  * Since there is only one game and it extends Engine it uses the singleton pattern and can be used with the {@link #getInstance()} method.
@@ -11,6 +9,7 @@ import java.util.ArrayList;
  */
 public class Game extends Engine {
     private double time;
+    private int score; 
 
     private Tile[][] tiles;
     private Entity player;
@@ -57,13 +56,16 @@ public class Game extends Engine {
         this.time += seconds;
     }
 
+    public void addPoints(int val) {
+        this.score += val;
+    }
+
     @Override
     protected void start() {
         int width = 15;
         int height = 10;
 
         this.tiles = new Tile[width][height];
-
         this.setViewSize(width, height);
 
         String tileData = 
@@ -87,8 +89,10 @@ public class Game extends Engine {
             }
         }
 
-        for(int i = 0; i < 10; i++)
+        for(int i = 0; i < 100; i++)
             this.entities.add(new TestObject());
+
+        this.time = 5;
     }
 
     /**
@@ -100,10 +104,13 @@ public class Game extends Engine {
     }
 
     private void updateTime() {
+        this.time -= this.getDelta();
+
         if(this.time <= 0) {
             this.time = 0;
-        } else {
-            this.time -= this.getDelta();
+            this.setGameState(GameState.GameOver);
         }
+
+        this.getGamePane().setGameTime(this.time);
     }
 }

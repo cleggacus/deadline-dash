@@ -32,13 +32,27 @@ public abstract class Entity {
     protected Sprite sprite = new Sprite();
 
     private AnimationType animationType = AnimationType.None;
+
+    /** X position the entitiy is animating from. */
     private int fromX = 0;
+    /** Y position the entitiy is animating from. */
     private int fromY = 0;
+
 
     /**
      * Creates an Entity.
      */
     public Entity(){}
+
+
+    /**
+     * Creates an Entity with X and Y
+     */
+    public Entity(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
 
     /**
      * Publically exposed method which runs abstract update method.
@@ -48,6 +62,7 @@ public abstract class Entity {
         this.sprite.update();
         this.update();
     }
+
 
     /**
      * Publically exposed method which runs abstract updateMovement method.
@@ -73,6 +88,7 @@ public abstract class Entity {
      * Draws the {@link #sprite} at the position and draw offset of the entity.
      * 
      * @param renderer
+     *      The renderer used to draw to.
      */
     public void draw(Renderer renderer) {
         if(this.sprite.getCurrentImage() == null)
@@ -86,6 +102,73 @@ public abstract class Entity {
         }
     }
 
+
+    /**
+     * Returns the sprite of the entitiy.
+     * 
+     * @return
+     *      The current sprite element.
+     */
+    public Sprite getSprite() {
+        return sprite;
+    }
+
+
+    /**
+     * Moves the entitiy by (x, y) with a linear animation.
+     * 
+     * @param x
+     *      How much to increment x position by.
+     * 
+     * @param y
+     *      How much to increment y position by.
+     */
+    protected void move(int x, int y) {
+        move(x, y, AnimationType.Linear);
+    }
+
+
+    /**
+     * Moves the entitiy by (x, y) with a given animation.
+     * 
+     * @param x
+     *      How much to increment x position by.
+     * 
+     * @param y
+     *      How much to increment y position by.
+     * 
+     * @param type
+     *      The transition aniamtion for the entity to move with.
+     */
+    protected void move(int x, int y, AnimationType type) {
+        this.animationType = type;
+        this.fromX = this.x;
+        this.fromY = this.y;
+        this.x += x;
+        this.y += y;
+    }
+
+
+    /**
+     * This method needs to be overridden by extending {@code Entity}.
+     * This is used for movement and is called every {@link #moveEvery} seconds.
+     */
+    protected abstract void updateMovement();
+
+
+    /**
+     * This method needs to be overridden by extending {@code Entity}.
+     * This method is called every frame.
+     */
+    protected abstract void update();
+
+
+    /**
+     * Gets the Y position the renderer should renderer based on animation and offset.
+     * 
+     * @return
+     *      Y position for renderering
+     */
     private double getDrawY() {
         double percent = this.timeSinceMove / this.moveEvery;
 
@@ -101,6 +184,13 @@ public abstract class Entity {
         }
     }
 
+
+    /**
+     * Gets the X position the renderer should renderer based on animation and offset.
+     * 
+     * @return
+     *      X position for renderering
+     */
     private double getDrawX() {
         double percent = this.timeSinceMove / this.moveEvery;
 
@@ -114,33 +204,5 @@ public abstract class Entity {
             default:
                 return this.spriteOffsetX + this.x;
         }
-    }
-
-    protected void move(int x, int y) {
-        move(x, y, AnimationType.Linear);
-    }
-
-    protected void move(int x, int y, AnimationType type) {
-        this.animationType = type;
-        this.fromX = this.x;
-        this.fromY = this.y;
-        this.x += x;
-        this.y += y;
-    }
-
-    /**
-     * This method needs to be overridden by extending {@code Entity}.
-     * This is used for movement and is called every {@link #moveEvery} seconds.
-     */
-    protected abstract void updateMovement();
-
-    /**
-     * This method needs to be overridden by extending {@code Entity}.
-     * This method is called every frame.
-     */
-    protected abstract void update();
-
-    public Sprite getSprite() {
-        return sprite;
     }
 }

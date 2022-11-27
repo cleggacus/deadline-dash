@@ -2,7 +2,6 @@ package com.group22;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.effect.BoxBlur;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
@@ -21,6 +20,12 @@ public class Renderer {
 
     private double viewWidth = DEFAULT_WIDTH;
     private double viewHeight = DEFAULT_HEIGHT;
+
+    private double topPadding = 0;
+    private double rightPadding = 0;
+    private double bottomPadding = 0;
+    private double leftPadding = 0;
+
     private double tileSize;
     private double offsetX;
     private double offsetY;
@@ -42,7 +47,10 @@ public class Renderer {
      * Sets the width and height of the grid used for drawing images.
      * 
      * @param width 
+     *      The new width in tiles.
+     * 
      * @param height
+     *      The new height in tiles.
      */
     public void setViewSize(int width, int height) {
         this.viewWidth = width;
@@ -53,7 +61,8 @@ public class Renderer {
     /** 
      * Gets the height to the grid to render images.
      * 
-     * @return int
+     * @return
+     *      The height in tiles of the grid.
      */
     public int getViewHeight() {
         return (int)viewHeight;
@@ -64,23 +73,87 @@ public class Renderer {
      * Gets the width to the grid to render images.
      * 
      * @return int
+     *      The width in tiles of the grid.
      */
     public int getViewWidth() {
         return (int)viewWidth;
     }
 
+    /**
+     * Gets the amount the canvas is offset due to canvas and grid size.
+     * 
+     * @return
+     *      Amount the grid is offset in the canvas on the x axis.
+     */
+    public double getOffsetX() {
+        return offsetX;
+    }
+
+
+    /**
+     * Gets the amount the canvas is offset due to canvas and grid size.
+     * 
+     * @return
+     *      Amount the grid is offset in the canvas on the y axis.
+     */
+    public double getOffsetY() {
+        return offsetY;
+    }
+
+    /**
+     * Sets the padding that should be added to the canvas so empty space can be added around the grid.
+     * 
+     * @param top
+     *      The number of pixels that should be added to the top of the grid.
+     * 
+     * @param right
+     *      The number of pixels that should be added to the right of the grid.
+     * 
+     * @param bottom
+     *      The number of pixels that should be added to the bottom of the grid.
+     * 
+     * @param left
+     *      The number of pixels that should be added to the top left the grid.
+     */
+    public void setPadding(double top, double right, double bottom, double left) {
+        this.topPadding = top;
+        this.bottomPadding = bottom;
+        this.leftPadding = left;
+        this.rightPadding = right;
+    }
+
     
     /** 
-     * Draws an image at the position (x, y) in the grid.
+     * Draws an image at the position (x, y) in the grid at a scale of one tile.
      * 
      * @param image
+     *      The image that will be drawn.
+     * 
      * @param x
+     *      The x tile position. 
+     * 
      * @param y
+     *      The y tile positoin.
      */
     public void drawImage(Image image, double x, double y) {
         this.drawImage(image, x, y, 1);
     }
 
+    /**
+     * Draws an image at the position (x, y) in the grid at a given scale proportional to the tile.
+     * 
+     * @param image
+     *      The image that will be drawn.
+     * 
+     * @param x
+     *      The x tile position. 
+     * 
+     * @param y
+     *      The y tile positoin.
+     * 
+     * @param scale
+     *      The scale the image should be drawn proportional to a tile.
+     */
     public void drawImage(Image image, double x, double y, double scale) {
         if(x < -1 || y < -1 || x > viewWidth || y > viewHeight)
             return;
@@ -111,19 +184,28 @@ public class Renderer {
         this.getViewInfo();
     }
 
+    /**
+     * Updates the info for resizing the canvas and setting the offsets.
+     */
     private void getViewInfo() {
         Canvas canvas = graphicsContext.getCanvas();
-        double canvasRatio = canvas.getWidth() / canvas.getHeight();
+        double canvasHeight = canvas.getHeight() - (topPadding + bottomPadding);
+        double canvasWidth = canvas.getWidth() - (leftPadding + rightPadding);
+
+        double canvasRatio = canvasWidth / canvasHeight;
         double viewRatio = viewWidth / viewHeight;
 
         if(canvasRatio > viewRatio) {
-            this.tileSize = canvas.getHeight() / viewHeight;
-            this.offsetX = (canvas.getWidth() - (this.tileSize * viewWidth)) / 2;
+            this.tileSize = canvasHeight / viewHeight;
+            this.offsetX = (canvasWidth - (this.tileSize * viewWidth)) / 2;
             this.offsetY = 0;
         } else {
-            this.tileSize = canvas.getWidth() / viewWidth;
+            this.tileSize = canvasWidth / viewWidth;
             this.offsetX = 0;
-            this.offsetY = (canvas.getHeight() - (this.tileSize * viewHeight)) / 2;
+            this.offsetY = (canvasHeight - (this.tileSize * viewHeight)) / 2;
         }
+
+        offsetY += topPadding;
+        offsetX += leftPadding;
     }
 }

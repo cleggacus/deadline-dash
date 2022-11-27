@@ -13,9 +13,11 @@ public abstract class LandMover extends Entity {
      * Moves entity by (x, y) according to the tile colors
      * 
      * @param x
+     *      The x next tile in the given direction.
+     * 
      * @param y
+     *      The y next tile in the given direction.
      */
-
     @Override
     protected void move(int x, int y, AnimationType type) {
         int newX = this.x;
@@ -57,13 +59,28 @@ public abstract class LandMover extends Entity {
      * Returns whether move (x, y) is legal according to tile colors.
      * 
      * @param x
+     *      Change is x from current position to check.
+     * 
      * @param y
+     *      Change is y from current position to check.
+     * 
      * @return
+     *      If the x and y added to the current position is a valid colour.
      */
     protected boolean isMoveLegal(int x, int y) {
+        if(!Game.getInstance().isInBounds(this.x + x, this.y + y))
+            return false;
+
         return Game.getInstance().colorMatch(this.x, this.y, this.x + x, this.y + y);
     }
 
+    /**
+     * Gets the next tile with the correct color above the current tile.
+     * 
+     * @return
+     *      The y position of the tile found.
+     *      Returns current y position if not found.
+     */
     private int nextUp() {
         boolean found = false;
         int i = this.y;
@@ -79,6 +96,13 @@ public abstract class LandMover extends Entity {
         return i;
     }
 
+    /**
+     * Gets the next tile with the correct color below the current tile.
+     * 
+     * @return
+     *      The y position of the tile found.
+     *      Returns current y position if not found.
+     */
     private int nextDown() {
         boolean found = false;
         int i = this.y;
@@ -95,6 +119,13 @@ public abstract class LandMover extends Entity {
         return i;
     }
 
+    /**
+     * Gets the next tile with the correct color to the left of the current tile.
+     * 
+     * @return
+     *      The x position of the tile found.
+     *      Returns current x position if not found.
+     */
     private int nextLeft() {
         boolean found = false;
         int i = this.x;
@@ -110,6 +141,14 @@ public abstract class LandMover extends Entity {
         return i;
     }
 
+
+    /**
+     * Gets the next tile with the correct color to the right of the current tile.
+     * 
+     * @return
+     *      The x position of the tile found.
+     *      Returns current x position if not found.
+     */
     private int nextRight() {
         boolean found = false;
         int i = this.x;
