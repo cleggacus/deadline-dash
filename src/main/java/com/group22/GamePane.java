@@ -7,6 +7,7 @@ import javafx.geometry.Pos;
 import javafx.scene.CacheHint;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -26,6 +27,7 @@ import javafx.scene.text.TextAlignment;
  * @version 1.0
  */
 public class GamePane extends StackPane {
+    public static final int MENU_BLUR_RADIUS = 20;
     public static final int INFO_BAR_HEIGHT = 50;
     public static final int INFO_BAR_SIZE_PADDING = 20;
 
@@ -71,31 +73,35 @@ public class GamePane extends StackPane {
                 this.pauseMenu.setVisible(false);
                 this.canvasPane.setVisible(false);
                 this.gameOverMenu.setVisible(false);
+                setBlurCanvas(false);
                 break;
             case Playing:
                 this.startMenu.setVisible(false);
                 this.pauseMenu.setVisible(false);
                 this.canvasPane.setVisible(true);
                 this.gameOverMenu.setVisible(false);
+                setBlurCanvas(false);
                 break;
             case Paused:
                 this.startMenu.setVisible(false);
                 this.pauseMenu.setVisible(true);
                 this.canvasPane.setVisible(true);
                 this.gameOverMenu.setVisible(false);
+                setBlurCanvas(true);
                 break;
             case GameOver:
                 this.startMenu.setVisible(false);
                 this.pauseMenu.setVisible(false);
                 this.canvasPane.setVisible(true);
                 this.gameOverMenu.setVisible(true);
+                setBlurCanvas(true);
                 break;
         }
     }
 
     public void setGameTime(double time) {
         DecimalFormat formatter = new DecimalFormat("000");
-        this.time.setText("TIME: " + formatter.format(time));
+        this.time.setText("TIME: " + formatter.format(Math.ceil(time)));
     }
 
     public void setGameLevel(int level) {
@@ -119,6 +125,10 @@ public class GamePane extends StackPane {
 
     public void setGameOffesetX(double offset) {
         this.infoBar.setPadding(new Insets(0, offset, 0, offset));
+    }
+
+    private void setBlurCanvas(boolean blur) {
+        this.canvasPane.setEffect(blur ? new GaussianBlur(MENU_BLUR_RADIUS) : null);
     }
 
     private void setUpScore() {

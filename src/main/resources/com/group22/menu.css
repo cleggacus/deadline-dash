@@ -1,9 +1,9 @@
 .game-pane {
-    -fx-background-color: #001;
+    -fx-background-color: #000;
 }
 
 .menu-outer {
-    -fx-background-color: #001c;
+    -fx-background-color: #000c;
     -fx-alignment: center;
 }
 
@@ -15,7 +15,7 @@
     -fx-font-size: 2em;
     -fx-padding: 0.2em;
     -fx-background-color: #0000;
-    -fx-text-fill: #fff;
+    /* -fx-text-fill: #fff; */
     -fx-border-style: hidden;
     -fx-width: 100%;
 }
