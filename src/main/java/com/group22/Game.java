@@ -84,7 +84,7 @@ public class Game extends Engine {
             }
         }
 
-        for(int i = 0; i < 10; i++)
+        for(int i = 0; i < 100; i++)
             this.entities.add(new TestObject());
 
         this.time = 5;

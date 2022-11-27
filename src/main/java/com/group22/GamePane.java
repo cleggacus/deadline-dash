@@ -35,6 +35,7 @@ public class GamePane extends StackPane {
     private MenuPane startMenu;
     private MenuPane pauseMenu;
     private MenuPane gameOverMenu;
+    private BorderPane loadingPane;
     private StackPane canvasPane;
 
     private BorderPane infoBar;
@@ -55,6 +56,7 @@ public class GamePane extends StackPane {
         this.setUpPauseMenu();
         this.setUpGameOverMenu();
         this.setUpStartMenu();
+        this.setUpLoadingPane();
 
         this.setState(GameState.Start);
     }
@@ -73,6 +75,7 @@ public class GamePane extends StackPane {
                 this.pauseMenu.setVisible(false);
                 this.canvasPane.setVisible(false);
                 this.gameOverMenu.setVisible(false);
+                this.loadingPane.setVisible(false);
                 setBlurCanvas(false);
                 break;
             case Playing:
@@ -80,6 +83,7 @@ public class GamePane extends StackPane {
                 this.pauseMenu.setVisible(false);
                 this.canvasPane.setVisible(true);
                 this.gameOverMenu.setVisible(false);
+                this.loadingPane.setVisible(false);
                 setBlurCanvas(false);
                 break;
             case Paused:
@@ -87,6 +91,7 @@ public class GamePane extends StackPane {
                 this.pauseMenu.setVisible(true);
                 this.canvasPane.setVisible(true);
                 this.gameOverMenu.setVisible(false);
+                this.loadingPane.setVisible(false);
                 setBlurCanvas(true);
                 break;
             case GameOver:
@@ -94,7 +99,16 @@ public class GamePane extends StackPane {
                 this.pauseMenu.setVisible(false);
                 this.canvasPane.setVisible(true);
                 this.gameOverMenu.setVisible(true);
+                this.loadingPane.setVisible(false);
                 setBlurCanvas(true);
+                break;
+            case Loading:
+                this.startMenu.setVisible(false);
+                this.pauseMenu.setVisible(false);
+                this.canvasPane.setVisible(false);
+                this.gameOverMenu.setVisible(false);
+                this.loadingPane.setVisible(true);
+                setBlurCanvas(false);
                 break;
         }
     }
@@ -238,5 +252,19 @@ public class GamePane extends StackPane {
         this.pauseMenu.addItem("EXIT", () -> { Game.getInstance().setGameState(GameState.Start); });
 
         this.getChildren().add(this.pauseMenu);
+    }
+
+    private void setUpLoadingPane() {
+        this.loadingPane = new BorderPane();
+
+        Text title = new Text("LOADING");
+        title.setFont(Font.font("Monospaced", FontWeight.BOLD, 40));
+        title.setFill(TileColor.LIGHT_RED.color);
+        title.setTextAlignment(TextAlignment.CENTER);
+        title.wrappingWidthProperty().bind(this.loadingPane.widthProperty());
+
+        this.loadingPane.setCenter(title);
+
+        this.getChildren().add(this.loadingPane);
     }
 }

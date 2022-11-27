@@ -44,9 +44,9 @@ public abstract class Engine {
         this.renderer.setPadding(GamePane.INFO_BAR_HEIGHT, 0, 0, 0);
         this.entities = new ArrayList<>();
 
-        this.setGameState(GameState.Start);
-
         this.setUpGameLoop();
+
+        this.setGameState(GameState.Start);
     }
 
     /**
@@ -85,18 +85,22 @@ public abstract class Engine {
      *      The new game state.
      */
     public void setGameState(GameState gameState) {
-        boolean restart = 
-            (this.gameState == GameState.Start || 
-            this.gameState == GameState.GameOver) && 
-            gameState == GameState.Playing;
+        new Thread(() -> {
+            this.gamePane.setState(GameState.Loading);
 
-        if(restart) {
-            this.entities.clear();
-            this.start();
-        }
+            boolean restart = 
+                (this.gameState == GameState.Start || 
+                this.gameState == GameState.GameOver) && 
+                gameState == GameState.Playing;
 
-        this.gamePane.setState(gameState);
-        this.gameState = gameState;
+            if(restart) {
+                this.entities.clear();
+                this.start();
+            }
+
+            this.gamePane.setState(gameState);
+            this.gameState = gameState;
+        }).start();
     }
 
     
