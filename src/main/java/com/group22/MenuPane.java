@@ -33,7 +33,12 @@ public class MenuPane extends GridPane {
         this.setVgap(10);
     }
 
-
+    /**
+     * Adds a title (Text) element to the menu pane on the next available row.
+     * 
+     * @param name
+     *      The text displayed in the title item.
+     */
     public void addTitle(String name) {
         Text title = new Text(name);
         title.setFont(Font.font("Monospaced", FontWeight.BOLD, 40));
@@ -47,9 +52,13 @@ public class MenuPane extends GridPane {
     }
     
     /** 
-     * Adds a button element to the menues list.
-     * @param name the text displayed on the button.
-     * @param onClick determins what happens when a button is clicked
+     * Adds a button element to the menus list in the next available row.
+     * 
+     * @param name 
+     *      The text displayed on the button.
+     * 
+     * @param onClick 
+     *      Determins what happens when a button is clicked.
      */
     public void addItem(String name, Runnable onClick) {
         Button button = new Button(name);
