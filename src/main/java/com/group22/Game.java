@@ -8,7 +8,11 @@ package com.group22;
  * @version 1.0
  */
 public class Game extends Engine {
+    private double time;
+    private int score; 
+
     private Tile[][] tiles;
+    private Entity player;
 
     private static Game instance;
 
@@ -31,6 +35,10 @@ public class Game extends Engine {
         return Game.instance;
     }
 
+    public Entity getPlayer() {
+        return this.player;
+    }
+
     /**
      * Checks if theres a color at (x1, y1) thats in (x2, y2).
      * 
@@ -44,13 +52,20 @@ public class Game extends Engine {
         return this.tiles[x1][y1].colorMatch(this.tiles[x2][y2]);
     }
 
+    public void addTime(double seconds) {
+        this.time += seconds;
+    }
+
+    public void addPoints(int val) {
+        this.score += val;
+    }
+
     @Override
     protected void start() {
         int width = 15;
         int height = 10;
 
         this.tiles = new Tile[width][height];
-
         this.setViewSize(width, height);
 
         String tileData = 
@@ -74,13 +89,28 @@ public class Game extends Engine {
             }
         }
 
-        for(int i = 0; i < 10; i++)
+        for(int i = 0; i < 100; i++)
             this.entities.add(new TestObject());
+
+        this.time = 5;
     }
 
     /**
      * Overridden update method from {@code Engine}.
      */
     @Override
-    protected void update() {}
+    protected void update() {
+        updateTime();
+    }
+
+    private void updateTime() {
+        this.time -= this.getDelta();
+
+        if(this.time <= 0) {
+            this.time = 0;
+            this.setGameState(GameState.GameOver);
+        }
+
+        this.getGamePane().setGameTime(this.time);
+    }
 }

@@ -1,6 +1,6 @@
 package com.group22;
 
-public class Gate /**extends Entity**/{
+public class Gate extends Entity {
 
     private Boolean gateIsOpen = false;
     private String gateColour;
@@ -24,6 +24,18 @@ public class Gate /**extends Entity**/{
 
     public Boolean getGateIsOpen() {
         return this.gateIsOpen;
+    }
+
+    @Override
+    protected void updateMovement() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    protected void update() {
+        // TODO Auto-generated method stub
+        
     }
 
 

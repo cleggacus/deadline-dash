@@ -1,28 +1,70 @@
 package com.group22;
 
+/**
+ * The Clock class is a type of pickup, it manipulates the level timer and as a
+ * pickup it can be collected by both player and npcs. If the player picks it up
+ * they are given more time, but if an npc picks it up the inverse happens to 
+ * the level timer.
+ * 
+ * @author Lewis Meekings
+ * @version 1.0
+ */
 public class Clock extends PickUp {
     
-    private long time;
+    private double time;
 
-    public Clock(int posX, int posY, Sprite clockSprite, long time){
+    /**
+     * A constructor for the clock class which inherits from pickup and entity.
+     * @param posX the horizontal position on the map
+     * @param posY the vertical position on the map
+     * @param clockSprite the image of the entity
+     * @param time a temporal value to use on the level timer
+     */
+    public Clock(int posX, int posY, Sprite clockSprite, double time){
         super(posX, posY, clockSprite);
         setTime(time);
     }
 
-    public void setTime(long time) {
+    /**
+     * Sets the time value of the object
+     * @param time
+     */
+    public void setTime(double time) {
         this.time = time;
     }
 
-    public long getTime() {
+    /**
+     * @return the time value of the object
+     */
+    public double getTime() {
         return this.time;
     }
-/** I don't know where the level timer is and what it is called, we do have one right?
+
+    /**
+     * If the player grabs the loot it will decrease the level time and be added
+     * to inventory, if another thief grabs it the time decreases.
+     * @param landMover the object activating the pickup
+     */
+    @Override
     public void activatePickUpEffect(LandMover landMover) {
-        if (landMover == Player){
-            levelTimer.add(this.getTime);
+        if (landMover == Game.getInstance().getPlayer()){
+            Game.getInstance().addTime(time);
+            this.addToInventory();
         } else {
-            levelTimer.minus(this.getTime);
+            Game.getInstance().addTime(-time);
         }
     }
-    */
+
+    @Override
+    protected void updateMovement() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    protected void update() {
+        // TODO Auto-generated method stub
+        
+    }
+
 }

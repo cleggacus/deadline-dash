@@ -24,15 +24,25 @@ public class Lever extends PickUp {
     public Boolean getIsOpen(){
         return this.leverIsOpen;
     }
-/** Entities is the place holder for the array list of all entities, 
- * if we don't have one already then we should have
-    public void activatePickUpEffect() {
-        for (Gate gate : Entities){
-            if (gate.getGateColour == this.getLeverColour){
-                gate.setGateIsOpen(True);
+
+    @Override
+    public void activatePickUpEffect(LandMover landMover) {
+        for (Entity gate : Game.getInstance().getEntities(Gate.class)){
+            if (((Gate) gate).getGateColour() == this.getLeverColour()){
+                 ((Gate) gate).setGateIsOpen(true);
             }
         }
     }
-*/
 
+    @Override
+    protected void updateMovement() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    protected void update() {
+        // TODO Auto-generated method stub
+        
+    }
 }
