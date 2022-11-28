@@ -60,6 +60,10 @@ public class Game extends Engine {
         this.score += val;
     }
 
+    public int getScore() {
+        return score;
+    }
+
     @Override
     protected void start() {
         int width = 15;
@@ -112,5 +116,6 @@ public class Game extends Engine {
         }
 
         this.getGamePane().setGameTime(this.time);
+        this.getGamePane().setGameScore(this.score);
     }
 }
