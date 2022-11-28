@@ -81,7 +81,7 @@ public abstract class LandMover extends Entity {
      *      The y position of the tile found.
      *      Returns current y position if not found.
      */
-    private int nextUp() {
+    protected int nextUp() {
         boolean found = false;
         int i = this.y;
 
@@ -103,7 +103,7 @@ public abstract class LandMover extends Entity {
      *      The y position of the tile found.
      *      Returns current y position if not found.
      */
-    private int nextDown() {
+    protected int nextDown() {
         boolean found = false;
         int i = this.y;
         int height = Game.getInstance().getViewHeight();
@@ -126,7 +126,7 @@ public abstract class LandMover extends Entity {
      *      The x position of the tile found.
      *      Returns current x position if not found.
      */
-    private int nextLeft() {
+    protected int nextLeft() {
         boolean found = false;
         int i = this.x;
 
@@ -149,7 +149,7 @@ public abstract class LandMover extends Entity {
      *      The x position of the tile found.
      *      Returns current x position if not found.
      */
-    private int nextRight() {
+    protected int nextRight() {
         boolean found = false;
         int i = this.x;
         int width = Game.getInstance().getViewWidth();
