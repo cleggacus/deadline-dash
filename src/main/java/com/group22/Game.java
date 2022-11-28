@@ -8,18 +8,20 @@ package com.group22;
  * @version 1.0
  */
 public class Game extends Engine {
+    private double time;
+    private int score; 
+
+    private Tile[][] tiles;
+    private Entity player;
+
     private static Game instance;
 
     /**
      * Creates Game.
      * Set to private so multiple instances cannot be created.
      */
-    private Game() {
-        super();
-        testMapSetup();
-    }
+    private Game() {}
 
-    
     /** 
      * This method is used so the public game data can be accessed in other parts of the applicaiton. 
      * The instance of Game is created on its first call and is returned in the method.
@@ -33,11 +35,37 @@ public class Game extends Engine {
         return Game.instance;
     }
 
-    // used for testing purposes
-    private void testMapSetup() {
+    public Entity getPlayer() {
+        return this.player;
+    }
+
+    /**
+     * Checks if theres a color at (x1, y1) thats in (x2, y2).
+     * 
+     * @param x1
+     * @param y1
+     * @param x2
+     * @param y2
+     * @return
+     */
+    public boolean colorMatch(int x1, int y1, int x2, int y2) {
+        return this.tiles[x1][y1].colorMatch(this.tiles[x2][y2]);
+    }
+
+    public void addTime(double seconds) {
+        this.time += seconds;
+    }
+
+    public void addPoints(int val) {
+        this.score += val;
+    }
+
+    @Override
+    protected void start() {
         int width = 15;
         int height = 10;
 
+        this.tiles = new Tile[width][height];
         this.setViewSize(width, height);
 
         String tileData = 
@@ -56,17 +84,33 @@ public class Game extends Engine {
 
         for(int y = 0; y < height; y++) {
             for(int x = 0; x < width; x++) {
-                Tile t = new Tile(x, y, tileDataArray[y*width + x]);
-                this.entities.add(t);
+                this.tiles[x][y] = new Tile(x, y, tileDataArray[y*width + x]);
+                this.entities.add(this.tiles[x][y]);
             }
         }
 
-        this.entities.add(new TestObject());
+        for(int i = 0; i < 100; i++)
+            this.entities.add(new TestObject());
+
+        this.time = 5;
     }
 
     /**
      * Overridden update method from {@code Engine}.
      */
     @Override
-    protected void update() {}
+    protected void update() {
+        updateTime();
+    }
+
+    private void updateTime() {
+        this.time -= this.getDelta();
+
+        if(this.time <= 0) {
+            this.time = 0;
+            this.setGameState(GameState.GameOver);
+        }
+
+        this.getGamePane().setGameTime(this.time);
+    }
 }

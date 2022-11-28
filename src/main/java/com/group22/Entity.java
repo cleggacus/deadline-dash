@@ -1,7 +1,5 @@
 package com.group22;
 
-import javafx.scene.image.Image;
-
 /**
  * 
  * The class {@code Entity} is used for anything that is drawn or updated in the {@code Engine}.
@@ -30,21 +28,51 @@ public abstract class Entity {
     /** Offset X position added to {@link #x} when drawing sprite. */
     protected double spriteOffsetX = 0;
 
-    /** Image sprite drawn to show for entity. */
-    protected Image sprite;
+    /** Image sprites drawn to show for entity. */
+    protected Sprite sprite = new Sprite();
+
+    private AnimationType animationType = AnimationType.None;
+
+    /** X position the entitiy is animating from. */
+    private int fromX = 0;
+    /** Y position the entitiy is animating from. */
+    private int fromY = 0;
+
 
     /**
      * Creates an Entity.
      */
     public Entity(){}
 
+
+    /**
+     * Creates an Entity with X and Y
+     */
+    public Entity(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+
+    /**
+     * Creates an Entity with X, Y and a sprite.
+     */
+    public Entity(int x, int y, Sprite sprite) {
+        this.x = x;
+        this.y = y;
+        this.sprite = sprite;
+    }
+
+
     /**
      * Publically exposed method which runs abstract update method.
      * This method is used by the engine to update the entities.
      */
     public void callUpdate() {
+        this.sprite.update();
         this.update();
     }
+
 
     /**
      * Publically exposed method which runs abstract updateMovement method.
@@ -56,6 +84,7 @@ public abstract class Entity {
         this.timeSinceMove += delta;
 
         if(this.timeSinceMove >= this.moveEvery) {
+            this.animationType = AnimationType.None;
             this.updateMovement();
             this.timeSinceMove -= this.moveEvery;
         }
@@ -69,13 +98,66 @@ public abstract class Entity {
      * Draws the {@link #sprite} at the position and draw offset of the entity.
      * 
      * @param renderer
+     *      The renderer used to draw to.
      */
     public void draw(Renderer renderer) {
-        if(this.sprite == null)
+        if(this.sprite.getCurrentImage() == null)
             return;
 
-        renderer.drawImage(this.sprite, spriteOffsetX + x, spriteOffsetY + y);
+        if(this.animationType == AnimationType.Scale) {
+            double scale = Math.abs((this.timeSinceMove / this.moveEvery)*2-1);
+            renderer.drawImage(this.sprite.getCurrentImage(), getDrawX(), getDrawY(), scale);
+        } else {
+            renderer.drawImage(this.sprite.getCurrentImage(), getDrawX(), getDrawY());
+        }
     }
+
+
+    /**
+     * Returns the sprite of the entitiy.
+     * 
+     * @return
+     *      The current sprite element.
+     */
+    public Sprite getSprite() {
+        return sprite;
+    }
+
+
+    /**
+     * Moves the entitiy by (x, y) with a linear animation.
+     * 
+     * @param x
+     *      How much to increment x position by.
+     * 
+     * @param y
+     *      How much to increment y position by.
+     */
+    protected void move(int x, int y) {
+        move(x, y, AnimationType.Linear);
+    }
+
+
+    /**
+     * Moves the entitiy by (x, y) with a given animation.
+     * 
+     * @param x
+     *      How much to increment x position by.
+     * 
+     * @param y
+     *      How much to increment y position by.
+     * 
+     * @param type
+     *      The transition aniamtion for the entity to move with.
+     */
+    protected void move(int x, int y, AnimationType type) {
+        this.animationType = type;
+        this.fromX = this.x;
+        this.fromY = this.y;
+        this.x += x;
+        this.y += y;
+    }
+
 
     /**
      * This method needs to be overridden by extending {@code Entity}.
@@ -83,29 +165,54 @@ public abstract class Entity {
      */
     protected abstract void updateMovement();
 
+
     /**
      * This method needs to be overridden by extending {@code Entity}.
      * This method is called every frame.
      */
     protected abstract void update();
 
-    
-    /** 
-     * Sets the sprite using a path at src/main/resources/com/group22/...
+
+    /**
+     * Gets the Y position the renderer should renderer based on animation and offset.
      * 
-     * @param resourcesPath
+     * @return
+     *      Y position for renderering
      */
-    protected void setSprite(String resourcesPath) {
-        this.sprite = new Image(getClass().getResource("/com/group22/" + resourcesPath).toString());
+    private double getDrawY() {
+        double percent = this.timeSinceMove / this.moveEvery;
+
+        switch(this.animationType) {
+            case Linear:
+                double distance = this.y - this.fromY;
+                double animY = this.fromY + distance*percent;
+                return this.spriteOffsetY + animY;
+            case Scale:
+                return this.spriteOffsetY + (percent > 0.5 ? this.y : fromY);
+            default:
+                return this.spriteOffsetY + this.y;
+        }
     }
 
-    
-    /** 
-     * Sets the sprite to a given Image object.
+
+    /**
+     * Gets the X position the renderer should renderer based on animation and offset.
      * 
-     * @param image
+     * @return
+     *      X position for renderering
      */
-    protected void setSprite(Image image) {
-        this.sprite = image;
+    private double getDrawX() {
+        double percent = this.timeSinceMove / this.moveEvery;
+
+        switch(this.animationType) {
+            case Linear:
+                double distance = this.x - this.fromX;
+                double animX = this.fromX + distance*percent;
+                return this.spriteOffsetX + animX;
+            case Scale:
+                return this.spriteOffsetX + (percent > 0.5 ? this.x : fromX);
+            default:
+                return this.spriteOffsetX + this.x;
+        }
     }
 }

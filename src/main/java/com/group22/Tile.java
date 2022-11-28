@@ -25,8 +25,11 @@ public class Tile extends Entity {
      * Creates a tile based on its position and colors.
      * 
      * @param x
+     *      X position of the tile
      * @param y
+     *      Y position of the tile
      * @param colors
+     *      The color of the tile
      */
     public Tile(int x, int y, String colors) {
         this.x = x;
@@ -43,7 +46,9 @@ public class Tile extends Entity {
      * Note: do not run this if you are going to set TileLayout directly after since 2 images will have to be rendered slowing down performance.
      * 
      * @param x
+     *      X position of the tile.
      * @param y
+     *      Y position of the tile.
      */
     public Tile(int x, int y) {
         this.x = x;
@@ -61,6 +66,7 @@ public class Tile extends Entity {
      * Sets the tile layout to the provided string of color labels set in {@code TileColor} and renders a sprite images correspondingly.
      * 
      * @param colors
+     *      The colors of the tile given by a string containing each color tag.
      */
     public void setTileLayout(String colors) {
         if(colors.length() != 4)
@@ -78,10 +84,14 @@ public class Tile extends Entity {
     /** 
      * Sets the tile layout to the provided tile colors and renders a sprite images correspondingly. 
      * 
-     * @param tl Top left TileColor
-     * @param tr Top right TileColor
-     * @param bl Bottom left TileColor
-     * @param br Bottom rigtht TileColor
+     * @param tl 
+        *  Top left TileColor
+     * @param tr 
+     *      Top right TileColor
+     * @param bl 
+     *      Bottom left TileColor
+     * @param br 
+     *      Bottom rigtht TileColor
      */
     public void setTileLayout(TileColor tl, TileColor tr, TileColor bl, TileColor br) {
         this.tileLayout[0] = tl;
@@ -90,6 +100,27 @@ public class Tile extends Entity {
         this.tileLayout[3] = br;
 
         renderTileImage();
+    }
+
+    /**
+     * Checks if theres a color in other thats in this.
+     * 
+     * @param other
+     *      The tile to compare the colors to.
+     * 
+     * @return
+     *      Weather there is a common color.
+     */
+    public boolean colorMatch(Tile other) {
+        for(TileColor color1 : this.tileLayout) {
+            for(TileColor color2 : other.tileLayout) {
+                if(color1 == color2) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -104,6 +135,11 @@ public class Tile extends Entity {
     @Override
     protected void update() {}
 
+    /**
+     * Renders the image for the current tile based on its colors.
+     * Used a sin wave to apply a color to the correct quadrant of the sprite.
+     * 
+     */
     private void renderTileImage() {
         Image sprite = getTileSprite();
         PixelReader pixelReader = sprite.getPixelReader();
@@ -133,26 +169,63 @@ public class Tile extends Entity {
             }
         }
 
-        this.setSprite(writableImage);
+        this.getSprite().setImage(writableImage);
     }
 
     
+    /**
+     * Gets the tile sprite that will be used at the tile position.
+     * 
+     * @return
+     *      The image of the tile.
+     */
     private Image getTileSprite() {
         int tileCount = tileSprites.length;
         int spriteIndex = ((this.y%tileCount) + (this.x%tileCount))%tileCount;
         return tileSprites[spriteIndex];
     }
 
+    /**
+     * Checks if the pixel position in a tile is in the top half when the top and bottom are sepereated by a sine wave.
+     * 
+     * @param x
+     *      The x position of the pixel.
+     * @param y
+     *      The y position of the pixel.
+     * @param tileWidth
+     *      The width of the tile.
+     * @param tileHeight
+     *      The height of the tile.
+     * @return
+     *      Weather the pixel is in the top half.
+     */
     private boolean isTopHalfTile(double x, double y, double tileWidth, double tileHeight) {
         double realY = tileHeight * 0.1 * Math.sin(Math.PI * 2 * x / tileWidth) + (tileHeight/2);
         return y >= realY;
     }
 
+    /**
+     * Checks if the pixel position in a tile is in the left half when the top and bottom are sepereated by a vertical sine wave.
+     * 
+     * @param x
+     *      The x position of the pixel.
+     * @param y
+     *      The y position of the pixel.
+     * @param tileWidth
+     *      The width of the tile.
+     * @param tileHeight
+     *      The height of the tile.
+     * @return
+     *      Weather the pixel is in the left half.
+     */
     private boolean isLeftHalfTile(double x, double y, double tileWidth, double tileHeight) {
         double realX = tileWidth * 0.1 * Math.sin(Math.PI + Math.PI * 2 * y / tileHeight) + (tileWidth/2);
         return x < realX;
     }
 
+    /**
+     * Loads all the posible sprite images into a static varible so images only have to be loaded once for writing.
+     */
     private void loadTileSprites() {
         tileSprites = new Image[] {
             new Image(getClass().getResource("/com/group22/tile0.png").toString()),
