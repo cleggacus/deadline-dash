@@ -15,13 +15,13 @@ public class LevelLoader {
 
         try{
             String title;
-            Boolean locked;
+            int timeToComplete;
             int height;
             int width;
 
             title = levelData.get(0);
 
-            locked = Boolean.parseBoolean(levelData.get(1));
+            timeToComplete = Integer.parseInt(levelData.get(1));
 
             String[] widthHeightSplit = levelData.get(2).split(" ");
 
@@ -48,7 +48,7 @@ public class LevelLoader {
                 scores[i] = levelData.get(scoresInitialIndex + i).split(" ");
             }
 
-            Level currentLevel = new Level(title, locked, height, width, tiles, entities, scores);
+            Level currentLevel = new Level(title, timeToComplete, height, width, tiles, entities, scores);
             levelArray.add(currentLevel);
 
             if(levelData.size() >= scoresInitialIndex + numScores + 2){
