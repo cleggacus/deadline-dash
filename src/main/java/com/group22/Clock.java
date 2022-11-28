@@ -1,26 +1,55 @@
 package com.group22;
 
+/**
+ * The Clock class is a type of pickup, it manipulates the level timer and as a
+ * pickup it can be collected by both player and npcs. If the player picks it up
+ * they are given more time, but if an npc picks it up the inverse happens to 
+ * the level timer.
+ * 
+ * @author Lewis Meekings
+ * @version 1.0
+ */
 public class Clock extends PickUp {
     
     private double time;
 
+    /**
+     * A constructor for the clock class which inherits from pickup and entity.
+     * @param posX the horizontal position on the map
+     * @param posY the vertical position on the map
+     * @param clockSprite the image of the entity
+     * @param time a temporal value to use on the level timer
+     */
     public Clock(int posX, int posY, Sprite clockSprite, double time){
         super(posX, posY, clockSprite);
         setTime(time);
     }
 
+    /**
+     * Sets the time value of the object
+     * @param time
+     */
     public void setTime(double time) {
         this.time = time;
     }
 
+    /**
+     * @return the time value of the object
+     */
     public double getTime() {
         return this.time;
     }
 
+    /**
+     * If the player grabs the loot it will decrease the level time and be added
+     * to inventory, if another thief grabs it the time decreases.
+     * @param landMover the object activating the pickup
+     */
     @Override
     public void activatePickUpEffect(LandMover landMover) {
         if (landMover == Game.getInstance().getPlayer()){
             Game.getInstance().addTime(time);
+            this.addToInventory();
         } else {
             Game.getInstance().addTime(-time);
         }
