@@ -78,6 +78,16 @@ public abstract class Engine {
         return this.entities;
     }
 
+    /**
+     * Removes entity from the array list of {@link #entities}.
+     * 
+     * @param entity
+     *      The entity to remove.
+     */
+    public void removeEntity(Entity entity) {
+        this.entities.remove(entity);
+    }
+
     /** 
      * Sets the current game state of the {@code Engine}.
      * 
