@@ -8,6 +8,10 @@ package com.group22;
  * @version 1.0
  */
 public abstract class LandMover extends Entity {
+
+    public LandMover(int x, int y) {
+        super(x, y);
+    }
     
     /** 
      * Moves entity by (x, y) according to the tile colors
