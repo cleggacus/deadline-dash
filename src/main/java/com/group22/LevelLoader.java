@@ -11,7 +11,16 @@ public class LevelLoader {
     }
     private String levelFile = "/resources/com/group22/levels.txt";
     
-    public List<Level> getFromLevelData(List<String> levelData, List<Level> levelArray){
+    /**
+     * A recursive method that takes a list of strings, and returns a list of levels.
+     * 
+     * @param levelData A list of strings, each string is a line from the levels file.
+     *                  Once one level is read, if another exists in the file, the method
+     *                  uses recursion to get the next level.
+     * @param levelArray The list of levels that will be returned.
+     * @return The method returns a list of levels.
+     */
+    public List<Level> getLevelFromData(List<String> levelData, List<Level> levelArray){
 
         try{
             String title;
@@ -52,7 +61,7 @@ public class LevelLoader {
             levelArray.add(currentLevel);
 
             if(levelData.size() >= scoresInitialIndex + numScores + 2){
-                return getFromLevelData(levelData.subList(scoresInitialIndex + numScores + 2, levelData.size()-1), levelArray);
+                return getLevelFromData(levelData.subList(scoresInitialIndex + numScores + 2, levelData.size()-1), levelArray);
             } else {
                 return levelArray;
             }
@@ -68,13 +77,24 @@ public class LevelLoader {
 
     }
 
+    /**
+     * This function returns a list of all the levels in the game.
+     * 
+     * @return The method getLevelData is being returned.
+     */
     public List<Level> getAllLevels(){
         List<Level> levelArray = new ArrayList<Level>();
+        List<String> levelFileArray = getLevelDataFromFile();
 
-        return getLevelData(levelArray);
+        return getLevelFromData(levelFileArray, levelArray);
     }
 
-    public List<Level> getLevelData(List<Level> levelArray){
+    /**
+     * Reads the {@code level.txt} file
+     * 
+     * @return The method returns a list of type String containing each line of the file.
+     */
+    public List<String> getLevelDataFromFile(){
         List<String> dataArray = new ArrayList<String>();
         try {
             Scanner sc = new Scanner(new File(levelFile));
@@ -89,7 +109,7 @@ public class LevelLoader {
             catch(Exception e) {
             e.getStackTrace();
         }
-        return getFromLevelData(dataArray, levelArray);
+        return dataArray;
     }
 
     /*
