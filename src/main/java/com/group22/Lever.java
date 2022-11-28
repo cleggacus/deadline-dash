@@ -4,7 +4,7 @@ public class Lever /**extends Pickup**/ {
     private String leverColour;
     private Boolean leverIsOpen = false;
 
-    public Lever(int leverX,int leverY,String leverColour/**,image sprite**/){
+    public Lever(int leverX,int leverY,String leverColour/**,Sprite sprite**/){
         //super(leverX,leverY,leverColour)
         setLeverColour(leverColour);
     }

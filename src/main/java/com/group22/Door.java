@@ -1,6 +1,5 @@
 package com.group22;
 
-import javafx.scene.image.Image;
 
 public class Door /** extends entity*/ {
 
@@ -14,7 +13,7 @@ public class Door /** extends entity*/ {
      * @param sprite
      */
 
-    public Door(int doorX, int doorY, Image sprite){
+    public Door(int doorX, int doorY, Sprite sprite){
         //super(doorX,doorY,Image sprite)
     }
 
