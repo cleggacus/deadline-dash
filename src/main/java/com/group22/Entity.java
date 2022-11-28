@@ -55,6 +55,16 @@ public abstract class Entity {
 
 
     /**
+     * Creates an Entity with X, Y and a sprite.
+     */
+    public Entity(int x, int y, Sprite sprite) {
+        this.x = x;
+        this.y = y;
+        this.sprite = sprite;
+    }
+
+
+    /**
      * Publically exposed method which runs abstract update method.
      * This method is used by the engine to update the entities.
      */
