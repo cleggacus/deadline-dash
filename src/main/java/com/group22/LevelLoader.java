@@ -148,15 +148,25 @@ public class LevelLoader {
                 return new FollowingThief(
                     Integer.parseInt(entity[1]),
                     Integer.parseInt(entity[2]));
+            case("lever"):
+                return new Lever(
+                    Integer.parseInt(entity[1]),
+                    Integer.parseInt(entity[2]),
+                    entity[3]);
+            case("gate"):
+                return new Gate(
+                    Integer.parseInt(entity[1]),
+                    Integer.parseInt(entity[2]),
+                    entity[3]);
             case("loot"):
-                    return new Loot(
+                return new Loot(
                     Integer.parseInt(entity[1]),
                     Integer.parseInt(entity[2]),
                     Integer.parseInt(entity[3]));
             case("test"):
                 return new TestObject(
-                Integer.parseInt(entity[1]),
-                Integer.parseInt(entity[2]));
+                    Integer.parseInt(entity[1]),
+                    Integer.parseInt(entity[2]));
 
         }
 

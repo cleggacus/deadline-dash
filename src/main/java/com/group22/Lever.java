@@ -7,7 +7,7 @@ public class Lever extends PickUp {
     public Lever(int leverX, int leverY, String leverColour){
         super(leverX, leverY);
         setLeverColour(leverColour);
-        this.getSprite().setImage("lever.png");
+        this.getSprite().setImage("item/lever.png");
     }
 
     private void setLeverColour(String leverColour){

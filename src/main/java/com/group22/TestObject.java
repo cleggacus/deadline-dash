@@ -5,8 +5,8 @@ public class TestObject extends LandMover {
     private int moveX = 0;
     private int moveY = 0;
 
-    public TestObject() {
-        super(1,1);
+    public TestObject(int x, int y) {
+        super(x, y);
 
         this.getSprite().setAnimationSpeed(0.1);
 

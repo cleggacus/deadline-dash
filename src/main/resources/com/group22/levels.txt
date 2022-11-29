@@ -1,14 +1,28 @@
-Example Level 1
+1
 30
-3 2
-YYRR YYGG RRRG
-RGGG GGYY RRGG
-6
-clock 2 2 30
+15 10
+bbbb RRRR RRRR RRRR RRRR RRRR rrrr rrrr RRRR RRRR RRRR RRRR RRRR RRRR RRRR
+rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr RRRR
+bbbb bbbb bbbb bbbb bbbb bbbb bbbb bbbb bbbb bbbb bbbb bbbb bbbb bbbb bRRb
+bbbb rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr
+BbbB BBBB BBBB BBBB BBBB BBBB BBBB BBBB BBBB BBBB BBBB rrrr rrrr rrrr rrrr
+BbbB BBBB BBBB BBBB BBBB BBBB BBBB BBBB BBBB BBBB rBBr rrrr rrrr rrrr rrrr
+bbbb rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr
+bbbb bbbb bbbb bbbb bbbb bbbb bbbb bbbb bbbb bbbb bbbb bbbb bbbb bbbb bRRb
+rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr RRRR
+RRRR RRRR RRRR RRRR RRRR RRRR rrrr rrrr RRRR RRRR RRRR RRRR RRRR RRRR RRRR
+12
+clock 3 2 30
 door 1 1
 bomb 0 0 3
 followingthief 1 2
-loot 2 0
+loot 2 0 100
+test 1 1
+test 15 10
+test 8 5
+test 4 6
+lever 13 4 r
+gate 10 4 r
 player 2 1
 7
 bob 30
@@ -19,13 +33,15 @@ bob 30
 alice 50
 bob 30
 -
-Example Level 2
-1
+2
+10
 3 2
 YYRR YYGG RRRG
 RGGG GGYY RRGG
-1
-clock 1 1 15
+3
+clock 2 1 15
+player 1 1
+door 1 2
 7
 bob 30
 alice 50
