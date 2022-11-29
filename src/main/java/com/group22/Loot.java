@@ -49,8 +49,7 @@ public class Loot extends PickUp {
         }
         //will we need a list/count of loot as need all to open door?
         
-        //ans: pickup has add to inventory, this.addToInventory would do it
-        //maybe door also needs a list, to compare with the player
+        //ans: we can remove pickups with Game.getInstance().removeEntity(this);
     }
 
 }

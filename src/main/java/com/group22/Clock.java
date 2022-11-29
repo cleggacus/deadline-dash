@@ -20,9 +20,10 @@ public class Clock extends PickUp {
      * @param clockSprite the image of the entity
      * @param time a temporal value to use on the level timer
      */
-    public Clock(int posX, int posY, Sprite clockSprite, double time){
-        super(posX, posY, clockSprite);
+    public Clock(int posX, int posY, double time){
+        super(posX, posY);
         setTime(time);
+        this.getSprite().setImage("clock.png");
     }
 
     /**
@@ -53,6 +54,7 @@ public class Clock extends PickUp {
         } else {
             Game.getInstance().addTime(-time);
         }
+        Game.getInstance().removeEntity(this);
     }
 
     @Override

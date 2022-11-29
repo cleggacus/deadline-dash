@@ -15,8 +15,8 @@ public abstract class PickUp extends Entity {
      * @param posY the vertical location of the pickup
      * @param pickUpSprite the image of the pickup
      */
-    public PickUp (int posX, int posY, Sprite pickUpSprite){
-        //super(posX, posY, pickUpSprite);
+    public PickUp (int posX, int posY){
+        super(posX, posY);
     }
 
     /**
