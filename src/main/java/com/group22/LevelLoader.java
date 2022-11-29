@@ -147,7 +147,8 @@ public class LevelLoader {
             case("followingthief"):
                 return new FollowingThief(
                     Integer.parseInt(entity[1]),
-                    Integer.parseInt(entity[2]));
+                    Integer.parseInt(entity[2]), 
+                    null);
             case("lever"):
                 return new Lever(
                     Integer.parseInt(entity[1]),

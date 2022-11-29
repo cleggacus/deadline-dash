@@ -3,61 +3,89 @@ package com.group22;
 
 /** 
  * 
- * The class { @code FollowingThief} extrends the Landmover class.
+ * The class FollowingThief extrends the Landmover class.
  * FollowingThief follows a set path around the game, interacting with 
  * any other entities in its path.
  */
 
-import javafx.scene.paint.Color;
 
 public class FollowingThief extends LandMover {
 
+    public int startX;
+    public int startY;
+    public TileColor pathColour;
+    public int[] pathStart = {startX, startY};
+    public int[][] path = {pathStart};
 
-    public Color pathColour;
-    public int[] pathStart;
-    public int[][] path;
-
-    public FollowingThief(int posX, int posY) {
+    public FollowingThief(int posX, int posY, TileColor colour) {
         super(posX, posY);
+        startX = posX;
+        startY = posY;
+        createPath();
+        
     }
 
-    public void setPath(int posX, int posY, Color colour){
+    public void setPathColour(TileColor colour){
         pathColour = colour;
-        pathStart[0] = posX;
-        pathStart[1] = posY;
+    }
 
-        /**
-         * create path by:
-         * while spriteDirection == east {
-         *      if nextUp == colour {
-         *          nextUp.addToPath
-         *      } else {
-         *          turn Sprite 90 clockwise}
-         * } 
-         * 
-         * while spriteDirection == south {
-         *      if nextRight == colour {
-         *          nextRight.addToPath
-         *      } else {
-         *          turn Sprite 90 clockwise}
-         * }
-         * 
-         * while spriteDirection == west {
-         *      if nextDown == colour {
-         *          nextDown.addToPath
-         *      } else {
-         *          turn Sprite 90 clockwise}
-         * } 
-         * 
-         * while spriteDirection == north {
-         *      if nextLeft == colour {
-         *          nextLeft.addToPath
-         *      } else {
-         *          turn Sprite 90 clockwise}
-         * }
-         */
+    public TileColor getPathColour() {
+        return pathColour;
+    }
+
+    public int[][] createPath(){
+
+        addNextStepToPath(path, pathStart);
+
+        int currentX = pathStart[0];
+        int currentY = pathStart[1];
+        int[] nextStep = new int[2];
+
+        while (path[0] != path [path.length-1]) {
+            if (nextUp() != currentY) {
+                nextStep[0] = currentX; 
+                nextStep[1] = nextUp();
+                currentY = nextUp();
+                addNextStepToPath(path,nextStep);
+            } else if (nextLeft() != currentX) {
+                nextStep[0] = nextLeft(); 
+                nextStep[1] = currentY;
+                currentX = nextLeft();
+                addNextStepToPath(path,nextStep);
+            } else if (nextDown() != currentY) {
+                nextStep[0] = currentX; 
+                nextStep[1] = nextDown();
+                currentY = nextDown();
+                addNextStepToPath(path,nextStep);
+            } else if (nextRight() != currentX) {
+                nextStep[0] = nextRight(); 
+                nextStep[1] = currentY;
+                currentX = nextRight();
+                addNextStepToPath(path,nextStep);
+            }
+        }
+
+        return path;
+
     }
     
+    public static int[][] addNextStepToPath(int[][] path, int[] coords) {
+        
+        int[] nextStep = coords;
+        int last = path.length;
+        int[][] newPath = new int[last + 1][];
+
+        for (int i=0; i<last; i++) {
+            newPath[i] = path[i];
+        }
+
+        newPath[last] = nextStep;
+        
+        return newPath;
+
+    }
+
+
     /** 
      * @param x
      * @param y
