@@ -7,6 +7,7 @@ import javafx.geometry.Pos;
 import javafx.scene.CacheHint;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.TextField;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -31,7 +32,10 @@ public class GamePane extends StackPane {
     public static final int INFO_BAR_HEIGHT = 50;
     public static final int INFO_BAR_SIZE_PADDING = 20;
 
+    private String username = "";
+
     private GraphicsContext graphicsContext;
+    private MenuPane profileSelectorPane;
     private MenuPane startMenu;
     private MenuPane pauseMenu;
     private MenuPane gameOverMenu;
@@ -60,6 +64,7 @@ public class GamePane extends StackPane {
         this.setUpGameOverMenu();
         this.setUpStartMenu();
         this.setUpLoadingPane();
+        this.setUpProfileSelector();
 
         this.setState(GameState.Start);
     }
@@ -73,7 +78,17 @@ public class GamePane extends StackPane {
      */
     public void setState(GameState state) {
         switch (state) {
+            case ProfileSelector:
+                this.profileSelectorPane.setVisible(true);
+                this.startMenu.setVisible(false);
+                this.pauseMenu.setVisible(false);
+                this.canvasPane.setVisible(false);
+                this.gameOverMenu.setVisible(false);
+                this.loadingPane.setVisible(false);
+                setBlurCanvas(false);
+                break;
             case Start:
+                this.profileSelectorPane.setVisible(false);
                 this.startMenu.setVisible(true);
                 this.pauseMenu.setVisible(false);
                 this.canvasPane.setVisible(false);
@@ -82,6 +97,7 @@ public class GamePane extends StackPane {
                 setBlurCanvas(false);
                 break;
             case Playing:
+                this.profileSelectorPane.setVisible(false);
                 this.startMenu.setVisible(false);
                 this.pauseMenu.setVisible(false);
                 this.canvasPane.setVisible(true);
@@ -90,6 +106,7 @@ public class GamePane extends StackPane {
                 setBlurCanvas(false);
                 break;
             case Paused:
+                this.profileSelectorPane.setVisible(false);
                 this.startMenu.setVisible(false);
                 this.pauseMenu.setVisible(true);
                 this.canvasPane.setVisible(true);
@@ -98,6 +115,7 @@ public class GamePane extends StackPane {
                 setBlurCanvas(true);
                 break;
             case GameOver:
+                this.profileSelectorPane.setVisible(false);
                 this.startMenu.setVisible(false);
                 this.pauseMenu.setVisible(false);
                 this.canvasPane.setVisible(true);
@@ -115,6 +133,10 @@ public class GamePane extends StackPane {
                 this.loadingTimer = 0;
                 break;
         }
+    }
+
+    public boolean canvasIsVisible() {
+        return this.canvasPane.isVisible();
     }
 
     public void update(double delta) {
@@ -155,6 +177,10 @@ public class GamePane extends StackPane {
      */
     public GraphicsContext getGraphicsContext() {
         return graphicsContext;
+    }
+
+    public String getUsername() {
+        return username;
     }
 
     public void setGameOffesetX(double offset) {
@@ -259,8 +285,12 @@ public class GamePane extends StackPane {
     private void setUpStartMenu() {
         this.startMenu = new MenuPane();
              
+        this.startMenu.addSubTitle("Hey, " + this.username);
         this.startMenu.addTitle("DEADLINE DASH");
         this.startMenu.addItem("START", () -> { Game.getInstance().setGameState(GameState.Playing); });
+        this.startMenu.addItem("CHANGE USER", () -> { Game.getInstance().setGameState(GameState.ProfileSelector); });
+
+        this.startMenu.maxWidthProperty().bind(this.widthProperty());
 
         this.getChildren().add(startMenu);
     }
@@ -286,5 +316,26 @@ public class GamePane extends StackPane {
         this.loadingPane.setCenter(this.loadingText);
 
         this.getChildren().add(this.loadingPane);
+    }
+
+    private void setUsername(String username) {
+        if(username.replace(" ", "").isEmpty())
+            return;
+
+        this.username = username;
+        this.setUpStartMenu();
+        Game.getInstance().setGameState(GameState.Start);
+    }
+
+    private void setUpProfileSelector() {
+        this.profileSelectorPane = new MenuPane();
+        
+        this.profileSelectorPane.addTitle("SELECT PROFILE");
+
+        TextField field = this.profileSelectorPane.addInput("TYPE USERNAME HERE");
+
+        this.profileSelectorPane.addItem("LOGIN", () -> setUsername(field.getText()));
+
+        this.getChildren().add(this.profileSelectorPane);
     }
 }

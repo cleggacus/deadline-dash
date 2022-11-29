@@ -46,7 +46,11 @@ public abstract class Engine {
 
         this.setUpGameLoop();
 
-        this.setGameState(GameState.Start);
+        this.setGameState(GameState.ProfileSelector);
+    }
+
+    public String getUsername() {
+        return this.gamePane.getUsername();
     }
 
     /**
@@ -344,7 +348,7 @@ public abstract class Engine {
      * Draws each entity with the renderer.
      */
     private void draw() {
-        if(gameState != GameState.Start && gameState != GameState.Loading) {
+        if(gamePane.canvasIsVisible()) {
             this.renderer.newFrame();
             this.gamePane.setGameOffesetX(this.renderer.getOffsetX());
 

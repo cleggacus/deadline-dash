@@ -5,6 +5,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
@@ -35,6 +36,44 @@ public class MenuPane extends GridPane {
         this.setVgap(10);
     }
 
+    public TextField addInput(String placeholder) {
+        TextField textField = new TextField();
+        BorderPane textFieldOuter = new BorderPane(textField);
+
+        textField.setPromptText(placeholder);
+        textField.getStyleClass().add("menu-input");
+        textField.setFocusTraversable(false);
+
+        textFieldOuter.maxWidthProperty().bind(this.widthProperty());
+
+        this.add(textFieldOuter, 0, this.count);
+
+        this.count++;
+
+        return textField;
+    }
+
+    /**
+     * Adds a title (Text) element to the menu pane on the next available row.
+     * 
+     * @param name
+     *      The text displayed in the title item.
+     */
+    public void addSubTitle(String name) {
+        BorderPane titleOuter = new BorderPane();
+
+        Text title = new Text(name);
+        title.getStyleClass().add("menu-subtitle");
+
+        titleOuter.setPadding(new Insets(0, 0, 0, 0));
+        titleOuter.setCenter(title);
+        titleOuter.maxWidthProperty().bind(this.widthProperty());
+
+        this.add(titleOuter, 0, this.count);
+
+        this.count++;
+    }
+
     /**
      * Adds a title (Text) element to the menu pane on the next available row.
      * 
@@ -45,13 +84,11 @@ public class MenuPane extends GridPane {
         BorderPane titleOuter = new BorderPane();
 
         Text title = new Text(name);
-        title.setFont(Font.font("Monospaced", FontWeight.BOLD, 40));
-        title.setFill(TileColor.LIGHT_RED.color);
-        title.setTextAlignment(TextAlignment.CENTER);
-        title.wrappingWidthProperty().bind(this.widthProperty());
+        title.getStyleClass().add("menu-title");
 
         titleOuter.setPadding(new Insets(0, 0, TITLE_PADDING, 0));
         titleOuter.setCenter(title);
+        titleOuter.maxWidthProperty().bind(this.widthProperty());
 
         this.add(titleOuter, 0, this.count);
 
@@ -77,7 +114,7 @@ public class MenuPane extends GridPane {
         });
 
         button.getStyleClass().add("menu-button");
-        button.minWidthProperty().bind(this.widthProperty());
+        button.maxWidthProperty().bind(this.widthProperty());
         button.setTextFill(TileColor.LIGHT_RED.color);
 
         this.add(button, 0, this.count);
