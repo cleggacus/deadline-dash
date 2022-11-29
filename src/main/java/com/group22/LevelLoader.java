@@ -35,23 +35,24 @@ public class LevelLoader {
 
             width = Integer.parseInt(widthHeightSplit[0]);
             height = Integer.parseInt(widthHeightSplit[1]);
-            String[][] tiles = new String[width][height];
+            Tile[][] tiles = new Tile[width][height];
             
             int tilesInitialIndex = 3;
             for(int y=0; y < height; y++){
+                String[] splitRow = levelData.get(tilesInitialIndex+y).split(" ");
                 for(int x=0; x < width; x++){
-                    tiles[x][y] = levelData.get(tilesInitialIndex+y).split(" ")[x];
+                    tiles[x][y] = parseTile(splitRow[x], x, y);
                 }
             }
 
             int numEntities = Integer.parseInt(levelData.get(3 + height));
-            String[][] entities = new String[numEntities][3];
-            int entitiesInitialIndex = 3 + height + 1;
+            List<Entity> entities = new ArrayList<Entity>();
+            int entitiesInitialIndex = height + tilesInitialIndex + 1;
             for(int i=0; i < numEntities; i++){
-                entities[i] = levelData.get(entitiesInitialIndex + i).split(" ");
+                entities.add(parseEntities(levelData.get(entitiesInitialIndex + i).split(" ")));
             }
 
-            int numScores = Integer.parseInt(levelData.get(height + numEntities + 4));
+            int numScores = Integer.parseInt(levelData.get(entitiesInitialIndex + numEntities));
             String[][] scores = new String[numScores][2];
             int scoresInitialIndex = entitiesInitialIndex + numEntities + 1;
             for(int i=0; i < numScores; i++){
@@ -59,7 +60,7 @@ public class LevelLoader {
             }
 
             Level currentLevel = new Level(title, timeToComplete, height, width, 
-                                    parseTiles(tiles, width, height), parseEntities(entities), scores);
+                                    tiles, entities, scores);
             levelArray.add(currentLevel);
 
             if(levelData.size() >= scoresInitialIndex + numScores + 2){
@@ -80,15 +81,10 @@ public class LevelLoader {
     }
 
 
-    private Tile[][] parseTiles(String[][] tiles, int width, int height){
-        Tile[][] levelTiles = new Tile[width][height];
-        for(int y = 0; y < height; y++) {
-            for(int x = 0; x < width; x++) {
-                levelTiles[x][y] = new Tile(x, y);
-                levelTiles[x][y].setTileLayout(tiles[x][y]);
-            }
-        }
-        return levelTiles;
+    private Tile parseTile(String tile, int x, int y){
+        Tile newTile = new Tile(x, y);
+        newTile.setTileLayout(tile);
+        return newTile;
     }
 
     
@@ -98,69 +94,37 @@ public class LevelLoader {
      * @param entities
      * @return List<Entity>
      */
-    private List<Entity> parseEntities(String[][] entities){
-        List<Entity> parsedEntities = new ArrayList<Entity>();
-        for(int i=0; i<entities.length; i++){
-            switch(entities[i][0]){
-                case("player"):
-                    /* Awaiting Player class implementation
+    private Entity parseEntities(String[] entity){
+        switch(entity[0]){
+            case("player"):
+                return new Player(
+                    Integer.parseInt(entity[1]),
+                    Integer.parseInt(entity[2]));
+            case("door"):
+                return new Door(
+                    Integer.parseInt(entity[1]),
+                    Integer.parseInt(entity[2]));
+            case("clock"):
+                return new Clock(
+                    Integer.parseInt(entity[1]),
+                    Integer.parseInt(entity[2]),
+                    Integer.parseInt(entity[3])
+                    );
+            case("bomb"):
+                return new Bomb(
+                    Integer.parseInt(entity[1]),
+                    Integer.parseInt(entity[2]),
+                    Integer.parseInt(entity[3])
+                    );
+            case("followingthief"):
+                return new FollowingThief(
+                    Integer.parseInt(entity[1]),
+                    Integer.parseInt(entity[2]));
+            case("loot"):
+                    return new Loot(
+                    Integer.parseInt(entity[1]),
+                    Integer.parseInt(entity[2]));
 
-                    this.entities.add(new Player(
-                        Integer.parseInt(entities[i][1]),
-                        Integer.parseInt(entities[i][2])
-                        ));
-                    */
-                    break;
-                case("door"):
-                    /* Awaiting Door class implementation
-
-                    this.entities.add(new Door(
-                        Integer.parseInt(entities[i][1]),
-                        Integer.parseInt(entities[i][2]),
-                        new Image("door_closed.png")));
-                    */
-                    break;
-                case("clock"):
-                    parsedEntities.add(new Clock(
-                        Integer.parseInt(entities[i][1]),
-                        Integer.parseInt(entities[i][2]),
-                        Integer.parseInt(entities[i][3])
-                        ));
-                    break;
-                case("bomb"):
-                    /* Awaiting Bomb class implementation
-
-                    this.entities.add(new Bomb(
-                        Integer.parseInt(entities[i][1]),
-                        Integer.parseInt(entities[i][2]),
-                        Integer.parseInt(entities[i][3])
-                        ));
-                    */
-                    break;
-                case("followingthief"):
-                    /* Awaiting FollowingThief class implementation
-
-                    this.entities.add(new FollowingThief(
-                        Integer.parseInt(entities[i][1]),
-                        Integer.parseInt(entities[i][2]),
-                        new Sprite("character/following_thief.png"), //shouldn't there be a constructor without the sprite attribute for NPC's?
-                        entities[i][3]
-                        ));
-                    
-                    break;
-                case("loot"):
-                    /* Awaiting Loot class implementation
-
-                    this.entities.add(new Loot(
-                        Integer.parseInt(entities[i][1]),
-                        Integer.parseInt(entities[i][2]),
-                        new Sprite("item/{entities[i][0]}.png"),
-                        Integer.parseInt(entities[i][3])
-                        ));
-                    */
-                    break;
-
-            }
         }
 
         return null;

@@ -1,12 +1,15 @@
 Example Level 1
-0
+30
 3 2
 YYRR YYGG RRRG
 RGGG GGYY RRGG
-3
-player 0 0
-bomb 0 1
+6
+clock 2 2 30
 door 1 1
+bomb 0 0 3
+followingthief 1 2
+loot 2 0
+player 2 1
 7
 bob 30
 alice 50
@@ -21,10 +24,8 @@ Example Level 2
 3 2
 YYRR YYGG RRRG
 RGGG GGYY RRGG
-3
-player 0 0
-bomb 0 1
-door 1 1
+1
+clock 1 1 15
 7
 bob 30
 alice 50

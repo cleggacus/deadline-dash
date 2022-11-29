@@ -23,7 +23,7 @@ public class Clock extends PickUp {
     public Clock(int posX, int posY, double time){
         super(posX, posY);
         setTime(time);
-        this.getSprite().setImage("clock.png");
+        //this.getSprite().setImage("clock.png");
     }
 
     /**

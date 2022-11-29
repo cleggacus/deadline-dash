@@ -1,7 +1,7 @@
 package com.group22;
 
 
-public class Door /** extends entity*/ {
+public class Door extends Entity {
 
     private Boolean gateIsOpen = false;
 
@@ -13,8 +13,8 @@ public class Door /** extends entity*/ {
      * @param sprite
      */
 
-    public Door(int doorX, int doorY, Sprite sprite){
-        //super(doorX,doorY,Image sprite)
+    public Door(int doorX, int doorY){
+        super(doorX,doorY);
     }
 
     protected void setGateIsOpen(Boolean gateIsOpen) {
@@ -23,5 +23,17 @@ public class Door /** extends entity*/ {
 
     public Boolean getGateIsOpen(){
         return this.gateIsOpen;
+    }
+
+    @Override
+    protected void updateMovement() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    protected void update() {
+        // TODO Auto-generated method stub
+        
     }
 }

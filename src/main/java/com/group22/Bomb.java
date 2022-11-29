@@ -2,7 +2,7 @@ package com.group22;
 
 import static com.group22.GameState.Playing;
 
-public abstract class Bomb extends Entity{
+public class Bomb extends Entity{
 
     private int countdown = 3;
 
@@ -39,5 +39,17 @@ public abstract class Bomb extends Entity{
 
     public void activateBomb(){
 
+    }
+
+    @Override
+    protected void updateMovement() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    protected void update() {
+        // TODO Auto-generated method stub
+        
     }
 }
