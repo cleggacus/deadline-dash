@@ -9,6 +9,21 @@ package com.group22;
  */
 public abstract class LandMover extends Entity {
 
+    /**
+     * Creates LandMover at 0, 0
+     */
+    public LandMover() {
+        super();
+    }
+
+    /**
+     * Creates a LandMover at position x, y.
+     * 
+     * @param x
+     *      X position to initialize entity at.
+     * @param y
+     *      Y position to initialize entity at.
+     */
     public LandMover(int x, int y) {
         super(x, y);
     }
