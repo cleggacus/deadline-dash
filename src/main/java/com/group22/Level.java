@@ -15,7 +15,7 @@ public class Level {
     private int height;
     private int width;
     private Tile[][] tiles;
-    private List<? super Entity> entities; // Pretty sure this isn't the way to do this but I'll figure it out....
+    private List<Entity> entities;
     private String[][] scores;
     
 
@@ -76,14 +76,11 @@ public class Level {
                     */
                     break;
                 case("clock"):
-                    /* Awaiting Clock class implementation
-
                     this.entities.add(new Clock(
                         Integer.parseInt(entities[i][1]),
                         Integer.parseInt(entities[i][2]),
                         Integer.parseInt(entities[i][3])
                         ));
-                    */
                     break;
                 case("bomb"):
                     /* Awaiting Bomb class implementation
@@ -101,10 +98,10 @@ public class Level {
                     this.entities.add(new FollowingThief(
                         Integer.parseInt(entities[i][1]),
                         Integer.parseInt(entities[i][2]),
-                        new Sprite("character/following_thief.png"), shouldn't there be a constructor without the sprite attribute for NPC's?
+                        new Sprite("character/following_thief.png"), //shouldn't there be a constructor without the sprite attribute for NPC's?
                         entities[i][3]
                         ));
-                    */
+                    
                     break;
                 case("loot"):
                     /* Awaiting Loot class implementation
@@ -165,7 +162,7 @@ public class Level {
      * Getter for retrieving an ArrayList of entities. This may change
      * @return List<? super Entity>
      */
-    public List<? super Entity> getEntities(){
+    public List<Entity> getEntities(){
         return entities;
     }
 
