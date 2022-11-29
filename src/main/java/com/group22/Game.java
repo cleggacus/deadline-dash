@@ -66,37 +66,19 @@ public class Game extends Engine {
 
     @Override
     protected void start() {
-        int width = 15;
-        int height = 10;
+        LevelLoader levelLoader = new LevelLoader();
+        Level level = levelLoader.getAllLevels().get(0);
 
-        this.tiles = new Tile[width][height];
+        int width = level.getWidth();
+        int height = level.getHeight();
+
+        this.tiles = level.getTiles();
+        this.time = level.getTimeToComplete();
+
         this.setViewSize(width, height);
+        this.getGamePane().setGameLevel(level.getLevelNum());
 
-        String tileData = 
-            "RRRR RRRR RRRR RRRR RRRR RRRR rrrr rrrr RRRR RRRR RRRR RRRR RRRR RRRR RRRR " +
-            "rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr RRRR " +
-            "bbbb bbbb bbbb bbbb bbbb bbbb bbbb bbbb bbbb bbbb bbbb bbbb bbbb bbbb bRRb " +
-            "bbbb rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr " +
-            "BbbB BBBB BBBB BBBB BBBB BBBB BBBB BBBB BBBB BBBB BBBB rrrr rrrr rrrr rrrr " +
-            "BbbB BBBB BBBB BBBB BBBB BBBB BBBB BBBB BBBB BBBB rBBr rrrr rrrr rrrr rrrr " +
-            "bbbb rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr " +
-            "bbbb bbbb bbbb bbbb bbbb bbbb bbbb bbbb bbbb bbbb bbbb bbbb bbbb bbbb bRRb " +
-            "rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr RRRR " +
-            "RRRR RRRR RRRR RRRR RRRR RRRR rrrr rrrr RRRR RRRR RRRR RRRR RRRR RRRR RRRR";
-
-        String tileDataArray[] = tileData.split(" ");
-
-        for(int y = 0; y < height; y++) {
-            for(int x = 0; x < width; x++) {
-                this.tiles[x][y] = new Tile(x, y, tileDataArray[y*width + x]);
-                this.entities.add(this.tiles[x][y]);
-            }
-        }
-
-        for(int i = 0; i < 5; i++)
-            this.entities.add(new TestObject());
-
-        this.time = 100;
+        this.entities.addAll(level.getEntities());
     }
 
     /**
@@ -112,7 +94,7 @@ public class Game extends Engine {
 
         if(this.time <= 0) {
             this.time = 0;
-            // this.setGameState(GameState.GameOver);
+            this.setGameState(GameState.GameOver);
         }
 
         this.getGamePane().setGameTime(this.time);

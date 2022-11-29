@@ -1,6 +1,6 @@
 package com.group22;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * The Level class is a class that represents a level in the game. It contains the level's title, time
@@ -10,17 +10,17 @@ import java.util.List;
  * @version 1.0
  */
 public class Level {
+    private int levelNum;
     private int timeToComplete;
-    private String title;
     private int height;
     private int width;
     private Tile[][] tiles;
-    private List<Entity> entities;
+    private ArrayList<Entity> entities;
     private String[][] scores;
     
 
-    public Level(String title, int timeToComplete, int height, int width,  Tile[][] tiles, List<Entity> entities, String[][] scores){
-        this.title = title;
+    public Level(int levelNum, int timeToComplete, int height, int width,  Tile[][] tiles, ArrayList<Entity> entities, String[][] scores){
+        this.levelNum = levelNum;
         this.timeToComplete = timeToComplete;
         this.height = height;
         this.width = width;
@@ -33,8 +33,8 @@ public class Level {
      * Getter for the level's title
      * @return String
      */
-    public String getTitle(){
-        return title;
+    public int getLevelNum(){
+        return levelNum;
     }
 
     
@@ -46,6 +46,19 @@ public class Level {
         return timeToComplete;
     }
 
+    /**
+     * Loop through all the entities in the level, and if one of them is a player, return it.
+     * 
+     * @return The player object.
+     */
+    public Player getPlayer(){
+        for(int i=0; i < this.entities.size(); i++){
+            if(this.entities.get(i) instanceof Player){
+                return (Player) this.entities.get(i);
+            }
+        }
+        return null;
+    }
     
     /** 
      * This will change due to the requirement of player profiles.....
@@ -69,7 +82,7 @@ public class Level {
      * Getter for retrieving an ArrayList of entities. This may change
      * @return List<? super Entity>
      */
-    public List<Entity> getEntities(){
+    public ArrayList<Entity> getEntities(){
         return entities;
     }
 

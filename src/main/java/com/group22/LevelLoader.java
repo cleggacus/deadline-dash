@@ -11,7 +11,8 @@ public class LevelLoader {
     private String levelFile = "src/main/resources/com/group22/levels.txt";
     
     /**
-     * A recursive method that takes a list of strings, and returns a list of levels.
+     * A recursive method that takes an ArrayList of type strings and an empty ArrayList 
+     * of type Level, and returns a list of levels.
      * 
      * @param levelData A list of strings, each string is a line from the levels file.
      *                  Once one level is read, if another exists in the file, the method
@@ -22,49 +23,76 @@ public class LevelLoader {
     public List<Level> getLevelFromData(List<String> levelData, List<Level> levelArray){
 
         try{
-            String title;
+            int levelNum;
             int timeToComplete;
             int height;
             int width;
 
-            title = levelData.get(0);
+            levelNum = Integer.parseInt(levelData.get(0));
 
             timeToComplete = Integer.parseInt(levelData.get(1));
 
             String[] widthHeightSplit = levelData.get(2).split(" ");
-
             width = Integer.parseInt(widthHeightSplit[0]);
             height = Integer.parseInt(widthHeightSplit[1]);
+
             Tile[][] tiles = new Tile[width][height];
-            
+            ArrayList<Entity> entities = new ArrayList<Entity>();
             int tilesInitialIndex = 3;
+
             for(int y=0; y < height; y++){
                 String[] splitRow = levelData.get(tilesInitialIndex+y).split(" ");
                 for(int x=0; x < width; x++){
                     tiles[x][y] = parseTile(splitRow[x], x, y);
+                    entities.add(tiles[x][y]);
                 }
             }
 
             int numEntities = Integer.parseInt(levelData.get(3 + height));
-            List<Entity> entities = new ArrayList<Entity>();
             int entitiesInitialIndex = height + tilesInitialIndex + 1;
+            Boolean playerPresent = false;
+            Boolean doorPresent = false;
+
             for(int i=0; i < numEntities; i++){
-                entities.add(parseEntities(levelData.get(entitiesInitialIndex + i).split(" ")));
+                String[] splitEntities = levelData.get(entitiesInitialIndex + i).split(" ");
+                if(splitEntities[0].equals("player")){
+                    playerPresent = true;
+                }
+                if(splitEntities[0].equals("door")){
+                    doorPresent = true;
+                }
+
+                if(Integer.parseInt(splitEntities[1]) > width){
+                    throw new Exception("Entity is out of bounds on level number " + (levelArray.size()+1));
+                } else if(Integer.parseInt(splitEntities[2]) > height){
+                    throw new Exception("Entity is out of bounds on level number " + (levelArray.size()+1));
+                }
+
+                entities.add(parseEntities(splitEntities));
+            }
+
+            if(!playerPresent){
+                throw new Exception("Player not present on level number " + (levelArray.size()+1));
+            } 
+            if(!doorPresent){
+                throw new Exception("Door not present on level number " + (levelArray.size()+1));
             }
 
             int numScores = Integer.parseInt(levelData.get(entitiesInitialIndex + numEntities));
             String[][] scores = new String[numScores][2];
             int scoresInitialIndex = entitiesInitialIndex + numEntities + 1;
+
             for(int i=0; i < numScores; i++){
                 scores[i] = levelData.get(scoresInitialIndex + i).split(" ");
             }
 
-            Level currentLevel = new Level(title, timeToComplete, height, width, 
-                                    tiles, entities, scores);
+            Level currentLevel = new Level(levelNum, timeToComplete, height, width, 
+                                        tiles, entities, scores);
             levelArray.add(currentLevel);
 
             if(levelData.size() >= scoresInitialIndex + numScores + 2){
-                return getLevelFromData(levelData.subList(scoresInitialIndex + numScores + 1, levelData.size()-1), levelArray);
+                return getLevelFromData(levelData.subList(scoresInitialIndex + numScores + 1,
+                                        levelData.size()-1), levelArray);
             } else {
                 return levelArray;
             }
@@ -72,8 +100,8 @@ public class LevelLoader {
 
 
         } catch(Exception e){
-            System.out.println("Error in file format");
-            return null;
+            System.out.println(e);
+            return levelArray;
 
         }
                
@@ -124,6 +152,10 @@ public class LevelLoader {
                     return new Loot(
                     Integer.parseInt(entity[1]),
                     Integer.parseInt(entity[2]));
+            case("test"):
+                return new TestObject(
+                Integer.parseInt(entity[1]),
+                Integer.parseInt(entity[2]));
 
         }
 
@@ -162,12 +194,5 @@ public class LevelLoader {
         }
         return dataArray;
     }
-
-    /*
-    TBC
-
-    public Level getLevel(){
-        return;
-    }*/
 
 }
