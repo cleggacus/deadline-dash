@@ -16,8 +16,8 @@ public class Loot extends PickUp {
     /** 
      * Creates Loot entity.
      */
-    public Loot(int posX, int posY, Sprite lootSprite, int val){
-        super(posX, posY, lootSprite);
+    public Loot(int posX, int posY){
+        super(posX, posY);
     }
 
 
@@ -50,6 +50,20 @@ public class Loot extends PickUp {
         //will we need a list/count of loot as need all to open door?
         
         //ans: we can remove pickups with Game.getInstance().removeEntity(this);
+    }
+
+
+    @Override
+    protected void updateMovement() {
+        // TODO Auto-generated method stub
+        
+    }
+
+
+    @Override
+    protected void update() {
+        // TODO Auto-generated method stub
+        
     }
 
 }
