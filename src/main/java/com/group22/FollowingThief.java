@@ -1,6 +1,5 @@
 package com.group22;
 
-import java.nio.file.Paths;
 
 /** 
  * 
@@ -18,8 +17,8 @@ public class FollowingThief extends LandMover {
     public int[] pathStart;
     public int[][] path;
 
-    public FollowingThief(int posX, int posY, Sprite followingThiefSprite, Color pathColour) {
-        super(posX, posY, followingThiefSprite);
+    public FollowingThief(int posX, int posY) {
+        super(posX, posY);
     }
 
     public void setPath(int posX, int posY, Color colour){

@@ -25,7 +25,7 @@ public abstract class Bomb extends Entity{
         return y;
     }
 
-    public void checkNeighbourTiles(){
+    /* public void checkNeighbourTiles(){
         while {
             for (int i = x - 1; i <= x + 1; i++) {
                 for (int j = y - 1; j <= y + 1; j++) {
@@ -35,7 +35,7 @@ public abstract class Bomb extends Entity{
                 }
             }
         }
-    }
+    } */
 
     public void activateBomb(){
 
