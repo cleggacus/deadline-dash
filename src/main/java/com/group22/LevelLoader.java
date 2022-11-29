@@ -151,7 +151,8 @@ public class LevelLoader {
             case("loot"):
                     return new Loot(
                     Integer.parseInt(entity[1]),
-                    Integer.parseInt(entity[2]));
+                    Integer.parseInt(entity[2]),
+                    Integer.parseInt(entity[3]));
             case("test"):
                 return new TestObject(
                 Integer.parseInt(entity[1]),
