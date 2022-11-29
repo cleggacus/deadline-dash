@@ -21,6 +21,7 @@ public class Loot extends PickUp {
      */
     public Loot(int posX, int posY, int val){
         super(posX, posY);
+        this.val = val;
         setLoot();
     }
 
@@ -32,20 +33,16 @@ public class Loot extends PickUp {
     
     switch(val) {
         case 50:
-            this.getSprite().setImage("50.png");
-            this.val = 50;
+            this.getSprite().setImage("item/50.png");
             break;
         case 100:
-            this.getSprite().setImage("100.png"); 
-            this.val = 100;
+            this.getSprite().setImage("item/100.png"); 
             break;
         case 150:
-            this.getSprite().setImage("150.png");
-            this.val = 150;
+            this.getSprite().setImage("item/150.png");
             break;
         case 200:
-            this.getSprite().setImage("200.png");
-            this.val = 200;
+            this.getSprite().setImage("item/200.png");
             break;    
       }
     }
