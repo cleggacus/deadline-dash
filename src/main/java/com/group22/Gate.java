@@ -5,8 +5,8 @@ public class Gate extends Entity {
     private Boolean gateIsOpen = false;
     private String gateColour;
 
-    public Gate(int gateX, int gateY /**,Image sprite,**/,String gateColour){
-       //Super(gateX,gatY/**,Image sprite,**/)
+    public Gate(int gateX, int gateY /**,Sprite sprite,**/,String gateColour){
+       //Super(gateX,gatY/**,Sprite sprite,**/)
         setGateColour(gateColour);
     }
 
