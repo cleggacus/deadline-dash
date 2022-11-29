@@ -30,7 +30,7 @@ public class FlyingAssassin extends Entity {
      *
      */
 
-     public void move(int x, int y, vector [Integer]) {
+     public void move(int x, int y, int[][] vector) {
 
             // starts at X,Y
             // moves along vector in straight line
@@ -45,7 +45,7 @@ public class FlyingAssassin extends Entity {
     *      The new direction which the class will move along
      */ 
 
-    public void reverseVector(vector [integer]) {
+    public void reverseVector(int[][] vector) {
 
         // if flyingAssassin reaches end of map
         // then direction will change 180 degrees
@@ -55,4 +55,16 @@ public class FlyingAssassin extends Entity {
 
     }
 
-}
+
+
+    @Override
+    protected void updateMovement() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    protected void update() {
+        // TODO Auto-generated method stub
+        
+    }}
