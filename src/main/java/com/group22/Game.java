@@ -93,10 +93,10 @@ public class Game extends Engine {
             }
         }
 
-        for(int i = 0; i < 100; i++)
+        for(int i = 0; i < 5; i++)
             this.entities.add(new TestObject());
 
-        this.time = 5;
+        this.time = 100;
     }
 
     /**
@@ -112,7 +112,7 @@ public class Game extends Engine {
 
         if(this.time <= 0) {
             this.time = 0;
-            this.setGameState(GameState.GameOver);
+            // this.setGameState(GameState.GameOver);
         }
 
         this.getGamePane().setGameTime(this.time);
