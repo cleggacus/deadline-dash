@@ -2,7 +2,6 @@ package com.group22;
 
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 import javafx.geometry.Insets;
@@ -235,8 +234,6 @@ public class GamePane extends StackPane {
         this.level.setFill(TileColor.LIGHT_RED.color);
 
         BorderPane.setAlignment(this.level, Pos.CENTER);
-
-        this.setGameLevel("");
     }
 
     private void setUpTime() {
@@ -338,7 +335,7 @@ public class GamePane extends StackPane {
              
         this.startMenu.addSubTitle("Hey, " + this.username);
         this.startMenu.addTitle("DEADLINE DASH");
-        this.startMenu.addItem("START", () -> { Game.getInstance().setGameState(GameState.Playing); });
+        // will add a continue button in the future once profiles are finised
         this.startMenu.addItem("LEVELS", () -> { Game.getInstance().setGameState(GameState.LevelSelector); });
         this.startMenu.addItem("CHANGE USER", () -> { Game.getInstance().setGameState(GameState.ProfileSelector); });
 
@@ -381,6 +378,9 @@ public class GamePane extends StackPane {
         } else {
             profile.updateTimeActive();
         }
+        this.profileSelectorPane.addItem(username, () -> setProfile(profile));
+        this.getChildren().clear();
+        this.setUpProfileSelector();
 
         this.username = username;
         this.setUpStartMenu();
@@ -397,7 +397,7 @@ public class GamePane extends StackPane {
     private void setUpProfileSelector() {
         this.profileSelectorPane = new MenuPane();
         
-        this.profileSelectorPane.addTitle("SELECT PROFILE");
+        this.profileSelectorPane.addTitle("SELECT A PROFILE");
 
 
         Profile checkProfiles = new Profile();
@@ -406,9 +406,11 @@ public class GamePane extends StackPane {
             final int fi = i;
             this.profileSelectorPane.addItem(profiles.get(i).getName(), () -> setProfile(profiles.get(fi)));
         }
+        this.profileSelectorPane.addSubTitle("OR CREATE ONE BELOW");
         TextField field = this.profileSelectorPane.addInput("TYPE USERNAME HERE");
-        this.profileSelectorPane.addItem("SIGNUP/LOGIN", () -> setProfileFromTextField(field.getText()));
+        this.profileSelectorPane.addItem("CREATE", () -> setProfileFromTextField(field.getText()));
 
+        
         this.getChildren().add(this.profileSelectorPane);
     }
 }

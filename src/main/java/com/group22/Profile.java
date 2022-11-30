@@ -88,6 +88,10 @@ public class Profile {
     public void updateTimeActive(){
         return;
     }
+    
+    public void getUnlockedLevels(){
+        
+    }
 
     public String getName(){
         return name;
