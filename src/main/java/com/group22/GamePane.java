@@ -1,6 +1,8 @@
 package com.group22;
 
 import java.text.DecimalFormat;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 import javafx.geometry.Insets;
@@ -368,11 +370,26 @@ public class GamePane extends StackPane {
         this.getChildren().add(this.loadingPane);
     }
 
-    private void setUsername(String username) {
+    private void setProfileFromTextField(String username) {
         if(username.replace(" ", "").isEmpty())
             return;
 
+        Profile profile = new Profile(username, LocalDateTime.now());
+
+        if(!profile.exists()){
+            profile.saveToFile();
+        } else {
+            profile.updateTimeActive();
+        }
+
         this.username = username;
+        this.setUpStartMenu();
+        Game.getInstance().setGameState(GameState.Start);
+    }
+
+    private void setProfile(Profile profile){
+        profile.updateTimeActive();
+        this.username = profile.getName();
         this.setUpStartMenu();
         Game.getInstance().setGameState(GameState.Start);
     }
@@ -382,9 +399,15 @@ public class GamePane extends StackPane {
         
         this.profileSelectorPane.addTitle("SELECT PROFILE");
 
-        TextField field = this.profileSelectorPane.addInput("TYPE USERNAME HERE");
 
-        this.profileSelectorPane.addItem("LOGIN", () -> setUsername(field.getText()));
+        Profile checkProfiles = new Profile();
+        List<Profile> profiles = checkProfiles.getAllProfiles();
+        for(int i=0; i<profiles.size(); i++){
+            final int fi = i;
+            this.profileSelectorPane.addItem(profiles.get(i).getName(), () -> setProfile(profiles.get(fi)));
+        }
+        TextField field = this.profileSelectorPane.addInput("TYPE USERNAME HERE");
+        this.profileSelectorPane.addItem("SIGNUP/LOGIN", () -> setProfileFromTextField(field.getText()));
 
         this.getChildren().add(this.profileSelectorPane);
     }

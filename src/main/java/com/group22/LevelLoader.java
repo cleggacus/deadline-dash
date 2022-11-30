@@ -9,7 +9,6 @@ public class LevelLoader {
     public LevelLoader(){
     }
     private static final String levelFile = "src/main/resources/com/group22/levels.txt";
-    
     /**
      * A recursive method that takes an ArrayList of type strings and an empty ArrayList 
      * of type Level, and returns a list of levels.
@@ -62,9 +61,9 @@ public class LevelLoader {
                     doorPresent = true;
                 }
 
-                if(Integer.parseInt(splitEntities[1]) > width){
+                if(Integer.parseInt(splitEntities[1]) > width-1){
                     throw new Exception("Entity is out of bounds on level number " + (levelArray.size()+1));
-                } else if(Integer.parseInt(splitEntities[2]) > height){
+                } else if(Integer.parseInt(splitEntities[2]) > height-1){
                     throw new Exception("Entity is out of bounds on level number " + (levelArray.size()+1));
                 }
 
@@ -177,19 +176,12 @@ public class LevelLoader {
 
     /**
      * This function returns a list of all the levels in the game.
+     * Reads the {@code level.txt} file and get results of {@code getLevelFromData()}
+     * using the data retrieved from the file.
      * 
      * @return The method getLevelData is being returned.
      */
     public List<Level> getAllLevels(){
-        return getLevelFromData(getLevelDataFromFile(), new ArrayList<Level>());
-    }
-
-    /**
-     * Reads the {@code level.txt} file
-     * 
-     * @return The method returns a list of type String containing each line of the file.
-     */
-    public List<String> getLevelDataFromFile(){
         List<String> dataArray = new ArrayList<String>();
         try {
             Scanner sc = new Scanner(new File(levelFile));
@@ -204,7 +196,7 @@ public class LevelLoader {
             catch(Exception e) {
             e.getStackTrace();
         }
-        return dataArray;
+        return getLevelFromData(dataArray, new ArrayList<Level>());
     }
 
 }
