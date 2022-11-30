@@ -182,7 +182,7 @@ public class GamePane extends StackPane {
     }
 
     public void setGameLevel(String level) {
-        this.level.setText("LEVEL: " + level);
+        this.level.setText(level);
     }
 
     public void setGameScore(int score) {
@@ -319,13 +319,13 @@ public class GamePane extends StackPane {
         if(this.levels != null) {
             for(int i = 0; i < levels.size(); i++) {
                 final int levelIndex = i;
-
-                this.levelSelectorPane.addItem(this.levels.get(levelIndex), () -> {
+                this.levelSelectorPane.addCarouselItem(this.levels.get(levelIndex), () -> {
                     this.setGameLevel(this.levels.get(levelIndex));
                     Game.getInstance().startFromLevel(levelIndex);
                 });
             }
         }
+        this.levelSelectorPane.addItem("BACK", () -> { Game.getInstance().setGameState(GameState.Start); });
 
         this.levelSelectorPane.maxWidthProperty().bind(this.widthProperty());
 

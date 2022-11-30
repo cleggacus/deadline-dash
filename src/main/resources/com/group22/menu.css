@@ -60,6 +60,23 @@
     -fx-width: 100%;
 }
 
+.level-button { 
+    -fx-font-family: "Monospaced";
+    -fx-text-fill: -fx-fg-2;
+    -fx-font-weight: Bold;
+    -fx-cursor: hand;
+    -fx-font-size: 40;
+    -fx-padding: 15;
+    -fx-border-style: hidden;
+    -fx-width: 100%;
+    -fx-height: 100%;
+    -fx-background-size: cover;
+}
+
+.level-button:hover {
+    -fx-text-fill: white;
+}
+
 .menu-button:hover {
     -fx-text-fill: -fx-fg-1;
 }

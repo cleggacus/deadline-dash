@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 /**
@@ -88,6 +89,27 @@ public class MenuPane extends GridPane {
         titleOuter.maxWidthProperty().bind(this.widthProperty());
 
         this.add(titleOuter, 0, this.count);
+
+        this.count++;
+    }
+
+    public void addCarouselItem(String level, Runnable onClick) {
+        Button thumbnailButton = new Button(level);
+
+        thumbnailButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) { 
+                onClick.run();
+            }
+        });
+        
+        thumbnailButton.getStyleClass().add("level-button");
+        thumbnailButton.setTextFill(Color.WHITE);
+        thumbnailButton.setMinSize(300,200);
+
+        String thumbnail = level.replaceAll(" ", "").toLowerCase();
+        thumbnail = getClass().getResource("/com/group22/thumb/" + thumbnail + ".png").toExternalForm();
+        thumbnailButton.setStyle("-fx-background-image: url('" + thumbnail  + "');");
+        this.add(thumbnailButton, 0, this.count);
 
         this.count++;
     }

@@ -35,13 +35,16 @@ bob 30
 -
 Test level 2
 10
-3 2
-YYRR YYGG RRRG
-RGGG GGYY RRGG
+6 5
+bbRR RRRR RRRR RRBB RRRR RRbb
+bRbR bbbb bbbb bbbb bbbb bbbb
+bbRR RRRR RRRR RRBB RRRR RRbb
+bRbR bbbb bbbb bbbb bbbb bbbb
+bbRR RRRR RRRR RRBB RRRR RRbb
 3
 clock 2 1 15
-player 1 1
 door 1 2
+player 1 1
 7
 bob 30
 alice 50
