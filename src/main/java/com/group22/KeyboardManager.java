@@ -1,10 +1,8 @@
 package com.group22;
 
-import java.security.Key;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import javafx.event.EventType;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 
