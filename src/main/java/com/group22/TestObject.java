@@ -42,11 +42,8 @@ public class TestObject extends LandMover {
             "character/tile011.png",
         });
 
-        this.spriteOffsetY = -0.3;
+        this.setSpriteOffset(0, -0.3);
         this.moveEvery = 0.3;
-
-        this.x = (int)(Math.floor(Math.random() * Game.getInstance().getViewWidth()));
-        this.y = (int)(Math.floor(Math.random() * Game.getInstance().getViewHeight()));
     }
 
     private boolean moveIfValid(int x, int y) {
@@ -56,12 +53,12 @@ public class TestObject extends LandMover {
         if(x != 0 && y != 0)
             return false;
 
-        int tempX = this.x;
-        int tempY = this.y;
+        int tempX = this.getX();
+        int tempY = this.getY();
 
         this.move(x, y);
 
-        if(tempX != this.x || tempY != this.y)
+        if(tempX != this.getX() || tempY != this.getY())
             return true;
 
         return false;

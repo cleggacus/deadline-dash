@@ -1,5 +1,7 @@
 package com.group22;
 
+import java.util.ArrayList;
+
 import javafx.scene.input.KeyCode;
 
 public class Player extends LandMover {
@@ -42,7 +44,7 @@ public class Player extends LandMover {
             "character/tile011.png",
         });
 
-        this.spriteOffsetY = -0.3;
+        this.setSpriteOffset(0, -0.3);
         this.moveEvery = 0.15;
     }
 
@@ -66,6 +68,21 @@ public class Player extends LandMover {
             this.getSprite().setImageSet("right");
             move(1, 0);
         }
+
+        ArrayList<Door> objs = Game.getInstance().getEntities(Door.class);
+
+        boolean touchingDoor = false;
+
+        for(Door obj : objs) {
+            if(obj.getX() == this.getX() && this.getY() == obj.getY()) {
+                touchingDoor = true;
+            }
+        }
+
+        if(touchingDoor)
+            this.setSpriteOffset(0, 0);
+        else
+            this.setSpriteOffset(0, -0.3);
 
         this.lastDown = null;
     }

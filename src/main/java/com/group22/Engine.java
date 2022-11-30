@@ -62,12 +62,13 @@ public abstract class Engine {
      * 
      * @return ArrayList of entities
      */
-    public ArrayList<Entity> getEntities(Class<? extends Entity> withClass) {
-        ArrayList<Entity> returnEntities = new ArrayList<>();
+    @SuppressWarnings("unchecked")
+    public <T extends Entity>ArrayList<T> getEntities(Class<T> withClass) {
+        ArrayList<T> returnEntities = new ArrayList<>();
 
         for(Entity entity : this.entities) {
             if(withClass.isAssignableFrom(entity.getClass())) {
-                returnEntities.add(entity);
+                returnEntities.add((T)entity);
             }
         }
 

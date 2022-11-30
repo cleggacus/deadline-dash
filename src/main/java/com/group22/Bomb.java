@@ -18,13 +18,6 @@ public class Bomb extends Entity{
         this.countdown = countdown;
     }
 
-    public int getX() {
-        return x;
-    }
-    public int getU() {
-        return y;
-    }
-
     /* public void checkNeighbourTiles(){
         while {
             for (int i = x - 1; i <= x + 1; i++) {

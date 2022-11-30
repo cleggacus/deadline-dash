@@ -7,7 +7,10 @@ public class Lever extends PickUp {
     public Lever(int leverX, int leverY, String leverColour){
         super(leverX, leverY);
         setLeverColour(leverColour);
+
+        this.setSpriteOffset(0, -0.25);
         this.getSprite().setImage("item/lever.png");
+        this.getSprite().applyColor(TileColor.getFromLabel(leverColour.charAt(0)).color);
     }
 
     private void setLeverColour(String leverColour){

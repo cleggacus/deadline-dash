@@ -32,8 +32,7 @@ public class Tile extends Entity {
      *      The color of the tile
      */
     public Tile(int x, int y, String colors) {
-        this.x = x;
-        this.y = y;
+        super(x, y);
 
         if(tileSprites == null)
             loadTileSprites();
@@ -51,8 +50,7 @@ public class Tile extends Entity {
      *      Y position of the tile.
      */
     public Tile(int x, int y) {
-        this.x = x;
-        this.y = y;
+        super(x, y);
 
         if(tileSprites == null)
             loadTileSprites();
@@ -181,7 +179,7 @@ public class Tile extends Entity {
      */
     private Image getTileSprite() {
         int tileCount = tileSprites.length;
-        int spriteIndex = ((this.y%tileCount) + (this.x%tileCount))%tileCount;
+        int spriteIndex = ((this.getY()%tileCount) + (this.getX()%tileCount))%tileCount;
         return tileSprites[spriteIndex];
     }
 

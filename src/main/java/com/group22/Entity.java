@@ -14,25 +14,29 @@ public abstract class Entity {
     protected double moveEvery = 0;
 
     /** Time since last move in seconds. */
-    protected double timeSinceMove = 0;
+    private double timeSinceMove = 0;
 
     /** Entity X position. */
-    protected int x = 0;
+    private int x = 0;
 
     /** Entity Y position. */
-    protected int y = 0;
+    private int y = 0;
 
     /** Offset Y position added to {@link #y} when drawing sprite. */
-    protected double spriteOffsetY = 0;
+    private double spriteOffsetY = 0;
 
     /** Offset X position added to {@link #x} when drawing sprite. */
-    protected double spriteOffsetX = 0;
+    private double spriteOffsetX = 0;
 
     /** Image sprites drawn to show for entity. */
-    protected Sprite sprite = new Sprite();
+    private Sprite sprite = new Sprite();
 
     private AnimationType animationType = AnimationType.None;
 
+    /** X position the entitiy is animating from. */
+    private double fromSpriteOffsetX = 0;
+    /** Y position the entitiy is animating from. */
+    private double fromSpriteOffsetY = 0;
     /** X position the entitiy is animating from. */
     private int fromX = 0;
     /** Y position the entitiy is animating from. */
@@ -63,6 +67,13 @@ public abstract class Entity {
         this.sprite = sprite;
     }
 
+    public int getX() {
+        return this.x;
+    }
+
+    public int getY() {
+        return this.y;
+    }
 
     /**
      * Publically exposed method which runs abstract update method.
@@ -89,6 +100,10 @@ public abstract class Entity {
 
         if(this.timeSinceMove >= this.moveEvery) {
             this.animationType = AnimationType.None;
+            this.fromX = this.x;
+            this.fromY = this.y;
+            this.fromSpriteOffsetX = this.spriteOffsetX;
+            this.fromSpriteOffsetY = this.spriteOffsetY;
             this.updateMovement();
             this.timeSinceMove -= this.moveEvery;
         }
@@ -162,6 +177,12 @@ public abstract class Entity {
         this.y += y;
     }
 
+    protected void setSpriteOffset(double x, double y) {
+        this.fromSpriteOffsetY = this.spriteOffsetY;
+        this.fromSpriteOffsetX = this.spriteOffsetX;
+        this.spriteOffsetY = y;
+        this.spriteOffsetX = x;
+    }
 
     /**
      * This method needs to be overridden by extending {@code Entity}.
@@ -186,13 +207,16 @@ public abstract class Entity {
     private double getDrawY() {
         double percent = this.timeSinceMove / this.moveEvery;
 
+        double offsetDistance = this.spriteOffsetY - this.fromSpriteOffsetY;
+        double animOffsetY = this.fromSpriteOffsetY + offsetDistance*percent;
+
         switch(this.animationType) {
             case Linear:
                 double distance = this.y - this.fromY;
                 double animY = this.fromY + distance*percent;
-                return this.spriteOffsetY + animY;
+                return animOffsetY + animY;
             case Scale:
-                return this.spriteOffsetY + (percent > 0.5 ? this.y : fromY);
+                return animOffsetY + (percent > 0.5 ? this.y : fromY);
             default:
                 return this.spriteOffsetY + this.y;
         }
@@ -208,13 +232,16 @@ public abstract class Entity {
     private double getDrawX() {
         double percent = this.timeSinceMove / this.moveEvery;
 
+        double offsetDistance = this.spriteOffsetX - this.fromSpriteOffsetX;
+        double animOffsetX = this.fromSpriteOffsetX + offsetDistance*percent;
+
         switch(this.animationType) {
             case Linear:
                 double distance = this.x - this.fromX;
                 double animX = this.fromX + distance*percent;
-                return this.spriteOffsetX + animX;
+                return animOffsetX + animX;
             case Scale:
-                return this.spriteOffsetX + (percent > 0.5 ? this.x : fromX);
+                return animOffsetX + (percent > 0.5 ? this.x : fromX);
             default:
                 return this.spriteOffsetX + this.x;
         }

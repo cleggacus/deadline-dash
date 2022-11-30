@@ -8,6 +8,9 @@ public class Gate extends Entity {
     public Gate(int gateX, int gateY /**,Sprite sprite,**/,String gateColour){
        //Super(gateX,gatY/**,Sprite sprite,**/)
         setGateColour(gateColour);
+
+        this.getSprite().setImage("item/gate.png");
+        this.getSprite().applyColor(TileColor.getFromLabel(gateColour.charAt(0)).color);
     }
 
     private void setGateColour(String gateColour) {

@@ -39,8 +39,8 @@ public abstract class LandMover extends Entity {
      */
     @Override
     protected void move(int x, int y, AnimationType type) {
-        int newX = this.x;
-        int newY = this.y;
+        int newX = this.getX();
+        int newY = this.getY();
 
         while(x > 0) {
             newX = nextRight();
@@ -52,7 +52,7 @@ public abstract class LandMover extends Entity {
             x++;
         }
 
-        if(newX == this.x) {
+        if(newX == this.getX()) {
             while(y > 0) {
                 newY = nextDown();
                 y--;
@@ -64,8 +64,8 @@ public abstract class LandMover extends Entity {
             }
         }
 
-        int moveX = newX - this.x;
-        int moveY = newY - this.y;
+        int moveX = newX - this.getX();
+        int moveY = newY - this.getY();
 
         if(Math.abs(moveY) > 1 || Math.abs(moveX) > 1) {
             super.move(moveX, moveY, AnimationType.Scale);
@@ -87,10 +87,10 @@ public abstract class LandMover extends Entity {
      *      If the x and y added to the current position is a valid colour.
      */
     protected boolean isMoveLegal(int x, int y) {
-        if(!Game.getInstance().isInBounds(this.x + x, this.y + y))
+        if(!Game.getInstance().isInBounds(this.getX() + x, this.getY() + y))
             return false;
 
-        return Game.getInstance().colorMatch(this.x, this.y, this.x + x, this.y + y);
+        return Game.getInstance().colorMatch(this.getX(), this.getY(), this.getX() + x, this.getY() + y);
     }
 
     /**
@@ -102,15 +102,15 @@ public abstract class LandMover extends Entity {
      */
     protected int nextUp() {
         boolean found = false;
-        int i = this.y;
+        int i = this.getY();
 
         while(i > 0 && !found) {
             i--;
-            found = isMoveLegal(0, i - this.y);
+            found = isMoveLegal(0, i - this.getY());
         }
 
         if(!found)
-            i = this.y;
+            i = this.getY();
         
         return i;
     }
@@ -124,16 +124,16 @@ public abstract class LandMover extends Entity {
      */
     protected int nextDown() {
         boolean found = false;
-        int i = this.y;
+        int i = this.getY();
         int height = Game.getInstance().getViewHeight();
 
         while(i < height-1 && !found) {
             i++;
-            found = isMoveLegal(0, i - this.y);
+            found = isMoveLegal(0, i - this.getY());
         }
 
         if(!found)
-            i = this.y;
+            i = this.getY();
         
         return i;
     }
@@ -147,15 +147,15 @@ public abstract class LandMover extends Entity {
      */
     protected int nextLeft() {
         boolean found = false;
-        int i = this.x;
+        int i = this.getX();
 
         while(i > 0 && !found) {
             i--;
-            found = isMoveLegal(i - this.x, 0);
+            found = isMoveLegal(i - this.getX(), 0);
         }
 
         if(!found)
-            i = this.x;
+            i = this.getX();
         
         return i;
     }
@@ -170,16 +170,16 @@ public abstract class LandMover extends Entity {
      */
     protected int nextRight() {
         boolean found = false;
-        int i = this.x;
+        int i = this.getX();
         int width = Game.getInstance().getViewWidth();
 
         while(i < width-1 && !found) {
             i++;
-            found = isMoveLegal(i - this.x, 0);
+            found = isMoveLegal(i - this.getX(), 0);
         }
 
         if(!found)
-            i = this.x;
+            i = this.getX();
         
         return i;
     }

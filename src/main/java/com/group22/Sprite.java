@@ -3,6 +3,10 @@ package com.group22;
 import java.util.HashMap;
 
 import javafx.scene.image.Image;
+import javafx.scene.image.PixelReader;
+import javafx.scene.image.PixelWriter;
+import javafx.scene.image.WritableImage;
+import javafx.scene.paint.Color;
 
 /**
  * 
@@ -165,5 +169,30 @@ public class Sprite {
      */
     public void setAnimationSpeed(double speed) {
         this.spriteAnimationSpeed = speed;
+    }
+
+    public Image applyColor(Color applyColor) {
+        Image loaded = this.getCurrentImage();
+
+        PixelReader pixelReader = loaded.getPixelReader();
+        WritableImage writableImage = new WritableImage((int)loaded.getWidth(), (int)loaded.getHeight());
+        PixelWriter pixelWriter = writableImage.getPixelWriter();
+
+        for (int y = 0; y < loaded.getHeight(); y++){
+            for (int x = 0; x < loaded.getWidth(); x++){
+                Color color = pixelReader.getColor(x, y);
+
+                Color tint = new Color(
+                    Math.min(1, 2 * applyColor.getRed() * color.getRed()),
+                    Math.min(1, 2 * applyColor.getGreen() * color.getGreen()), 
+                    Math.min(1, 2 * applyColor.getBlue() * color.getBlue()),
+                    Math.min(1, color.getOpacity())
+                );
+
+                pixelWriter.setColor(x, y, tint);
+            }
+        }
+
+        return this.images.get(currentImageSet)[currentFrame] = writableImage;
     }
 }

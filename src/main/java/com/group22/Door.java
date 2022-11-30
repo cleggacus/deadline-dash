@@ -15,6 +15,7 @@ public class Door extends Entity {
 
     public Door(int doorX, int doorY){
         super(doorX,doorY);
+        this.setSpriteOffset(0, -0.3);
         this.getSprite().setImage("item/door_closed.png");
     }
 
