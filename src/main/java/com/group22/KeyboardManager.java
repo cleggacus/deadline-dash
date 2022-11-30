@@ -2,6 +2,7 @@ package com.group22;
 
 import java.util.HashSet;
 
+import javafx.event.EventType;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 
@@ -19,13 +20,24 @@ public class KeyboardManager {
     private HashSet<KeyCode> keysPress;
     private HashSet<KeyCode> keysUp;
 
+    private Scene scene;
+
     /**
      * Creates a keyboard manager.
      * 
      * @param scene 
      *      To use its evenets to contruct to polling mechanism.
      */
-    public KeyboardManager(Scene scene) {
+    public KeyboardManager() {}
+
+    public void setScene(Scene scene) {
+        if(this.scene != null) {
+            this.scene.onKeyReleasedProperty().set(null);
+            this.scene.onKeyPressedProperty().set(null);
+        }
+
+        this.scene = scene;
+        
         this.keysDown = new HashSet<>();
         this.keysPress = new HashSet<>();
         this.keysUp = new HashSet<>();

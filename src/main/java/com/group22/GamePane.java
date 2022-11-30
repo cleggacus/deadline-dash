@@ -3,7 +3,6 @@ package com.group22;
 import java.text.DecimalFormat;
 import java.util.List;
 
-import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.CacheHint;
@@ -52,7 +51,8 @@ public class GamePane extends StackPane {
     private Text time;
     private Text level;
     private Text score;
-    private static List<Level> levels;
+
+    private List<String> levels;
 
     /**
      * Creates a GamePane.
@@ -181,14 +181,18 @@ public class GamePane extends StackPane {
         this.time.setText("TIME: " + formatter.format(Math.ceil(time)));
     }
 
-    public void setGameLevel(int level) {
-        DecimalFormat formatter = new DecimalFormat("00");
-        this.level.setText("LEVEL: " + formatter.format(level));
+    public void setGameLevel(String level) {
+        this.level.setText("LEVEL: " + level);
     }
 
     public void setGameScore(int score) {
         DecimalFormat formatter = new DecimalFormat("000");
         this.score.setText("SCORE: " + formatter.format(score));
+    }
+
+    public void setLevels(List<String> levels) {
+        this.levels = levels;
+        this.setUpLevelSelectorMenu();
     }
     
     /** 
@@ -230,7 +234,7 @@ public class GamePane extends StackPane {
 
         BorderPane.setAlignment(this.level, Pos.CENTER);
 
-        this.setGameLevel(0);
+        this.setGameLevel("");
     }
 
     private void setUpTime() {
@@ -304,26 +308,27 @@ public class GamePane extends StackPane {
     }
 
     private void setUpLevelSelectorMenu() {
-        this.levelSelectorPane = new MenuPane();
+        if(this.levelSelectorPane == null) {
+            this.levelSelectorPane = new MenuPane();
+            this.getChildren().add(levelSelectorPane);
+        }
+
+        this.levelSelectorPane.getChildren().clear();
         this.levelSelectorPane.addTitle("LEVELS");
 
-        Runnable task = () -> {
-            Platform.runLater(() -> {
-                levels = LevelLoader.getAllLevels();
+        if(this.levels != null) {
+            for(int i = 0; i < levels.size(); i++) {
+                final int levelIndex = i;
 
-                for(int i=0; i < levels.size(); i++){
-                    final Level levelf = levels.get(i);
-                    this.levelSelectorPane.addItem(levels.get(i).getTitle(), () -> { Game.getInstance().startFromLevel(GameState.Playing, levelf);});
-                }
-            });
-        };
-        Thread thread = new Thread(task);
-        thread.setDaemon(true);
-        thread.start();
+                this.levelSelectorPane.addItem(this.levels.get(levelIndex), () -> {
+                    this.setGameLevel(this.levels.get(levelIndex));
+                    Game.getInstance().startFromLevel(levelIndex);
+                });
+            }
+        }
 
         this.levelSelectorPane.maxWidthProperty().bind(this.widthProperty());
 
-        this.getChildren().add(levelSelectorPane);
     }
 
     private void setUpStartMenu() {

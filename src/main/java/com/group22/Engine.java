@@ -1,7 +1,6 @@
 package com.group22;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
@@ -30,7 +29,6 @@ public abstract class Engine {
     private Renderer renderer;
     private AnimationTimer gameLoop;
     private KeyboardManager keyboardManager;
-    private Level currentLevel;
 
     /** Time passed from the last frame in seconds. */
     private double delta = 0;
@@ -42,6 +40,7 @@ public abstract class Engine {
      */
     public Engine() {
         this.gamePane = new GamePane();
+        this.keyboardManager = new KeyboardManager();
         this.renderer = new Renderer(this.gamePane.getGraphicsContext());
         this.renderer.setPadding(GamePane.INFO_BAR_HEIGHT, 0, 0, 0);
         this.entities = new ArrayList<>();
@@ -101,29 +100,24 @@ public abstract class Engine {
      *      The new game state.
      */
     public void setGameState(GameState gameState) {
+        if(gameState == this.gameState)
+            return;
+
         this.gamePane.setState(GameState.Loading);
 
         boolean restart = 
-            (this.gameState == GameState.Start || 
-            this.gameState == GameState.GameOver) && 
+            this.gameState != GameState.Paused && 
             gameState == GameState.Playing;
 
         new Thread(() -> {
             if(restart) {
                 this.entities.clear();
-                this.start(this.currentLevel);
+                this.start();
             }
 
             this.gamePane.setState(gameState);
             this.gameState = gameState;
         }).start();
-    }
-
-    public void startFromLevel(GameState gameState, Level level){
-        this.entities.clear();
-        this.currentLevel = level;
-        this.start(level);
-        this.setGameState(gameState);
     }
     
     /** 
@@ -146,9 +140,7 @@ public abstract class Engine {
      */
     public Scene createScene() {
         Scene scene = new Scene(this.gamePane, INITIAL_WIDTH, INITIAL_HEIGHT);
-
-        this.keyboardManager = new KeyboardManager(scene);
-
+        this.keyboardManager.setScene(scene);
         this.gameLoop.start();
 
         return scene;
@@ -260,7 +252,7 @@ public abstract class Engine {
      * This method needs to be overridden through extending the class.
      * THe start method is called when the game is put into the Playing state from either Start or GameOver.
      */
-    protected abstract void start(Level level);
+    protected abstract void start();
 
     /**
      * Gets the current GamePane GUI element.

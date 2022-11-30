@@ -1,5 +1,7 @@
 package com.group22;
 
+import java.util.List;
+
 /**
  * The {@code Game} class acts as a game manager handling all the game logic.
  * Since there is only one game and it extends Engine it uses the singleton pattern and can be used with the {@link #getInstance()} method.
@@ -13,6 +15,9 @@ public class Game extends Engine {
 
     private Tile[][] tiles;
     private Entity player;
+    private List<Level> levels;
+    private int currentLevelIndex;
+    private LevelLoader levelLoader;
 
     private static Game instance;
 
@@ -20,7 +25,9 @@ public class Game extends Engine {
      * Creates Game.
      * Set to private so multiple instances cannot be created.
      */
-    private Game() {}
+    private Game() {
+        super();
+    }
 
     /** 
      * This method is used so the public game data can be accessed in other parts of the applicaiton. 
@@ -29,8 +36,12 @@ public class Game extends Engine {
      * @return Game
      */
     public static synchronized Game getInstance() {
-        if(Game.instance == null)
+        if(Game.instance == null) {
             Game.instance = new Game();
+            Game.instance.levelLoader = new LevelLoader();
+            Game.instance.levels = Game.instance.levelLoader.getAllLevels();
+            Game.instance.getGamePane().setLevels(Game.instance.levels.stream().map(level -> level.getTitle()).toList());
+        }
 
         return Game.instance;
     }
@@ -65,18 +76,18 @@ public class Game extends Engine {
     }
 
     @Override
-    protected void start(Level level) {
+    protected void start() {
+        Level currentLevel = this.levels.get(this.currentLevelIndex);
 
-        int width = level.getWidth();
-        int height = level.getHeight();
+        int width = currentLevel.getWidth();
+        int height = currentLevel.getHeight();
 
-        this.tiles = level.getTiles();
-        this.time = level.getTimeToComplete();
+        this.tiles = currentLevel.getTiles();
+        this.time = currentLevel.getTimeToComplete();
 
         this.setViewSize(width, height);
-        this.getGamePane().setGameLevel(1);
 
-        this.entities.addAll(level.getEntities());
+        this.entities.addAll(currentLevel.getEntities());
     }
 
     /**
@@ -97,5 +108,10 @@ public class Game extends Engine {
 
         this.getGamePane().setGameTime(this.time);
         this.getGamePane().setGameScore(this.score);
+    }
+
+    public void startFromLevel(int level){
+        this.currentLevelIndex = level;
+        this.setGameState(GameState.Playing);
     }
 }
