@@ -1,6 +1,7 @@
 package com.group22;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
@@ -29,6 +30,7 @@ public abstract class Engine {
     private Renderer renderer;
     private AnimationTimer gameLoop;
     private KeyboardManager keyboardManager;
+    private Level currentLevel;
 
     /** Time passed from the last frame in seconds. */
     private double delta = 0;
@@ -109,7 +111,7 @@ public abstract class Engine {
         new Thread(() -> {
             if(restart) {
                 this.entities.clear();
-                this.start();
+                this.start(this.currentLevel);
             }
 
             this.gamePane.setState(gameState);
@@ -117,6 +119,12 @@ public abstract class Engine {
         }).start();
     }
 
+    public void startFromLevel(GameState gameState, Level level){
+        this.entities.clear();
+        this.currentLevel = level;
+        this.start(level);
+        this.setGameState(gameState);
+    }
     
     /** 
      * Gets the current game state of the {@code Engine}.
@@ -252,7 +260,7 @@ public abstract class Engine {
      * This method needs to be overridden through extending the class.
      * THe start method is called when the game is put into the Playing state from either Start or GameOver.
      */
-    protected abstract void start();
+    protected abstract void start(Level level);
 
     /**
      * Gets the current GamePane GUI element.

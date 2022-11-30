@@ -1,7 +1,9 @@
 package com.group22;
 
 import java.text.DecimalFormat;
+import java.util.List;
 
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.CacheHint;
@@ -36,6 +38,7 @@ public class GamePane extends StackPane {
 
     private GraphicsContext graphicsContext;
     private MenuPane profileSelectorPane;
+    private MenuPane levelSelectorPane;
     private MenuPane startMenu;
     private MenuPane pauseMenu;
     private MenuPane gameOverMenu;
@@ -49,6 +52,7 @@ public class GamePane extends StackPane {
     private Text time;
     private Text level;
     private Text score;
+    private static List<Level> levels;
 
     /**
      * Creates a GamePane.
@@ -65,6 +69,7 @@ public class GamePane extends StackPane {
         this.setUpStartMenu();
         this.setUpLoadingPane();
         this.setUpProfileSelector();
+        this.setUpLevelSelectorMenu();
 
         this.setState(GameState.Start);
     }
@@ -78,8 +83,19 @@ public class GamePane extends StackPane {
      */
     public void setState(GameState state) {
         switch (state) {
+            case LevelSelector:
+                this.levelSelectorPane.setVisible(true);
+                this.profileSelectorPane.setVisible(false);
+                this.startMenu.setVisible(false);
+                this.pauseMenu.setVisible(false);
+                this.canvasPane.setVisible(false);
+                this.gameOverMenu.setVisible(false);
+                this.loadingPane.setVisible(false);
+                setBlurCanvas(false);
+                break;
             case ProfileSelector:
                 this.profileSelectorPane.setVisible(true);
+                this.levelSelectorPane.setVisible(false);
                 this.startMenu.setVisible(false);
                 this.pauseMenu.setVisible(false);
                 this.canvasPane.setVisible(false);
@@ -89,6 +105,7 @@ public class GamePane extends StackPane {
                 break;
             case Start:
                 this.profileSelectorPane.setVisible(false);
+                this.levelSelectorPane.setVisible(false);
                 this.startMenu.setVisible(true);
                 this.pauseMenu.setVisible(false);
                 this.canvasPane.setVisible(false);
@@ -98,6 +115,7 @@ public class GamePane extends StackPane {
                 break;
             case Playing:
                 this.profileSelectorPane.setVisible(false);
+                this.levelSelectorPane.setVisible(false);
                 this.startMenu.setVisible(false);
                 this.pauseMenu.setVisible(false);
                 this.canvasPane.setVisible(true);
@@ -107,6 +125,7 @@ public class GamePane extends StackPane {
                 break;
             case Paused:
                 this.profileSelectorPane.setVisible(false);
+                this.levelSelectorPane.setVisible(false);
                 this.startMenu.setVisible(false);
                 this.pauseMenu.setVisible(true);
                 this.canvasPane.setVisible(true);
@@ -116,6 +135,7 @@ public class GamePane extends StackPane {
                 break;
             case GameOver:
                 this.profileSelectorPane.setVisible(false);
+                this.levelSelectorPane.setVisible(false);
                 this.startMenu.setVisible(false);
                 this.pauseMenu.setVisible(false);
                 this.canvasPane.setVisible(true);
@@ -125,6 +145,7 @@ public class GamePane extends StackPane {
                 break;
             case Loading:
                 this.startMenu.setVisible(false);
+                this.levelSelectorPane.setVisible(false);
                 this.pauseMenu.setVisible(false);
                 this.canvasPane.setVisible(false);
                 this.gameOverMenu.setVisible(false);
@@ -282,12 +303,36 @@ public class GamePane extends StackPane {
         this.getChildren().add(gameOverMenu);
     }
 
+    private void setUpLevelSelectorMenu() {
+        this.levelSelectorPane = new MenuPane();
+        this.levelSelectorPane.addTitle("LEVELS");
+
+        Runnable task = () -> {
+            Platform.runLater(() -> {
+                levels = LevelLoader.getAllLevels();
+
+                for(int i=0; i < levels.size(); i++){
+                    final Level levelf = levels.get(i);
+                    this.levelSelectorPane.addItem(String.valueOf(levels.get(i).getLevelNum()), () -> { Game.getInstance().startFromLevel(GameState.Playing, levelf);});
+                }
+            });
+        };
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
+
+        this.levelSelectorPane.maxWidthProperty().bind(this.widthProperty());
+
+        this.getChildren().add(levelSelectorPane);
+    }
+
     private void setUpStartMenu() {
         this.startMenu = new MenuPane();
              
         this.startMenu.addSubTitle("Hey, " + this.username);
         this.startMenu.addTitle("DEADLINE DASH");
         this.startMenu.addItem("START", () -> { Game.getInstance().setGameState(GameState.Playing); });
+        this.startMenu.addItem("LEVELS", () -> { Game.getInstance().setGameState(GameState.LevelSelector); });
         this.startMenu.addItem("CHANGE USER", () -> { Game.getInstance().setGameState(GameState.ProfileSelector); });
 
         this.startMenu.maxWidthProperty().bind(this.widthProperty());

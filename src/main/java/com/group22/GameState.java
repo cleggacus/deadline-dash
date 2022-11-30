@@ -8,6 +8,6 @@ package com.group22;
  * @version 1.0
  */
 public enum GameState {
-    ProfileSelector, Start, Playing, Paused, GameOver, Loading
+    LevelSelector, ProfileSelector, Start, Playing, Paused, GameOver, Loading
 }
 

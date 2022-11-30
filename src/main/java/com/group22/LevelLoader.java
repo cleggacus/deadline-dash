@@ -8,7 +8,7 @@ public class LevelLoader {
 
     public LevelLoader(){
     }
-    private String levelFile = "src/main/resources/com/group22/levels.txt";
+    private static String levelFile = "src/main/resources/com/group22/levels.txt";
     
     /**
      * A recursive method that takes an ArrayList of type strings and an empty ArrayList 
@@ -20,7 +20,7 @@ public class LevelLoader {
      * @param levelArray The list of levels that will be returned.
      * @return The method returns a list of levels.
      */
-    public List<Level> getLevelFromData(List<String> levelData, List<Level> levelArray){
+    public static List<Level> getLevelFromData(List<String> levelData, List<Level> levelArray){
 
         try{
             int levelNum;
@@ -109,7 +109,7 @@ public class LevelLoader {
     }
 
 
-    private Tile parseTile(String tile, int x, int y){
+    private static Tile parseTile(String tile, int x, int y){
         Tile newTile = new Tile(x, y);
         newTile.setTileLayout(tile);
         return newTile;
@@ -122,7 +122,7 @@ public class LevelLoader {
      * @param entities
      * @return List<Entity>
      */
-    private Entity parseEntities(String[] entity){
+    private static Entity parseEntities(String[] entity){
         switch(entity[0]){
             case("player"):
                 return new Player(
@@ -179,7 +179,7 @@ public class LevelLoader {
      * 
      * @return The method getLevelData is being returned.
      */
-    public List<Level> getAllLevels(){
+    public static List<Level> getAllLevels(){
         return getLevelFromData(getLevelDataFromFile(), new ArrayList<Level>());
     }
 
@@ -188,7 +188,7 @@ public class LevelLoader {
      * 
      * @return The method returns a list of type String containing each line of the file.
      */
-    public List<String> getLevelDataFromFile(){
+    public static List<String> getLevelDataFromFile(){
         List<String> dataArray = new ArrayList<String>();
         try {
             Scanner sc = new Scanner(new File(levelFile));

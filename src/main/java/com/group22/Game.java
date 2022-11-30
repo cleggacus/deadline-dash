@@ -65,9 +65,7 @@ public class Game extends Engine {
     }
 
     @Override
-    protected void start() {
-        LevelLoader levelLoader = new LevelLoader();
-        Level level = levelLoader.getAllLevels().get(0);
+    protected void start(Level level) {
 
         int width = level.getWidth();
         int height = level.getHeight();
