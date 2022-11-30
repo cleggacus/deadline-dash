@@ -313,7 +313,7 @@ public class GamePane extends StackPane {
 
                 for(int i=0; i < levels.size(); i++){
                     final Level levelf = levels.get(i);
-                    this.levelSelectorPane.addItem(String.valueOf(levels.get(i).getLevelNum()), () -> { Game.getInstance().startFromLevel(GameState.Playing, levelf);});
+                    this.levelSelectorPane.addItem(levels.get(i).getTitle(), () -> { Game.getInstance().startFromLevel(GameState.Playing, levelf);});
                 }
             });
         };

@@ -74,7 +74,7 @@ public class Game extends Engine {
         this.time = level.getTimeToComplete();
 
         this.setViewSize(width, height);
-        this.getGamePane().setGameLevel(level.getLevelNum());
+        this.getGamePane().setGameLevel(1);
 
         this.entities.addAll(level.getEntities());
     }

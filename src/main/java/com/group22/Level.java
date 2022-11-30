@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * @version 1.0
  */
 public class Level {
-    private int levelNum;
+    private String title;
     private int timeToComplete;
     private int height;
     private int width;
@@ -19,8 +19,8 @@ public class Level {
     private String[][] scores;
     
 
-    public Level(int levelNum, int timeToComplete, int height, int width,  Tile[][] tiles, ArrayList<Entity> entities, String[][] scores){
-        this.levelNum = levelNum;
+    public Level(String title, int timeToComplete, int height, int width,  Tile[][] tiles, ArrayList<Entity> entities, String[][] scores){
+        this.title = title;
         this.timeToComplete = timeToComplete;
         this.height = height;
         this.width = width;
@@ -33,8 +33,8 @@ public class Level {
      * Getter for the level's title
      * @return String
      */
-    public int getLevelNum(){
-        return levelNum;
+    public String getTitle(){
+        return title;
     }
 
     

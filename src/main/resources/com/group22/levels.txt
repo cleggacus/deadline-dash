@@ -1,4 +1,4 @@
-1
+Test level 1
 30
 15 10
 bbbb RRRR RRRR RRRR RRRR RRRR rrrr rrrr RRRR RRRR RRRR RRRR RRRR RRRR RRRR
@@ -33,7 +33,7 @@ bob 30
 alice 50
 bob 30
 -
-2
+Test level 2
 10
 3 2
 YYRR YYGG RRRG

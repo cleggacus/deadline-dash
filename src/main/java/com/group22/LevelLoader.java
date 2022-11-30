@@ -23,12 +23,12 @@ public class LevelLoader {
     public static List<Level> getLevelFromData(List<String> levelData, List<Level> levelArray){
 
         try{
-            int levelNum;
+            String title;
             int timeToComplete;
             int height;
             int width;
 
-            levelNum = Integer.parseInt(levelData.get(0));
+            title = levelData.get(0);
 
             timeToComplete = Integer.parseInt(levelData.get(1));
 
@@ -86,7 +86,7 @@ public class LevelLoader {
                 scores[i] = levelData.get(scoresInitialIndex + i).split(" ");
             }
 
-            Level currentLevel = new Level(levelNum, timeToComplete, height, width, 
+            Level currentLevel = new Level(title, timeToComplete, height, width, 
                                         tiles, entities, scores);
             levelArray.add(currentLevel);
 
