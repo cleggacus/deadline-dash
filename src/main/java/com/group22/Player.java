@@ -3,6 +3,8 @@ package com.group22;
 import javafx.scene.input.KeyCode;
 
 public class Player extends LandMover {
+    private KeyCode lastDown;
+
     public Player(int x, int y) {
         super(x, y);
 
@@ -41,51 +43,31 @@ public class Player extends LandMover {
         });
 
         this.spriteOffsetY = -0.3;
-        this.moveEvery = 0.2;
+        this.moveEvery = 0.15;
     }
 
     @Override
     protected void updateMovement() {
         this.getSprite().setImageSet("idle");
 
-        if(
-            Game.getInstance().getKeyDown(KeyCode.W) || 
-            Game.getInstance().getKeyDown(KeyCode.S) || 
-            Game.getInstance().getKeyDown(KeyCode.A) || 
-            Game.getInstance().getKeyDown(KeyCode.D)
-        ) {
-            return;
-        }
+        if(this.lastDown == null)
+            this.lastDown = Game.getInstance().getLastKeyDown(KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D);
 
-        if(Game.getInstance().getKeyState(KeyCode.W) && moveIfValid(0, -1)) {
+        if(this.lastDown == KeyCode.W) {
             this.getSprite().setImageSet("up");
-        } else if(Game.getInstance().getKeyState(KeyCode.S) && moveIfValid(0, 1)) {
+            move(0, -1);
+        } else if(lastDown == KeyCode.S) {
             this.getSprite().setImageSet("down");
-        }
-
-        if(Game.getInstance().getKeyState(KeyCode.A) && moveIfValid(-1, 0)) {
+            move(0, 1);
+        } else if(lastDown == KeyCode.A) {
             this.getSprite().setImageSet("left");
-        } else if(Game.getInstance().getKeyState(KeyCode.D) && moveIfValid(1, 0)) {
+            move(-1, 0);
+        } else if(lastDown == KeyCode.D) {
             this.getSprite().setImageSet("right");
+            move(1, 0);
         }
-    }
 
-    private boolean moveIfValid(int x, int y) {
-        if(x == 0 && y == 0)
-            return false;
-
-        if(x != 0 && y != 0)
-            return false;
-
-        int tempX = this.x;
-        int tempY = this.y;
-
-        this.move(x, y);
-
-        if(tempX != this.x || tempY != this.y)
-            return true;
-
-        return false;
+        this.lastDown = null;
     }
 
     @Override
@@ -96,7 +78,7 @@ public class Player extends LandMover {
             Game.getInstance().getKeyDown(KeyCode.A) || 
             Game.getInstance().getKeyDown(KeyCode.D)
         ) {
-            this.resetMovementUpdate();
+            lastDown = Game.getInstance().getLastKeyDown(KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D);
         }
     }
 }
