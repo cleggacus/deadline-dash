@@ -1,5 +1,7 @@
 package com.group22;
 
+import java.security.Key;
+import java.util.HashMap;
 import java.util.HashSet;
 
 import javafx.event.EventType;
@@ -17,7 +19,7 @@ import javafx.scene.input.KeyCode;
  */
 public class KeyboardManager {
     private HashSet<KeyCode> keysDown;
-    private HashSet<KeyCode> keysPress;
+    private HashMap<KeyCode, Long> keysPress;
     private HashSet<KeyCode> keysUp;
 
     private Scene scene;
@@ -39,20 +41,19 @@ public class KeyboardManager {
         this.scene = scene;
         
         this.keysDown = new HashSet<>();
-        this.keysPress = new HashSet<>();
+        this.keysPress = new HashMap<>();
         this.keysUp = new HashSet<>();
 
         scene.setOnKeyPressed((e -> {
-            if(!keysPress.contains(e.getCode()))
+            if(keysPress.get(e.getCode()) == null) {
                 keysDown.add(e.getCode());
+                keysPress.put(e.getCode(), Long.valueOf(System.nanoTime()));
+            }
 
-            keysPress.add(e.getCode());
             keysUp.remove(e.getCode());
         }));
 
         scene.setOnKeyReleased((e -> {
-            keysDown.remove(e.getCode());
-            keysPress.remove(e.getCode());
             keysUp.add(e.getCode());
         }));
     }
@@ -62,6 +63,15 @@ public class KeyboardManager {
      */
     public void nextFrame() {
         keysDown.clear();
+
+        KeyCode[] keys = new KeyCode[this.keysUp.size()];
+        this.keysUp.toArray(keys);
+
+        for(KeyCode key : keys) {
+            keysDown.remove(key);
+            keysPress.put(key, null);
+        }
+
         keysUp.clear();
     }
 
@@ -90,9 +100,24 @@ public class KeyboardManager {
      *      True if key is down, False if key is up.
      */
     public boolean getKeyState(KeyCode keyCode) {
-        return keysPress.contains(keyCode);
+        return keysPress.get(keyCode) != null;
     }
 
+    public KeyCode getLastKeyDown(KeyCode ...keyCodes) {
+        long lastTime = -1;
+        KeyCode fastest = null;
+
+        for(KeyCode keyCode : keyCodes) {
+            Long time = this.keysPress.get(keyCode);
+
+            if(time != null && time > lastTime) {
+                lastTime = time;
+                fastest = keyCode;
+            }
+        }
+
+        return fastest;
+    }
     
     /** 
      * Checks if the key is being released on the frame which the method is called.
@@ -116,7 +141,7 @@ public class KeyboardManager {
      */
     public KeyCode[] getKeyStates() {
         KeyCode[] keyCodes = new KeyCode[this.keysPress.size()];
-        this.keysPress.toArray(keyCodes);
+        this.keysPress.keySet().toArray(keyCodes);
         return keyCodes;
     }
 }

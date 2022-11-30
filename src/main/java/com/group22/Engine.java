@@ -199,6 +199,10 @@ public abstract class Engine {
         return this.keyboardManager.getKeyUp(keyCode);
     }
 
+    public KeyCode getLastKeyDown(KeyCode ...keyCodes) {
+        return this.keyboardManager.getLastKeyDown(keyCodes);
+    }
+
     /**
      * Checks if a position is in the bounds of the current renderer view size.
      * 
@@ -330,10 +334,11 @@ public abstract class Engine {
      */
     private void updateEntities() {
         for(Entity entity : this.entities)
-            entity.callUpdateMovement();
+            entity.callUpdate();
 
         for(Entity entity : this.entities)
-            entity.callUpdate();
+            entity.callUpdateMovement();
+
     }
 
     /**
