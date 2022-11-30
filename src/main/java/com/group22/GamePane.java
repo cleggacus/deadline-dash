@@ -378,9 +378,7 @@ public class GamePane extends StackPane {
         } else {
             profile.updateTimeActive();
         }
-        this.profileSelectorPane.addItem(username, () -> setProfile(profile));
-        this.getChildren().clear();
-        this.setUpProfileSelector();
+        //this.profileSelectorPane.addItem(username, () -> setProfile(profile));
 
         this.username = username;
         this.setUpStartMenu();

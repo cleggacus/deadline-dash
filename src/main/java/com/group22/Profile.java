@@ -27,9 +27,8 @@ public class Profile {
             FileWriter myWriter = new FileWriter(profileFile, true);
             myWriter.append(this.getName() + " " + this.getTimeAgoLastActive() + "\n");
             myWriter.close();
-            System.out.println("Successfully wrote to the file.");
         } catch (IOException e) {
-            System.out.println("An error occurred.");
+            System.out.println("An error occurred writing to the profiles.txt file");
             e.printStackTrace();
         }
     }
@@ -72,13 +71,10 @@ public class Profile {
 
         for(int i=0; i<profileFileData.size(); i++){
             String[] profile = profileFileData.get(i).split(" ");
-            System.out.println("profile file " + profile[0]);
-            System.out.println("getName() " + this.getName());
             if(profile[0].equals(this.getName())){
                 return true;
             }
         }
-        System.out.println("profile doesnt exist");
         return false;
 
     }
@@ -90,7 +86,7 @@ public class Profile {
     }
     
     public void getUnlockedLevels(){
-        
+
     }
 
     public String getName(){
