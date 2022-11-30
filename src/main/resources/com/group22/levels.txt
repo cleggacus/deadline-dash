@@ -16,13 +16,13 @@ clock 3 2 30
 door 1 1
 bomb 0 0 3
 followingthief 1 2
-loot 2 0 100
+loot 2 4 100
+lever 13 4 r
+gate 10 4 r
 test 1 1
 test 15 10
 test 8 5
 test 4 6
-lever 13 4 r
-gate 10 4 r
 player 2 1
 7
 bob 30
