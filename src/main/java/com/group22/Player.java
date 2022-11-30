@@ -47,6 +47,16 @@ public class Player extends LandMover {
     @Override
     protected void updateMovement() {
         this.getSprite().setImageSet("idle");
+
+        if(
+            Game.getInstance().getKeyDown(KeyCode.W) || 
+            Game.getInstance().getKeyDown(KeyCode.S) || 
+            Game.getInstance().getKeyDown(KeyCode.A) || 
+            Game.getInstance().getKeyDown(KeyCode.D)
+        ) {
+            return;
+        }
+
         if(Game.getInstance().getKeyState(KeyCode.W) && moveIfValid(0, -1)) {
             this.getSprite().setImageSet("up");
         } else if(Game.getInstance().getKeyState(KeyCode.S) && moveIfValid(0, 1)) {
