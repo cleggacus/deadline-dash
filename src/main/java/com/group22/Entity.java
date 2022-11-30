@@ -73,6 +73,10 @@ public abstract class Entity {
         this.update();
     }
 
+    public void resetMovementUpdate() {
+        this.timeSinceMove = this.moveEvery;
+    }
+
 
     /**
      * Publically exposed method which runs abstract updateMovement method.

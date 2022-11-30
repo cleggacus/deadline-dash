@@ -3,7 +3,6 @@ package com.group22;
 import javafx.scene.input.KeyCode;
 
 public class Player extends LandMover {
-
     public Player(int x, int y) {
         super(x, y);
 
@@ -78,8 +77,16 @@ public class Player extends LandMover {
 
         return false;
     }
+
     @Override
-    protected void update() {}
-
-
+    protected void update() {
+        if(
+            Game.getInstance().getKeyDown(KeyCode.W) || 
+            Game.getInstance().getKeyDown(KeyCode.S) || 
+            Game.getInstance().getKeyDown(KeyCode.A) || 
+            Game.getInstance().getKeyDown(KeyCode.D)
+        ) {
+            this.resetMovementUpdate();
+        }
+    }
 }
