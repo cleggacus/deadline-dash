@@ -4,13 +4,12 @@ import java.util.ArrayList;
 
 public class SmartMover extends LandMover{
 
-    private ArrayList<Branch> existingBranches;
     public SmartMover(int posX, int posY){
         super(posX, posY);
         this.getSprite().setImage("NPC/SmartMover.PNG");
     }
 
-    public String findPath(){
+    public ArrayList<Integer> findPath(){
         Branch originBranch = new Branch(this.getX(), this.getY());
         return null;
     }
