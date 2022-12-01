@@ -2,6 +2,8 @@ package com.group22;
 
 import java.util.ArrayList;
 
+import com.group22.game.gui.GamePane;
+
 import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
@@ -24,7 +26,6 @@ public abstract class Engine {
     /** List of entities which are updated and rendered in Game. */
     protected ArrayList<Entity> entities;
 
-    private GameState gameState;
     private GamePane gamePane;
     private Renderer renderer;
     private AnimationTimer gameLoop;
@@ -41,8 +42,8 @@ public abstract class Engine {
     public Engine() {
         this.gamePane = new GamePane();
         this.keyboardManager = new KeyboardManager();
-        this.renderer = new Renderer(this.gamePane.getGraphicsContext());
-        this.renderer.setPadding(GamePane.INFO_BAR_HEIGHT, 0, 0, 0);
+        this.renderer = new Renderer(this.gamePane.getPlaying().getGraphicsContext());
+        this.renderer.setPadding(50, 0, 0, 0);
         this.entities = new ArrayList<>();
 
         this.setUpGameLoop();
@@ -51,7 +52,7 @@ public abstract class Engine {
     }
 
     public String getUsername() {
-        return this.gamePane.getUsername();
+        return this.gamePane.getProfileSelector().getUsername();
     }
 
     /**
@@ -101,36 +102,22 @@ public abstract class Engine {
      *      The new game state.
      */
     public void setGameState(GameState gameState) {
-        if(gameState == this.gameState)
+        GameState currentGameState = this.gamePane.getCurrentState();
+
+        if(gameState == currentGameState)
             return;
 
-        this.gamePane.setState(GameState.Loading);
-
         boolean restart = 
-            this.gameState != GameState.Paused && 
+            currentGameState != GameState.Paused && 
             gameState == GameState.Playing;
 
-        new Thread(() -> {
-            if(restart) {
-                this.entities.clear();
-                this.start();
-            }
+        if(restart) {
+            this.entities.clear();
+            this.start();
+        }
 
-            this.gamePane.setState(gameState);
-            this.gameState = gameState;
-        }).start();
+        this.gamePane.setState(gameState);
     }
-    
-    /** 
-     * Gets the current game state of the {@code Engine}.
-     * 
-     * @return 
-     *     GameState of the program
-     */
-    public GameState getGameState() {
-        return gameState;
-    }
-
     
     /** 
      * Creates a scene containing a game pane.
@@ -293,7 +280,7 @@ public abstract class Engine {
         this.updateTimer(now);
         this.updateState();
 
-        if(gameState == GameState.Playing) {
+        if(this.gamePane.getCurrentState() == GameState.Playing) {
             this.update();
             this.updateEntities();
         }
@@ -322,10 +309,10 @@ public abstract class Engine {
      */
     private void updateState() {
         if(this.getKeyDown(KeyCode.ESCAPE)) {
-            if(this.gameState == GameState.Playing)
+            if(this.gamePane.getCurrentState() == GameState.Playing)
                 this.setGameState(GameState.Paused);
 
-            else if(this.gameState == GameState.Paused)
+            else if(this.gamePane.getCurrentState() == GameState.Paused)
                 this.setGameState(GameState.Playing);
         }
     }
@@ -346,7 +333,6 @@ public abstract class Engine {
      * Updates thats should occur after all the other updates in each frame.
      */
     private void updateAfter() {
-        this.gamePane.update(this.delta);
         this.keyboardManager.nextFrame();
     }
 
@@ -354,9 +340,15 @@ public abstract class Engine {
      * Draws each entity with the renderer.
      */
     private void draw() {
-        if(gamePane.canvasIsVisible()) {
+        GameState gameState = this.gamePane.getCurrentState();
+
+        if(
+            gameState == GameState.Playing ||
+            gameState == GameState.Paused ||
+            gameState == GameState.GameOver
+        ){
             this.renderer.newFrame();
-            this.gamePane.setGameOffesetX(this.renderer.getOffsetX());
+            this.gamePane.getPlaying().setInfoBarPadding(this.renderer.getOffsetX());
 
             for(Entity entity : this.entities)
                 entity.draw(renderer);

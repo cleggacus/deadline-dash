@@ -1,5 +1,6 @@
 package com.group22;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -38,9 +39,7 @@ public class Game extends Engine {
     public static synchronized Game getInstance() {
         if(Game.instance == null) {
             Game.instance = new Game();
-            Game.instance.levelLoader = new LevelLoader();
-            Game.instance.levels = Game.instance.levelLoader.getAllLevels();
-            Game.instance.getGamePane().setLevels(Game.instance.levels.stream().map(level -> level.getTitle()).toList());
+            Game.instance.onInitialized();
         }
 
         return Game.instance;
@@ -106,12 +105,44 @@ public class Game extends Engine {
             this.setGameState(GameState.GameOver);
         }
 
-        this.getGamePane().setGameTime(this.time);
-        this.getGamePane().setGameScore(this.score);
+        this.getGamePane().getPlaying().setGameTime(this.time);
+        this.getGamePane().getPlaying().setGameScore(this.score);
     }
 
     public void startFromLevel(int level){
         this.currentLevelIndex = level;
         this.setGameState(GameState.Playing);
+    }
+
+
+
+    private void onInitialized() {
+        this.setUpLeveles();
+        this.setUpProfiles();
+    }
+
+    private void setUpLeveles() {
+        this.levelLoader = new LevelLoader();
+        this.levels = Game.instance.levelLoader.getAllLevels();
+        this.getGamePane().getLevelSelector().addLevels(Game.instance.levels.stream().map(level -> level.getTitle()).toList());
+    }
+
+    private void setUpProfiles() {
+        Profile checkProfiles = new Profile();
+        List<Profile> profiles = checkProfiles.getAllProfiles();
+
+        for(Profile profile : profiles) {
+            this.getGamePane().getProfileSelector().addProfile(profile.getName());
+        }
+
+        this.getGamePane().getProfileSelector().setProfileAddedEvent(username -> {
+            Profile profile = new Profile(username, LocalDateTime.now());
+
+            if(!profile.exists()){
+                profile.saveToFile();
+            } else {
+                profile.updateTimeActive();
+            }
+        });
     }
 }

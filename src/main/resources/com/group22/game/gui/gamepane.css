@@ -1,0 +1,143 @@
+* {
+    -fx-bg-1: #000000;
+    -fx-bg-2: #1a1a1a;
+
+    -fx-fg-1: #E69664;
+    -fx-fg-2: #E6966455;
+}
+
+.game-pane {
+    -fx-font-family: "Monospaced";
+    -fx-font-weight: Bold;
+    -fx-font-size: 20;
+    -fx-background-color: -fx-bg-1;
+}
+
+.game-pane .gameover-menu,
+.game-pane .pause-menu {
+    -fx-background-color: #000c;
+}
+
+.game-pane .info-bar {
+    -fx-pref-height: 50;
+}
+
+.game-pane .info-bar-left,
+.game-pane .info-bar-right{
+    -fx-alignment: center;
+    -fx-padding: 0 20 0 20;
+    -fx-spacing: 20;
+}
+
+.game-pane .info-bar .label {
+    -fx-text-fill: -fx-fg-1;
+}
+
+.game-pane .input {
+    -fx-background-color: -fx-bg-2;
+    -fx-min-width: 300;
+    -fx-pref-width: 300;
+}
+
+.game-pane .list-button {
+    -fx-background-color: transparent;
+    -fx-min-width: 300;
+    -fx-pref-width: 300;
+}
+
+.game-pane .list-button .button { 
+    -fx-padding: 0 20;
+}
+
+.game-pane .list-button .remove { 
+    -fx-min-width: 0;
+}
+
+.game-pane .input .text-field {
+    -fx-background-color: transparent;
+    -fx-text-fill: -fx-fg-1;
+    -fx-prompt-text-fill: -fx-fg-2;
+    -fx-background-radius: 0;
+}
+
+.game-pane .input .button {
+    -fx-background-radius: 0;
+    -fx-min-width: 0;
+}
+
+.game-pane .button {
+    -fx-cursor: hand;
+    -fx-background-color: transparent;
+    -fx-text-fill: -fx-fg-2;
+    -fx-alignment: center;
+    -fx-min-width: 300;
+}
+
+.game-pane .button:hover {
+    -fx-text-fill: -fx-fg-1;
+}
+
+.game-pane .h2 {
+    -fx-text-fill: -fx-fg-2;
+    -fx-font-size: 25;
+    -fx-alignment: center;
+}
+
+.game-pane .h1 {
+    -fx-padding: 0 0 20 0;
+    -fx-text-fill: -fx-fg-1;
+    -fx-font-size: 40;
+    -fx-alignment: center;
+}
+
+.scroll-pane .menu-pane {
+    -fx-padding: 0;
+}
+
+.menu-pane {
+    -fx-padding: 40;
+}
+
+.game-pane .scroll-pane {
+    -fx-background-color: -fx-bg-1;
+    -fx-background: -fx-bg-1;
+}
+
+.scroll-bar {
+    -fx-background-color:transparent;
+    -fx-pref-width: 16.5;
+    -fx-padding: 3;
+}
+
+
+.scroll-bar > .increment-button > .increment-arrow,
+.scroll-bar > .decrement-button > .decrement-arrow {
+    -fx-cursor: hand;
+    -fx-background-color: -fx-fg-2;
+}
+
+.scroll-bar > .increment-button > .increment-arrow:hover,
+.scroll-bar > .decrement-button > .decrement-arrow:hover {
+    -fx-background-color: -fx-fg-1;
+}
+
+.increment-button, .decrement-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.scroll-bar .track{
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-radius: 0em;
+}
+
+.scroll-bar .thumb {
+    -fx-cursor: hand;
+    -fx-background-color: -fx-fg-2;
+    -fx-background-radius: 5em;
+}
+
+.scroll-bar .thumb:hover {
+    -fx-background-color: -fx-fg-1;
+}

@@ -79,7 +79,7 @@ public class MenuPane extends GridPane {
         this.add(node, 0, this.getRowCount());
     }
 
-    public void remove(Node node) {
+    public int remove(Node node) {
         Iterator<Node> iterator = this.getChildren().iterator();
 
         int i = 0;
@@ -102,6 +102,8 @@ public class MenuPane extends GridPane {
                 GridPane.setRowIndex(current, row - 1);
             }
         }
+
+        return i;
     }
 
     public ScrollPane getAsScrollPane() {

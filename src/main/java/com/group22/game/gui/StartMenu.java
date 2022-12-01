@@ -1,7 +1,7 @@
 package com.group22.game.gui;
 
+import com.group22.GameState;
 import com.group22.base.gui.MenuPane;
-import com.group22.game.GameState;
 
 public class StartMenu extends MenuPane {
     public StartMenu(GamePane gamePane) {

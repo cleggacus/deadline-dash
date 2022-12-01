@@ -1,5 +1,8 @@
 package com.group22.game.gui;
 
+import java.text.DecimalFormat;
+
+import javafx.geometry.Insets;
 import javafx.scene.CacheHint;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -10,6 +13,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
 public class Playing extends StackPane {
+    private Label timeLabel;
+    private Label scoreLabel;
+    private Label levelLabel;
+    private BorderPane infoBar;
     private GraphicsContext graphicsContext;
 
     public Playing(GamePane gamePane) {
@@ -20,8 +27,26 @@ public class Playing extends StackPane {
         this.getChildren().add(infoBar);
     }
 
+    public void setInfoBarPadding(double offset) {
+        this.infoBar.setPadding(new Insets(0, offset, 0, offset));
+    }
+
     public GraphicsContext getGraphicsContext() {
         return graphicsContext;
+    }
+
+    public void setGameTime(double time) {
+        DecimalFormat formatter = new DecimalFormat("000");
+        this.timeLabel.setText("TIME: " + formatter.format(Math.ceil(time)));
+    }
+
+    public void setGameLevel(String level) {
+        this.levelLabel.setText(level);
+    }
+
+    public void setGameScore(int score) {
+        DecimalFormat formatter = new DecimalFormat("000");
+        this.scoreLabel.setText("SCORE: " + formatter.format(score));
     }
 
     private Pane createCanvasPane() {
@@ -40,25 +65,25 @@ public class Playing extends StackPane {
     }
 
     private BorderPane createInfoBar() {
-        BorderPane infoBar = new BorderPane();
+        this.infoBar = new BorderPane();
         BorderPane innerInfoBar = new BorderPane();
 
-        Label score = new Label();
-        score.setText("SCORE: 000");
+        this.scoreLabel = new Label();
+        this.scoreLabel.setText("SCORE: 000");
 
-        Label time = new Label();
-        time.setText("TIME: 0.00");
+        this.timeLabel = new Label();
+        this.timeLabel.setText("TIME: 0.00");
 
-        Label level = new Label();
-        level.setText("LEVEL: 2-2");
+        this.levelLabel = new Label();
+        this.levelLabel.setText("LEVEL: 2-2");
 
         HBox left = new HBox();
-        left.getChildren().add(level);
+        left.getChildren().add(this.levelLabel);
         left.getStyleClass().add("info-bar-left");
 
         HBox right = new HBox();
-        right.getChildren().add(score);
-        right.getChildren().add(time);
+        right.getChildren().add(this.scoreLabel);
+        right.getChildren().add(this.timeLabel);
         right.getStyleClass().add("info-bar-right");
 
         innerInfoBar.setRight(right);

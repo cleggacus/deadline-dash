@@ -1,7 +1,7 @@
 package com.group22.game.gui;
 
+import com.group22.GameState;
 import com.group22.base.gui.StatePane;
-import com.group22.game.GameState;
 
 public class GamePane extends StatePane<GameState> {
     // Panes
@@ -28,11 +28,23 @@ public class GamePane extends StatePane<GameState> {
 
         // Add panes with there visible states
         this.addPane(this.profileSelector, GameState.ProfileSelector);
-        this.addPane(this.startMenu, GameState.StartMenu);
+        this.addPane(this.startMenu, GameState.Start);
         this.addPane(this.levelSelector, GameState.LevelSelector);
         this.addPane(this.playing, GameState.Playing, GameState.Paused, GameState.GameOver);
         this.addPane(this.gameOver, GameState.GameOver);
         this.addPane(this.paused, GameState.Paused);
+    }
+
+    public Playing getPlaying() {
+        return playing;
+    }
+
+    public ProfileSelector getProfileSelector() {
+        return profileSelector;
+    }
+
+    public LevelSelector getLevelSelector() {
+        return levelSelector;
     }
 
     private void setStyling() {
