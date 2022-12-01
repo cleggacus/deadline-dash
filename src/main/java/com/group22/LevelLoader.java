@@ -169,6 +169,11 @@ public class LevelLoader {
                 return new TestObject(
                     Integer.parseInt(entity[1]),
                     Integer.parseInt(entity[2]));
+            case("flyingassassin"):
+                return new FlyingAssassin(
+                    Integer.parseInt(entity[1]),
+                    Integer.parseInt(entity[2]),
+                    entity[3].equals("v"));
 
         }
 
@@ -185,6 +190,7 @@ public class LevelLoader {
      */
     public List<Level> getAllLevels(){
         List<String> dataArray = new ArrayList<String>();
+        
         try {
             Scanner sc = new Scanner(new File(levelFile));
 

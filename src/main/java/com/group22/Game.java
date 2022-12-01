@@ -45,6 +45,8 @@ public class Game extends Engine {
         return Game.instance;
     }
 
+
+
     public Entity getPlayer() {
         return this.player;
     }
@@ -74,12 +76,26 @@ public class Game extends Engine {
         return score;
     }
 
+    public void incrementScore(int amount) {
+        this.setScore(this.score + amount);
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+        this.getGamePane().getPlaying().setGameScore(score);
+    }
+
     @Override
     protected void start() {
+        this.levelLoader = new LevelLoader();
+        this.levels = Game.instance.levelLoader.getAllLevels();
+
         Level currentLevel = this.levels.get(this.currentLevelIndex);
 
         int width = currentLevel.getWidth();
         int height = currentLevel.getHeight();
+
+        this.getGamePane().getPlaying().setGameLevel(currentLevel.getTitle());
 
         this.tiles = currentLevel.getTiles();
         this.time = currentLevel.getTimeToComplete();
@@ -95,6 +111,9 @@ public class Game extends Engine {
     @Override
     protected void update() {
         updateTime();
+        this.getGamePane().getPlaying().setGameScore(this.score);
+
+        Level currentLevel = this.levels.get(this.currentLevelIndex);
     }
 
     private void updateTime() {
@@ -106,15 +125,12 @@ public class Game extends Engine {
         }
 
         this.getGamePane().getPlaying().setGameTime(this.time);
-        this.getGamePane().getPlaying().setGameScore(this.score);
     }
 
     public void startFromLevel(int level){
         this.currentLevelIndex = level;
         this.setGameState(GameState.Playing);
     }
-
-
 
     private void onInitialized() {
         this.setUpLeveles();
@@ -143,6 +159,15 @@ public class Game extends Engine {
             } else {
                 profile.updateTimeActive();
             }
+        });
+
+        this.getGamePane().getProfileSelector().setOnProfileRemoved(profile -> {
+            Profile deleteProfile = new Profile();
+            deleteProfile.delete(profile);
+        });
+
+        this.getGamePane().getProfileSelector().setOnProfileSelectEvent(profile -> {
+            this.getGamePane().getStartMenu().setUsername(profile);
         });
     }
 }

@@ -1,5 +1,7 @@
 package com.group22;
 
+import java.util.ArrayList;
+
 /**
  * 
  * The class {@code LandMover} impliments movement that follows the game tile colors.
@@ -64,14 +66,36 @@ public abstract class LandMover extends Entity {
             }
         }
 
-        int moveX = newX - this.getX();
-        int moveY = newY - this.getY();
+        ArrayList<LandMover> landMovers = Game.getInstance().getEntities(LandMover.class);
+        ArrayList<Loot> loots = Game.getInstance().getEntities(Loot.class);
+        boolean willUpdate = true;
 
-        if(Math.abs(moveY) > 1 || Math.abs(moveX) > 1) {
-            super.move(moveX, moveY, AnimationType.Scale);
-        } else {
-            super.move(moveX, moveY, type);
+        for(Loot loot : loots){
+            if (newX == loot.getX() && newY == loot.getY()){
+                Game.getInstance().incrementScore(100);
+                Game.getInstance().removeEntity(loot);
+            }
         }
+
+
+        for(LandMover landMover : landMovers) {
+            if(newX == landMover.getX() && newY == landMover.getY()) {
+                willUpdate = false;
+            }
+        }
+
+        if(willUpdate) {
+            int moveX = newX - this.getX();
+            int moveY = newY - this.getY();
+
+
+            if(Math.abs(moveY) > 1 || Math.abs(moveX) > 1) {
+                super.move(moveX, moveY, AnimationType.Scale);
+            } else {
+                super.move(moveX, moveY, type);
+            }
+        }
+
     }
 
     /**

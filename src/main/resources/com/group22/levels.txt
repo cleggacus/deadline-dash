@@ -11,14 +11,18 @@ bbbb rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr
 bbbb bbbb bbbb bbbb bbbb bbbb bbbb bbbb bbbb bbbb bbbb bbbb bbbb bbbb bRRb
 rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr rrrr RRRR
 RRRR RRRR RRRR RRRR RRRR RRRR rrrr rrrr RRRR RRRR RRRR RRRR RRRR RRRR RRRR
-12
+16
 clock 3 2 30
+flyingassassin 5 5 v
+flyingassassin 5 5 h
 door 1 1
 bomb 0 0 3
 followingthief 1 2
 loot 2 4 100
-lever 13 4 R
-gate 10 4 R
+lever 13 4 B
+gate 10 4 B
+lever 14 4 R
+gate 11 4 R
 test 1 1
 test 14 9
 test 8 5
@@ -34,6 +38,27 @@ alice 50
 bob 30
 -
 Test level 2
+10
+6 5
+bbRR RRRR RRRR RRBB RRRR RRbb
+bRbR bbbb bbbb bbbb bbbb bbbb
+bbRR RRRR RRRR RRBB RRRR RRbb
+bRbR bbbb bbbb bbbb bbbb bbbb
+bbRR RRRR RRRR RRBB RRRR RRbb
+3
+clock 2 1 15
+door 1 2
+player 1 1
+7
+bob 30
+alice 50
+bob 30
+alice 50
+bob 30
+alice 50
+bob 30
+-
+Test level 3
 10
 6 5
 bbRR RRRR RRRR RRBB RRRR RRbb

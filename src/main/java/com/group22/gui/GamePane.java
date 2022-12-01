@@ -35,8 +35,16 @@ public class GamePane extends StatePane<GameState> {
         this.addPane(this.paused, GameState.Paused);
     }
 
+    public GameOver getGameOver() {
+        return gameOver;
+    }
+
     public Playing getPlaying() {
         return playing;
+    }
+
+    public StartMenu getStartMenu() {
+        return startMenu;
     }
 
     public ProfileSelector getProfileSelector() {
