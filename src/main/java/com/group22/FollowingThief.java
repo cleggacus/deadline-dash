@@ -22,6 +22,7 @@ public class FollowingThief extends LandMover {
         startX = posX;
         startY = posY;
         createPath();
+        this.getSprite().setImage("NPC/FollowingThief.png");
         
     }
 
