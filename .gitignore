@@ -1,3 +1,4 @@
 target
 .idea
 .vscode
+src/main/resources/com/group22/profiles.txt

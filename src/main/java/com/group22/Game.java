@@ -145,5 +145,10 @@ public class Game extends Engine {
                 profile.updateTimeActive();
             }
         });
+
+        this.getGamePane().getProfileSelector().setOnProfileRemoved(profile -> {
+            Profile deleteProfile = new Profile();
+            deleteProfile.delete(profile);
+        });
     }
 }
