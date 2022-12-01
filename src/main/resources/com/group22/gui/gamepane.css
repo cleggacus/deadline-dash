@@ -111,7 +111,7 @@
 }
 
 .menu-pane {
-    -fx-padding: 40;
+    -fx-padding: 40 60;
 }
 
 .game-pane .scroll-pane {

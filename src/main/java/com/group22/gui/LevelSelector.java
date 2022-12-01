@@ -20,7 +20,7 @@ public class LevelSelector extends MenuPane {
         this.addButton("GO BACK", () -> gamePane.setState(GameState.Start));
 
         this.imageList.prefHeightProperty().bind(this.heightProperty().multiply(0.5));
-        this.imageList.prefWidthProperty().bind(this.heightProperty().multiply(0.5/2 * 3).add(200));
+        this.imageList.prefWidthProperty().bind(this.widthProperty());
     }
 
     public void addLevels(List<String> levels) {
