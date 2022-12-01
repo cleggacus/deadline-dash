@@ -20,7 +20,7 @@ public class StartMenu extends BorderPane {
         centerMenu.addButton("LEVELS", () -> gamePane.setState(GameState.LevelSelector));
         centerMenu.addButton("CHANGE USER", () -> gamePane.setState(GameState.ProfileSelector));
 
-        bottomMenu.addParagraph(MOTD.getMOTD());
+        bottomMenu.addParagraph(MOTD.getMOTD().toUpperCase());
 
         this.setTop(topMenuPane);
         this.setCenter(centerMenu);
@@ -28,6 +28,6 @@ public class StartMenu extends BorderPane {
     }
 
     public void setUsername(String username) {
-        this.welcomeLabel.setText("HEY, " + username);
+        this.welcomeLabel.setText("HEY, " + username.toUpperCase());
     }
 }

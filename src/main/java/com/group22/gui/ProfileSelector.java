@@ -29,18 +29,17 @@ public class ProfileSelector extends MenuPane {
 
     public void addProfile(String profile) {
         if(this.profileAddedEvent != null)
-            this.profileAddedEvent.run(profile);
+            this.profileAddedEvent.run(profile.toLowerCase());
 
-
-        this.profileMenu.addListButton(profile, () -> {
-            this.profileSelectEvent.run(profile);
+        this.profileMenu.addListButton(profile.toUpperCase(), () -> {
+            this.profileSelectEvent.run(profile.toLowerCase());
             this.username = profile;
             this.gamePane.setState(GameState.Start);
         }, node -> {
             this.profileMenu.remove(node);
 
             if(this.profileRemovedEvent != null)
-                this.profileRemovedEvent.run(profile);
+                this.profileRemovedEvent.run(profile.toLowerCase());
         });
     }
 

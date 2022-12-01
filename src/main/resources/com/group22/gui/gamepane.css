@@ -59,14 +59,16 @@
     -fx-background-color: transparent;
     -fx-min-width: 300;
     -fx-pref-width: 300;
+    -fx-padding: 0 30;
 }
 
-.game-pane .list-button .button { 
-    -fx-padding: 0 20;
+.game-pane .list-button .button {
+    -fx-padding: 5 5 5 50;
 }
 
 .game-pane .list-button .remove { 
     -fx-min-width: 0;
+    -fx-margin: 5;
 }
 
 .game-pane .input .text-field {
@@ -116,7 +118,7 @@
 }
 
 .scroll-pane .menu-pane {
-    -fx-padding: 0;
+    -fx-padding: 10 0;
 }
 
 .menu-pane {
