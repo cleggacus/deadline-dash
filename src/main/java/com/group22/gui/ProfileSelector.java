@@ -5,6 +5,7 @@ import com.group22.gui.base.MenuPane;
 
 public class ProfileSelector extends MenuPane {
     private ProfileAddedEvent profileAddedEvent;
+    private ProfileSelectEvent profileSelectEvent;
     private ProfileRemovedEvent profileRemovedEvent;
 
     private String username;
@@ -23,14 +24,16 @@ public class ProfileSelector extends MenuPane {
     }
 
     public String getUsername() {
-        return username;
+        return this.username;
     }
 
     public void addProfile(String profile) {
         if(this.profileAddedEvent != null)
             this.profileAddedEvent.run(profile);
 
+
         this.profileMenu.addListButton(profile, () -> {
+            this.profileSelectEvent.run(profile);
             this.username = profile;
             this.gamePane.setState(GameState.Start);
         }, node -> {
@@ -49,11 +52,19 @@ public class ProfileSelector extends MenuPane {
         this.profileAddedEvent = profileAddedEvent;
     }
 
+    public void setOnProfileSelectEvent(ProfileSelectEvent profileSelectEvent) {
+        this.profileSelectEvent = profileSelectEvent;
+    }
+
     public interface ProfileAddedEvent {
         void run(String profile);
     }
 
     public interface ProfileRemovedEvent {
+        void run(String profile);
+    }
+
+    public interface ProfileSelectEvent {
         void run(String profile);
     }
 }

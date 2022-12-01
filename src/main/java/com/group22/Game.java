@@ -95,6 +95,8 @@ public class Game extends Engine {
         int width = currentLevel.getWidth();
         int height = currentLevel.getHeight();
 
+        this.getGamePane().getPlaying().setGameLevel(currentLevel.getTitle());
+
         this.tiles = currentLevel.getTiles();
         this.time = currentLevel.getTimeToComplete();
 
@@ -109,6 +111,9 @@ public class Game extends Engine {
     @Override
     protected void update() {
         updateTime();
+        this.getGamePane().getPlaying().setGameScore(this.score);
+
+        Level currentLevel = this.levels.get(this.currentLevelIndex);
     }
 
     private void updateTime() {
@@ -120,7 +125,6 @@ public class Game extends Engine {
         }
 
         this.getGamePane().getPlaying().setGameTime(this.time);
-        this.getGamePane().getPlaying().setGameScore(this.score);
     }
 
     public void startFromLevel(int level){
@@ -160,6 +164,10 @@ public class Game extends Engine {
         this.getGamePane().getProfileSelector().setOnProfileRemoved(profile -> {
             Profile deleteProfile = new Profile();
             deleteProfile.delete(profile);
+        });
+
+        this.getGamePane().getProfileSelector().setOnProfileSelectEvent(profile -> {
+            this.getGamePane().getStartMenu().setUsername(profile);
         });
     }
 }

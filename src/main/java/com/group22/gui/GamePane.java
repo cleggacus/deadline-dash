@@ -43,6 +43,10 @@ public class GamePane extends StatePane<GameState> {
         return playing;
     }
 
+    public StartMenu getStartMenu() {
+        return startMenu;
+    }
+
     public ProfileSelector getProfileSelector() {
         return profileSelector;
     }
