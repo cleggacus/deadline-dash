@@ -61,6 +61,7 @@ public class Branch {
             this.setDown(posX, posY);
             this.setUp(posX, posY);
         }
+        this.fakeSmartMover = null;
     }
 
     /**
@@ -69,7 +70,7 @@ public class Branch {
      * @param posY The current vertical position.
      */
     public void setLeft(int posX, int posY){
-        if(fakeSmartMover.nextLeft() == this.getX() ||
+        if(this.getMover().nextLeft() == this.getX() ||
         compareBranch(new Branch(this.getMover().nextLeft(), this.getY()))){
             this.leftBranch = null;
         } else {
@@ -78,7 +79,7 @@ public class Branch {
     }
 
     public void setRight(int posX, int posY){
-        if(fakeSmartMover.nextRight() == this.getX() ||
+        if(this.getMover().nextRight() == this.getX() ||
         compareBranch(new Branch(this.getMover().nextRight(), this.getY()))){
             this.rightBranch = null;
         } else {
@@ -87,7 +88,7 @@ public class Branch {
     }
 
     public void setDown(int posX, int posY){
-        if(fakeSmartMover.nextDown() == this.getY() ||
+        if(this.getMover().nextDown() == this.getY() ||
         compareBranch(new Branch(this.getX(), this.getMover().nextDown()))){
             this.downBranch = null;
         } else {
@@ -96,7 +97,7 @@ public class Branch {
     }
 
     public void setUp(int posX, int posY){
-        if(fakeSmartMover.nextUp() == this.getY() ||
+        if(this.getMover().nextUp() == this.getY() ||
         compareBranch(new Branch(this.getX(), this.getMover().nextUp()))){
             this.upBranch = null;
         } else {
