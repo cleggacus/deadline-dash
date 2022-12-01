@@ -7,5 +7,5 @@ package com.group22;
  * @version 1.0
  */
 public enum AnimationType {
-    Linear, Scale, None
+    Linear, Bob, Scale, None
 }

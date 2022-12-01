@@ -215,6 +215,14 @@ public abstract class Entity {
                 double distance = this.y - this.fromY;
                 double animY = this.fromY + distance*percent;
                 return animOffsetY + animY;
+            case Bob:
+                double period = 2;
+                double amount = 0.1;
+
+                double bobDistance = this.y - this.fromY;
+                double bobAnimY = this.fromY + bobDistance*percent;
+
+                return animOffsetY + bobAnimY + amount * Math.sin(2 * Math.PI * percent * period);
             case Scale:
                 return animOffsetY + (percent > 0.5 ? this.y : fromY);
             default:
@@ -237,6 +245,7 @@ public abstract class Entity {
 
         switch(this.animationType) {
             case Linear:
+            case Bob:
                 double distance = this.x - this.fromX;
                 double animX = this.fromX + distance*percent;
                 return animOffsetX + animX;
