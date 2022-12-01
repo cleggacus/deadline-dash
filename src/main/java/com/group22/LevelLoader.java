@@ -28,7 +28,6 @@ public class LevelLoader {
             int width;
 
             title = levelData.get(0);
-            System.out.println(title);
 
             timeToComplete = Integer.parseInt(levelData.get(1));
 
@@ -41,7 +40,6 @@ public class LevelLoader {
             int tilesInitialIndex = 3;
 
             for(int y=0; y < height; y++){
-                System.out.println(y);
                 String[] splitRow = levelData.get(tilesInitialIndex+y).split(" ");
                 for(int x=0; x < width; x++){
                     tiles[x][y] = parseTile(splitRow[x], x, y);
@@ -51,32 +49,10 @@ public class LevelLoader {
 
             int numEntities = Integer.parseInt(levelData.get(3 + height));
             int entitiesInitialIndex = height + tilesInitialIndex + 1;
-            Boolean playerPresent = false;
-            Boolean doorPresent = false;
 
             for(int i=0; i < numEntities; i++){
                 String[] splitEntities = levelData.get(entitiesInitialIndex + i).split(" ");
-                if(splitEntities[0].equals("player")){
-                    playerPresent = true;
-                }
-                if(splitEntities[0].equals("door")){
-                    doorPresent = true;
-                }
-
-                if(Integer.parseInt(splitEntities[1]) > width-1){
-                    throw new Exception("Entity is out of bounds on level number " + (levelArray.size()+1));
-                } else if(Integer.parseInt(splitEntities[2]) > height-1){
-                    throw new Exception("Entity is out of bounds on level number " + (levelArray.size()+1));
-                }
-
                 entities.add(parseEntities(splitEntities));
-            }
-
-            if(!playerPresent){
-                throw new Exception("Player not present on level number " + (levelArray.size()+1));
-            } 
-            if(!doorPresent){
-                throw new Exception("Door not present on level number " + (levelArray.size()+1));
             }
 
             int numScores = Integer.parseInt(levelData.get(entitiesInitialIndex + numEntities));
@@ -89,6 +65,8 @@ public class LevelLoader {
 
             Level currentLevel = new Level(title, timeToComplete, height, width, 
                                         tiles, entities, scores);
+
+            isValid(currentLevel);
             levelArray.add(currentLevel);
 
             if(levelData.size() >= scoresInitialIndex + numScores + 2){
@@ -110,6 +88,28 @@ public class LevelLoader {
     }
 
 
+    private void isValid(Level level) throws Exception{
+        Boolean playerPresent = false;
+        Boolean doorPresent = false;
+
+        for(int i=0; i<level.getEntities().size(); i++){
+            Entity currentEntity = level.getEntities().get(i);
+            if(currentEntity instanceof Player){
+                playerPresent = true;
+            }
+            if(currentEntity instanceof Door){
+                doorPresent = true;
+            }
+            if(currentEntity.getX() > level.getWidth())
+                throw new LevelFormatException("Entity out of bounds in x");
+            if(currentEntity.getY() > level.getHeight())
+                throw new LevelFormatException("Entity out of bounds in y");
+        }
+        if(!playerPresent)
+            throw new LevelFormatException("Player not present");
+        if(!doorPresent)
+            throw new LevelFormatException("Door not found");
+    }
     private Tile parseTile(String tile, int x, int y){
         Tile newTile = new Tile(x, y);
         newTile.setTileLayout(tile);
