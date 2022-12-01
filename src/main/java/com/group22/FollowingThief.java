@@ -16,6 +16,15 @@ public class FollowingThief extends LandMover {
     public TileColor pathColour;
     public int[] pathStart = {startX, startY};
     public int[][] path = {pathStart};
+    //public int[][] path = {{5,1},{5,2},{5,3},{5,2},{5,1}};
+    private int[] currentPos;
+    private int[] nextPos;
+    private int currentX;
+    private int currentY;
+    private int nextX;
+    private int nextY;
+    private int moveX;
+    private int moveY;
 
     public FollowingThief(int posX, int posY, TileColor colour) {
         super(posX, posY);
@@ -23,6 +32,9 @@ public class FollowingThief extends LandMover {
         startY = posY;
         createPath();
         this.getSprite().setImage("NPC/FollowingThief.png");
+        this.getSprite().setAnimationSpeed(0.1);
+        this.setSpriteOffset(0, -0.3);
+        this.moveEvery = 0.05;
         
     }
 
@@ -85,6 +97,34 @@ public class FollowingThief extends LandMover {
         return newPath;
 
     }
+
+    public void setNextMove(int[] currentPos, int[] nextPos){
+        this.currentPos = currentPos;
+        this.nextPos = nextPos;
+        currentX = currentPos[0];
+        currentY = currentPos[0]; 
+        nextX = nextPos[0];
+        nextY = nextPos[1];
+
+        if (nextX == currentX) {
+            moveX = 0;
+        } else if (nextX < currentX) {
+            moveX = -1;
+        } else {
+            moveX = 1;
+        }
+
+        if (nextY == currentY) {
+            moveY = 0;
+        } else if (nextY < currentY) {
+            moveY = -1;
+        } else {
+            moveY = 1;
+        }
+    }
+
+
+    
 
 
     /** 
