@@ -1,6 +1,10 @@
 package com.group22;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -78,9 +82,30 @@ public class Profile {
         return false;
 
     }
-    /*private void delete(){
+    
+    public void delete(String username){
+        try{
+            List<String> profileData = getProfileData();
+            BufferedWriter wr = new BufferedWriter(new FileWriter(profileFile, false));
 
-    }*/
+            for(int i = 0; i < profileData.size(); i++){
+                System.out.println(profileData.get(i).split(" ")[0]);
+                System.out.println(username);
+                if(profileData.get(i).split(" ")[0].equals(username)){
+                    profileData.remove(i);
+                }
+
+            }
+            for(int i = 0; i<profileData.size(); i++){
+                wr.write(profileData.get(i) + "\n");
+            }
+            wr.close();
+
+            } catch(Exception e){
+
+        }
+    }
+
     public void updateTimeActive(){
         return;
     }
