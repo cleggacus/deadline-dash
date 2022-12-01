@@ -17,7 +17,6 @@ public class Clock extends PickUp {
      * A constructor for the clock class which inherits from pickup and entity.
      * @param posX the horizontal position on the map
      * @param posY the vertical position on the map
-     * @param clockSprite the image of the entity
      * @param time a temporal value to use on the level timer
      */
     public Clock(int posX, int posY, double time){
@@ -48,9 +47,8 @@ public class Clock extends PickUp {
      */
     @Override
     public void activatePickUpEffect(LandMover landMover) {
-        if (landMover == Game.getInstance().getPlayer()){
+        if (landMover instanceof Player){
             Game.getInstance().addTime(time);
-            this.addToInventory();
         } else {
             Game.getInstance().addTime(-time);
         }
