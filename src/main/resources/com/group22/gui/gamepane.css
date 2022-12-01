@@ -13,9 +13,25 @@
     -fx-background-color: -fx-bg-1;
 }
 
+.game-pane .image-list .text-overlay {
+    -fx-cursor: hand;
+    -fx-background-color: #000d;
+    -fx-transition: fade;
+    -fx-opacity: 0;
+}
+
+.game-pane .image-list .text-overlay:hover {
+    -fx-opacity: 1;
+}
+
+.game-pane .image-list .label {
+    -fx-font-size: 30;
+    -fx-text-fill: -fx-fg-1;
+}
+
 .game-pane .gameover-menu,
 .game-pane .pause-menu {
-    -fx-background-color: #000c;
+    -fx-background-color: #000d;
 }
 
 .game-pane .info-bar {
@@ -77,10 +93,18 @@
     -fx-text-fill: -fx-fg-1;
 }
 
+.game-pane .paragraph {
+    -fx-text-fill: -fx-fg-2;
+    -fx-font-size: 16;
+    -fx-alignment: center;
+    -fx-text-alignment: center;
+}
+
 .game-pane .h2 {
     -fx-text-fill: -fx-fg-2;
     -fx-font-size: 25;
     -fx-alignment: center;
+    -fx-text-alignment: center;
 }
 
 .game-pane .h1 {
@@ -88,6 +112,7 @@
     -fx-text-fill: -fx-fg-1;
     -fx-font-size: 40;
     -fx-alignment: center;
+    -fx-text-alignment: center;
 }
 
 .scroll-pane .menu-pane {
@@ -95,7 +120,7 @@
 }
 
 .menu-pane {
-    -fx-padding: 40;
+    -fx-padding: 40 60;
 }
 
 .game-pane .scroll-pane {
@@ -103,22 +128,21 @@
     -fx-background: -fx-bg-1;
 }
 
-.scroll-bar {
+.scroll-bar:vertical {
     -fx-background-color:transparent;
-    -fx-pref-width: 16.5;
-    -fx-padding: 3;
+    -fx-pref-width: 20;
+    -fx-padding: 0 5;
 }
 
+.scroll-bar:horizontal {
+    -fx-background-color:transparent;
+    -fx-pref-height: 20;
+    -fx-padding: 5 0;
+}
 
 .scroll-bar > .increment-button > .increment-arrow,
 .scroll-bar > .decrement-button > .decrement-arrow {
-    -fx-cursor: hand;
-    -fx-background-color: -fx-fg-2;
-}
-
-.scroll-bar > .increment-button > .increment-arrow:hover,
-.scroll-bar > .decrement-button > .decrement-arrow:hover {
-    -fx-background-color: -fx-fg-1;
+    -fx-padding: 0 0 0 0;
 }
 
 .increment-button, .decrement-button {
