@@ -321,8 +321,9 @@ public abstract class Engine {
      * Updates the entities movements and then there game logic.
      */
     private void updateEntities() {
-        for(Entity entity : this.entities)
-            entity.callUpdate();
+        for(Entity entity : this.entities){
+                entity.callUpdate();
+        }
 
         for(Entity entity : this.entities)
             entity.callUpdateMovement();

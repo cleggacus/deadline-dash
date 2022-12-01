@@ -67,8 +67,16 @@ public abstract class LandMover extends Entity {
         }
 
         ArrayList<LandMover> landMovers = Game.getInstance().getEntities(LandMover.class);
-
+        ArrayList<Loot> loots = Game.getInstance().getEntities(Loot.class);
         boolean willUpdate = true;
+
+        for(Loot loot : loots){
+            if (newX == loot.getX() && newY == loot.getY()){
+                Game.getInstance().incrementScore(100);
+                Game.getInstance().removeEntity(loot);
+            }
+        }
+
 
         for(LandMover landMover : landMovers) {
             if(newX == landMover.getX() && newY == landMover.getY()) {

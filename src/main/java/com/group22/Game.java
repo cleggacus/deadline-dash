@@ -45,6 +45,8 @@ public class Game extends Engine {
         return Game.instance;
     }
 
+
+
     public Entity getPlayer() {
         return this.player;
     }
@@ -72,6 +74,15 @@ public class Game extends Engine {
 
     public int getScore() {
         return score;
+    }
+
+    public void incrementScore(int amount) {
+        this.setScore(this.score + amount);
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+        this.getGamePane().getPlaying().setGameScore(score);
     }
 
     @Override
