@@ -1,10 +1,10 @@
-package com.group22.gui;
+package com.group22.gui.base;
 
 import java.util.Iterator;
 
-import com.group22.gui.Input.InputEvent;
-import com.group22.gui.ListButton.OnClickEvent;
-import com.group22.gui.ListButton.RemoveButtonEvent;
+import com.group22.gui.base.Input.InputEvent;
+import com.group22.gui.base.ListButton.OnClickEvent;
+import com.group22.gui.base.ListButton.RemoveButtonEvent;
 
 import javafx.geometry.Pos;
 import javafx.scene.Node;

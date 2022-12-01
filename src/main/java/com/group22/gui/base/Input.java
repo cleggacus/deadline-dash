@@ -1,4 +1,4 @@
-package com.group22.gui;
+package com.group22.gui.base;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;

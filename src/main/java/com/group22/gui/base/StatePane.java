@@ -1,4 +1,4 @@
-package com.group22.gui;
+package com.group22.gui.base;
 
 import java.util.ArrayList;
 import java.util.HashMap;

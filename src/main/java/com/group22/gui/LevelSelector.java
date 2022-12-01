@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.group22.Game;
 import com.group22.GameState;
+import com.group22.gui.base.MenuPane;
 
 public class LevelSelector extends MenuPane {
     private MenuPane levelMenu;
