@@ -1,7 +1,6 @@
-package com.group22.game.gui;
+package com.group22.gui;
 
 import com.group22.GameState;
-import com.group22.base.gui.StatePane;
 
 public class GamePane extends StatePane<GameState> {
     // Panes

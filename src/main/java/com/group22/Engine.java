@@ -2,7 +2,7 @@ package com.group22;
 
 import java.util.ArrayList;
 
-import com.group22.game.gui.GamePane;
+import com.group22.gui.GamePane;
 
 import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;

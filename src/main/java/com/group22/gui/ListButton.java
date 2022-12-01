@@ -1,4 +1,4 @@
-package com.group22.base.gui;
+package com.group22.gui;
 
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;

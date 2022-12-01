@@ -1,4 +1,4 @@
-package com.group22.game.gui;
+package com.group22.gui;
 
 import java.text.DecimalFormat;
 

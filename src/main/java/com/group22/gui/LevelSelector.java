@@ -1,10 +1,9 @@
-package com.group22.game.gui;
+package com.group22.gui;
 
 import java.util.List;
 
 import com.group22.Game;
 import com.group22.GameState;
-import com.group22.base.gui.MenuPane;
 
 public class LevelSelector extends MenuPane {
     private MenuPane levelMenu;
