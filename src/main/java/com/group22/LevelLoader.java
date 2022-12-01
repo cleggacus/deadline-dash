@@ -28,6 +28,7 @@ public class LevelLoader {
             int width;
 
             title = levelData.get(0);
+            System.out.println(title);
 
             timeToComplete = Integer.parseInt(levelData.get(1));
 
@@ -40,6 +41,7 @@ public class LevelLoader {
             int tilesInitialIndex = 3;
 
             for(int y=0; y < height; y++){
+                System.out.println(y);
                 String[] splitRow = levelData.get(tilesInitialIndex+y).split(" ");
                 for(int x=0; x < width; x++){
                     tiles[x][y] = parseTile(splitRow[x], x, y);
@@ -91,7 +93,7 @@ public class LevelLoader {
 
             if(levelData.size() >= scoresInitialIndex + numScores + 2){
                 return getLevelFromData(levelData.subList(scoresInitialIndex + numScores + 1,
-                                        levelData.size()-1), levelArray);
+                                        levelData.size()), levelArray);
             } else {
                 return levelArray;
             }
