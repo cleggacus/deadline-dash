@@ -76,6 +76,9 @@ public class Game extends Engine {
 
     @Override
     protected void start() {
+        this.levelLoader = new LevelLoader();
+        this.levels = Game.instance.levelLoader.getAllLevels();
+
         Level currentLevel = this.levels.get(this.currentLevelIndex);
 
         int width = currentLevel.getWidth();
@@ -113,8 +116,6 @@ public class Game extends Engine {
         this.currentLevelIndex = level;
         this.setGameState(GameState.Playing);
     }
-
-
 
     private void onInitialized() {
         this.setUpLeveles();
