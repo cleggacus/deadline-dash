@@ -129,7 +129,6 @@ public class Game extends Engine {
     }
 
     private void onInitialized() {
-        this.setUpLeveles();
         this.setUpProfiles();
     }
 
@@ -163,7 +162,10 @@ public class Game extends Engine {
         });
 
         this.getGamePane().getProfileSelector().setOnProfileSelectEvent(profile -> {
+            this.getGamePane().getLevelSelector().clearLevels();
+            this.getGamePane().getLevelSelector().setProfile(checkProfiles.getFromName(profile));
             this.getGamePane().getStartMenu().setUsername(profile);
+            this.setUpLeveles();
         });
     }
 }

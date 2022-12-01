@@ -4,11 +4,13 @@ import java.util.List;
 
 import com.group22.Game;
 import com.group22.GameState;
+import com.group22.Profile;
 import com.group22.gui.base.ImageList;
 import com.group22.gui.base.MenuPane;
 
 public class LevelSelector extends MenuPane {
     private ImageList imageList;
+    private Profile currentProfile;
 
     public LevelSelector(GamePane gamePane) {
         this.imageList = new ImageList();
@@ -29,14 +31,42 @@ public class LevelSelector extends MenuPane {
         }
     }
 
-    public void addLevel(String level) {
-        String path = "thumb/" + level.toLowerCase().replace(" ", "_") + ".png";
-        int i = this.imageList.getLength();
+    public void clearLevels(){
+        this.imageList.removeImages();
+    }
 
-        this.imageList.addImage(
-            level,
-            getClass().getResource(path).toString(),
-            () -> Game.getInstance().startFromLevel(i)
-        );
+    public void setProfile(Profile profile){
+        this.currentProfile = profile;
+        /*int u = profile.getMaxUnlockedLevelIndex();
+        int l = this.imageList.getLength();
+        for(int i = 0; i < l; i++){
+            if(i >= u){
+                this.imageList.get
+            }
+        }*/
+    }
+
+    public void addLevel(String level) {
+        int i = this.imageList.getLength();
+        int l = this.currentProfile.getMaxUnlockedLevelIndex();
+
+        if(i < l){ //unlocked
+            String path = "thumb/" + level.toLowerCase().replace(" ", "_") + ".png";
+            System.out.println(i + " is unlocked");
+            this.imageList.addImage(
+                level,
+                getClass().getResource(path).toString(),
+                () -> Game.getInstance().startFromLevel(i)
+            );
+
+        } else { //locked
+            String path = "thumb/" + level.toLowerCase().replace(" ", "_") + ".png";
+            System.out.println(i + " is locked");
+            this.imageList.addLockedImage(
+                level,
+                getClass().getResource(path).toString());
+
+        }
+
     }
 }

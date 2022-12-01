@@ -13,13 +13,17 @@ public class Profile {
     private LocalDateTime dateLastActive;
     private String name;
     private static final String profileFile = "src/main/resources/com/group22/profiles.txt";
+    private Integer maxUnlockedLevelIndex;
+    private List<Profile> allProfiles;
 
     public Profile(String name, LocalDateTime dateLastActive){
         this.name = name;
         this.dateLastActive = dateLastActive;
+        this.maxUnlockedLevelIndex = getMaxUnlockedLevelIndex();
     }
 
     public Profile(){
+        this.allProfiles = this.getAllProfiles();
     }
 
 
@@ -35,7 +39,7 @@ public class Profile {
     }
 
     public List<Profile> getAllProfiles(){
-        List<String> profileFileData = getProfileData();
+        List<String> profileFileData = getAllProfilesData();
         List<Profile> profiles = new ArrayList<Profile>();
 
         for(int i=0; i<profileFileData.size(); i++){
@@ -48,8 +52,17 @@ public class Profile {
 
     }
 
+    public Profile getFromName(String name){
+        for(Profile p : this.allProfiles){
+            if(p.getName().equals(name)){
+                return p;
+            }
+        }
+        return null;
+    }
 
-    private List<String> getProfileData(){
+
+    private List<String> getAllProfilesData(){
         List<String> dataArray = new ArrayList<String>();
         try {
             Scanner sc = new Scanner(new File(profileFile));
@@ -66,9 +79,9 @@ public class Profile {
         }
         return dataArray;
     }
-    
+
     public Boolean exists(){
-        List<String> profileFileData = getProfileData();
+        List<String> profileFileData = getAllProfilesData();
 
         for(int i=0; i<profileFileData.size(); i++){
             String[] profile = profileFileData.get(i).split(" ");
@@ -82,7 +95,7 @@ public class Profile {
     
     public void delete(String username){
         try{
-            List<String> profileData = getProfileData();
+            List<String> profileData = getAllProfilesData();
             BufferedWriter wr = new BufferedWriter(new FileWriter(profileFile, false));
 
             for(int i = 0; i < profileData.size(); i++){
@@ -105,8 +118,15 @@ public class Profile {
         return;
     }
     
-    public void getUnlockedLevels(){
-
+    public Integer getMaxUnlockedLevelIndex(){
+        List<String> allProfiles = this.getAllProfilesData();
+        for(int i = 0; i < allProfiles.size(); i++){
+            String[] currentProfile = allProfiles.get(i).split(" ");
+            if(currentProfile[0].equals(this.getName())){
+                this.maxUnlockedLevelIndex = Integer.parseInt(currentProfile[2]);
+            }
+        }
+        return this.maxUnlockedLevelIndex;
     }
 
     public String getName(){
