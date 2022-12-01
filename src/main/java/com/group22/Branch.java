@@ -32,28 +32,17 @@ public class Branch {
     private Branch upBranch;
 
     /**
-     * An array list containing all valid branches from the current branch.
-     */
-    private ArrayList<Branch> branches = new ArrayList<>();
-
-    /**
      * An arraylist containing any branch that has already been used.
      */
 
     private ArrayList<Branch> existingBranches;
 
     /**
-     * An array list containing all of the target branches.
-     */
-
-    private ArrayList<Branch> targetBranches;
-    
-    /**
      * An array list containing all the coordinates to reach the current tile.
      */
     
     private ArrayList<Integer> path;
-
+    private static ArrayList<ArrayList<Integer>> targetPaths = new ArrayList<ArrayList<Integer>>();
     /**
      * Constructor for the branch, constructs branches of this branch, and adds
      * the branch coordinates towards the path.
@@ -63,13 +52,15 @@ public class Branch {
     public Branch(int posX, int posY){
         this.branchX = posX;
         this.branchY = posY;
-        this.fakeSmartMover = new SmartMover(branchX, branchY);
         existingBranches.add(this);
         path.add(posX, posY);
-        this.setLeft(posX, posY);
-        this.setRight(posX, posY);
-        this.setDown(posX, posY);
-        this.setUp(posX, posY);
+        if(!isTarget(this)){
+            this.fakeSmartMover = new SmartMover(branchX, branchY);
+            this.setLeft(posX, posY);
+            this.setRight(posX, posY);
+            this.setDown(posX, posY);
+            this.setUp(posX, posY);
+        }
     }
 
     /**
@@ -79,38 +70,37 @@ public class Branch {
      */
     public void setLeft(int posX, int posY){
         if(fakeSmartMover.nextLeft() == this.getX() ||
-        compareBranch(new Branch(this.getMover().nextLeft(), this.getY())) ){
+        compareBranch(new Branch(this.getMover().nextLeft(), this.getY()))){
             this.leftBranch = null;
         } else {
             this.leftBranch = new Branch(this.getMover().nextLeft(), this.getY());
-            branches.add(leftBranch);
         }
     }
 
     public void setRight(int posX, int posY){
-        if(fakeSmartMover.nextRight() == this.getX()){
+        if(fakeSmartMover.nextRight() == this.getX() ||
+        compareBranch(new Branch(this.getMover().nextRight(), this.getY()))){
             this.rightBranch = null;
         } else {
             this.rightBranch = new Branch(this.getMover().nextRight(), this.getY());
-            branches.add(rightBranch);
         }
     }
 
     public void setDown(int posX, int posY){
-        if(fakeSmartMover.nextDown() == this.getY()){
+        if(fakeSmartMover.nextDown() == this.getY() ||
+        compareBranch(new Branch(this.getX(), this.getMover().nextDown()))){
             this.downBranch = null;
         } else {
             this.downBranch = new Branch(this.getX(), this.getMover().nextDown());
-            branches.add(downBranch);
         }
     }
 
     public void setUp(int posX, int posY){
-        if(fakeSmartMover.nextUp() == this.getY()){
+        if(fakeSmartMover.nextUp() == this.getY() ||
+        compareBranch(new Branch(this.getX(), this.getMover().nextUp()))){
             this.upBranch = null;
         } else {
             this.upBranch = new Branch(this.getX(), this.getMover().nextUp());
-            branches.add(upBranch);
         }
     }
 
@@ -131,15 +121,6 @@ public class Branch {
     }
 
     /**
-     * Returns branches
-     * @return the sub-branches connected to this branch.
-     */
-    public ArrayList<Branch> getBranches(){
-        this.fakeSmartMover = null;
-        return this.branches;
-    }
-
-    /**
      * Returns a fake smart mover.
      * @return the fake smart mover held in this branch
      */
@@ -149,11 +130,21 @@ public class Branch {
 
     /**
      * Returns a path
-     * @return the ooordinates to follow the path
+     * @return the coordinates to follow the path
      */
     public ArrayList<Integer> getPath(){
         return this.path;
     }
+
+    /**
+     * Returns all paths that reach a valid target, a valid target being a
+     * pickup or the door if there are no pickups on the field
+     * @return The list of paths that reach a valid target.
+     */
+    public ArrayList<ArrayList<Integer>> getPaths(){
+        return Branch.targetPaths;
+    }
+
 
     /**
      * Compares a branch to the existing branches, if they have the same
@@ -170,5 +161,30 @@ public class Branch {
             }
         }
         return isBranch;
+    }
+    
+    public Boolean isTarget(Branch newBranch){
+        ArrayList<PickUp> pickups = Game.getInstance().getEntities(PickUp.class);
+        ArrayList<Door> doors = Game.getInstance().getEntities(Door.class);
+        if(pickups.isEmpty()){
+            for (Door door : doors){
+                if (door.getX() == this.getX() && door.getY() == this.getY()){
+                    targetPaths.add(this.getPath());
+                    return true;
+                }
+            }
+        } else {
+            for (PickUp pickup : pickups){
+                if (pickup.getX() == this.getX() && pickup.getY() == this.getY()){
+                    targetPaths.add(this.getPath());
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public void clearPaths(){
+        targetPaths.clear();
     }
 }

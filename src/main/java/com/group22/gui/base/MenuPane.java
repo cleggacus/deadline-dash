@@ -51,6 +51,18 @@ public class MenuPane extends GridPane {
         return button;
     }
 
+    public Label addParagraph(String text) {
+        Label paragraph = new Label(text);
+
+        paragraph.getStyleClass().add("paragraph");
+        paragraph.maxWidthProperty().bind(this.widthProperty());
+        paragraph.setWrapText(true);
+
+        this.add(paragraph);
+
+        return paragraph;
+    }
+
     public Label addH2(String text) {
         Label h2 = new Label(text);
 
