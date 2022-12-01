@@ -1,7 +1,5 @@
 package com.group22;
 
-import static com.group22.GameState.Playing;
-
 public class Bomb extends Entity{
 
     private int countdown = 3;
