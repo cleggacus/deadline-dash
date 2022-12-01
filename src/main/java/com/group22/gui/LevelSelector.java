@@ -52,7 +52,6 @@ public class LevelSelector extends MenuPane {
 
         if(i < l){ //unlocked
             String path = "thumb/" + level.toLowerCase().replace(" ", "_") + ".png";
-            System.out.println(i + " is unlocked");
             this.imageList.addImage(
                 level,
                 getClass().getResource(path).toString(),
@@ -61,7 +60,6 @@ public class LevelSelector extends MenuPane {
 
         } else { //locked
             String path = "thumb/" + level.toLowerCase().replace(" ", "_") + ".png";
-            System.out.println(i + " is locked");
             this.imageList.addLockedImage(
                 level,
                 getClass().getResource(path).toString());
