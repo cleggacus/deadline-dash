@@ -17,8 +17,6 @@ loot 2 4 100
 loot 5 6 200
 loot 12 1 150
 loot 10 8 50
-flyingassassin 5 5 v
-flyingassassin 5 5 h
 door 1 1
 bomb 0 0 3
 followingthief 1 2
@@ -27,6 +25,8 @@ gate 10 4 B
 lever 14 4 R
 gate 11 4 R
 player 2 1
+flyingassassin 5 5 v
+flyingassassin 5 5 h
 7
 bob 30
 alice 50

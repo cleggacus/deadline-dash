@@ -214,6 +214,7 @@ public abstract class Entity {
             case Linear:
                 double distance = this.y - this.fromY;
                 double animY = this.fromY + distance*percent;
+
                 return animOffsetY + animY;
             case Bob:
                 double period = 2;

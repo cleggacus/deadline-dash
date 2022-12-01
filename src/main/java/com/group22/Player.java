@@ -69,20 +69,30 @@ public class Player extends LandMover {
             move(1, 0);
         }
 
-        ArrayList<Door> objs = Game.getInstance().getEntities(Door.class);
+        ArrayList<Door> doors = Game.getInstance().getEntities(Door.class);
+        ArrayList<PickUp> pickUps = Game.getInstance().getEntities(PickUp.class);
 
         boolean touchingDoor = false;
+        boolean touchingPickup = false;
 
-        for(Door obj : objs) {
-            if(obj.getX() == this.getX() && this.getY() == obj.getY()) {
+        for(Door door : doors) {
+            if(door.getX() == this.getX() && this.getY() == door.getY()) {
                 touchingDoor = true;
+            }
+        }
+
+        for(PickUp pickUp : pickUps) {
+            if(pickUp.getX() == this.getX() && this.getY() == pickUp.getY()) {
+                touchingPickup = true;
             }
         }
 
         if(touchingDoor)
             this.setSpriteOffset(0, 0);
+        else if(touchingPickup)
+            this.setSpriteOffset(0, -0.5);
         else
-            this.setSpriteOffset(0, -0.3);
+            this.setSpriteOffset(0, -0.25);
 
         this.lastDown = null;
     }
