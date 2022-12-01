@@ -165,10 +165,6 @@ public class LevelLoader {
                     Integer.parseInt(entity[1]),
                     Integer.parseInt(entity[2]),
                     Integer.parseInt(entity[3]));
-            case("test"):
-                return new TestObject(
-                    Integer.parseInt(entity[1]),
-                    Integer.parseInt(entity[2]));
             case("flyingassassin"):
                 return new FlyingAssassin(
                     Integer.parseInt(entity[1]),
