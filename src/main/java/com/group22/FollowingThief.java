@@ -34,8 +34,7 @@ public class FollowingThief extends LandMover {
         this.getSprite().setImage("NPC/FollowingThief.png");
         this.getSprite().setAnimationSpeed(0.1);
         this.setSpriteOffset(0, -0.3);
-        this.moveEvery = 0.05;
-        
+        this.moveEvery = 0.3;
     }
 
     public void setPathColour(TileColor colour){
@@ -127,23 +126,22 @@ public class FollowingThief extends LandMover {
     
 
 
-    /** 
-     * @param x
-     * @param y
-     * @param type
-     */
-    @Override 
-    protected void move(int x, int y, AnimationType type) {
-
-    }
+    // /** 
+    //  * @param x
+    //  * @param y
+    //  * @param type
+    //  */
+    // @Override 
+    // protected void move(int x, int y, AnimationType type) {
+        
+    // }
 
     
 
 
     @Override
     protected void updateMovement() {
-        // TODO Auto-generated method stub
-        
+        this.move((int)Math.floor(Math.random()*3-1), 0, AnimationType.Bob);
     }
 
     @Override

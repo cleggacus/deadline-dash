@@ -63,27 +63,12 @@ public class Loot extends PickUp {
      * @param landMover
      */
     public void activatePickUpEffect(LandMover landMover) {
-        if (landMover == Game.getInstance().getPlayer()){
-            Game.getInstance().addPoints(val);        
+        if(landMover instanceof Player) {
+            Game.getInstance().incrementScore(this.val);
         }
-        
+
         Game.getInstance().removeEntity(this);
     }
-
-
-    @Override
-    protected void updateMovement() {
-        // TODO Auto-generated method stub
-        
-    }
-
-
-    @Override
-    protected void update() {
-        // TODO Auto-generated method stub
-        
-    }
-
 }
 
 /**ADDED TO GAME: Is this right? 

@@ -1,5 +1,7 @@
 package com.group22;
 
+import java.util.ArrayList;
+
 /**
  * The super class for all pickup objects and an inheritor of entity,
  * doesn't do much but has all the code that pickups should share.
@@ -34,4 +36,21 @@ public abstract class PickUp extends Entity {
     public void addToInventory () {
         //Game.getInstance().getPlayer().getInventory().add(this);
     }
+
+    @Override
+    protected void update() {
+        ArrayList<LandMover> landMovers = Game.getInstance().getEntities(LandMover.class);
+
+        for(LandMover landMover : landMovers) {
+            if(
+                landMover.getX() == this.getX() && 
+                landMover.getY() == this.getY()
+            ) {
+                this.activatePickUpEffect(landMover);
+            }
+        }
+    }
+
+    @Override
+    protected void updateMovement() {}
 }

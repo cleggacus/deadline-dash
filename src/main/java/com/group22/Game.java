@@ -68,10 +68,6 @@ public class Game extends Engine {
         this.time += seconds;
     }
 
-    public void addPoints(int val) {
-        this.score += val;
-    }
-
     public int getScore() {
         return score;
     }
