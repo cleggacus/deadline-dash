@@ -37,12 +37,21 @@ public class Branch {
     private ArrayList<Branch> branches = new ArrayList<>();
 
     /**
+     * An arraylist containing any branch that has already been used.
+     */
+
+    private ArrayList<Branch> existingBranches;
+
+    /**
      * An array list containing all of the target branches.
      */
+
     private ArrayList<Branch> targetBranches;
+    
     /**
      * An array list containing all the coordinates to reach the current tile.
      */
+    
     private ArrayList<Integer> path;
 
     /**
@@ -55,6 +64,7 @@ public class Branch {
         this.branchX = posX;
         this.branchY = posY;
         this.fakeSmartMover = new SmartMover(branchX, branchY);
+        existingBranches.add(this);
         path.add(posX, posY);
         this.setLeft(posX, posY);
         this.setRight(posX, posY);
@@ -64,11 +74,12 @@ public class Branch {
 
     /**
      * Constructs the left branch of this branch if it exists
-     * @param posX
-     * @param posY
+     * @param posX The current horizontal position
+     * @param posY The current vertical position.
      */
     public void setLeft(int posX, int posY){
-        if(fakeSmartMover.nextLeft() == this.getX()){
+        if(fakeSmartMover.nextLeft() == this.getX() ||
+        compareBranch(new Branch(this.getMover().nextLeft(), this.getY())) ){
             this.leftBranch = null;
         } else {
             this.leftBranch = new Branch(this.getMover().nextLeft(), this.getY());
@@ -103,24 +114,61 @@ public class Branch {
         }
     }
 
+    /**
+     * Returns coordinates
+     * @return the X coordinates of this branch
+     */
     public int getX(){
         return this.branchX;
     }
 
+    /**
+     * Returns coordinates
+     * @return the Y coordinates of this branch
+     */
     public int getY(){
         return this.branchY;
     }
 
+    /**
+     * Returns branches
+     * @return the sub-branches connected to this branch.
+     */
     public ArrayList<Branch> getBranches(){
         this.fakeSmartMover = null;
         return this.branches;
     }
 
+    /**
+     * Returns a fake smart mover.
+     * @return the fake smart mover held in this branch
+     */
     public SmartMover getMover(){
         return this.fakeSmartMover;
     }
 
+    /**
+     * Returns a path
+     * @return the ooordinates to follow the path
+     */
     public ArrayList<Integer> getPath(){
         return this.path;
+    }
+
+    /**
+     * Compares a branch to the existing branches, if they have the same
+     * coordinates its a match
+     * @param newBranch The branch candidate being compared
+     * @return Whether the branch is in existing branches already
+     */
+    public Boolean compareBranch(Branch newBranch){
+        Boolean isBranch = false;
+        for (Branch branch : existingBranches){
+            if(newBranch.getX() == branch.getX()
+            && newBranch.getY() == branch.getY()){
+                isBranch = true;
+            }
+        }
+        return isBranch;
     }
 }

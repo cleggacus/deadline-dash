@@ -11,9 +11,7 @@ public class SmartMover extends LandMover{
     }
 
     public String findPath(){
-        existingBranches = new ArrayList<>();
         Branch originBranch = new Branch(this.getX(), this.getY());
-        existingBranches.add(originBranch);
         return null;
     }
     @Override
