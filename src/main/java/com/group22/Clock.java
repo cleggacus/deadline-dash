@@ -47,7 +47,7 @@ public class Clock extends PickUp {
      */
     @Override
     public void activatePickUpEffect(LandMover landMover) {
-        if (landMover == Game.getInstance().getPlayer()){
+        if (landMover instanceof Player){
             Game.getInstance().addTime(time);
         } else {
             Game.getInstance().addTime(-time);
