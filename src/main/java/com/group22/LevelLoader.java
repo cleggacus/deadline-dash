@@ -40,8 +40,13 @@ public class LevelLoader {
             int tilesInitialIndex = 3;
 
             for(int y=0; y < height; y++){
-                String[] splitRow = levelData.get(tilesInitialIndex+y).split(" ");
+                int yData = tilesInitialIndex+y;
+                if(yData >= levelData.size() || yData < 0)
+                    throw new LevelFormatException("Tile missing in the y plane");
+                String[] splitRow = levelData.get(yData).split(" ");
                 for(int x=0; x < width; x++){
+                    if(x >= splitRow.length || x < 0)
+                        throw new LevelFormatException("Tile missing in the y plane");
                     tiles[x][y] = parseTile(splitRow[x], x, y);
                     entities.add(tiles[x][y]);
                 }
@@ -87,7 +92,6 @@ public class LevelLoader {
 
     }
 
-
     private void isValid(Level level) throws Exception{
         Boolean playerPresent = false;
         Boolean doorPresent = false;
@@ -110,6 +114,7 @@ public class LevelLoader {
         if(!doorPresent)
             throw new LevelFormatException("Door not found");
     }
+
     private Tile parseTile(String tile, int x, int y){
         Tile newTile = new Tile(x, y);
         newTile.setTileLayout(tile);
