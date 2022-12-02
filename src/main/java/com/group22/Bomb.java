@@ -14,6 +14,7 @@ public class Bomb extends Entity{
     public Bomb(int x, int y, int countdown) {
         super(x, y);
         this.countdown = countdown;
+        this.getSprite().setImage("character/farron0.png");
     }
 
     /* public void checkNeighbourTiles(){
