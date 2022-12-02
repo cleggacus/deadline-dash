@@ -2,7 +2,7 @@ package com.group22.gui.base;
 
 import com.group22.gui.base.ListButton.OnClickEvent;
 
-import javafx.beans.value.ChangeListener;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
@@ -34,6 +34,10 @@ public class ImageList extends ScrollPane {
         this.grid.getChildren().clear();
     }
 
+    public Node getImage(int i){
+        return this.grid.getChildren().get(i);
+    }
+
     public void addImage(String text, String path, OnClickEvent onClickEvent) {
         StackPane stackPane = new StackPane();
         ImageView imageView = new ImageView(path);
@@ -58,24 +62,5 @@ public class ImageList extends ScrollPane {
         });
 
         this.grid.add(stackPane, this.grid.getColumnCount(), 0);;
-    }
-
-    public void addLockedImage(String text, String path) {
-        StackPane stackPane = new StackPane();
-        ImageView imageView = new ImageView(path);
-        BorderPane textPane = new BorderPane();
-        Label label = new Label("🔒");
-
-        textPane.setCenter(label);
-        textPane.getStyleClass().add("text-overlay");
-
-        imageView.fitHeightProperty().bind(this.heightProperty());
-        imageView.fitWidthProperty().bind(this.widthProperty());
-        imageView.setPreserveRatio(true);
-
-        stackPane.getChildren().add(imageView);
-        stackPane.getChildren().add(textPane);
-
-        this.grid.add(stackPane, this.grid.getColumnCount(), 0);
     }
 }

@@ -8,6 +8,8 @@ import com.group22.Profile;
 import com.group22.gui.base.ImageList;
 import com.group22.gui.base.MenuPane;
 
+import javafx.scene.Node;
+
 public class LevelSelector extends MenuPane {
     private ImageList imageList;
     private Profile currentProfile;
@@ -49,9 +51,9 @@ public class LevelSelector extends MenuPane {
     public void addLevel(String level) {
         int i = this.imageList.getLength();
         int l = this.currentProfile.getMaxUnlockedLevelIndex();
+        String path = "thumb/" + level.toLowerCase().replace(" ", "_") + ".png";
 
         if(i < l){ //unlocked
-            String path = "thumb/" + level.toLowerCase().replace(" ", "_") + ".png";
             this.imageList.addImage(
                 level,
                 getClass().getResource(path).toString(),
@@ -59,12 +61,17 @@ public class LevelSelector extends MenuPane {
             );
 
         } else { //locked
-            String path = "thumb/" + level.toLowerCase().replace(" ", "_") + ".png";
-            this.imageList.addLockedImage(
-                level,
-                getClass().getResource(path).toString());
+            this.imageList.addImage(
+                "🔒",
+                getClass().getResource(path).toString(),
+                () -> this.lockedNotif(this.imageList.getImage(i)));
 
         }
 
+    }
+
+    private void lockedNotif(Node node){
+        System.out.println("Level locked");
+        return;
     }
 }
