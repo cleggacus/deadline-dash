@@ -11,6 +11,7 @@ public class GamePane extends StatePane<GameState> {
     private ProfileSelector profileSelector;
     private LevelSelector levelSelector;
     private StartMenu startMenu;
+    private ScoresBrowser scoresBrowser;
 
     public GamePane() {
         // Set initial state
@@ -22,6 +23,7 @@ public class GamePane extends StatePane<GameState> {
         this.profileSelector = new ProfileSelector(this);
         this.startMenu = new StartMenu(this);
         this.levelSelector = new LevelSelector(this);
+        this.scoresBrowser = new ScoresBrowser(this);
         this.playing = new Playing(this);
         this.paused = new Paused(this);
         this.gameOver = new GameOver(this);
@@ -29,6 +31,7 @@ public class GamePane extends StatePane<GameState> {
         // Add panes with there visible states
         this.addPane(this.profileSelector, GameState.ProfileSelector);
         this.addPane(this.startMenu, GameState.Start);
+        this.addPane(this.scoresBrowser, GameState.ScoresBrowser);
         this.addPane(this.levelSelector, GameState.LevelSelector);
         this.addPane(this.playing, GameState.Playing, GameState.Paused, GameState.GameOver);
         this.addPane(this.gameOver, GameState.GameOver);
@@ -53,6 +56,10 @@ public class GamePane extends StatePane<GameState> {
 
     public LevelSelector getLevelSelector() {
         return levelSelector;
+    }
+
+    public ScoresBrowser getScoresBrowser() {
+        return scoresBrowser;
     }
 
     private void setStyling() {

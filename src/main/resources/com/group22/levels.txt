@@ -17,14 +17,11 @@ loot 4 3 200
 flyingassassin 2 1 v
 flyingassassin 3 2 h
 flyingassassin 5 3 h
-7
-bob 30
-alice 50
-bob 30
-alice 50
-bob 30
-alice 50
-bob 30
+4
+farron 100 2022-12-02T19:00:36.026863400
+gary 90 2022-12-01T21:13:36.026863400
+oliver 50 2022-11-16T21:13:36.026863400
+liam 20 2022-11-27T21:13:36.026863400
 -
 Test level 1
 45

@@ -102,6 +102,14 @@
     -fx-text-alignment: center;
 }
 
+.game-pane .small-print {
+    -fx-text-fill: -fx-fg-2;
+    -fx-font-size: 12;
+    -fx-padding: 0 0 10 0;
+    -fx-alignment: center;
+    -fx-text-alignment: left;
+}
+
 .game-pane .h2 {
     -fx-text-fill: -fx-fg-2;
     -fx-font-size: 25;

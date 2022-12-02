@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.group22.Game;
 import com.group22.GameState;
+import com.group22.Level;
 import com.group22.Profile;
 import com.group22.gui.base.ImageList;
 import com.group22.gui.base.MenuPane;
@@ -13,8 +14,10 @@ import javafx.scene.Node;
 public class LevelSelector extends MenuPane {
     private ImageList imageList;
     private Profile currentProfile;
+    private GamePane gamePane;
 
     public LevelSelector(GamePane gamePane) {
+        this.gamePane = gamePane;
         this.imageList = new ImageList();
 
         this.addH1("LEVELS");
@@ -27,8 +30,8 @@ public class LevelSelector extends MenuPane {
         this.imageList.prefWidthProperty().bind(this.widthProperty());
     }
 
-    public void addLevels(List<String> levels) {
-        for(String level : levels) {
+    public void addLevels(List<Level> levels) {
+        for(Level level : levels) {
             this.addLevel(level);
         }
     }
@@ -48,26 +51,31 @@ public class LevelSelector extends MenuPane {
         }*/
     }
 
-    public void addLevel(String level) {
+    public void addLevel(Level level) {
         int i = this.imageList.getLength();
         int l = this.currentProfile.getMaxUnlockedLevelIndex();
-        String path = "thumb/" + level.toLowerCase().replace(" ", "_") + ".png";
+        String path = "thumb/" + level.getTitle().toLowerCase().replace(" ", "_") + ".png";
 
         if(i < l){ //unlocked
-            this.imageList.addImage(
-                level,
+            this.imageList.addImageWithFooter(
+                level.getTitle(),
                 getClass().getResource(path).toString(),
-                () -> Game.getInstance().startFromLevel(i)
+                () -> Game.getInstance().startFromLevel(i),
+                "🎓",
+                () -> {this.gamePane.getScoresBrowser().setLevel(level.toString(), level.getHighscores());
+                    this.gamePane.setState(GameState.ScoresBrowser);
+                }
             );
 
         } else { //locked
-            this.imageList.addImage(
+            this.imageList.addImageWithFooter(
                 "🔒",
                 getClass().getResource(path).toString(),
-                () -> this.lockedNotif(this.imageList.getImage(i)));
-
+                () -> this.lockedNotif(this.imageList.getImage(i)),
+                "🎓",
+                () -> this.gamePane.getScoresBrowser().setLevel(level.toString(), level.getHighscores())
+            );
         }
-
     }
 
     private void lockedNotif(Node node){

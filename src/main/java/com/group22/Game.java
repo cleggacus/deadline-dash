@@ -133,7 +133,7 @@ public class Game extends Engine {
         this.levelLoader = new LevelLoader();
         this.levelLoader.setUp();
         this.levels = Game.instance.levelLoader.getAllLevels();
-        this.getGamePane().getLevelSelector().addLevels(Game.instance.levels.stream().map(level -> level.getTitle()).toList());
+        this.getGamePane().getLevelSelector().addLevels(this.levels);
     }
 
     private void setUpProfiles() {
