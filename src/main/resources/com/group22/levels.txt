@@ -1,3 +1,31 @@
+Farrons Office
+90
+8 5
+BBBB BBBB BrBB bbbb bbbb rRrR RRBR rrRr
+BBBB RRRR RRRR RRRR RRRR rrRR bbbb BBBB
+BBRR BBRB BBBB BBBB BBBB BBBB BbBb bbbb
+RrRr bbbb bbbb bbbb bbbb BBRR RRRR bbbb
+RrRR rrRr rrRr rrRr rrRr rrrr bbbb bbbb
+10
+player 0 0
+door 7 5
+bomb 7 4 3
+bomb 7 3 3
+loot 7 4 100
+loot 1 1 50
+loot 4 3 200
+flyingassassin 2 1 v
+flyingassassin 3 2 h
+flyingassassin 5 3 h
+7
+bob 30
+alice 50
+bob 30
+alice 50
+bob 30
+alice 50
+bob 30
+-
 Test level 1
 45
 15 10
