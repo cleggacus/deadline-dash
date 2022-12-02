@@ -16,12 +16,7 @@ public class Branch {
      */
     private int branchX;
     private int branchY;
-    
-    /**
-     * A fake entity used to test for valid movements from the current position.
-     */
-    private SmartMover fakeSmartMover;
-    
+
     /**
      * The branches from the current branch, at most one per direction, right,
      * left, down, up.
@@ -45,7 +40,8 @@ public class Branch {
     private static ArrayList<ArrayList<Integer>> targetPaths = new ArrayList<ArrayList<Integer>>();
     /**
      * Constructor for the branch, constructs branches of this branch, and adds
-     * the branch coordinates towards the path.
+     * the branch coordinates towards the path. Will not construct additional
+     * branches if a target has been found on the path.
      * @param posX the horizontal position of this branch.
      * @param posY the vertical position of this branch.
      */
@@ -55,7 +51,7 @@ public class Branch {
         existingBranches.add(this);
         path.add(posX, posY);
         if(!isTarget(this)){
-            this.setLeft(posX, posY);
+            this.setLeft();
             this.setRight(posX, posY);
             this.setDown(posX, posY);
             this.setUp(posX, posY);
@@ -63,52 +59,86 @@ public class Branch {
     }
 
     /**
-     * Constructs the left branch of this branch if it exists
-     * @param posX The current horizontal position
-     * @param posY The current vertical position.
+     * Constructs the left branch of this branch if you can move to it legally
+     * and it hasn't been branched to already.
      */
-    public void setLeft(int posX, int posY){
-        this.fakeSmartMover = new SmartMover(branchX, branchY);
-        int left = this.getMover().nextLeft();
-        this.destroyMover();
-        if(left == this.getX() || compareBranch(new Branch(left, this.getY()))){
+    public void setLeft(){
+        boolean found = false;
+        int i = this.getX();
+
+        while(i > 0 && !found) {
+            i--;
+            found = isMoveLegal(i - this.getX(), 0);
+        }
+
+        if(!found || compareBranch(i, this.getY())) {
             this.leftBranch = null;
         } else {
-            this.leftBranch = new Branch(left, this.getY());
+            this.leftBranch = new Branch(i, this.getY());
         }
+        
     }
 
+    /**
+     * Constructs the right branch of this branch if you can move to it legally
+     * and it hasn't been branched to already.
+     */
     public void setRight(int posX, int posY){
-        this.fakeSmartMover = new SmartMover(branchX, branchY);
-        int right = this.getMover().nextRight();
-        this.destroyMover();
-        if(right == this.getX() ||
-        compareBranch(new Branch(right, this.getY()))){
+
+        boolean found = false;
+        int i = this.getX();
+
+        while(i > 0 && !found) {
+            i++;
+            found = isMoveLegal(i - this.getX(), 0);
+        }
+
+        if(!found || compareBranch(i, this.getY())) {
             this.rightBranch = null;
         } else {
-            this.rightBranch = new Branch(right, this.getY());
+            this.rightBranch = new Branch(i, this.getY());
         }
     }
 
+    /**
+     * Constructs the down branch of this branch if you can move to it legally
+     * and it hasn't been branched to already.
+     */
     public void setDown(int posX, int posY){
-        this.fakeSmartMover = new SmartMover(branchX, branchY);
-        int down = this.getMover().nextDown();
-        this.destroyMover();
-        if(down == this.getY() || compareBranch(new Branch(this.getX(), down))){
+
+        boolean found = false;
+        int i = this.getX();
+
+        while(i > 0 && !found) {
+            i--;
+            found = isMoveLegal(0, i - this.getY());
+        }
+
+        if(!found || compareBranch(this.getX(), i)) {
             this.downBranch = null;
         } else {
-            this.downBranch = new Branch(this.getX(), down);
+            this.downBranch = new Branch(this.getX(), i);
         }
     }
 
+    /**
+     * Constructs the up branch of this branch if you can move to it legally
+     * and it hasn't been branched to already.
+     */
     public void setUp(int posX, int posY){
-        this.fakeSmartMover = new SmartMover(branchX, branchY);
-        int up = this.getMover().nextUp();
-        this.destroyMover();
-        if(up == this.getY() || compareBranch(new Branch(this.getX(), up))){
+
+        boolean found = false;
+        int i = this.getX();
+
+        while(i > 0 && !found) {
+            i++;
+            found = isMoveLegal(0, i - this.getY());
+        }
+
+        if(!found || compareBranch(this.getX(), i)) {
             this.upBranch = null;
         } else {
-            this.upBranch = new Branch(this.getX(), up);
+            this.upBranch = new Branch(this.getX(), i);
         }
     }
 
@@ -116,7 +146,7 @@ public class Branch {
      * Returns coordinates
      * @return the X coordinates of this branch
      */
-    public int getX(){
+    private int getX(){
         return this.branchX;
     }
 
@@ -124,27 +154,15 @@ public class Branch {
      * Returns coordinates
      * @return the Y coordinates of this branch
      */
-    public int getY(){
+    private int getY(){
         return this.branchY;
-    }
-
-    /**
-     * Returns a fake smart mover.
-     * @return the fake smart mover held in this branch
-     */
-    public SmartMover getMover(){
-        return this.fakeSmartMover;
-    }
-
-    public void destroyMover(){
-        this.fakeSmartMover = null;
     }
 
     /**
      * Returns a path
      * @return the coordinates to follow the path
      */
-    public ArrayList<Integer> getPath(){
+    private ArrayList<Integer> getPath(){
         return this.path;
     }
 
@@ -164,18 +182,42 @@ public class Branch {
      * @param newBranch The branch candidate being compared
      * @return Whether the branch is in existing branches already
      */
-    public Boolean compareBranch(Branch newBranch){
+    private Boolean compareBranch(int x, int y){
         Boolean isBranch = false;
         for (Branch branch : existingBranches){
-            if(newBranch.getX() == branch.getX()
-            && newBranch.getY() == branch.getY()){
+            if(x == branch.getX() && y == branch.getY()){
                 isBranch = true;
             }
         }
         return isBranch;
     }
+
+    /**
+     * Returns whether move (x, y) is legal according to tile colors.
+     * 
+     * @param x
+     *      Change is x from current position to check.
+     * 
+     * @param y
+     *      Change is y from current position to check.
+     * 
+     * @return
+     *      If the x and y added to the current position is a valid colour.
+     */
+    private boolean isMoveLegal(int x, int y) {
+        if(!Game.getInstance().isInBounds(this.getX() + x, this.getY() + y))
+            return false;
+
+        return Game.getInstance().colorMatch(this.getX(), this.getY(), this.getX() + x, this.getY() + y);
+    }
     
-    public Boolean isTarget(Branch newBranch){
+    /**
+     * Evaluates whether the current branch has a target on it, and if so
+     * extracts that branchs path to target paths.
+     * @param newBranch the branch in question.
+     * @return whether the target was found on the branch.
+     */
+    private Boolean isTarget(Branch newBranch){
         ArrayList<PickUp> pickups = Game.getInstance().getEntities(PickUp.class);
         ArrayList<Door> doors = Game.getInstance().getEntities(Door.class);
         if(pickups.isEmpty()){
@@ -196,6 +238,9 @@ public class Branch {
         return false;
     }
 
+    /**
+     * Clears the static target paths array which is used to store valid paths.
+     */
     public void clearPaths(){
         targetPaths.clear();
     }
