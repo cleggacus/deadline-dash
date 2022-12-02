@@ -54,19 +54,21 @@ public class Sprite {
      * 
      */
     public void update() {
-        if(spriteAnimationSpeed == -1)
+        if(spriteAnimationSpeed <= 0)
             return;
 
         double delta = Game.getInstance().getDelta();
         this.timeSinceLastSpriteFrame += delta;
 
-        if(this.timeSinceLastSpriteFrame >= this.spriteAnimationSpeed) {
+        double frameSpeed = spriteAnimationSpeed / (double)getCurrentImageCount();
+
+        if(this.timeSinceLastSpriteFrame >= frameSpeed) {
             this.incrementSprite();
-            this.timeSinceLastSpriteFrame -= this.spriteAnimationSpeed;
+            this.timeSinceLastSpriteFrame -= frameSpeed;
         }
 
         if(this.spriteAnimationSpeed <= delta)
-            this.timeSinceLastSpriteFrame = 0;
+            frameSpeed = 0;
     }
 
     /**
@@ -79,10 +81,16 @@ public class Sprite {
 
         this.currentFrame++;
 
-        if(this.currentFrame >= this.images.get(this.currentImageSet).length - 1)
+        if(this.currentFrame >= getCurrentImageCount() - 1)
             this.currentFrame = 0;
     }
 
+    public int getCurrentImageCount() {
+        if(this.images.get(this.currentImageSet) == null)
+            return 0;
+
+        return this.images.get(this.currentImageSet).length;
+    }
 
     /**
      * Changes the currently loaded image set based on its name.
@@ -112,7 +120,6 @@ public class Sprite {
 
         addImageSet(tag, images);
     }
-
 
     /**
      * Adds a new image set with a given tag and an array of Image objects.
@@ -194,5 +201,58 @@ public class Sprite {
         }
 
         return this.images.get(currentImageSet)[currentFrame] = writableImage;
+    }
+
+    static public Image[] createImageFade(String path1, String path2, int imageCount) {
+        Image image1 = new Image(Sprite.class.getResource("/com/group22/" + path1).toString());
+        Image image2 = new Image(Sprite.class.getResource("/com/group22/" + path2).toString());
+        return createImageFade(image1, image2, imageCount);
+    }
+
+    static public Image[] createImageFade(Image image1, Image image2, int imageCount) {
+        Image[] images = new Image[imageCount];
+
+        for(int i = 0; i < imageCount; i++) {
+            images[i] = createFade(image1, image2, i/(double)imageCount);
+        }
+
+        return images;
+    }
+
+    static private Image createFade(Image image1, Image image2, double amount) {
+        if(
+            image1.getHeight() != image2.getHeight() || 
+            image1.getWidth() != image2.getWidth()
+        ) {
+            return image1;
+        }
+
+        PixelReader pixelReader1 = image1.getPixelReader();
+        PixelReader pixelReader2 = image2.getPixelReader();
+
+        int width = (int)image1.getWidth();
+        int height = (int)image1.getHeight();
+
+        WritableImage writableImage = new WritableImage(width, height);
+        PixelWriter pixelWriter = writableImage.getPixelWriter();
+
+        for(int y = 0; y < height; y++) {
+            for(int x = 0; x < width; x++) {
+                Color color1 = pixelReader1.getColor(x, y);
+                Color color2 = pixelReader2.getColor(x, y);
+
+                Color result = new Color (
+                    color1.getRed() * (1-amount) + color2.getRed() * amount, 
+                    color1.getGreen() * (1-amount) + color2.getGreen() * amount, 
+                    color1.getBlue() * (1-amount) + color2.getBlue() * amount, 
+                    color1.getOpacity() * (1-amount) + color2.getOpacity() * amount
+                );
+
+                pixelWriter.setColor(x, y, result);
+            }
+        }
+
+        return writableImage;
+
     }
 }

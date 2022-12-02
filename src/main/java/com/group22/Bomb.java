@@ -15,16 +15,13 @@ public class Bomb extends Entity{
         super(x, y);
         this.countdown = countdown;
 
-        this.getSprite().addImageSet("tick", new String[] {
+        this.getSprite().addImageSet("tick", Sprite.createImageFade(
             "item/farron/farron0.png",
-            "item/farron/farron1.png",
-            "item/farron/farron2.png",
-            "item/farron/farron3.png",
-            "item/farron/farron4.png",
             "item/farron/farron5.png",
-        });
+            12*3
+        ));
 
-        this.getSprite().setAnimationSpeed(0.5);
+        this.getSprite().setAnimationSpeed(3);
         this.getSprite().setImageSet("tick");
     }
 
@@ -41,7 +38,6 @@ public class Bomb extends Entity{
     } */
 
     public void activateBomb(){
-
     }
 
     @Override

@@ -40,7 +40,7 @@ public abstract class LandMover extends Entity {
      *      The y next tile in the given direction.
      */
     @Override
-    protected void move(int x, int y, AnimationType type) {
+    protected void move(int x, int y, TransitionType type) {
         int newX = this.getX();
         int newY = this.getY();
 
@@ -84,7 +84,7 @@ public abstract class LandMover extends Entity {
 
 
             if(Math.abs(moveY) > 1 || Math.abs(moveX) > 1) {
-                super.move(moveX, moveY, AnimationType.Scale);
+                super.move(moveX, moveY, TransitionType.Scale);
             } else {
                 super.move(moveX, moveY, type);
             }

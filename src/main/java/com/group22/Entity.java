@@ -31,7 +31,7 @@ public abstract class Entity {
     /** Image sprites drawn to show for entity. */
     private Sprite sprite = new Sprite();
 
-    private AnimationType animationType = AnimationType.None;
+    private TransitionType animationType = TransitionType.None;
 
     /** X position the entitiy is animating from. */
     private double fromSpriteOffsetX = 0;
@@ -99,7 +99,7 @@ public abstract class Entity {
         this.timeSinceMove += delta;
 
         if(this.timeSinceMove >= this.moveEvery) {
-            this.animationType = AnimationType.None;
+            this.animationType = TransitionType.None;
             this.fromX = this.x;
             this.fromY = this.y;
             this.fromSpriteOffsetX = this.spriteOffsetX;
@@ -123,7 +123,7 @@ public abstract class Entity {
         if(this.sprite.getCurrentImage() == null)
             return;
 
-        if(this.animationType == AnimationType.Scale) {
+        if(this.animationType == TransitionType.Scale) {
             double scale = Math.abs((this.timeSinceMove / this.moveEvery)*2-1);
             renderer.drawImage(this.sprite.getCurrentImage(), getDrawX(), getDrawY(), scale);
         } else {
@@ -153,7 +153,7 @@ public abstract class Entity {
      *      How much to increment y position by.
      */
     protected void move(int x, int y) {
-        move(x, y, AnimationType.Linear);
+        move(x, y, TransitionType.Linear);
     }
 
 
@@ -169,7 +169,7 @@ public abstract class Entity {
      * @param type
      *      The transition aniamtion for the entity to move with.
      */
-    protected void move(int x, int y, AnimationType type) {
+    protected void move(int x, int y, TransitionType type) {
         this.animationType = type;
         this.fromX = this.x;
         this.fromY = this.y;

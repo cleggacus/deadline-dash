@@ -6,6 +6,6 @@ package com.group22;
  * @author Liam Clegg
  * @version 1.0
  */
-public enum AnimationType {
+public enum TransitionType {
     Linear, Bob, Scale, None
 }
