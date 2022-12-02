@@ -85,6 +85,7 @@ public class Game extends Engine {
     protected void start() {
         this.levelLoader = new LevelLoader();
         this.levels = Game.instance.levelLoader.getAllLevels();
+        this.setScore(0);
 
         Level currentLevel = this.levels.get(this.currentLevelIndex);
 
