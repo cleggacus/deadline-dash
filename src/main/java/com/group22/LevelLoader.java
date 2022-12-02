@@ -10,6 +10,7 @@ public class LevelLoader {
     private boolean playerPresent;
     private boolean doorPresent;
     private int linePos = 0;
+    private List<Level> levels;
     public LevelLoader(){
     }
     private static final String levelFile = "src/main/resources/com/group22/levels.txt";
@@ -206,6 +207,10 @@ public class LevelLoader {
      * @return The method getLevelData is being returned.
      */
     public List<Level> getAllLevels(){
+        return this.levels;
+    }
+
+    public void setUp(){
         List<String> dataArray = new ArrayList<String>();
         
         try {
@@ -221,7 +226,8 @@ public class LevelLoader {
             catch(Exception e) {
             e.getStackTrace();
         }
-        return getLevelFromData(dataArray, new ArrayList<Level>());
+        this.levels = getLevelFromData(dataArray, new ArrayList<Level>());
+
     }
 
 }

@@ -83,8 +83,6 @@ public class Game extends Engine {
 
     @Override
     protected void start() {
-        this.levelLoader = new LevelLoader();
-        this.levels = Game.instance.levelLoader.getAllLevels();
         this.setScore(0);
 
         Level currentLevel = this.levels.get(this.currentLevelIndex);
@@ -109,8 +107,6 @@ public class Game extends Engine {
     protected void update() {
         updateTime();
         this.getGamePane().getPlaying().setGameScore(this.score);
-
-        Level currentLevel = this.levels.get(this.currentLevelIndex);
     }
 
     private void updateTime() {
@@ -135,6 +131,7 @@ public class Game extends Engine {
 
     private void setUpLeveles() {
         this.levelLoader = new LevelLoader();
+        this.levelLoader.setUp();
         this.levels = Game.instance.levelLoader.getAllLevels();
         this.getGamePane().getLevelSelector().addLevels(Game.instance.levels.stream().map(level -> level.getTitle()).toList());
     }
