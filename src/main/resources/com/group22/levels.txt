@@ -52,14 +52,11 @@ gate 11 4 R
 player 2 1
 flyingassassin 5 5 v
 flyingassassin 5 5 h
-7
-bob 30
-alice 50
-bob 30
-alice 50
-bob 30
-alice 50
-bob 30
+4
+farron 100 2022-12-02T19:00:36.026863400
+gary 90 2022-12-01T21:13:36.026863400
+oliver 50 2022-11-16T21:13:36.026863400
+liam 20 2022-11-27T21:13:36.026863400
 -
 Test level 2
 10
@@ -94,12 +91,9 @@ bbRR RRRR RRRR RRBB RRRR RRbb
 clock 2 1 15
 door 1 2
 player 1 1
-7
-bob 30
-alice 50
-bob 30
-alice 50
-bob 30
-alice 50
-bob 30
+4
+farron 100 2022-12-02T19:00:36.026863400
+gary 90 2022-12-01T21:13:36.026863400
+oliver 50 2022-11-16T21:13:36.026863400
+liam 20 2022-11-27T21:13:36.026863400
 -
