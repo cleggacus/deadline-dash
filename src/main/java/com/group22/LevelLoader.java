@@ -1,6 +1,7 @@
 package com.group22;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -9,7 +10,6 @@ public class LevelLoader {
     private boolean playerPresent;
     private boolean doorPresent;
     private int linePos = 0;
-    private List<Level> levels;
     public LevelLoader(){
     }
     private static final String levelFile = "src/main/resources/com/group22/levels.txt";
@@ -35,11 +35,11 @@ public class LevelLoader {
             this.doorPresent = false;
             this.linePos = 0;
 
-            title = setFromData(levelData.get(linePos));
-            timeToComplete = Integer.parseInt(setFromData(levelData.get(linePos)));
-            String[] widthHeightSplit = setFromData(levelData.get(linePos)).split(" ");
-            width = Integer.parseInt(widthHeightSplit[0]);
-            height = Integer.parseInt(widthHeightSplit[1]);
+            title = getStringFromData(levelData.get(linePos));
+            timeToComplete = getIntFromData(levelData.get(linePos));
+            int[] widthHeightSplit = getIntArrayFromData(levelData.get(linePos), " ");
+            width = widthHeightSplit[0];
+            height = widthHeightSplit[1];
 
             Tile[][] tiles = new Tile[width][height];
             ArrayList<Entity> entities = new ArrayList<Entity>();
@@ -47,7 +47,7 @@ public class LevelLoader {
                 int yData = linePos+y;
                 if(yData >= levelData.size() || yData < 0)
                     throw new LevelFormatException("Tile missing in the y plane");
-                String[] splitRow = setFromData(levelData.get(linePos)).split(" ");
+                String[] splitRow = getStringArrayFromData(levelData.get(linePos), " ");
                 for(int x=0; x < width; x++){
                     if(x >= splitRow.length || x < 0)
                         throw new LevelFormatException("Tile missing in the y plane");
@@ -56,18 +56,18 @@ public class LevelLoader {
                 }
             }
 
-            int numEntities = Integer.parseInt(setFromData(levelData.get(linePos)));
+            int numEntities = getIntFromData(levelData.get(linePos));
             for(int i=0; i < numEntities; i++){
-                String[] splitEntities = setFromData(levelData.get(linePos)).split(" ");
+                String[] splitEntities = getStringArrayFromData(levelData.get(linePos), " ");
                 Entity entity = parseEntity(splitEntities);
                 isValidEntity(entity, width, height);
                 entities.add(entity);
             }
 
-            int numScores = Integer.parseInt(setFromData(levelData.get(linePos)));
+            int numScores = getIntFromData(levelData.get(linePos));
             String[][] scores = new String[numScores][2];
             for(int i=0; i < numScores; i++){
-                scores[i] = setFromData(levelData.get(linePos)).split(" ");
+                scores[i] = getStringArrayFromData(levelData.get(linePos), " ");
             }
         
             isValidLevel(title);
@@ -89,9 +89,25 @@ public class LevelLoader {
         }
     }
 
-    private String setFromData(String data){
+    private String getStringFromData(String data){
         linePos = linePos + 1;
         return data;
+    }
+
+    private String[] getStringArrayFromData(String data, String splitOn){
+        linePos = linePos + 1;
+        return data.split(splitOn);
+    }
+
+    private int[] getIntArrayFromData(String data, String splitOn){
+        linePos = linePos + 1;
+        int[] iArray = Arrays.stream(data.split(splitOn)).mapToInt(Integer::parseInt).toArray();
+        return iArray;
+    }
+
+    private int getIntFromData(String data){
+        linePos = linePos + 1;
+        return Integer.parseInt(data);
     }
 
     private void isValidLevel(String level) throws LevelFormatException{
