@@ -55,16 +55,4 @@ public class Clock extends PickUp {
         Game.getInstance().removeEntity(this);
     }
 
-    @Override
-    protected void updateMovement() {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    protected void update() {
-        // TODO Auto-generated method stub
-        
-    }
-
 }
