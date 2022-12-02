@@ -23,6 +23,7 @@ public class Bomb extends Entity{
 
         this.getSprite().setAnimationSpeed(3);
         this.getSprite().setImageSet("tick");
+        this.getSprite().setAnimationType(AnimationType.SINGLE);
     }
 
     /* public void checkNeighbourTiles(){

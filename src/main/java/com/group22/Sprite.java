@@ -18,6 +18,7 @@ import javafx.scene.paint.Color;
  * @version 1.0
  */
 public class Sprite {
+    private AnimationType animationType = AnimationType.INFINITE;
     private double timeSinceLastSpriteFrame = 0;
     private double spriteAnimationSpeed = -1;
     private int currentFrame = 0;
@@ -54,7 +55,7 @@ public class Sprite {
      * 
      */
     public void update() {
-        if(spriteAnimationSpeed <= 0)
+        if(spriteAnimationSpeed <= 0 || this.animationType == AnimationType.NONE)
             return;
 
         double delta = Game.getInstance().getDelta();
@@ -63,26 +64,25 @@ public class Sprite {
         double frameSpeed = spriteAnimationSpeed / (double)getCurrentImageCount();
 
         if(this.timeSinceLastSpriteFrame >= frameSpeed) {
-            this.incrementSprite();
+            boolean loop = this.animationType == AnimationType.INFINITE;
+            this.incrementSprite(loop);
             this.timeSinceLastSpriteFrame -= frameSpeed;
         }
-
-        if(this.spriteAnimationSpeed <= delta)
-            frameSpeed = 0;
     }
 
     /**
      * Increments the current frame in the current set by on and loops if its at the end of the set.
      * 
      */
-    public void incrementSprite() {
+    public void incrementSprite(boolean loop) {
         if(this.images.get(this.currentImageSet) == null)
             return;
 
         this.currentFrame++;
 
-        if(this.currentFrame >= getCurrentImageCount() - 1)
-            this.currentFrame = 0;
+        if(this.currentFrame >= getCurrentImageCount() - 1) {
+            this.currentFrame = loop ? 0 : this.currentFrame - 1;
+        }
     }
 
     public int getCurrentImageCount() {
@@ -176,6 +176,10 @@ public class Sprite {
      */
     public void setAnimationSpeed(double speed) {
         this.spriteAnimationSpeed = speed;
+    }
+
+    public void setAnimationType(AnimationType animationType) {
+        this.animationType = animationType;
     }
 
     public Image applyColor(Color applyColor) {
