@@ -55,13 +55,11 @@ public class Branch {
         existingBranches.add(this);
         path.add(posX, posY);
         if(!isTarget(this)){
-            this.fakeSmartMover = new SmartMover(branchX, branchY);
             this.setLeft(posX, posY);
             this.setRight(posX, posY);
             this.setDown(posX, posY);
             this.setUp(posX, posY);
         }
-        this.fakeSmartMover = null;
     }
 
     /**
@@ -70,38 +68,47 @@ public class Branch {
      * @param posY The current vertical position.
      */
     public void setLeft(int posX, int posY){
-        if(this.getMover().nextLeft() == this.getX() ||
-        compareBranch(new Branch(this.getMover().nextLeft(), this.getY()))){
+        this.fakeSmartMover = new SmartMover(branchX, branchY);
+        int left = this.getMover().nextLeft();
+        this.destroyMover();
+        if(left == this.getX() || compareBranch(new Branch(left, this.getY()))){
             this.leftBranch = null;
         } else {
-            this.leftBranch = new Branch(this.getMover().nextLeft(), this.getY());
+            this.leftBranch = new Branch(left, this.getY());
         }
     }
 
     public void setRight(int posX, int posY){
-        if(this.getMover().nextRight() == this.getX() ||
-        compareBranch(new Branch(this.getMover().nextRight(), this.getY()))){
+        this.fakeSmartMover = new SmartMover(branchX, branchY);
+        int right = this.getMover().nextRight();
+        this.destroyMover();
+        if(right == this.getX() ||
+        compareBranch(new Branch(right, this.getY()))){
             this.rightBranch = null;
         } else {
-            this.rightBranch = new Branch(this.getMover().nextRight(), this.getY());
+            this.rightBranch = new Branch(right, this.getY());
         }
     }
 
     public void setDown(int posX, int posY){
-        if(this.getMover().nextDown() == this.getY() ||
-        compareBranch(new Branch(this.getX(), this.getMover().nextDown()))){
+        this.fakeSmartMover = new SmartMover(branchX, branchY);
+        int down = this.getMover().nextDown();
+        this.destroyMover();
+        if(down == this.getY() || compareBranch(new Branch(this.getX(), down))){
             this.downBranch = null;
         } else {
-            this.downBranch = new Branch(this.getX(), this.getMover().nextDown());
+            this.downBranch = new Branch(this.getX(), down);
         }
     }
 
     public void setUp(int posX, int posY){
-        if(this.getMover().nextUp() == this.getY() ||
-        compareBranch(new Branch(this.getX(), this.getMover().nextUp()))){
+        this.fakeSmartMover = new SmartMover(branchX, branchY);
+        int up = this.getMover().nextUp();
+        this.destroyMover();
+        if(up == this.getY() || compareBranch(new Branch(this.getX(), up))){
             this.upBranch = null;
         } else {
-            this.upBranch = new Branch(this.getX(), this.getMover().nextUp());
+            this.upBranch = new Branch(this.getX(), up);
         }
     }
 
@@ -127,6 +134,10 @@ public class Branch {
      */
     public SmartMover getMover(){
         return this.fakeSmartMover;
+    }
+
+    public void destroyMover(){
+        this.fakeSmartMover = null;
     }
 
     /**
