@@ -20,10 +20,71 @@ public class ImageList extends ScrollPane {
         this.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
         this.grid = new GridPane();
+        this.setFitToHeight(true);
+        
         this.setContent(this.grid);
 
         this.grid.setHgap(40);
         this.grid.setVgap(0);
+    }
+
+    public void addImage(String text, String path, OnClickEvent onClickEvent, String footerText, OnClickEvent onFooterClickEvent) {
+        BorderPane outer = new BorderPane();
+
+        StackPane hoverImage = createHoverImage(text, path);
+        BorderPane footer = createFooter(footerText);
+
+        hoverImage.setOnMouseClicked(e -> {
+            if(e.getButton() == MouseButton.PRIMARY) {
+                onClickEvent.run();
+            }
+        });
+
+        footer.setOnMouseClicked(e -> {
+            if(e.getButton() == MouseButton.PRIMARY) {
+                onFooterClickEvent.run();
+            }
+        });
+
+        outer.setCenter(hoverImage);
+        outer.setBottom(footer);
+
+        outer.prefHeightProperty().bind(this.grid.heightProperty());
+
+        this.grid.add(outer, this.grid.getColumnCount(), 0);
+    }
+
+    private BorderPane createFooter(String text) {
+        BorderPane borderPane = new BorderPane();
+        Label label = new Label(text);
+        
+        borderPane.getStyleClass().add("footer");
+
+        borderPane.setCenter(label);
+
+        return borderPane;
+    }
+
+    private StackPane createHoverImage(String text, String path) {
+        StackPane stackPane = new StackPane();
+        stackPane.setMinHeight(0);
+
+
+        ImageView imageView = new ImageView(path);
+        imageView.setPreserveRatio(true);
+        imageView.fitHeightProperty().bind(stackPane.heightProperty());
+
+
+        BorderPane borderPane = new BorderPane();
+        Label label = new Label(text);
+        borderPane.setCenter(label);
+        borderPane.getStyleClass().add("text-overlay");
+
+
+        stackPane.getChildren().add(imageView);
+        stackPane.getChildren().add(borderPane);
+
+        return stackPane;
     }
 
     public int getLength() {
@@ -38,73 +99,4 @@ public class ImageList extends ScrollPane {
         return this.grid.getChildren().get(i);
     }
 
-    public void addImage(String text, String path, OnClickEvent onClickEvent) {
-        StackPane stackPane = new StackPane();
-        ImageView imageView = new ImageView(path);
-        BorderPane textPane = new BorderPane();
-        Label label = new Label(text);
-
-        textPane.setCenter(label);
-        textPane.getStyleClass().add("text-overlay");
-
-        imageView.fitHeightProperty().bind(this.heightProperty());
-        imageView.fitWidthProperty().bind(this.widthProperty());
-        imageView.setPreserveRatio(true);
-
-        stackPane.getChildren().add(imageView);
-        stackPane.getChildren().add(textPane);
-
-
-        stackPane.setOnMouseClicked(e -> {
-            if(e.getButton() == MouseButton.PRIMARY) {
-                onClickEvent.run();
-            }
-        });
-
-        this.grid.add(stackPane, this.grid.getColumnCount(), 0);
-    }
-
-    public void addImageWithFooter(String text, String path, OnClickEvent onClickEvent, String footerText, OnClickEvent onFooterClickEvent) {
-        GridPane gridPane = new GridPane();
-        StackPane stackPane = new StackPane();
-        ImageView imageView = new ImageView(path);
-        BorderPane textPane = new BorderPane();
-        Label label = new Label(text);
-
-        textPane.setCenter(label);
-        textPane.getStyleClass().add("text-overlay");
-
-        imageView.fitHeightProperty().bind(this.heightProperty());
-        imageView.fitWidthProperty().bind(this.widthProperty());
-        imageView.setPreserveRatio(true);
-
-        stackPane.getChildren().add(imageView);
-        stackPane.getChildren().add(textPane);
-
-
-        stackPane.setOnMouseClicked(e -> {
-            if(e.getButton() == MouseButton.PRIMARY) {
-                onClickEvent.run();
-            }
-        });
-
-        gridPane.add(stackPane, this.grid.getColumnCount(), 0);
-
-        StackPane footerStackPane = new StackPane();
-        BorderPane footerTextPane = new BorderPane();
-        Label footerLabel = new Label(footerText);
-
-        footerTextPane.setCenter(footerLabel);
-
-        footerStackPane.getChildren().add(footerTextPane);
-
-        footerStackPane.setOnMouseClicked(e -> {
-            if(e.getButton() == MouseButton.PRIMARY) {
-                onFooterClickEvent.run();
-            }
-        });
-
-        gridPane.add(footerStackPane, this.grid.getColumnCount(), 1);
-        this.grid.add(gridPane, this.grid.getColumnCount(), 0);
-    }
 }
