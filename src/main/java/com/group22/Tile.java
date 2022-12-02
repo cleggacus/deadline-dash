@@ -55,7 +55,7 @@ public class Tile extends Entity {
         if(tileSprites == null)
             loadTileSprites();
 
-        Arrays.fill(tileLayout, TileColor.DARK_BLUE);
+        Arrays.fill(tileLayout, TileColor.BLUE);
         renderTileImage();
     }
 
@@ -72,7 +72,7 @@ public class Tile extends Entity {
 
         for(int i = 0; i < 4; i++) {
             TileColor tileColor = TileColor.getFromLabel(colors.charAt(i));
-            this.tileLayout[i] = tileColor == null ? TileColor.DARK_BLUE : tileColor;
+            this.tileLayout[i] = tileColor == null ? TileColor.BLUE : tileColor;
         }
 
         renderTileImage();

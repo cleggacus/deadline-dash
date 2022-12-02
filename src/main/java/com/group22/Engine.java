@@ -1,7 +1,6 @@
 package com.group22;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import com.group22.gui.GamePane;
 

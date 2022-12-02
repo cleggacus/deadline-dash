@@ -61,7 +61,7 @@ public class ImageList extends ScrollPane {
             }
         });
 
-        this.grid.add(stackPane, this.grid.getColumnCount(), 0);;
+        this.grid.add(stackPane, this.grid.getColumnCount(), 0);
     }
 
     public void addImageWithFooter(String text, String path, OnClickEvent onClickEvent, String footerText, OnClickEvent onFooterClickEvent) {
