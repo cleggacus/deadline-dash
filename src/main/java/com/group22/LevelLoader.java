@@ -44,26 +44,12 @@ public class LevelLoader {
 
             Tile[][] tiles = new Tile[width][height];
             ArrayList<Entity> entities = new ArrayList<Entity>();
-            for(int y=0; y < height; y++){
-                int yData = linePos+y;
-                if(yData >= levelData.size() || yData < 0)
-                    throw new LevelFormatException("Tile missing in the y plane");
-                String[] splitRow = getStringArrayFromData(levelData.get(linePos), " ");
-                for(int x=0; x < width; x++){
-                    if(x >= splitRow.length || x < 0)
-                        throw new LevelFormatException("Tile missing in the y plane");
-                    tiles[x][y] = parseTile(splitRow[x], x, y);
-                    entities.add(tiles[x][y]);
-                }
-            }
+
+            tiles = getTilesFromData(levelData, width, height, tiles);
+            entities.addAll(tilesToEntities(tiles));
 
             int numEntities = getIntFromData(levelData.get(linePos));
-            for(int i=0; i < numEntities; i++){
-                String[] splitEntities = getStringArrayFromData(levelData.get(linePos), " ");
-                Entity entity = parseEntity(splitEntities);
-                isValidEntity(entity, width, height);
-                entities.add(entity);
-            }
+            entities.addAll(getEntitiesFromData(levelData, entities, numEntities, width, height));
 
             int numScores = getIntFromData(levelData.get(linePos));
             String[][] scores = new String[numScores][2];
@@ -88,6 +74,50 @@ public class LevelLoader {
             System.out.println(e);
             return null;
         }
+    }
+
+    private List<Entity> getEntitiesFromData(List<String> levelData, List<Entity> entities, int numEntities, int width, int height) throws Exception{
+        for(int i=0; i < numEntities; i++){
+            String[] splitEntities = getStringArrayFromData(levelData.get(linePos), " ");
+            Entity entity = parseEntity(splitEntities);
+            isValidEntity(entity, width, height);
+            entities.add(entity);
+        }
+        return entities;
+    }
+
+    /**
+     * It takes a list of strings, and converts it into a 2D array of tiles
+     * 
+     * @param levelData The data from the file
+     * @param width The width of the level
+     * @param height The height of the level in tiles
+     * @param tiles The 2D array of tiles that will be returned
+     * @return The method is returning a 2D array of Tile objects.
+     */
+    private Tile[][] getTilesFromData(List<String> levelData, int width, int height, Tile[][] tiles) throws LevelFormatException{
+        for(int y=0; y < height; y++){
+            int yData = linePos+y;
+            if(yData >= levelData.size() || yData < 0)
+                throw new LevelFormatException("Tile missing in the y plane");
+            String[] splitRow = getStringArrayFromData(levelData.get(linePos), " ");
+            for(int x=0; x < width; x++){
+                if(x >= splitRow.length || x < 0)
+                    throw new LevelFormatException("Tile missing in the y plane");
+                tiles[x][y] = parseTile(splitRow[x], x, y);
+            }
+        }
+        return tiles;
+    }
+    
+    private List<Entity> tilesToEntities(Tile[][] tiles){
+        List<Entity> entities = new ArrayList<Entity>();
+        for(Tile[] yTiles : tiles){
+            for(Tile xTiles : yTiles){
+                entities.add(xTiles);
+            }
+        }
+        return entities;
     }
 
     private String getStringFromData(String data){
