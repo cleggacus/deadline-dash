@@ -44,12 +44,12 @@ public class LevelLoader {
 
             Tile[][] tiles = new Tile[width][height];
             ArrayList<Entity> entities = new ArrayList<Entity>();
-
             tiles = getTilesFromData(levelData, width, height, tiles);
             entities.addAll(tilesToEntities(tiles));
 
+
             int numEntities = getIntFromData(levelData.get(linePos));
-            entities.addAll(getEntitiesFromData(levelData, entities, numEntities, width, height));
+            entities.addAll(getEntitiesFromData(levelData, numEntities, width, height));
 
             int numScores = getIntFromData(levelData.get(linePos));
             String[][] scores = new String[numScores][2];
@@ -76,7 +76,8 @@ public class LevelLoader {
         }
     }
 
-    private List<Entity> getEntitiesFromData(List<String> levelData, List<Entity> entities, int numEntities, int width, int height) throws Exception{
+    private List<Entity> getEntitiesFromData(List<String> levelData, int numEntities, int width, int height) throws Exception{
+        List<Entity> entities = new ArrayList<Entity>();
         for(int i=0; i < numEntities; i++){
             String[] splitEntities = getStringArrayFromData(levelData.get(linePos), " ");
             Entity entity = parseEntity(splitEntities);
