@@ -1,11 +1,15 @@
 package com.group22;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
 public class LevelLoader {
 
+    private boolean playerPresent;
+    private boolean doorPresent;
+    private int linePos = 0;
     public LevelLoader(){
     }
     private static final String levelFile = "src/main/resources/com/group22/levels.txt";
@@ -27,23 +31,23 @@ public class LevelLoader {
             int height;
             int width;
 
-            title = levelData.get(0);
+            this.playerPresent = false;
+            this.doorPresent = false;
+            this.linePos = 0;
 
-            timeToComplete = Integer.parseInt(levelData.get(1));
-
-            String[] widthHeightSplit = levelData.get(2).split(" ");
-            width = Integer.parseInt(widthHeightSplit[0]);
-            height = Integer.parseInt(widthHeightSplit[1]);
+            title = getStringFromData(levelData.get(linePos));
+            timeToComplete = getIntFromData(levelData.get(linePos));
+            int[] widthHeightSplit = getIntArrayFromData(levelData.get(linePos), " ");
+            width = widthHeightSplit[0];
+            height = widthHeightSplit[1];
 
             Tile[][] tiles = new Tile[width][height];
             ArrayList<Entity> entities = new ArrayList<Entity>();
-            int tilesInitialIndex = 3;
-
             for(int y=0; y < height; y++){
-                int yData = tilesInitialIndex+y;
+                int yData = linePos+y;
                 if(yData >= levelData.size() || yData < 0)
                     throw new LevelFormatException("Tile missing in the y plane");
-                String[] splitRow = levelData.get(yData).split(" ");
+                String[] splitRow = getStringArrayFromData(levelData.get(linePos), " ");
                 for(int x=0; x < width; x++){
                     if(x >= splitRow.length || x < 0)
                         throw new LevelFormatException("Tile missing in the y plane");
@@ -52,67 +56,78 @@ public class LevelLoader {
                 }
             }
 
-            int numEntities = Integer.parseInt(levelData.get(3 + height));
-            int entitiesInitialIndex = height + tilesInitialIndex + 1;
-
+            int numEntities = getIntFromData(levelData.get(linePos));
             for(int i=0; i < numEntities; i++){
-                String[] splitEntities = levelData.get(entitiesInitialIndex + i).split(" ");
-                entities.add(parseEntities(splitEntities));
+                String[] splitEntities = getStringArrayFromData(levelData.get(linePos), " ");
+                Entity entity = parseEntity(splitEntities);
+                isValidEntity(entity, width, height);
+                entities.add(entity);
             }
 
-            int numScores = Integer.parseInt(levelData.get(entitiesInitialIndex + numEntities));
+            int numScores = getIntFromData(levelData.get(linePos));
             String[][] scores = new String[numScores][2];
-            int scoresInitialIndex = entitiesInitialIndex + numEntities + 1;
-
             for(int i=0; i < numScores; i++){
-                scores[i] = levelData.get(scoresInitialIndex + i).split(" ");
+                scores[i] = getStringArrayFromData(levelData.get(linePos), " ");
             }
-
+        
+            isValidLevel(title);
             Level currentLevel = new Level(title, timeToComplete, height, width, 
-                                        tiles, entities, scores);
-
-            isValid(currentLevel);
+            tiles, entities, scores);
             levelArray.add(currentLevel);
 
-            if(levelData.size() >= scoresInitialIndex + numScores + 2){
-                return getLevelFromData(levelData.subList(scoresInitialIndex + numScores + 1,
+            this.linePos = this.linePos + 1;
+            if(levelData.size() > this.linePos){
+                return getLevelFromData(levelData.subList(this.linePos,
                                         levelData.size()), levelArray);
             } else {
                 return levelArray;
             }
 
-
-
         } catch(Exception e){
             System.out.println(e);
-            return levelArray;
-
+            return null;
         }
-               
-
     }
 
-    private void isValid(Level level) throws Exception{
-        Boolean playerPresent = false;
-        Boolean doorPresent = false;
+    private String getStringFromData(String data){
+        linePos = linePos + 1;
+        return data;
+    }
 
-        for(int i=0; i<level.getEntities().size(); i++){
-            Entity currentEntity = level.getEntities().get(i);
-            if(currentEntity instanceof Player){
-                playerPresent = true;
-            }
-            if(currentEntity instanceof Door){
-                doorPresent = true;
-            }
-            if(currentEntity.getX() > level.getWidth())
-                throw new LevelFormatException("Entity out of bounds in x");
-            if(currentEntity.getY() > level.getHeight())
-                throw new LevelFormatException("Entity out of bounds in y");
+    private String[] getStringArrayFromData(String data, String splitOn){
+        linePos = linePos + 1;
+        return data.split(splitOn);
+    }
+
+    private int[] getIntArrayFromData(String data, String splitOn){
+        linePos = linePos + 1;
+        int[] iArray = Arrays.stream(data.split(splitOn)).mapToInt(Integer::parseInt).toArray();
+        return iArray;
+    }
+
+    private int getIntFromData(String data){
+        linePos = linePos + 1;
+        return Integer.parseInt(data);
+    }
+
+    private void isValidLevel(String level) throws LevelFormatException{
+        if(!this.playerPresent)
+            throw new LevelFormatException("Player not present for level " + level);
+        if(!this.doorPresent)
+            throw new LevelFormatException("Door not present for level " + level);
+    }
+
+    private void isValidEntity(Entity entity, int width, int height) throws Exception{
+        if(entity instanceof Player){
+            this.playerPresent = true;
         }
-        if(!playerPresent)
-            throw new LevelFormatException("Player not present");
-        if(!doorPresent)
-            throw new LevelFormatException("Door not found");
+        if(entity instanceof Door){
+            this.doorPresent = true;
+        }
+        if(entity.getX() > width)
+            throw new LevelFormatException("Entity out of bounds in x");
+        if(entity.getY() > height)
+            throw new LevelFormatException("Entity out of bounds in y");
     }
 
     private Tile parseTile(String tile, int x, int y){
@@ -127,8 +142,9 @@ public class LevelLoader {
      * 
      * @param entities
      * @return List<Entity>
+     * @throws LevelFormatException
      */
-    private Entity parseEntities(String[] entity){
+    private Entity parseEntity(String[] entity) throws LevelFormatException{
         switch(entity[0]){
             case("player"):
                 return new Player(
@@ -178,7 +194,7 @@ public class LevelLoader {
 
         }
 
-        return null;
+        throw new LevelFormatException("Unrecognised entity in level file");
     }
 
 
