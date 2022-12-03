@@ -191,6 +191,10 @@ public class LevelLoader {
                     Integer.parseInt(entity[2]),
                     Integer.parseInt(entity[3])
                     );
+            case("smartmover"):
+                return new SmartMover(
+                    Integer.parseInt(entity[1]),
+                    Integer.parseInt(entity[2]));
             case("followingthief"):
                 return new FollowingThief(
                     Integer.parseInt(entity[1]),
