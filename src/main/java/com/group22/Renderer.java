@@ -155,9 +155,6 @@ public class Renderer {
      *      The scale the image should be drawn proportional to a tile.
      */
     public void drawImage(Image image, double x, double y, double scale) {
-        if(x < -1 || y < -1 || x > viewWidth || y > viewHeight)
-            return;
-
         double scaleOffset = (this.tileSize - this.tileSize * scale) / 2;
         double drawX = x*this.tileSize + this.offsetX + scaleOffset;
         double drawY = y*this.tileSize + this.offsetY + scaleOffset;
@@ -169,6 +166,18 @@ public class Renderer {
             drawX, drawY, 
             tileSize * scale, tileSize * scale
         );
+    }
+
+    public void drawShadow(double x, double y, double scale) {
+        double shadowOffset = 0.1;
+
+        this.graphicsContext.setGlobalAlpha(0.5);
+
+        this.drawImage(
+            new Image(getClass().getResource("shadow.png").toString()), 
+            x, y + shadowOffset);
+
+        this.graphicsContext.setGlobalAlpha(1);
     }
 
     /**
@@ -189,8 +198,12 @@ public class Renderer {
      */
     private void getViewInfo() {
         Canvas canvas = graphicsContext.getCanvas();
+
         double canvasHeight = canvas.getHeight() - (topPadding + bottomPadding);
         double canvasWidth = canvas.getWidth() - (leftPadding + rightPadding);
+
+        double viewWidth = this.viewWidth;
+        double viewHeight = this.viewHeight;
 
         double canvasRatio = canvasWidth / canvasHeight;
         double viewRatio = viewWidth / viewHeight;

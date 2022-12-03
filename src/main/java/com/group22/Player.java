@@ -11,6 +11,7 @@ public class Player extends LandMover {
         super(x, y);
 
         this.getSprite().setAnimationSpeed(0.4);
+        this.setShadow(true);
 
         this.getSprite().addImageSet("idle", new String[] {
             "character/tile000.png",
