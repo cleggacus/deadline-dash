@@ -21,7 +21,7 @@ public class Bomb extends Entity{
             12*3
         ));
 
-        this.getSprite().setAnimationSpeed(3);
+        this.getSprite().setAnimationSpeed(countdown);
         this.getSprite().setImageSet("tick");
         this.getSprite().setAnimationType(AnimationType.SINGLE);
     }
@@ -47,8 +47,15 @@ public class Bomb extends Entity{
         
     }
 
+    double time = 0;
+
     @Override
     protected void update() {
+        double shakeAmountX = 0.05 * Math.sin(1.1*countdown * Math.pow(time, 3));
+        double shakeAmountY = 0.05 * Math.sin(0.9*countdown * Math.pow(time, 3));
+
+        this.setSpriteOffset(shakeAmountX, shakeAmountY);
+        time += Game.getInstance().getDelta();
         // TODO Auto-generated method stub
         
     }
