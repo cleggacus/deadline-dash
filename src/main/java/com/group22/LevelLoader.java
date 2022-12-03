@@ -47,15 +47,12 @@ public class LevelLoader {
             tiles = getTilesFromData(levelData, width, height, tiles);
             entities.addAll(tilesToEntities(tiles));
 
-
             int numEntities = getIntFromData(levelData.get(linePos));
             entities.addAll(getEntitiesFromData(levelData, numEntities, width, height));
 
             int numScores = getIntFromData(levelData.get(linePos));
             String[][] scores = new String[numScores][2];
-            for(int i=0; i < numScores; i++){
-                scores[i] = getStringArrayFromData(levelData.get(linePos), " ");
-            }
+            scores = getScoresFromData(levelData, scores, numScores);
         
             isValidLevel(title);
             Level currentLevel = new Level(title, timeToComplete, height, width, 
@@ -74,6 +71,13 @@ public class LevelLoader {
             System.out.println(e);
             return null;
         }
+    }
+
+    private String[][] getScoresFromData(List<String> levelData, String[][] scores, int numScores){
+        for(int i=0; i < numScores; i++){
+            scores[i] = getStringArrayFromData(levelData.get(linePos), " ");
+        }
+        return scores;
     }
 
     private List<Entity> getEntitiesFromData(List<String> levelData, int numEntities, int width, int height) throws Exception{
@@ -156,9 +160,9 @@ public class LevelLoader {
         if(entity instanceof Door){
             this.doorPresent = true;
         }
-        if(entity.getX() > width)
+        if(entity.getX() > width-1)
             throw new LevelFormatException("Entity out of bounds in x");
-        if(entity.getY() > height)
+        if(entity.getY() > height-1)
             throw new LevelFormatException("Entity out of bounds in y");
     }
 
