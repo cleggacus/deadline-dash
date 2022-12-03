@@ -91,4 +91,83 @@ public class Level {
     }
 
     /* setters to be implemented? */
+
+    public ArrayList<Entity> createEntities() {
+        ArrayList<Entity> entities = new ArrayList<>();
+
+        entities.addAll(this.tilesToEntities());
+        
+        for(String[] entityData : this.getEntities()) {
+            entities.add(parseEntity(entityData));
+        }
+
+        return entities;
+    }
+
+    private ArrayList<Entity> tilesToEntities(){
+        ArrayList<Entity> entities = new ArrayList<Entity>();
+
+        for(Tile[] yTiles : tiles){
+            for(Tile xTiles : yTiles){
+                entities.add(xTiles);
+            }
+        }
+        return entities;
+    }
+
+    private Entity parseEntity(String[] entity){
+        switch(entity[0]){
+            case("player"):
+                return new Player(
+                    Integer.parseInt(entity[1]),
+                    Integer.parseInt(entity[2]));
+            case("door"):
+                return new Door(
+                    Integer.parseInt(entity[1]),
+                    Integer.parseInt(entity[2]));
+            case("clock"):
+                return new Clock(
+                    Integer.parseInt(entity[1]),
+                    Integer.parseInt(entity[2]),
+                    Integer.parseInt(entity[3])
+                    );
+            case("bomb"):
+                return new Bomb(
+                    Integer.parseInt(entity[1]),
+                    Integer.parseInt(entity[2]),
+                    Integer.parseInt(entity[3])
+                    );
+            case("followingthief"):
+                return new FollowingThief(
+                    Integer.parseInt(entity[1]),
+                    Integer.parseInt(entity[2]), 
+                    null);
+            case("lever"):
+                return new Lever(
+                    Integer.parseInt(entity[1]),
+                    Integer.parseInt(entity[2]),
+                    entity[3]);
+            case("gate"):
+                return new Gate(
+                    Integer.parseInt(entity[1]),
+                    Integer.parseInt(entity[2]),
+                    entity[3]);
+            case("loot"):
+                return new Loot(
+                    Integer.parseInt(entity[1]),
+                    Integer.parseInt(entity[2]),
+                    Integer.parseInt(entity[3]));
+            case("flyingassassin"):
+                return new FlyingAssassin(
+                    Integer.parseInt(entity[1]),
+                    Integer.parseInt(entity[2]),
+                    entity[3].equals("v"));
+            case("smartmover"):
+                return new SmartMover(
+                    Integer.parseInt(entity[1]),
+                    Integer.parseInt(entity[2]));
+
+        }
+        return null;
+    }
 }
