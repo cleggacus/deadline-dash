@@ -169,6 +169,10 @@ public abstract class Engine {
                     Integer.parseInt(entity[1]),
                     Integer.parseInt(entity[2]),
                     entity[3].equals("v"));
+            case("smartmover"):
+                return new SmartMover(
+                    Integer.parseInt(entity[1]),
+                    Integer.parseInt(entity[2]));
 
         }
         return null;
