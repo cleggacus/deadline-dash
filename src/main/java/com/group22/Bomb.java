@@ -3,6 +3,7 @@ package com.group22;
 public class Bomb extends Entity{
 
     private int countdown = 3;
+    private double time = 0;
 
     /**
      *
@@ -47,7 +48,6 @@ public class Bomb extends Entity{
         
     }
 
-    double time = 0;
 
     @Override
     protected void update() {
@@ -55,7 +55,7 @@ public class Bomb extends Entity{
         double shakeAmountY = 0.05 * Math.sin(0.9*countdown * Math.pow(time, 3));
 
         this.setSpriteOffset(shakeAmountX, shakeAmountY);
-        time += Game.getInstance().getDelta();
+        this.time += Game.getInstance().getDelta();
         // TODO Auto-generated method stub
         
     }
