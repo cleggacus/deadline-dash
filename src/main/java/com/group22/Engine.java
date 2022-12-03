@@ -85,18 +85,23 @@ public abstract class Engine {
         return new ArrayList<>(this.entities);
     }
 
-    public void addEntity(Entity entity) {
+    public void addEntity(String[] entityString) {
+        Entity entity = parseEntity(entityString);
         if(!this.entities.contains(entity)) {
-            this.entities.add(entity);
+            this.entities.add(parseEntity(entityString));
         }
     }
 
-    public void addEntities(ArrayList<Entity> entities) {
-        for(Entity entity : entities) {
+    public void addEntities(ArrayList<String[]> entities) {
+        for(String[] entity : entities) {
             this.addEntity(entity);
         }
     }
 
+    public void populateLevel(Level level){
+        this.entities.addAll(this.tilesToEntities(level.getTiles()));
+        this.addEntities(level.getEntities());
+    }
     /**
      * Removes entity from the array list of {@link #entities}.
      * 
@@ -106,6 +111,69 @@ public abstract class Engine {
     public void removeEntity(Entity entity) {
         this.entities.remove(entity);
     }
+
+    private ArrayList<Entity> tilesToEntities(Tile[][] tiles){
+        ArrayList<Entity> entities = new ArrayList<Entity>();
+        for(Tile[] yTiles : tiles){
+            for(Tile xTiles : yTiles){
+                entities.add(xTiles);
+            }
+        }
+        return entities;
+    }
+
+    private Entity parseEntity(String[] entity){
+        switch(entity[0]){
+            case("player"):
+                return new Player(
+                    Integer.parseInt(entity[1]),
+                    Integer.parseInt(entity[2]));
+            case("door"):
+                return new Door(
+                    Integer.parseInt(entity[1]),
+                    Integer.parseInt(entity[2]));
+            case("clock"):
+                return new Clock(
+                    Integer.parseInt(entity[1]),
+                    Integer.parseInt(entity[2]),
+                    Integer.parseInt(entity[3])
+                    );
+            case("bomb"):
+                return new Bomb(
+                    Integer.parseInt(entity[1]),
+                    Integer.parseInt(entity[2]),
+                    Integer.parseInt(entity[3])
+                    );
+            case("followingthief"):
+                return new FollowingThief(
+                    Integer.parseInt(entity[1]),
+                    Integer.parseInt(entity[2]), 
+                    null);
+            case("lever"):
+                return new Lever(
+                    Integer.parseInt(entity[1]),
+                    Integer.parseInt(entity[2]),
+                    entity[3]);
+            case("gate"):
+                return new Gate(
+                    Integer.parseInt(entity[1]),
+                    Integer.parseInt(entity[2]),
+                    entity[3]);
+            case("loot"):
+                return new Loot(
+                    Integer.parseInt(entity[1]),
+                    Integer.parseInt(entity[2]),
+                    Integer.parseInt(entity[3]));
+            case("flyingassassin"):
+                return new FlyingAssassin(
+                    Integer.parseInt(entity[1]),
+                    Integer.parseInt(entity[2]),
+                    entity[3].equals("v"));
+
+        }
+        return null;
+    }
+
 
     /** 
      * Sets the current game state of the {@code Engine}.

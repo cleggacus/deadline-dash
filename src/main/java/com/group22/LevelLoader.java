@@ -43,9 +43,8 @@ public class LevelLoader {
             height = widthHeightSplit[1];
 
             Tile[][] tiles = new Tile[width][height];
-            ArrayList<Entity> entities = new ArrayList<Entity>();
+            ArrayList<String[]> entities = new ArrayList<String[]>();
             tiles = getTilesFromData(levelData, width, height, tiles);
-            entities.addAll(tilesToEntities(tiles));
 
             int numEntities = getIntFromData(levelData.get(linePos));
             entities.addAll(getEntitiesFromData(levelData, numEntities, width, height));
@@ -54,7 +53,7 @@ public class LevelLoader {
             String[][] scores = new String[numScores][2];
             scores = getScoresFromData(levelData, scores, numScores);
         
-            isValidLevel(title);
+            //isValidLevel(title);
             Level currentLevel = new Level(title, timeToComplete, height, width, 
             tiles, entities, scores);
             levelArray.add(currentLevel);
@@ -80,13 +79,13 @@ public class LevelLoader {
         return scores;
     }
 
-    private List<Entity> getEntitiesFromData(List<String> levelData, int numEntities, int width, int height) throws Exception{
-        List<Entity> entities = new ArrayList<Entity>();
+    private List<String[]> getEntitiesFromData(List<String> levelData, int numEntities, int width, int height) throws Exception{
+        List<String[]> entities = new ArrayList<String[]>();
         for(int i=0; i < numEntities; i++){
             String[] splitEntities = getStringArrayFromData(levelData.get(linePos), " ");
-            Entity entity = parseEntity(splitEntities);
-            isValidEntity(entity, width, height);
-            entities.add(entity);
+            //Entity entity = parseEntity(splitEntities);
+            //isValidEntity(entity, width, height);
+            entities.add(splitEntities);
         }
         return entities;
     }
@@ -113,16 +112,6 @@ public class LevelLoader {
             }
         }
         return tiles;
-    }
-    
-    private List<Entity> tilesToEntities(Tile[][] tiles){
-        List<Entity> entities = new ArrayList<Entity>();
-        for(Tile[] yTiles : tiles){
-            for(Tile xTiles : yTiles){
-                entities.add(xTiles);
-            }
-        }
-        return entities;
     }
 
     private String getStringFromData(String data){

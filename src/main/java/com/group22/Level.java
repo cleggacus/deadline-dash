@@ -15,11 +15,11 @@ public class Level {
     private int height;
     private int width;
     private Tile[][] tiles;
-    private ArrayList<Entity> entities;
+    private ArrayList<String[]> entities;
     private String[][] scores;
     
 
-    public Level(String title, int timeToComplete, int height, int width,  Tile[][] tiles, ArrayList<Entity> entities, String[][] scores){
+    public Level(String title, int timeToComplete, int height, int width,  Tile[][] tiles, ArrayList<String[]> entities, String[][] scores){
         this.title = title;
         this.timeToComplete = timeToComplete;
         this.height = height;
@@ -46,20 +46,6 @@ public class Level {
         return timeToComplete;
     }
 
-    /**
-     * Loop through all the entities in the level, and if one of them is a player, return it.
-     * 
-     * @return The player object.
-     */
-    public Player getPlayer(){
-        for(int i=0; i < this.entities.size(); i++){
-            if(this.entities.get(i) instanceof Player){
-                return (Player) this.entities.get(i);
-            }
-        }
-        return null;
-    }
-    
     /** 
      * This will change due to the requirement of player profiles.....
      * @return String[][]
@@ -82,7 +68,7 @@ public class Level {
      * Getter for retrieving an ArrayList of entities. This may change
      * @return List<? super Entity>
      */
-    public ArrayList<Entity> getEntities(){
+    public ArrayList<String[]> getEntities(){
         return entities;
     }
 
