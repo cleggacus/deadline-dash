@@ -199,7 +199,7 @@ public class Tile extends Entity {
      */
     private boolean isTopHalfTile(double x, double y, double tileWidth, double tileHeight) {
         double realY = tileHeight * 0.1 * Math.sin(Math.PI * 2 * x / tileWidth) + (tileHeight/2);
-        return y >= realY;
+        return y < realY;
     }
 
     /**
