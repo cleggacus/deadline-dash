@@ -33,7 +33,7 @@ public class MenuPane extends GridPane {
     public ListButton addListButton(String name, OnClickEvent onClick, RemoveButtonEvent onClickRemove) {
         ListButton listButton = new ListButton(name, onClick, "-", onClickRemove);
 
-        listButton.maxWidthProperty().bind(this.widthProperty());
+        listButton.prefWidthProperty().bind(this.widthProperty());
 
         this.add(listButton);
 
@@ -134,6 +134,7 @@ public class MenuPane extends GridPane {
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setContent(this);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scrollPane.setFitToWidth(true);
 
         return scrollPane;
     }

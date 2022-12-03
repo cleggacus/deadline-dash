@@ -97,7 +97,7 @@ public class Game extends Engine {
 
         this.setViewSize(width, height);
 
-        this.entities.addAll(currentLevel.getEntities());
+        this.addEntities(currentLevel.getEntities());
     }
 
     /**

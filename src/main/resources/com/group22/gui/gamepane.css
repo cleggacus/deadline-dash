@@ -13,6 +13,23 @@
     -fx-background-color: -fx-bg-1;
 }
 
+.game-pane .image-list .label {
+    -fx-font-size: 30;
+    -fx-text-fill: -fx-fg-1;
+}
+
+.game-pane .image-list .footer {
+    -fx-cursor: hand;
+}
+
+.game-pane .image-list .footer .label {
+    -fx-text-fill: -fx-fg-2;
+}
+
+.game-pane .image-list .footer:hover .label {
+    -fx-text-fill: -fx-fg-1;
+}
+
 .game-pane .image-list .text-overlay {
     -fx-cursor: hand;
     -fx-background-color: #000d;
@@ -22,11 +39,6 @@
 
 .game-pane .image-list .text-overlay:hover {
     -fx-opacity: 1;
-}
-
-.game-pane .image-list .label {
-    -fx-font-size: 30;
-    -fx-text-fill: -fx-fg-1;
 }
 
 .game-pane .gameover-menu,

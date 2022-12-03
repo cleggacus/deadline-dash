@@ -57,7 +57,7 @@ public class LevelSelector extends MenuPane {
         String path = "thumb/" + level.getTitle().toLowerCase().replace(" ", "_") + ".png";
 
         if(i < l){ //unlocked
-            this.imageList.addImageWithFooter(
+            this.imageList.addImage(
                 level.getTitle(),
                 getClass().getResource(path).toString(),
                 () -> Game.getInstance().startFromLevel(i),
@@ -68,7 +68,7 @@ public class LevelSelector extends MenuPane {
             );
 
         } else { //locked
-            this.imageList.addImageWithFooter(
+            this.imageList.addImage(
                 "🔒",
                 getClass().getResource(path).toString(),
                 () -> this.lockedNotif(this.imageList.getImage(i)),

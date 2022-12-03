@@ -19,7 +19,7 @@ public class ScoresBrowser extends MenuPane {
         this.scoresMenu = new MenuPane();
         this.addH1("TOP STUDENTS");
         this.add(this.scoresMenu.getAsScrollPane());
-
+        this.addButton("BACK", () -> this.gamePane.setState(GameState.LevelSelector));
     }
 
     public String getUsername() {
@@ -33,7 +33,6 @@ public class ScoresBrowser extends MenuPane {
             this.scoresMenu.addParagraph(scores[i][0].toUpperCase() + ": " + scores[i][1].toUpperCase() + " seconds left");
             this.scoresMenu.addSmallPrint(this.relativeTime.getTimeAgo(LocalDateTime.parse(scores[i][2])));
         }
-        this.scoresMenu.addButton("BACK", () -> this.gamePane.setState(GameState.LevelSelector));
     }
 
 }

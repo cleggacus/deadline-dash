@@ -3,6 +3,7 @@ package com.group22;
 public class Bomb extends Entity{
 
     private int countdown = 3;
+    private double time = 0;
 
     /**
      *
@@ -14,6 +15,16 @@ public class Bomb extends Entity{
     public Bomb(int x, int y, int countdown) {
         super(x, y);
         this.countdown = countdown;
+
+        this.getSprite().addImageSet("tick", Sprite.createImageFade(
+            "item/farron/farron0.png",
+            "item/farron/farron5.png",
+            12*3
+        ));
+
+        this.getSprite().setAnimationSpeed(countdown);
+        this.getSprite().setImageSet("tick");
+        this.getSprite().setAnimationType(AnimationType.SINGLE);
     }
 
     /* public void checkNeighbourTiles(){
@@ -29,7 +40,6 @@ public class Bomb extends Entity{
     } */
 
     public void activateBomb(){
-
     }
 
     @Override
@@ -38,8 +48,14 @@ public class Bomb extends Entity{
         
     }
 
+
     @Override
     protected void update() {
+        double shakeAmountX = 0.05 * Math.sin(1.1*countdown * Math.pow(time, 3));
+        double shakeAmountY = 0.05 * Math.sin(0.9*countdown * Math.pow(time, 3));
+
+        this.setSpriteOffset(shakeAmountX, shakeAmountY);
+        this.time += Game.getInstance().getDelta();
         // TODO Auto-generated method stub
         
     }

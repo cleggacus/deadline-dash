@@ -1,7 +1,6 @@
 package com.group22;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import com.group22.gui.GamePane;
 
@@ -83,7 +82,19 @@ public abstract class Engine {
      * @return ArrayList of entities
      */
     public ArrayList<Entity> getEntities() {
-        return this.entities;
+        return new ArrayList<>(this.entities);
+    }
+
+    public void addEntity(Entity entity) {
+        if(!this.entities.contains(entity)) {
+            this.entities.add(entity);
+        }
+    }
+
+    public void addEntities(ArrayList<Entity> entities) {
+        for(Entity entity : entities) {
+            this.addEntity(entity);
+        }
     }
 
     /**
@@ -321,9 +332,8 @@ public abstract class Engine {
     /**
      * Updates the entities movements and then there game logic.
      */
-    @SuppressWarnings("unchecked")
     private void updateEntities() {
-        ArrayList<Entity> entities = (ArrayList<Entity>)this.entities.clone();
+        ArrayList<Entity> entities = new ArrayList<Entity>(this.entities);
 
         for(Entity entity : entities) {
             entity.callUpdate();

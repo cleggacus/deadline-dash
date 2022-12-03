@@ -10,10 +10,12 @@ import javafx.scene.paint.Color;
  * @version 1.0
  */
 public enum TileColor {
-    DARK_RED(Color.rgb(103, 28, 12, 1), 'R'), 
-    LIGHT_RED(Color.rgb(230, 150, 100, 1), 'r'),
-    LIGHT_BLUE(Color.rgb(200, 253, 255, 1), 'b'), 
-    DARK_BLUE(Color.rgb(40, 60, 80, 1), 'B');
+    GREEN(Color.rgb(138, 244, 144, 1), 'G'), 
+    RED(Color.rgb(244, 138, 160, 1), 'R'),
+    YELLOW(Color.rgb(244, 223, 138, 1), 'Y'), 
+    BLUE(Color.rgb(138, 160, 244, 1), 'B'),
+    MAGENTA(Color.rgb(244, 138, 239, 1), 'M'), 
+    CYAN(Color.rgb(138, 244, 223, 1), 'C');
 
     /** Color of the TileColor */
     public final Color color;

@@ -94,7 +94,7 @@ public class FollowingThief extends LandMover {
 
     @Override
     protected void updateMovement() {
-        this.move((int)Math.floor(Math.random()*3-1), 0, AnimationType.Bob);
+        this.move((int)Math.floor(Math.random()*3-1), 0, TransitionType.Bob);
     }
 
     @Override

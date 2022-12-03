@@ -55,7 +55,7 @@ public class Tile extends Entity {
         if(tileSprites == null)
             loadTileSprites();
 
-        Arrays.fill(tileLayout, TileColor.DARK_BLUE);
+        Arrays.fill(tileLayout, TileColor.BLUE);
         renderTileImage();
     }
 
@@ -72,7 +72,7 @@ public class Tile extends Entity {
 
         for(int i = 0; i < 4; i++) {
             TileColor tileColor = TileColor.getFromLabel(colors.charAt(i));
-            this.tileLayout[i] = tileColor == null ? TileColor.DARK_BLUE : tileColor;
+            this.tileLayout[i] = tileColor == null ? TileColor.BLUE : tileColor;
         }
 
         renderTileImage();
@@ -199,7 +199,7 @@ public class Tile extends Entity {
      */
     private boolean isTopHalfTile(double x, double y, double tileWidth, double tileHeight) {
         double realY = tileHeight * 0.1 * Math.sin(Math.PI * 2 * x / tileWidth) + (tileHeight/2);
-        return y >= realY;
+        return y < realY;
     }
 
     /**

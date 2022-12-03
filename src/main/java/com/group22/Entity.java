@@ -16,6 +16,8 @@ public abstract class Entity {
     /** Time since last move in seconds. */
     private double timeSinceMove = 0;
 
+    private boolean shadow = false;
+
     /** Entity X position. */
     private int x = 0;
 
@@ -31,7 +33,7 @@ public abstract class Entity {
     /** Image sprites drawn to show for entity. */
     private Sprite sprite = new Sprite();
 
-    private AnimationType animationType = AnimationType.None;
+    private TransitionType animationType = TransitionType.None;
 
     /** X position the entitiy is animating from. */
     private double fromSpriteOffsetX = 0;
@@ -75,6 +77,10 @@ public abstract class Entity {
         return this.y;
     }
 
+    public void setShadow(boolean shadow) {
+        this.shadow = shadow;
+    }
+
     /**
      * Publically exposed method which runs abstract update method.
      * This method is used by the engine to update the entities.
@@ -99,7 +105,7 @@ public abstract class Entity {
         this.timeSinceMove += delta;
 
         if(this.timeSinceMove >= this.moveEvery) {
-            this.animationType = AnimationType.None;
+            this.animationType = TransitionType.None;
             this.fromX = this.x;
             this.fromY = this.y;
             this.fromSpriteOffsetX = this.spriteOffsetX;
@@ -123,7 +129,11 @@ public abstract class Entity {
         if(this.sprite.getCurrentImage() == null)
             return;
 
-        if(this.animationType == AnimationType.Scale) {
+        if(this.shadow) {
+            renderer.drawShadow(getDrawX(), getDrawY(), 0.7);
+        }
+
+        if(this.animationType == TransitionType.Scale) {
             double scale = Math.abs((this.timeSinceMove / this.moveEvery)*2-1);
             renderer.drawImage(this.sprite.getCurrentImage(), getDrawX(), getDrawY(), scale);
         } else {
@@ -153,7 +163,7 @@ public abstract class Entity {
      *      How much to increment y position by.
      */
     protected void move(int x, int y) {
-        move(x, y, AnimationType.Linear);
+        move(x, y, TransitionType.Linear);
     }
 
 
@@ -169,7 +179,7 @@ public abstract class Entity {
      * @param type
      *      The transition aniamtion for the entity to move with.
      */
-    protected void move(int x, int y, AnimationType type) {
+    protected void move(int x, int y, TransitionType type) {
         this.animationType = type;
         this.fromX = this.x;
         this.fromY = this.y;
@@ -245,10 +255,10 @@ public abstract class Entity {
         double animOffsetX = this.fromSpriteOffsetX + offsetDistance*percent;
 
         switch(this.animationType) {
-            case Linear:
-            case Bob:
-                double distance = this.x - this.fromX;
-                double animX = this.fromX + distance*percent;
+            case Linear: 
+            case Bob: 
+                double distance = this.x - this.fromX; 
+                double animX = this.fromX + distance*percent; 
                 return animOffsetX + animX;
             case Scale:
                 return animOffsetX + (percent > 0.5 ? this.x : fromX);
