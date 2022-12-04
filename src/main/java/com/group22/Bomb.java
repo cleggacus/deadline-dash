@@ -1,35 +1,38 @@
 package com.group22;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Timer;
+
 public class Bomb extends Entity{
 
-
-
-    private int countdown = 3;
+    private final int  countdown;
     private double time = 0;
+    boolean fuze;
 
     /**
      *
      * @param x the horizontal position of a bomb on the map
-     * @param y the vertical poisiton of a bomb on the map
+     * @param y the vertical position of a bomb on the map
      * @param countdown the countdown timer of the bomb's detonation
      */
 
     public Bomb(int x, int y, int countdown) {
         super(x, y);
         this.countdown = countdown;
-
+        this.fuze = false;
         this.getSprite().addImageSet("tick", Sprite.createImageFade(
             "item/farron/farron0.png",
             "item/farron/farron5.png",
             12*3
         ));
+        this.getSprite().setImage("item/farron/farron0.png");
 
-        this.getSprite().setAnimationSpeed(countdown);
-        this.getSprite().setImageSet("tick");
-        this.getSprite().setAnimationType(AnimationType.SINGLE);
     }
 
-    /* public void checkNeighbourTiles(){
+    public void checkNeighbourTiles(){
+
+        /*
         while {
             for (int i = x - 1; i <= x + 1; i++) {
                 for (int j = y - 1; j <= y + 1; j++) {
@@ -39,11 +42,42 @@ public class Bomb extends Entity{
                 }
             }
         }
-    } */
 
-
-    public void activateBomb(){
+         */
     }
+
+    public void activateBomb() {
+        double shakeAmountX = 0.05 * Math.sin(1.1 * countdown * Math.pow(this.time, 3));
+        double shakeAmountY = 0.05 * Math.sin(0.9 * countdown * Math.pow(this.time, 3));
+        this.setSpriteOffset(shakeAmountX, shakeAmountY);
+        this.time += Game.getInstance().getDelta();
+        this.getSprite().setAnimationSpeed(countdown);
+        this.getSprite().setImageSet("tick");
+        this.getSprite().setAnimationType(AnimationType.SINGLE);
+
+        /**
+         * CODE BELOW WILL MAKE YOU WANT TO UNALIVE YOURSELF
+
+
+        int counter = countdown;
+
+        while(counter>0){
+            try {
+                Thread.sleep(1000);
+                System.out.println(counter);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            counter--;
+            if (counter == 1){
+                Game.getInstance().removeEntity(this);
+            }
+        }
+
+         * CODE ABOVE WILL MAKE YOU WANT TO UNALIVE YOURSELF
+         */
+    }
+
 
     @Override
     protected void updateMovement() {
@@ -51,15 +85,30 @@ public class Bomb extends Entity{
         
     }
 
-
     @Override
     protected void update() {
-        double shakeAmountX = 0.05 * Math.sin(1.1*countdown * Math.pow(time, 3));
-        double shakeAmountY = 0.05 * Math.sin(0.9*countdown * Math.pow(time, 3));
+        ArrayList<LandMover> landMovers = Game.getInstance().getEntities(LandMover.class);
+        ArrayList<FlyingAssassin> flyingAssassins = Game.getInstance().getEntities(FlyingAssassin.class);
+        for(LandMover landMover : landMovers) {
+            if(
+                    landMover.getX() == this.getX() &&
+                            landMover.getY() == (this.getY()-1)
+            ) {
+                activateBomb();
+            }
+        }
 
-        this.setSpriteOffset(shakeAmountX, shakeAmountY);
-        this.time += Game.getInstance().getDelta();
-        // TODO Auto-generated method stub
-        
+        for(FlyingAssassin flyingAssassin : flyingAssassins) {
+            if(
+                    flyingAssassin.getX() == this.getX() &&
+                            flyingAssassin.getY() == (this.getY()-1)
+            ) {
+                activateBomb();
+            }
+        }
     }
+
+        // TODO Auto-generated method stub
+
+
 }
