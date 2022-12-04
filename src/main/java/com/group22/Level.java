@@ -15,11 +15,11 @@ public class Level {
     private int height;
     private int width;
     private Tile[][] tiles;
-    private ArrayList<Entity> entities;
+    private ArrayList<String[]> entities;
     private String[][] scores;
     
 
-    public Level(String title, int timeToComplete, int height, int width,  Tile[][] tiles, ArrayList<Entity> entities, String[][] scores){
+    public Level(String title, int timeToComplete, int height, int width,  Tile[][] tiles, ArrayList<String[]> entities, String[][] scores){
         this.title = title;
         this.timeToComplete = timeToComplete;
         this.height = height;
@@ -46,20 +46,6 @@ public class Level {
         return timeToComplete;
     }
 
-    /**
-     * Loop through all the entities in the level, and if one of them is a player, return it.
-     * 
-     * @return The player object.
-     */
-    public Player getPlayer(){
-        for(int i=0; i < this.entities.size(); i++){
-            if(this.entities.get(i) instanceof Player){
-                return (Player) this.entities.get(i);
-            }
-        }
-        return null;
-    }
-    
     /** 
      * This will change due to the requirement of player profiles.....
      * @return String[][]
@@ -82,7 +68,7 @@ public class Level {
      * Getter for retrieving an ArrayList of entities. This may change
      * @return List<? super Entity>
      */
-    public ArrayList<Entity> getEntities(){
+    public ArrayList<String[]> getEntities(){
         return entities;
     }
 
@@ -105,4 +91,83 @@ public class Level {
     }
 
     /* setters to be implemented? */
+
+    public ArrayList<Entity> createEntities() {
+        ArrayList<Entity> entities = new ArrayList<>();
+
+        entities.addAll(this.tilesToEntities());
+        
+        for(String[] entityData : this.getEntities()) {
+            entities.add(parseEntity(entityData));
+        }
+
+        return entities;
+    }
+
+    private ArrayList<Entity> tilesToEntities(){
+        ArrayList<Entity> entities = new ArrayList<Entity>();
+
+        for(Tile[] yTiles : tiles){
+            for(Tile xTiles : yTiles){
+                entities.add(xTiles);
+            }
+        }
+        return entities;
+    }
+
+    private Entity parseEntity(String[] entity){
+        switch(entity[0]){
+            case("player"):
+                return new Player(
+                    Integer.parseInt(entity[1]),
+                    Integer.parseInt(entity[2]));
+            case("door"):
+                return new Door(
+                    Integer.parseInt(entity[1]),
+                    Integer.parseInt(entity[2]));
+            case("clock"):
+                return new Clock(
+                    Integer.parseInt(entity[1]),
+                    Integer.parseInt(entity[2]),
+                    Integer.parseInt(entity[3])
+                    );
+            case("bomb"):
+                return new Bomb(
+                    Integer.parseInt(entity[1]),
+                    Integer.parseInt(entity[2]),
+                    Integer.parseInt(entity[3])
+                    );
+            case("followingthief"):
+                return new FollowingThief(
+                    Integer.parseInt(entity[1]),
+                    Integer.parseInt(entity[2]), 
+                    null);
+            case("lever"):
+                return new Lever(
+                    Integer.parseInt(entity[1]),
+                    Integer.parseInt(entity[2]),
+                    entity[3]);
+            case("gate"):
+                return new Gate(
+                    Integer.parseInt(entity[1]),
+                    Integer.parseInt(entity[2]),
+                    entity[3]);
+            case("loot"):
+                return new Loot(
+                    Integer.parseInt(entity[1]),
+                    Integer.parseInt(entity[2]),
+                    Integer.parseInt(entity[3]));
+            case("flyingassassin"):
+                return new FlyingAssassin(
+                    Integer.parseInt(entity[1]),
+                    Integer.parseInt(entity[2]),
+                    entity[3].equals("v"));
+            case("smartmover"):
+                return new SmartMover(
+                    Integer.parseInt(entity[1]),
+                    Integer.parseInt(entity[2]));
+
+        }
+        return null;
+    }
 }

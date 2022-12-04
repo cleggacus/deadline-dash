@@ -18,6 +18,8 @@ public abstract class Entity {
     /** Time since last move in seconds. */
     private double timeSinceMove = 0;
 
+    private boolean shadow = false;
+
     /** Entity X position. */
     private int x = 0;
 
@@ -78,6 +80,10 @@ public abstract class Entity {
         return this.y;
     }
 
+    public void setShadow(boolean shadow) {
+        this.shadow = shadow;
+    }
+
     /**
      * Publically exposed method which runs abstract update method.
      * This method is used by the engine to update the entities.
@@ -125,6 +131,10 @@ public abstract class Entity {
     public void draw(Renderer renderer) {
         if(this.sprite.getCurrentImage() == null)
             return;
+
+        if(this.shadow) {
+            renderer.drawShadow(getDrawX(), getDrawY(), 0.7);
+        }
 
         if(this.animationType == TransitionType.Scale) {
             double scale = Math.abs((this.timeSinceMove / this.moveEvery)*2-1);
@@ -248,10 +258,10 @@ public abstract class Entity {
         double animOffsetX = this.fromSpriteOffsetX + offsetDistance*percent;
 
         switch(this.animationType) {
-            case Linear:
-            case Bob:
-                double distance = this.x - this.fromX;
-                double animX = this.fromX + distance*percent;
+            case Linear: 
+            case Bob: 
+                double distance = this.x - this.fromX; 
+                double animX = this.fromX + distance*percent; 
                 return animOffsetX + animX;
             case Scale:
                 return animOffsetX + (percent > 0.5 ? this.x : fromX);
