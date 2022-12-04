@@ -186,6 +186,7 @@ public abstract class Entity {
         this.animationType = type;
         this.fromX = this.x;
         this.fromY = this.y;
+
         this.x += x;
         this.y += y;
     }
