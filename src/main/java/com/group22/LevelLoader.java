@@ -7,8 +7,6 @@ import java.util.Scanner;
 
 public class LevelLoader {
 
-    private boolean playerPresent;
-    private boolean doorPresent;
     private int linePos = 0;
     private List<Level> levels;
     public LevelLoader(){
@@ -27,14 +25,13 @@ public class LevelLoader {
     public List<Level> getLevelFromData(List<String> levelData, List<Level> levelArray){
 
         try{
+            this.linePos = 0;
+
             String title;
             int timeToComplete;
             int height;
             int width;
 
-            this.playerPresent = false;
-            this.doorPresent = false;
-            this.linePos = 0;
 
             title = getStringFromData(levelData.get(linePos));
             timeToComplete = getIntFromData(levelData.get(linePos));
@@ -53,7 +50,6 @@ public class LevelLoader {
             String[][] scores = new String[numScores][2];
             scores = getScoresFromData(levelData, scores, numScores);
         
-            //isValidLevel(title);
             Level currentLevel = new Level(title, timeToComplete, height, width, 
             tiles, entities, scores);
             levelArray.add(currentLevel);
@@ -135,97 +131,11 @@ public class LevelLoader {
         return Integer.parseInt(data);
     }
 
-    private void isValidLevel(String level) throws LevelFormatException{
-        if(!this.playerPresent)
-            throw new LevelFormatException("Player not present for level " + level);
-        if(!this.doorPresent)
-            throw new LevelFormatException("Door not present for level " + level);
-    }
-
-    private void isValidEntity(Entity entity, int width, int height) throws Exception{
-        if(entity instanceof Player){
-            this.playerPresent = true;
-        }
-        if(entity instanceof Door){
-            this.doorPresent = true;
-        }
-        if(entity.getX() > width-1)
-            throw new LevelFormatException("Entity out of bounds in x");
-        if(entity.getY() > height-1)
-            throw new LevelFormatException("Entity out of bounds in y");
-    }
-
     private Tile parseTile(String tile, int x, int y){
         Tile newTile = new Tile(x, y);
         newTile.setTileLayout(tile);
         return newTile;
     }
-
-    
-    /** 
-     * Takes input from the LevelLoader class, and parses a 2D array of strings to an ArrayList of Entity objects.
-     * 
-     * @param entities
-     * @return List<Entity>
-     * @throws LevelFormatException
-     */
-    private Entity parseEntity(String[] entity) throws LevelFormatException{
-        switch(entity[0]){
-            case("player"):
-                return new Player(
-                    Integer.parseInt(entity[1]),
-                    Integer.parseInt(entity[2]));
-            case("door"):
-                return new Door(
-                    Integer.parseInt(entity[1]),
-                    Integer.parseInt(entity[2]));
-            case("clock"):
-                return new Clock(
-                    Integer.parseInt(entity[1]),
-                    Integer.parseInt(entity[2]),
-                    Integer.parseInt(entity[3])
-                    );
-            case("bomb"):
-                return new Bomb(
-                    Integer.parseInt(entity[1]),
-                    Integer.parseInt(entity[2]),
-                    Integer.parseInt(entity[3])
-                    );
-            case("smartmover"):
-                return new SmartMover(
-                    Integer.parseInt(entity[1]),
-                    Integer.parseInt(entity[2]));
-            case("followingthief"):
-                return new FollowingThief(
-                    Integer.parseInt(entity[1]),
-                    Integer.parseInt(entity[2]), 
-                    null);
-            case("lever"):
-                return new Lever(
-                    Integer.parseInt(entity[1]),
-                    Integer.parseInt(entity[2]),
-                    entity[3]);
-            case("gate"):
-                return new Gate(
-                    Integer.parseInt(entity[1]),
-                    Integer.parseInt(entity[2]),
-                    entity[3]);
-            case("loot"):
-                return new Loot(
-                    Integer.parseInt(entity[1]),
-                    Integer.parseInt(entity[2]),
-                    Integer.parseInt(entity[3]));
-            case("flyingassassin"):
-                return new FlyingAssassin(
-                    Integer.parseInt(entity[1]),
-                    Integer.parseInt(entity[2]),
-                    entity[3].equals("v"));
-
-        }
-
-        throw new LevelFormatException("Unrecognised entity in level file");
-    }
-
 
     /**
      * This function returns a list of all the levels in the game.

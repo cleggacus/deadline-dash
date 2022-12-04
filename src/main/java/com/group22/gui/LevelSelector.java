@@ -9,8 +9,6 @@ import com.group22.Profile;
 import com.group22.gui.base.ImageList;
 import com.group22.gui.base.MenuPane;
 
-import javafx.scene.Node;
-
 public class LevelSelector extends MenuPane {
     private ImageList imageList;
     private Profile currentProfile;
@@ -71,15 +69,15 @@ public class LevelSelector extends MenuPane {
             this.imageList.addImage(
                 "🔒",
                 getClass().getResource(path).toString(),
-                () -> this.lockedNotif(this.imageList.getImage(i)),
+                () -> this.lockedNotif(level.getTitle()),
                 "🎓",
                 () -> this.gamePane.getScoresBrowser().setLevel(level.toString(), level.getHighscores())
             );
         }
     }
 
-    private void lockedNotif(Node node){
-        System.out.println("Level locked");
+    private void lockedNotif(String i){
+        System.out.println("Level '" + i + "' locked");
         return;
     }
 }

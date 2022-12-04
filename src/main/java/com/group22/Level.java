@@ -17,6 +17,8 @@ public class Level {
     private Tile[][] tiles;
     private ArrayList<String[]> entities;
     private String[][] scores;
+    private boolean playerPresent = false;
+    private boolean doorPresent = false;
     
 
     public Level(String title, int timeToComplete, int height, int width,  Tile[][] tiles, ArrayList<String[]> entities, String[][] scores){
@@ -90,17 +92,38 @@ public class Level {
         return width;
     }
 
-    /* setters to be implemented? */
+    private void isValidEntity(Entity entity) throws Exception{
+        if(entity instanceof Player){
+            this.playerPresent = true;
+        }
+        if(entity instanceof Door){
+            this.doorPresent = true;
+        }
+        if(entity.getX() > this.width-1)
+            throw new LevelFormatException("Entity out of bounds in x");
+        if(entity.getY() > this.height-1)
+            throw new LevelFormatException("Entity out of bounds in y");
+    }
 
-    public ArrayList<Entity> createEntities() {
+    private void isValidLevel() throws LevelFormatException{
+        if(!this.playerPresent)
+            throw new LevelFormatException("Player not present for level " + this.getTitle());
+        if(!this.doorPresent)
+            throw new LevelFormatException("Door not present for level " + this.getTitle());
+    }
+
+    public ArrayList<Entity> createEntities() throws Exception {
         ArrayList<Entity> entities = new ArrayList<>();
 
         entities.addAll(this.tilesToEntities());
         
         for(String[] entityData : this.getEntities()) {
-            entities.add(parseEntity(entityData));
+            Entity entity = parseEntity(entityData);
+            isValidEntity(entity);
+            entities.add(entity);
         }
-
+        isValidLevel();
+        
         return entities;
     }
 

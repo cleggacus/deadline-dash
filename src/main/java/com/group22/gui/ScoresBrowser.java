@@ -18,6 +18,7 @@ public class ScoresBrowser extends MenuPane {
         this.relativeTime = new TimeUtil();
         this.scoresMenu = new MenuPane();
         this.addH1("TOP STUDENTS");
+        this.addParagraph("by time left at the end of the level");
         this.add(this.scoresMenu.getAsScrollPane());
         this.addButton("BACK", () -> this.gamePane.setState(GameState.LevelSelector));
     }
