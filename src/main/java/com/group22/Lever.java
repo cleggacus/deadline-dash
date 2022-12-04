@@ -47,7 +47,5 @@ public class Lever extends PickUp {
             }
         }
         Game.getInstance().removeEntity(this);
-
-
     }
 }

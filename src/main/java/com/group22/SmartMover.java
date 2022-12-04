@@ -14,7 +14,7 @@ public class SmartMover extends LandMover{
     public SmartMover(int posX, int posY){
         super(posX, posY);
         this.getSprite().setImage("NPC/SmartMover.png");
-        this.moveEvery = 0.15;
+        this.moveEvery = 0.4;
     }
 
     /**
