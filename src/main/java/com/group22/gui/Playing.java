@@ -20,13 +20,13 @@ public class Playing extends StackPane {
     private Label levelLabel;
     private BorderPane infoBar;
     private GraphicsContext graphicsContext;
-    private TimeUtil relativeTime;
+    private TimeUtil timeUtil;
 
     public Playing(GamePane gamePane) {
         Pane canvasPane = this.createCanvasPane();
         BorderPane infoBar = this.createInfoBar();
 
-        this.relativeTime = new TimeUtil();
+        this.timeUtil = new TimeUtil();
         this.getChildren().add(canvasPane);
         this.getChildren().add(infoBar);
     }
@@ -41,7 +41,7 @@ public class Playing extends StackPane {
     }
 
     public void setGameTime(double time) {
-        this.timeLabel.setText("TIME: " + this.relativeTime.getLevelTimeLeft(time));
+        this.timeLabel.setText("TIME: " + this.timeUtil.getLevelTimeLeft(time));
     }
 
     public void setGameLevel(String level) {

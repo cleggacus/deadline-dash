@@ -19,6 +19,7 @@ public class Game extends Engine {
     private List<Level> levels;
     private int currentLevelIndex;
     private LevelLoader levelLoader;
+    private Level level;
 
     private static Game instance;
 
@@ -86,6 +87,7 @@ public class Game extends Engine {
         this.setScore(0);
 
         Level currentLevel = this.levels.get(this.currentLevelIndex);
+        this.level = currentLevel;
 
         int width = currentLevel.getWidth();
         int height = currentLevel.getHeight();
@@ -111,6 +113,11 @@ public class Game extends Engine {
     protected void update() {
         updateTime();
         this.getGamePane().getPlaying().setGameScore(this.score);
+        if(this.level.getPlayerFromEntities(this.getEntities()) == null){
+            this.setGameState(GameState.GameOver);
+        } else {
+            System.out.println("Player exists");
+        }
     }
 
     private void updateTime() {
