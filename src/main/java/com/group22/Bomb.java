@@ -2,6 +2,8 @@ package com.group22;
 
 public class Bomb extends Entity{
 
+
+
     private int countdown = 3;
     private double time = 0;
 
@@ -38,6 +40,7 @@ public class Bomb extends Entity{
             }
         }
     } */
+
 
     public void activateBomb(){
     }

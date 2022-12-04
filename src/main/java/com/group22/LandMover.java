@@ -78,7 +78,13 @@ public abstract class LandMover extends Entity {
             }
         }
 
+        if (isBlocked(newX,newY)){
+            willUpdate = false;
+
+        }
+
         if(willUpdate) {
+
             int moveX = newX - this.getX();
             int moveY = newY - this.getY();
 
@@ -104,9 +110,31 @@ public abstract class LandMover extends Entity {
      * @return
      *      If the x and y added to the current position is a valid colour.
      */
+
+    protected boolean isBlocked(int x, int y){
+        ArrayList<Gate> gates = Game.getInstance().getEntities(Gate.class);
+        ArrayList<Bomb> bombs = Game.getInstance().getEntities(Bomb.class);
+
+        for(Gate gate : gates){
+            if(x ==  gate.getX() && y == gate.getY()){
+                return true;
+            }
+        }
+
+        for(Bomb bomb : bombs){
+            if(x ==  bomb.getX() && y == bomb.getY()){
+                return true;
+            }
+        }
+
+            return false;
+    }
+
+
     protected boolean isMoveLegal(int x, int y) {
         if(!Game.getInstance().isInBounds(this.getX() + x, this.getY() + y))
             return false;
+
 
         return Game.getInstance().colorMatch(this.getX(), this.getY(), this.getX() + x, this.getY() + y);
     }
