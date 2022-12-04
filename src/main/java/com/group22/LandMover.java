@@ -10,6 +10,12 @@ import java.util.ArrayList;
  * @version 1.0
  */
 public abstract class LandMover extends Entity {
+    @SuppressWarnings("unchecked")
+    private static final Class<? extends Entity>[] COLLIDERS = new Class[] {
+        LandMover.class,  
+        Bomb.class,  
+        Gate.class
+    };
 
     /**
      * Creates LandMover at 0, 0
@@ -41,50 +47,10 @@ public abstract class LandMover extends Entity {
      */
     @Override
     protected void move(int x, int y, TransitionType type) {
-        int newX = this.getX();
-        int newY = this.getY();
+        int newX = this.getMovedX(x);
+        int newY = this.getMovedY(y);
 
-        while(x > 0) {
-            newX = nextRight();
-            x--;
-        }
-
-        while(x < 0) {
-            newX = nextLeft();
-            x++;
-        }
-
-        if(newX == this.getX()) {
-            while(y > 0) {
-                newY = nextDown();
-                y--;
-            }
-
-            while(y < 0) {
-                newY = nextUp();
-                y++;
-            }
-        }
-
-        ArrayList<LandMover> landMovers = Game.getInstance().getEntities(LandMover.class);
-
-        boolean willUpdate = true;
-
-
-
-        for(LandMover landMover : landMovers) {
-            if(newX == landMover.getX() && newY == landMover.getY()) {
-                willUpdate = false;
-            }
-        }
-
-        if (isBlocked(newX,newY)){
-            willUpdate = false;
-
-        }
-
-        if(willUpdate) {
-
+        if(!isBlocked(newX, newY)) {
             int moveX = newX - this.getX();
             int moveY = newY - this.getY();
 
@@ -112,22 +78,17 @@ public abstract class LandMover extends Entity {
      */
 
     protected boolean isBlocked(int x, int y){
-        ArrayList<Gate> gates = Game.getInstance().getEntities(Gate.class);
-        ArrayList<Bomb> bombs = Game.getInstance().getEntities(Bomb.class);
+        for(Class<? extends Entity> entityClass : COLLIDERS) {
+            ArrayList<? extends Entity> entities = Game.getInstance().getEntities(entityClass);
 
-        for(Gate gate : gates){
-            if(x ==  gate.getX() && y == gate.getY()){
-                return true;
+            for(Entity entity : entities){
+                if(x ==  entity.getX() && y == entity.getY()){
+                    return true;
+                }
             }
         }
 
-        for(Bomb bomb : bombs){
-            if(x ==  bomb.getX() && y == bomb.getY()){
-                return true;
-            }
-        }
-
-            return false;
+        return false;
     }
 
 
@@ -230,4 +191,35 @@ public abstract class LandMover extends Entity {
         return i;
     }
 
+    private int getMovedX(int x) {
+        int newX = this.getX();
+
+        while(x > 0) {
+            newX = nextRight();
+            x--;
+        }
+
+        while(x < 0) {
+            newX = nextLeft();
+            x++;
+        }
+
+        return newX;
+    }
+
+    private int getMovedY(int y) {
+        int newY = this.getY();
+
+        while(y > 0) {
+            newY = nextDown();
+            y--;
+        }
+
+        while(y < 0) {
+            newY = nextUp();
+            y++;
+        }
+
+        return newY;
+    }
 }
