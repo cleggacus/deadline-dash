@@ -27,7 +27,7 @@ public class Loot extends PickUp {
 
     /**
      * Sets the Image and Points Value of the Loot
-     * @param val the points value of the Loot entity
+     *
      */
     public void setLoot(){
     
@@ -66,6 +66,7 @@ public class Loot extends PickUp {
         if(landMover instanceof Player) {
             Game.getInstance().incrementScore(this.val);
         }
+
 
         Game.getInstance().removeEntity(this);
     }

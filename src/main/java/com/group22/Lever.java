@@ -40,10 +40,14 @@ public class Lever extends PickUp {
     public void activatePickUpEffect(LandMover landMover) {
         ArrayList<Gate> gates = Game.getInstance().getEntities(Gate.class);
         for (Gate gate : gates){
-            if (gate.getGateColour() == this.getLeverColour()){
+            if (gate.getGateColour().equals( this.getLeverColour())){
                  gate.setGateIsOpen(true);
+                 Game.getInstance().removeEntity(gate);
+
             }
         }
         Game.getInstance().removeEntity(this);
+
+
     }
 }

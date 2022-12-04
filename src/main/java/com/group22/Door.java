@@ -10,7 +10,7 @@ public class Door extends Entity {
      * no need for a setter as can assume is open is false at start of game
      * @param doorX
      * @param doorY
-     * @param sprite
+     * @param
      */
 
     public Door(int doorX, int doorY){
@@ -38,4 +38,6 @@ public class Door extends Entity {
         // TODO Auto-generated method stub
         
     }
+
+
 }

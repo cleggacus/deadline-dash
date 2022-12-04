@@ -1,5 +1,7 @@
 package com.group22;
 
+
+
 /**
  * 
  * The class {@code Entity} is used for anything that is drawn or updated in the {@code Engine}.
@@ -43,6 +45,7 @@ public abstract class Entity {
     private int fromX = 0;
     /** Y position the entitiy is animating from. */
     private int fromY = 0;
+
 
 
     /**
