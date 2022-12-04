@@ -1,5 +1,6 @@
 package com.group22;
 
+import java.text.DecimalFormat;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.Period;
@@ -46,12 +47,13 @@ public class TimeUtil {
     }
 
     public String getLevelTimeLeft(double seconds){
+        final DecimalFormat df = new DecimalFormat("0.00");
         if (seconds >= 60){
             long minute = TimeUnit.SECONDS.toMinutes((long) seconds);
             int secMinusMin = (int) (seconds - (60*minute));
             return minute + "m " + secMinusMin + "s";  
         } else {
-            return seconds + "s";
+            return df.format(seconds) + "s";
         }
     }
 }
