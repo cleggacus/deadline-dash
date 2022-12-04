@@ -3,10 +3,11 @@ package com.group22;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.Period;
+import java.util.concurrent.TimeUnit;
 
-public class RelativeTime {
+public class TimeUtil {
 
-    public RelativeTime(){
+    public TimeUtil(){
 
     }
 
@@ -31,6 +32,26 @@ public class RelativeTime {
                     (timeBetween.toMinutes() == 1 ? " minute" : " minutes") + " ago";
         } else {
             return "A few moments ago";
+        }
+    }
+
+    public String getStringifiedTime(int seconds){
+        if (seconds >= 60){
+            long minute = TimeUnit.SECONDS.toMinutes(seconds);
+            int secMinusMin = (int) (seconds - (60*minute));
+            return minute + (minute == 1 ? " minute" : "  minutes") + secMinusMin + (secMinusMin == 1 ? " second" : " seconds");  
+        } else {
+            return seconds + (seconds == 1 ? " second" : " seconds");
+        }
+    }
+
+    public String getLevelTimeLeft(double seconds){
+        if (seconds >= 60){
+            long minute = TimeUnit.SECONDS.toMinutes((long) seconds);
+            int secMinusMin = (int) (seconds - (60*minute));
+            return minute + "m " + secMinusMin + "s";  
+        } else {
+            return seconds + "s";
         }
     }
 }

@@ -2,6 +2,8 @@ package com.group22.gui;
 
 import java.text.DecimalFormat;
 
+import com.group22.TimeUtil;
+
 import javafx.geometry.Insets;
 import javafx.scene.CacheHint;
 import javafx.scene.canvas.Canvas;
@@ -18,11 +20,13 @@ public class Playing extends StackPane {
     private Label levelLabel;
     private BorderPane infoBar;
     private GraphicsContext graphicsContext;
+    private TimeUtil relativeTime;
 
     public Playing(GamePane gamePane) {
         Pane canvasPane = this.createCanvasPane();
         BorderPane infoBar = this.createInfoBar();
 
+        this.relativeTime = new TimeUtil();
         this.getChildren().add(canvasPane);
         this.getChildren().add(infoBar);
     }
@@ -37,8 +41,7 @@ public class Playing extends StackPane {
     }
 
     public void setGameTime(double time) {
-        DecimalFormat formatter = new DecimalFormat("000");
-        this.timeLabel.setText("TIME: " + formatter.format(Math.ceil(time)));
+        this.timeLabel.setText("TIME: " + this.relativeTime.getLevelTimeLeft(time));
     }
 
     public void setGameLevel(String level) {
