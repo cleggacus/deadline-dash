@@ -6,8 +6,6 @@ import java.util.Iterator;
 public class SmartMover extends LandMover{
 
     ArrayList<Integer> path = new ArrayList<>();
-    ArrayList<Branch> currentBranches = new ArrayList<>();
-    ArrayList<Branch> newBranches = new ArrayList<>();
     /**
      * The constructor for the smartmover entity class.
      * @param posX The horizontal position of this entity
@@ -16,7 +14,7 @@ public class SmartMover extends LandMover{
     public SmartMover(int posX, int posY){
         super(posX, posY);
         this.getSprite().setImage("NPC/SmartMover.png");
-        this.moveEvery = 0.07;
+        this.moveEvery = 0.15;
     }
 
     /**
@@ -30,7 +28,8 @@ public class SmartMover extends LandMover{
         Branch root = new Branch(this.getX(), this.getY(), originPath);
         root.clear();
         root.addBranch(root);
-        currentBranches = new ArrayList<>();
+        ArrayList<Branch> currentBranches = new ArrayList<>();
+        ArrayList<Branch> newBranches = new ArrayList<>();
         currentBranches.add(root);
 
         while(!targetFound && !currentBranches.isEmpty()){
@@ -122,7 +121,6 @@ public class SmartMover extends LandMover{
                 }
             }
 
-            System.out.println("Success");
             int i = 0;
 
             Boolean shouldRemove = false;
