@@ -67,7 +67,7 @@ public abstract class LandMover extends Entity {
         }
 
         ArrayList<LandMover> landMovers = Game.getInstance().getEntities(LandMover.class);
-        ArrayList<Loot> loots = Game.getInstance().getEntities(Loot.class);
+
         boolean willUpdate = true;
 
 
