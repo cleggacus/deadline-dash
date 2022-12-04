@@ -73,6 +73,10 @@ public class Game extends Engine {
         return score;
     }
 
+    public double getTime() {
+        return time;
+    }
+
     public void incrementScore(int amount) {
         this.setScore(this.score + amount);
     }
@@ -114,9 +118,8 @@ public class Game extends Engine {
         updateTime();
         this.getGamePane().getPlaying().setGameScore(this.score);
         if(this.level.getPlayerFromEntities(this.getEntities()) == null){
+            this.getGamePane().getGameOver().setStats(this.score, this.time);
             this.setGameState(GameState.GameOver);
-        } else {
-            System.out.println("Player exists");
         }
     }
 
