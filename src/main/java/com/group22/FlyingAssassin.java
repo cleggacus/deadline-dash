@@ -1,5 +1,7 @@
 package com.group22;
 
+import java.util.ArrayList;
+
 /**
  * 
  * The class {@code FlyingAssassin} impliments an entity which moves across the board in a straight line regardless of the tiles. 
@@ -78,4 +80,15 @@ public class FlyingAssassin extends Entity {
     protected void update() {
         // TODO Auto-generated method stub
         
-    }}
+        ArrayList<LandMover> landMovers = Game.getInstance().getEntities(LandMover.class);
+
+        for(LandMover landMover : landMovers) {
+            if(
+                landMover.getX() == this.getX() && 
+                landMover.getY() == this.getY()
+            ) {
+                Game.getInstance().removeEntity(landMover);
+            }
+        }
+    }
+}
