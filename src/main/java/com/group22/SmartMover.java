@@ -152,6 +152,12 @@ public class SmartMover extends LandMover{
             }
             return paths.get(0);
         }
+
+    private void isAtDoor(){
+        if(this.getX() == Game.getInstance().getDoor().getX() && this.getY() == Game.getInstance().getDoor().getY()){
+            Game.getInstance().setGameOver();
+        }
+    }
     
     /**
      * Updates the movement of the smart mover, if it currently doesn't have a
@@ -161,6 +167,7 @@ public class SmartMover extends LandMover{
     protected void updateMovement() {
         // TODO Auto-generated method stub
         if(path.isEmpty()){
+            isAtDoor();
             findPath();
         }
 

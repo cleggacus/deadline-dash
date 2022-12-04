@@ -18,9 +18,7 @@ public class Level {
     private ArrayList<String[]> entities;
     private String[][] scores;
     private boolean playerPresent = false;
-    private boolean doorPresent = false;
-    private Player player;
-    
+    private boolean doorPresent = false;    
 
     public Level(String title, int timeToComplete, int height, int width,  Tile[][] tiles, ArrayList<String[]> entities, String[][] scores){
         this.title = title;
@@ -30,14 +28,6 @@ public class Level {
         this.tiles = tiles;
         this.entities = entities;
         this.scores = scores;
-    }
-
-    public void setPlayerFromEntities(ArrayList<Entity> entities){
-        for(Entity entity : entities){
-            if(entity instanceof Player){
-                this.player = (Player) entity;
-            }
-        }
     }
 
     public Player getPlayerFromEntities(ArrayList<Entity> entities){

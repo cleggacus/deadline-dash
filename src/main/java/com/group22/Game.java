@@ -77,6 +77,15 @@ public class Game extends Engine {
         return time;
     }
 
+    public Entity getDoor() {
+        for(Entity entity : this.entities){
+            if(entity instanceof Door){
+                return entity;
+            }
+        }
+        return null;
+    }
+
     public void incrementScore(int amount) {
         this.setScore(this.score + amount);
     }
@@ -110,6 +119,11 @@ public class Game extends Engine {
         }
     }
 
+    public void setGameOver(){
+        this.getGamePane().getGameOver().setStats(this.score, this.time);
+        this.setGameState(GameState.GameOver);
+    }
+
     /**
      * Overridden update method from {@code Engine}.
      */
@@ -118,8 +132,7 @@ public class Game extends Engine {
         updateTime();
         this.getGamePane().getPlaying().setGameScore(this.score);
         if(this.level.getPlayerFromEntities(this.getEntities()) == null){
-            this.getGamePane().getGameOver().setStats(this.score, this.time);
-            this.setGameState(GameState.GameOver);
+            this.setGameOver();
         }
     }
 
