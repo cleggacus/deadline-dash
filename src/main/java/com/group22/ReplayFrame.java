@@ -3,19 +3,26 @@ package com.group22;
 import javafx.scene.input.KeyCode;
 
 public class ReplayFrame {
-    private double timeOfFrame;
-    private KeyCode playerInput;
+    private double keyTime;
+    private boolean keyDown;
+    private KeyCode key;
 
-    public ReplayFrame(double timeOfFrame, KeyCode playerInput){
-        this.timeOfFrame = timeOfFrame;
-        this.playerInput = playerInput;
+    public ReplayFrame(KeyCode key, double keyTime, boolean keyDown){
+        this.key = key;
+        this.keyDown = keyDown;
+        this.keyTime = keyTime;
     }
 
-    public double getTimeOfFrame(){
-        return this.timeOfFrame;
+    public double getKeyTime(){
+        return this.keyTime;
     }
 
-    public KeyCode getPlayerInput(){
-        return this.playerInput;
+    public KeyCode getKey(){
+        return this.key;
     }
+
+    public Boolean getKeyDown(){
+        return this.keyDown;
+    }
+
 }

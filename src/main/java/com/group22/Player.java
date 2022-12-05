@@ -6,6 +6,9 @@ import javafx.scene.input.KeyCode;
 
 public class Player extends LandMover {
     private KeyCode lastDown;
+    private double lastDownTime;
+    private double lastUpTime;
+    private KeyCode lastUp;
 
     public Player(int x, int y) {
         super(x, y);
@@ -107,7 +110,9 @@ public class Player extends LandMover {
             Game.getInstance().getKeyDown(KeyCode.D)
         ) {
             lastDown = Game.getInstance().getLastKeyDown(KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D);
-            Game.getInstance().newReplayFrame(lastDown);
+            lastDownTime = Game.getInstance().getTimeElapsed();
+            Game.getInstance().newReplayFrame(lastDown, lastDownTime, true);
         }
+
     }
 }

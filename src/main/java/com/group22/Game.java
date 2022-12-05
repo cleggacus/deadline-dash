@@ -51,16 +51,15 @@ public class Game extends Engine {
         return Game.instance;
     }
     
-    public void newReplayFrame(KeyCode playerInput){
+    public void newReplayFrame(KeyCode key, double keyTime, boolean keyDown){
         if(currentFrame == null){
-            ReplayFrame frame = new ReplayFrame(this.getTimeElapsed(), playerInput);
+            ReplayFrame frame = new ReplayFrame(key, keyTime, keyDown);
             currentFrame = frame;
         } else {
-            ReplayFrame frame = new ReplayFrame(this.getTimeElapsed(), playerInput);
+            ReplayFrame frame = new ReplayFrame(key, keyTime, keyDown);
             this.replayManager.storeFrame(frame);
             currentFrame = frame;
         }
-        System.out.println(currentFrame.getPlayerInput());
 
     }
 
