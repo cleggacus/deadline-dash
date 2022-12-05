@@ -258,7 +258,8 @@ public class Branch {
         if(!Game.getInstance().isInBounds(this.getX() + x, this.getY() + y))
             return false;
 
-        return Game.getInstance().colorMatch(this.getX(), this.getY(), this.getX() + x, this.getY() + y);
+        return Game.getInstance().colorMatch(this.getX()
+        , this.getY(), this.getX() + x, this.getY() + y);
     }
     
     /**
@@ -267,7 +268,8 @@ public class Branch {
      * @return whether the target was found on the branch.
      */
     public Boolean isTarget(){
-        ArrayList<PickUp> pickups = Game.getInstance().getEntities(PickUp.class);
+        ArrayList<PickUp> pickups
+        = Game.getInstance().getEntities(PickUp.class);
         if(pickups.isEmpty()){
             if (this.getX() == Game.getInstance().getDoor().getX()
             && this.getY() == Game.getInstance().getDoor().getY()){
@@ -275,7 +277,8 @@ public class Branch {
             }
         } else {
             for (PickUp pickup : pickups){
-                if (pickup.getX() == this.getX() && pickup.getY() == this.getY()){
+                if (pickup.getX() == this.getX()
+                && pickup.getY() == this.getY()){
                     return true;
                 }
             }
@@ -316,7 +319,8 @@ public class Branch {
      */
     protected boolean isBlocked(int x, int y){
         for(Class<? extends Entity> entityClass : COLLIDERS) {
-            ArrayList<? extends Entity> entities = Game.getInstance().getEntities(entityClass);
+            ArrayList<? extends Entity> entities
+            = Game.getInstance().getEntities(entityClass);
 
             for(Entity entity : entities){
                 if(x ==  entity.getX() && y == entity.getY()){

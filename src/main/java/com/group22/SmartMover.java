@@ -40,10 +40,14 @@ public class SmartMover extends LandMover{
                     targetFound = true;
                 }
                 ArrayList<Branch> connections = new ArrayList<>();
-                Branch left = new Branch(branch.getLeft(), branch.getY(), branch.getPath());
-                Branch right = new Branch(branch.getRight(), branch.getY(), branch.getPath());
-                Branch up = new Branch(branch.getX(), branch.getUp(), branch.getPath());
-                Branch down = new Branch(branch.getX(), branch.getDown(), branch.getPath());
+                Branch left
+                = new Branch(branch.getLeft(), branch.getY(), branch.getPath());
+                Branch right
+                = new Branch(branch.getRight(), branch.getY(), branch.getPath());
+                Branch up
+                = new Branch(branch.getX(), branch.getUp(), branch.getPath());
+                Branch down
+                = new Branch(branch.getX(), branch.getDown(), branch.getPath());
                 connections.add(left);
                 connections.add(right);
                 connections.add(up);
@@ -162,11 +166,13 @@ public class SmartMover extends LandMover{
      * paths until all paths have equal priority.
      */
     protected ArrayList<Integer> reduceTargets(ArrayList<ArrayList<Integer>> paths){
-        ArrayList<PickUp> pickups = Game.getInstance().getEntities(PickUp.class);
+        ArrayList<PickUp> pickups
+        = Game.getInstance().getEntities(PickUp.class);
         ArrayList<PickUp> targetPickUps = new ArrayList<>();
         for(ArrayList<Integer> pathA : paths){
             for(PickUp pickup : pickups){
-                if(pickup.getX() == pathA.get(pathA.size()-2) && pickup.getY() == pathA.get(pathA.size()-1)){
+                if(pickup.getX() == pathA.get(pathA.size()-2)
+                && pickup.getY() == pathA.get(pathA.size()-1)){
                     targetPickUps.add(pickup);
                 }
             }
@@ -175,7 +181,8 @@ public class SmartMover extends LandMover{
         int i = 0;
 
         Boolean shouldRemove = false;
-        for(Iterator<ArrayList<Integer>> iter = paths.iterator(); iter.hasNext();){
+        for(Iterator<ArrayList<Integer>> iter
+        = paths.iterator(); iter.hasNext();){
             if(shouldRemove == true){
                     iter.remove();
                     i--;
@@ -208,10 +215,11 @@ public class SmartMover extends LandMover{
      * Method for altering the smart movers path on the fly for example if the
      * player take the loot its after. Its not core functionality for the
      * class but I wanted to include it in the project.
-     * @return Whether the item it is after still exists.
+     * @return Whether the item the smart mover is after still exists.
      */
     protected Boolean alterPath(){
-        ArrayList<Entity> entities = new ArrayList<>(Game.getInstance().getEntities());
+        ArrayList<Entity> entities
+        = new ArrayList<>(Game.getInstance().getEntities());
         Boolean shouldRemove = false;
         int i = 0;
         for(Iterator<Entity> iter = entities.iterator(); iter.hasNext();){
