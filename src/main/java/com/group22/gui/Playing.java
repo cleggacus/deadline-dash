@@ -32,8 +32,7 @@ public class Playing extends StackPane {
     }
 
     public void setInfoBarPadding(double offset) {
-        double padding = Math.floor(offset);
-        this.infoBar.setPadding(new Insets(0, padding, 0, padding));
+        this.infoBar.setPadding(new Insets(0, offset, 0, offset));
     }
 
     public GraphicsContext getGraphicsContext() {
@@ -94,8 +93,9 @@ public class Playing extends StackPane {
         innerInfoBar.setLeft(left);
         innerInfoBar.getStyleClass().add("info-bar");
 
-
         infoBar.setTop(innerInfoBar);
+        infoBar.minWidthProperty().bind(this.widthProperty());
+        infoBar.maxWidthProperty().bind(this.widthProperty());
 
         return infoBar;
     }

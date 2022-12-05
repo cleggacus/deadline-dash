@@ -86,7 +86,7 @@ public class Renderer {
      *      Amount the grid is offset in the canvas on the x axis.
      */
     public double getOffsetX() {
-        return offsetX;
+        return Math.floor(offsetX);
     }
 
 
@@ -97,7 +97,7 @@ public class Renderer {
      *      Amount the grid is offset in the canvas on the y axis.
      */
     public double getOffsetY() {
-        return offsetY;
+        return Math.floor(offsetY);
     }
 
     /**
@@ -208,6 +208,7 @@ public class Renderer {
         double canvasRatio = canvasWidth / canvasHeight;
         double viewRatio = viewWidth / viewHeight;
 
+
         if(canvasRatio > viewRatio) {
             this.tileSize = canvasHeight / viewHeight;
             this.offsetX = (canvasWidth - (this.tileSize * viewWidth)) / 2;
@@ -218,7 +219,7 @@ public class Renderer {
             this.offsetY = (canvasHeight - (this.tileSize * viewHeight)) / 2;
         }
 
-        offsetY += topPadding;
-        offsetX += leftPadding;
+        this.offsetY += topPadding;
+        this.offsetX += leftPadding;
     }
 }
