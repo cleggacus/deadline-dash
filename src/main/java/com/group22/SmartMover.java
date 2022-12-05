@@ -24,6 +24,7 @@ public class SmartMover extends LandMover{
      */
     protected void findPath(){
         ArrayList<ArrayList<Integer>> paths = new ArrayList<>();
+        path = new ArrayList<>();
         ArrayList<Integer> originPath = new ArrayList<>();
         Boolean targetFound = false;
         Branch root = new Branch(this.getX(), this.getY(), originPath);
@@ -64,7 +65,10 @@ public class SmartMover extends LandMover{
         
         paths = Branch.getPaths();
         if(paths.isEmpty()){
-            //
+            while(path.isEmpty()){
+                randomMove();
+            }
+
         } else {
             Boolean shouldRemove = false;
             int i = 0;
@@ -90,13 +94,13 @@ public class SmartMover extends LandMover{
             ArrayList<PickUp> pickups = Game.getInstance().getEntities(PickUp.class);
             if(pickups.isEmpty() || paths.size() == 1){
                 path = new ArrayList<>(paths.get(0));
+                path.remove(0);
+                path.remove(0);
             } else {
                 path = new ArrayList<>(reduceTargets(paths));
+                path.remove(0);
+                path.remove(0);
             }
-
-            path.remove(0);
-            path.remove(0);
-
         }
     }
 
@@ -105,29 +109,29 @@ public class SmartMover extends LandMover{
                 int rngMove = rngNum.nextInt(4);
                 switch (rngMove) {
                     case 0:
-                    if(nextLeft() != this.getX()){
-                        path = new ArrayList<>();
-                        path.add(nextLeft());
-                        path.add(this.getY());
-                    }
+                        if(nextLeft() != this.getX() && !(isBlocked(nextLeft(), this.getY()))){
+                            path.add(nextLeft());
+                            path.add(this.getY());
+                        }
+                        break;
                     case 1:
-                    if(nextRight() != this.getX()){
-                        path = new ArrayList<>();
-                        path.add(nextRight());
-                        path.add(this.getY());
-                    }
+                        if(nextRight() != this.getX() && !(isBlocked(nextRight(), this.getY()))){
+                            path.add(nextRight());
+                            path.add(this.getY());
+                        }
+                        break;
                     case 2:
-                    if(nextUp() != this.getY()){
-                        path = new ArrayList<>();
-                        path.add(this.getX());
-                        path.add(this.nextUp());
-                    }
+                        if(nextUp() != this.getY() && !(isBlocked(this.getX(), nextUp()))){
+                            path.add(this.getX());
+                            path.add(this.nextUp());
+                        }
+                        break;
                     case 3:
-                    if(nextDown() != this.getX()){
-                        path = new ArrayList<>();
-                        path.add(this.getX());
-                        path.add(this.nextDown());
-                    }
+                        if(nextDown() != this.getX() && !(isBlocked(this.getX(), nextDown()))){
+                            path.add(this.getX());
+                            path.add(this.nextDown());
+                        }
+                        break;
                 }
     }
 
