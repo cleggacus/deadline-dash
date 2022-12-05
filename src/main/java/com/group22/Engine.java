@@ -144,7 +144,6 @@ public abstract class Engine {
         Scene scene = new Scene(this.gamePane, INITIAL_WIDTH, INITIAL_HEIGHT);
         this.keyboardManager.setScene(scene);
         this.gameLoop.start();
-
         return scene;
     }
 

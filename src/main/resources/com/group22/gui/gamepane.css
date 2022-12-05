@@ -37,11 +37,6 @@
     -fx-cursor: hand;
     -fx-background-color: -fx-bg-3;
     -fx-transition: fade;
-    -fx-opacity: 0;
-}
-
-.game-pane .image-list .text-overlay:hover {
-    -fx-opacity: 1;
 }
 
 .game-pane .gameover-menu,

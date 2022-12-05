@@ -103,6 +103,13 @@ public class MenuPane extends GridPane {
         this.add(node, 0, this.getRowCount());
     }
 
+    public void replace(Node node, int i) {
+        if(i < 0 || i >= this.getRowCount())
+            return;
+
+        this.add(node, 0, i);
+    }
+
     public int remove(Node node) {
         Iterator<Node> iterator = this.getChildren().iterator();
 

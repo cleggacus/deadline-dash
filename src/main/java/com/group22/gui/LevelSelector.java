@@ -33,6 +33,7 @@ public class LevelSelector extends MenuPane {
     }
 
     public void update() {
+        this.imageList.update(Game.getInstance().getDelta());
         if(lockNotify >= 0) {
             shakeTimer += Game.getInstance().getDelta();
             StackPane stackPane = this.imageList.getStackPanes().get(lockNotify);
@@ -53,18 +54,13 @@ public class LevelSelector extends MenuPane {
     }
 
     public void clearLevels(){
-        this.imageList.removeImages();
+        this.imageList = new ImageList();
+        this.replace(this.imageList, 1);
+
     }
 
     public void setProfile(Profile profile){
         this.currentProfile = profile;
-        /*int u = profile.getMaxUnlockedLevelIndex();
-        int l = this.imageList.getLength();
-        for(int i = 0; i < l; i++){
-            if(i >= u){
-                this.imageList.get
-            }
-        }*/
     }
 
     public void addLevel(Level level) {

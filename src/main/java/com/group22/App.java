@@ -16,6 +16,7 @@ public class App extends Application {
         stage.getIcons().add(new Image(getClass().getResource("/com/group22/icon.png").toExternalForm()));
         stage.setFullScreenExitHint("Press F to exit fullscreen.");;
         stage.setFullScreenExitKeyCombination(new KeyCodeCombination(KeyCode.F));
+
         stage.show();
     }
 
