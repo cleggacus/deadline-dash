@@ -9,6 +9,8 @@ public class GameOver extends MenuPane {
     public GameOver(GamePane gamePane) {
         this.gamePane = gamePane;
 
+        setUpGameLost();
+
         this.getStyleClass().add("gameover-menu");
     }
     private void setUpGameLost(){
@@ -17,6 +19,7 @@ public class GameOver extends MenuPane {
         this.addButton("RESTART", () -> Game.getInstance().setGameState(GameState.Playing));
         this.addButton("EXIT", () -> gamePane.setState(GameState.Start));
     }
+
     public void setStats(int score, double time) {
         setUpGameLost();
         this.addParagraph("Score: " + String.valueOf(score));
