@@ -165,11 +165,6 @@ public class Game extends Engine {
 
     private void setUpProfiles() {
         Profile checkProfiles = new Profile();
-        List<Profile> profiles = checkProfiles.getAllProfiles();
-
-        for(Profile profile : profiles) {
-            this.getGamePane().getProfileSelector().addProfile(profile.getName());
-        }
 
         this.getGamePane().getProfileSelector().setProfileAddedEvent(username -> {
             Profile profile = new Profile(username, LocalDateTime.now());
@@ -187,10 +182,18 @@ public class Game extends Engine {
         });
 
         this.getGamePane().getProfileSelector().setOnProfileSelectEvent(profile -> {
+            checkProfiles.loadAllProfiles();
+
             this.getGamePane().getLevelSelector().clearLevels();
             this.getGamePane().getLevelSelector().setProfile(checkProfiles.getFromName(profile));
             this.getGamePane().getStartMenu().setUsername(profile);
             this.setUpLeveles();
         });
+
+        List<Profile> profiles = checkProfiles.getAllProfiles();
+
+        for(Profile profile : profiles) {
+            this.getGamePane().getProfileSelector().addProfile(profile.getName());
+        }
     }
 }

@@ -23,14 +23,14 @@ public class Profile {
     }
 
     public Profile(){
-        this.allProfiles = this.getAllProfiles();
+        this.loadAllProfiles();
     }
 
 
     public void saveToFile(){        
         try {
             FileWriter myWriter = new FileWriter(profileFile, true);
-            myWriter.append(this.getName() + " " + this.getTimeAgoLastActive() + "\n");
+            myWriter.append(this.getName() + " " + this.getTimeAgoLastActive() + " 1\n");
             myWriter.close();
         } catch (IOException e) {
             System.out.println("An error occurred writing to the profiles.txt file");
@@ -38,7 +38,7 @@ public class Profile {
         }
     }
 
-    public List<Profile> getAllProfiles(){
+    public void loadAllProfiles(){
         List<String> profileFileData = getAllProfilesData();
         List<Profile> profiles = new ArrayList<Profile>();
 
@@ -47,9 +47,12 @@ public class Profile {
             Profile profile = new Profile(splitAtSpace[0], LocalDateTime.parse(splitAtSpace[1]));
             profiles.add(profile);
         }
-        
-        return profiles;
 
+        this.allProfiles = profiles;
+    }
+
+    public List<Profile> getAllProfiles() {
+        return allProfiles;
     }
 
     public Profile getFromName(String name){
@@ -58,6 +61,7 @@ public class Profile {
                 return p;
             }
         }
+
         return null;
     }
 
