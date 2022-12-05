@@ -3,6 +3,8 @@ package com.group22;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import javafx.scene.input.KeyCode;
+
 /**
  * The {@code Game} class acts as a game manager handling all the game logic.
  * Since there is only one game and it extends Engine it uses the singleton pattern and can be used with the {@link #getInstance()} method.
@@ -20,6 +22,9 @@ public class Game extends Engine {
     private int currentLevelIndex;
     private LevelLoader levelLoader;
     private Level level;
+    private ReplayManager replayManager;
+    private ReplayFrame currentFrame;
+    private double timeElapsed;
 
     private static Game instance;
 
@@ -45,8 +50,23 @@ public class Game extends Engine {
 
         return Game.instance;
     }
+    
+    public void newReplayFrame(KeyCode playerInput){
+        if(currentFrame == null){
+            ReplayFrame frame = new ReplayFrame(this.getTimeElapsed(), playerInput);
+            currentFrame = frame;
+        } else {
+            ReplayFrame frame = new ReplayFrame(this.getTimeElapsed(), playerInput);
+            this.replayManager.storeFrame(frame);
+            currentFrame = frame;
+        }
+        System.out.println(currentFrame.getPlayerInput());
 
+    }
 
+    public void saveReplay(){
+        this.replayManager.saveReplay();
+    }
 
     public Entity getPlayer() {
         return this.player;
@@ -77,6 +97,10 @@ public class Game extends Engine {
         return time;
     }
 
+    public double getTimeElapsed() {
+        return timeElapsed;
+    }
+
     public Entity getDoor() {
         for(Entity entity : this.entities){
             if(entity instanceof Door){
@@ -84,6 +108,10 @@ public class Game extends Engine {
             }
         }
         return null;
+    }
+
+    public Level getLevel() {
+        return this.level;
     }
 
     public void incrementScore(int amount) {
@@ -109,6 +137,7 @@ public class Game extends Engine {
 
         this.tiles = currentLevel.getTiles();
         this.time = currentLevel.getTimeToComplete();
+        this.timeElapsed = 0;
 
         this.setViewSize(width, height);
 
@@ -117,6 +146,7 @@ public class Game extends Engine {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+        this.replayManager = new ReplayManager(Game.getInstance().getLevel());
     }
 
     public void setGameOver(){
@@ -138,6 +168,7 @@ public class Game extends Engine {
 
     private void updateTime() {
         this.time -= this.getDelta();
+        this.timeElapsed += this.getDelta();
 
         if(this.time <= 0) {
             this.time = 0;

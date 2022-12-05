@@ -107,6 +107,7 @@ public class Player extends LandMover {
             Game.getInstance().getKeyDown(KeyCode.D)
         ) {
             lastDown = Game.getInstance().getLastKeyDown(KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D);
+            Game.getInstance().newReplayFrame(lastDown);
         }
     }
 }

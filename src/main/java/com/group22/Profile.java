@@ -27,7 +27,7 @@ public class Profile {
     }
 
 
-    public void saveToFile(){        
+    public void saveToFile(){
         try {
             FileWriter myWriter = new FileWriter(profileFile, true);
             myWriter.append(this.getName() + " " + this.getTimeAgoLastActive() + " 1\n");
