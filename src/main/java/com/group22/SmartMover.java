@@ -2,6 +2,7 @@ package com.group22;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Random;
 
 public class SmartMover extends LandMover{
 
@@ -97,6 +98,37 @@ public class SmartMover extends LandMover{
             path.remove(0);
 
         }
+    }
+
+    protected void randomMove(){
+                Random rngNum = new Random();
+                int rngMove = rngNum.nextInt(4);
+                switch (rngMove) {
+                    case 0:
+                    if(nextLeft() != this.getX()){
+                        path = new ArrayList<>();
+                        path.add(nextLeft());
+                        path.add(this.getY());
+                    }
+                    case 1:
+                    if(nextRight() != this.getX()){
+                        path = new ArrayList<>();
+                        path.add(nextRight());
+                        path.add(this.getY());
+                    }
+                    case 2:
+                    if(nextUp() != this.getY()){
+                        path = new ArrayList<>();
+                        path.add(this.getX());
+                        path.add(this.nextUp());
+                    }
+                    case 3:
+                    if(nextDown() != this.getX()){
+                        path = new ArrayList<>();
+                        path.add(this.getX());
+                        path.add(this.nextDown());
+                    }
+                }
     }
 
     /**
