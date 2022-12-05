@@ -38,7 +38,22 @@ public class Branch {
      */
     
     private ArrayList<Integer> path;
+
+    /**
+     * An array list of array lists, every array list in it is a path.
+     */
     private static ArrayList<ArrayList<Integer>> targetPaths;
+
+    /**
+     * This code sets colliders for the class, if it sees a static obstruction
+     * like a bomb or gate it will not include those tiles in the path.
+     */
+    @SuppressWarnings("unchecked")
+    private static final Class<? extends Entity>[] COLLIDERS = new Class[] {
+        Bomb.class,  
+        Gate.class
+    };
+
     /**
      * Constructor for the branch, constructs branches of this branch, and adds
      * the branch coordinates towards the path. Will not construct additional
@@ -75,7 +90,7 @@ public class Branch {
             found = isMoveLegal(i - this.getX(), 0);
         }
 
-        if(!found) {
+        if(!found || isBlocked(i, this.getY())) {
             this.leftConnection = this.getX();
         } else {
             this.leftConnection = i;
@@ -97,7 +112,7 @@ public class Branch {
             found = isMoveLegal(i - this.getX(), 0);
         }
 
-        if(!found) {
+        if(!found || isBlocked(i, this.getY())) {
             this.rightConnection = this.getX();
         } else {
             this.rightConnection = i;
@@ -118,7 +133,7 @@ public class Branch {
             found = isMoveLegal(0, i - this.getY());
         }
 
-        if(!found) {
+        if(!found || isBlocked(this.getX(), i)) {
             this.downConnection = this.getY();
         } else {
             this.downConnection = i;
@@ -139,7 +154,7 @@ public class Branch {
             found = isMoveLegal(0, i - this.getY());
         }
 
-        if(!found) {
+        if(!found || isBlocked(this.getX(), i)) {
             this.upConnection = this.getY();
         } else {
             this.upConnection = i;
@@ -269,5 +284,19 @@ public class Branch {
     public void clear(){
         targetPaths = new ArrayList<>();
         existingBranches = new ArrayList<>();
+    }
+
+    protected boolean isBlocked(int x, int y){
+        for(Class<? extends Entity> entityClass : COLLIDERS) {
+            ArrayList<? extends Entity> entities = Game.getInstance().getEntities(entityClass);
+
+            for(Entity entity : entities){
+                if(x ==  entity.getX() && y == entity.getY()){
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }
