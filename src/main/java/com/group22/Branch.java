@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 
 /**
- * The Branch class handles the paths of the smart mover. It makes a fake smart
- * mover to test for all valid movements from an existing branch. It can return
- * an array of branches and an array of coordinates as the path.
+ * The Branch class handles the paths of the smart mover. It stores only its own
+ * path, paths with a target on and potential new branches it is connected to.
+ * Has a method to test each branch for uniqueness.
  * @author Lewis Meekings
  * @version 1.0
  */
@@ -19,8 +19,8 @@ public class Branch {
     private int branchY;
 
     /**
-     * The connections  from the current branch, at most one per direction, right,
-     * left, down, up.
+     * The connections  from the current branch, at most one per direction,
+     * right, left, down, up.
      */
     private int leftConnection;
     private int rightConnection;
@@ -78,8 +78,8 @@ public class Branch {
     }
 
     /**
-     * Constructs the left branch of this branch if you can move to it legally
-     * and it hasn't been branched to already.
+     * Creates the left connection of this branch if you can move to it
+     * legally.
      */
     private void setLeft(){
         boolean found = false;
@@ -99,8 +99,8 @@ public class Branch {
     }
 
     /**
-     * Constructs the right branch of this branch if you can move to it legally
-     * and it hasn't been branched to already.
+     * Creates the right connection of this branch if you can move to it
+     * legally.
      */
     private void setRight(){
         boolean found = false;
@@ -120,8 +120,8 @@ public class Branch {
     }
 
     /**
-     * Constructs the down branch of this branch if you can move to it legally
-     * and it hasn't been branched to already.
+     * Creates the dpwn connection of this branch if you can move to it
+     * legally.
      */
     private void setDown(){
         boolean found = false;
@@ -141,8 +141,8 @@ public class Branch {
     }
 
     /**
-     * Constructs the up branch of this branch if you can move to it legally
-     * and it hasn't been branched to already.
+     * Creates the up connection of this branch if you can move to it
+     * legally.
      */
     private void setUp(){
 
@@ -162,24 +162,24 @@ public class Branch {
     }
 
     /**
-     * Returns coordinates
-     * @return the X coordinates of this branch
+     * Returns coordinates.
+     * @return the X coordinates of this branch.
      */
     public int getX(){
         return this.branchX;
     }
 
     /**
-     * Returns coordinates
-     * @return the Y coordinates of this branch
+     * Returns coordinates.
+     * @return the Y coordinates of this branch.
      */
     public int getY(){
         return this.branchY;
     }
 
     /**
-     * Returns a path
-     * @return the coordinates to follow the path
+     * Returns a path.
+     * @return the coordinates to follow the path.
      */
     public ArrayList<Integer> getPath(){
         return this.path;
@@ -187,25 +187,41 @@ public class Branch {
 
     /**
      * Returns all paths that reach a valid target, a valid target being a
-     * pickup or the door if there are no pickups on the field
+     * pickup or the door if there are no pickups on the field.
      * @return The list of paths that reach a valid target.
      */
     public static ArrayList<ArrayList<Integer>> getPaths(){
         return Branch.targetPaths;
     }
 
+    /**
+     * Gets the left connection of a branch.
+     * @return the left connection of the branch.
+     */
     public int getLeft(){
         return leftConnection;
     }
 
+    /**
+     * Gets the right connection of a branch.
+     * @return the left connection of the branch.
+     */
     public int getRight(){
         return rightConnection;
     }
 
+    /**
+     * Gets the down connection of a branch.
+     * @return the left connection of the branch.
+     */
     public int getDown(){
         return downConnection;
     }
 
+    /**
+     * Gets the up connection of a branch.
+     * @return the left connection of the branch.
+     */
     public int getUp(){
         return upConnection;
     }
@@ -214,7 +230,6 @@ public class Branch {
     /**
      * Compares a branch to the existing branches, if they have the same
      * coordinates the branch is not unique.
-     * @param newBranch The branch candidate being compared
      * @return Whether the branch is in existing branches already
      */
     public Boolean isUniqueBranch(){
@@ -249,17 +264,14 @@ public class Branch {
     /**
      * Evaluates whether the current branch has a target on it, and if so
      * extracts that branchs path to target paths.
-     * @param newBranch the branch in question.
      * @return whether the target was found on the branch.
      */
     public Boolean isTarget(){
         ArrayList<PickUp> pickups = Game.getInstance().getEntities(PickUp.class);
-        ArrayList<Door> doors = Game.getInstance().getEntities(Door.class);
         if(pickups.isEmpty()){
-            for (Door door : doors){
-                if (door.getX() == this.getX() && door.getY() == this.getY()){
-                    return true;
-                }
+            if (this.getX() == Game.getInstance().getDoor().getX()
+            && this.getY() == Game.getInstance().getDoor().getY()){
+                return true;
             }
         } else {
             for (PickUp pickup : pickups){
@@ -271,21 +283,37 @@ public class Branch {
         return false;
     }
 
+    /**
+     * Adds branches to the array of existing branches.
+     * @param newBranch the Branch being added.
+     */
     public void addBranch(Branch newBranch){
         existingBranches.add(newBranch);
     }
 
+    /**
+     * Gets every unique branch stored.
+     * @return the stored unique branches.
+     */
     public ArrayList<Branch> getBranches(){
         return existingBranches;
     }
+
     /**
      * Clears the static target paths array which is used to store valid paths.
+     * Also clears the existing branches.
      */
     public void clear(){
         targetPaths = new ArrayList<>();
         existingBranches = new ArrayList<>();
     }
 
+    /**
+     * Checks whether the destination is blocked.
+     * @param x The destinations X coordinates.
+     * @param y The destinations Y coordinates.
+     * @return If the destination has been blocked by a bomb or gate.
+     */
     protected boolean isBlocked(int x, int y){
         for(Class<? extends Entity> entityClass : COLLIDERS) {
             ArrayList<? extends Entity> entities = Game.getInstance().getEntities(entityClass);
