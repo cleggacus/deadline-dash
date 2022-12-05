@@ -1,11 +1,14 @@
 package com.group22.gui;
 
+import java.util.List;
+
 import com.group22.GameState;
 import com.group22.MOTD;
 import com.group22.gui.base.MenuPane;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 
 public class StartMenu extends BorderPane {
     private Label welcomeLabel;
@@ -19,6 +22,11 @@ public class StartMenu extends BorderPane {
         centerMenu.addH1("DEADLINE DASH");
         centerMenu.addButton("LEVELS", () -> gamePane.setState(GameState.LevelSelector));
         centerMenu.addButton("CHANGE USER", () -> gamePane.setState(GameState.ProfileSelector));
+
+        centerMenu.addButton("TOGGLE FULLSCREEN", () -> {
+            Stage stage = (Stage)this.getScene().getWindow();
+            stage.setFullScreen(!stage.isFullScreen());
+        });
 
         bottomMenu.addParagraph(MOTD.getMOTD().toUpperCase());
 

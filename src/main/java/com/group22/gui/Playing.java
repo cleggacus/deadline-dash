@@ -5,7 +5,6 @@ import java.text.DecimalFormat;
 import com.group22.TimeUtil;
 
 import javafx.geometry.Insets;
-import javafx.scene.CacheHint;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
@@ -58,8 +57,8 @@ public class Playing extends StackPane {
 
         this.graphicsContext = canvas.getGraphicsContext2D();
 
-        canvas.setCache(true);
-        canvas.setCacheHint(CacheHint.SPEED);
+        // canvas.setCache(true);
+        // canvas.setCacheHint(CacheHint.SPEED);
 
         canvas.widthProperty().bind(canvasOuter.widthProperty());
         canvas.heightProperty().bind(canvasOuter.heightProperty());

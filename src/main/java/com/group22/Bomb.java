@@ -1,12 +1,11 @@
 package com.group22;
 
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Timer;
 
 public class Bomb extends Entity{
 
     private final int  countdown;
+    private boolean start = false;
     private double time = 0;
     boolean fuze;
 
@@ -94,7 +93,7 @@ public class Bomb extends Entity{
                     landMover.getX() == this.getX() &&
                             landMover.getY() == (this.getY()-1)
             ) {
-                activateBomb();
+                start = true;
             }
         }
 
@@ -103,9 +102,12 @@ public class Bomb extends Entity{
                     flyingAssassin.getX() == this.getX() &&
                             flyingAssassin.getY() == (this.getY()-1)
             ) {
-                activateBomb();
+                start = true;
             }
         }
+
+        if(start)
+            activateBomb();
     }
 
         // TODO Auto-generated method stub

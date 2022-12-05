@@ -9,7 +9,11 @@ import com.group22.Profile;
 import com.group22.gui.base.ImageList;
 import com.group22.gui.base.MenuPane;
 
+import javafx.scene.layout.StackPane;
+
 public class LevelSelector extends MenuPane {
+    private double shakeTimer = 0;
+    private int lockNotify = -1;
     private ImageList imageList;
     private Profile currentProfile;
     private GamePane gamePane;
@@ -26,6 +30,20 @@ public class LevelSelector extends MenuPane {
 
         this.imageList.prefHeightProperty().bind(this.heightProperty().multiply(0.5));
         this.imageList.prefWidthProperty().bind(this.widthProperty());
+    }
+
+    public void update() {
+        if(lockNotify >= 0) {
+            shakeTimer += Game.getInstance().getDelta();
+            StackPane stackPane = this.imageList.getStackPanes().get(lockNotify);
+            stackPane.setTranslateX(5 * Math.sin(40*shakeTimer));
+
+            if(shakeTimer >= 0.5) {
+                shakeTimer = 0;
+                stackPane.setTranslateX(0);
+                this.lockNotify = -1;
+            }
+        }
     }
 
     public void addLevels(List<Level> levels) {
@@ -69,15 +87,12 @@ public class LevelSelector extends MenuPane {
             this.imageList.addImage(
                 "🔒",
                 getClass().getResource(path).toString(),
-                () -> this.lockedNotif(level.getTitle()),
+                () -> {
+                    lockNotify = i;
+                },
                 "🎓",
                 () -> this.gamePane.getScoresBrowser().setLevel(level.toString(), level.getHighscores())
             );
         }
-    }
-
-    private void lockedNotif(String i){
-        System.out.println("Level '" + i + "' locked");
-        return;
     }
 }

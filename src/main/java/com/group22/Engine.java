@@ -3,10 +3,12 @@ package com.group22;
 import java.util.ArrayList;
 
 import com.group22.gui.GamePane;
+import com.group22.gui.LevelSelector;
 
 import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.StackPane;
 
 /**
  * 
@@ -291,6 +293,7 @@ public abstract class Engine {
     private void callUpdate(long now) {
         this.updateTimer(now);
         this.updateState();
+        this.gamePane.update();
 
         if(this.gamePane.getCurrentState() == GameState.Playing) {
             this.update();

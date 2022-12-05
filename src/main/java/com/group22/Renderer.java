@@ -187,8 +187,7 @@ public class Renderer {
     public void newFrame() {
         Canvas canvas = graphicsContext.getCanvas();
 
-        this.graphicsContext.setFill(Color.BLACK);
-        this.graphicsContext.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        this.graphicsContext.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
         this.getViewInfo();
     }
