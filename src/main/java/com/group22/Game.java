@@ -26,6 +26,7 @@ public class Game extends Engine {
     private ReplayFrame currentFrame;
     private double timeElapsed;
     private Replay replay;
+    private int framesElapsed;
 
     private static Game instance;
 
@@ -96,6 +97,10 @@ public class Game extends Engine {
         return timeElapsed;
     }
 
+    public int getFramesElapsed() {
+        return framesElapsed;
+    }
+
     public Entity getDoor() {
         for(Entity entity : this.entities){
             if(entity instanceof Door){
@@ -133,6 +138,7 @@ public class Game extends Engine {
         this.tiles = currentLevel.getTiles();
         this.time = currentLevel.getTimeToComplete();
         this.timeElapsed = 0;
+        this.framesElapsed = 0;
 
         this.setViewSize(width, height);
 
@@ -165,6 +171,7 @@ public class Game extends Engine {
         this.tiles = currentLevel.getTiles();
         this.time = currentLevel.getTimeToComplete();
         this.timeElapsed = 0;
+        this.framesElapsed = 0;
 
         this.setViewSize(width, height);
 
@@ -197,6 +204,7 @@ public class Game extends Engine {
     private void updateTime() {
         this.time -= this.getDelta();
         this.timeElapsed += this.getDelta();
+        this.framesElapsed += 1;
 
         if(this.time <= 0) {
             this.time = 0;
