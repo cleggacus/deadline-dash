@@ -125,25 +125,26 @@ public class Level {
                         int tileEndIndex = Integer.parseInt(
                             levelData.get(tileNumIndex).split(" ")[1])
                             + tileNumIndex + 1;
-                        System.out.println(tileEndIndex);
+
                         int entityEndIndex = Integer.parseInt(
                             levelData.get(tileEndIndex)) + tileEndIndex;
-                        System.out.println(entityEndIndex);
+
                         int numScoresIndex = entityEndIndex + 1;
                         int numScores = Integer.parseInt(
                             levelData.get(numScoresIndex));
-                        System.out.println(numScoresIndex);
+
                         String scoreToInsert = profile.getName() + " "
                             + String.valueOf(score) + " " 
                             + LocalDateTime.now().toString();
-                        System.out.println(scoreToInsert);
+
                         if(numScores == 10){
                             levelData.add(numScoresIndex + scorePos, 
                             scoreToInsert);
                             levelData.remove(numScoresIndex + numScores + 1);
                             scoreSet = true;
                         } else {
-                            levelData.set(numScoresIndex, String.valueOf(numScores + 1));
+                            levelData.set(numScoresIndex,
+                                String.valueOf(numScores + 1));
                             levelData.add(numScoresIndex + scorePos,
                             scoreToInsert);
                             scoreSet = true;
@@ -214,9 +215,11 @@ public class Level {
 
     private void isValidLevel() throws LevelFormatException{
         if(!this.playerPresent)
-            throw new LevelFormatException("Player not present for level " + this.getTitle());
+            throw new LevelFormatException("Player not present for level "
+            + this.getTitle());
         if(!this.doorPresent)
-            throw new LevelFormatException("Door not present for level " + this.getTitle());
+            throw new LevelFormatException("Door not present for level "
+            + this.getTitle());
     }
 
     public ArrayList<Entity> createEntities() throws Exception {
