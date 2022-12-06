@@ -57,6 +57,21 @@ public class ReplayPlayer extends LandMover {
     protected void updateMovement() {
         this.getSprite().setImageSet("idle");
 
+        for(KeyCode keyDown : keysDown){
+            if(keyDown == KeyCode.W) {
+                this.getSprite().setImageSet("up");
+                move(0, -1);
+            } else if(keyDown == KeyCode.S) {
+                this.getSprite().setImageSet("down");
+                move(0, 1);
+            } else if(keyDown == KeyCode.A) {
+                this.getSprite().setImageSet("left");
+                move(-1, 0);
+            } else if(keyDown == KeyCode.D) {
+                this.getSprite().setImageSet("right");
+                move(1, 0);
+            }
+        }
 
         ArrayList<Door> doors = Game.getInstance().getEntities(Door.class);
         ArrayList<PickUp> pickUps = Game.getInstance().getEntities(PickUp.class);
@@ -87,29 +102,16 @@ public class ReplayPlayer extends LandMover {
 
     @Override
     protected void update() {
-        if(frames.size()-1 == this.currentFrame){
+        if(frames.size() == 0){
             Game.getInstance().setGameOver();
         }
         if(frames.get(0).getKeyTime() <= Game.getInstance().getTimeElapsed()){
             if(frames.get(0).getKeyDown()){
                 this.keysDown.add(frames.get(this.currentFrame).getKey());
+                System.out.println("Key down");
             } else {
+                System.out.println("Key up");
                 this.keysDown.remove(frames.get(this.currentFrame).getKey());
-            }
-            for(KeyCode keyDown : keysDown){
-                if(keyDown == KeyCode.W) {
-                    this.getSprite().setImageSet("up");
-                    move(0, -1);
-                } else if(keyDown == KeyCode.S) {
-                    this.getSprite().setImageSet("down");
-                    move(0, 1);
-                } else if(keyDown == KeyCode.A) {
-                    this.getSprite().setImageSet("left");
-                    move(-1, 0);
-                } else if(keyDown == KeyCode.D) {
-                    this.getSprite().setImageSet("right");
-                    move(1, 0);
-                }
             }
             frames.remove(0);
         }
