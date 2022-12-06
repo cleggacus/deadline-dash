@@ -108,9 +108,9 @@ public class ReplayPlayer extends LandMover {
         if(frames.get(0).getKeyTime() <= Game.getInstance().getTimeElapsed()){
             if(frames.get(0).getKeyDown()){
                 this.keysDown.add(frames.get(this.currentFrame).getKey());
-                System.out.println("Key down");
+                System.out.println("Key " + frames.get(this.currentFrame).getKey() + " down");
             } else {
-                System.out.println("Key up");
+                System.out.println("Key " + frames.get(this.currentFrame).getKey() + " up");
                 this.keysDown.remove(frames.get(this.currentFrame).getKey());
             }
             frames.remove(0);
