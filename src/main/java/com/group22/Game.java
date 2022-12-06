@@ -3,6 +3,7 @@ package com.group22;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import javafx.animation.KeyFrame;
 import javafx.scene.input.KeyCode;
 
 /**
@@ -27,6 +28,7 @@ public class Game extends Engine {
     private double timeElapsed;
     private Replay replay;
     private int framesElapsed;
+    private boolean replaying;
 
     private static Game instance;
 
@@ -125,6 +127,7 @@ public class Game extends Engine {
 
     @Override
     protected void startReplay(Replay replay, int levelIndex) {
+        this.replaying = true;
         this.setScore(0);
 
         Level currentLevel = this.levels.get(levelIndex);
@@ -141,7 +144,6 @@ public class Game extends Engine {
         this.framesElapsed = 0;
 
         this.setViewSize(width, height);
-
         try {
             this.addEntities(currentLevel.createEntities());
         } catch (Exception e) {
@@ -158,6 +160,7 @@ public class Game extends Engine {
 
     @Override
     protected void start() {
+        this.replaying = false;
         this.setScore(0);
 
         Level currentLevel = this.levels.get(this.currentLevelIndex);
@@ -197,7 +200,8 @@ public class Game extends Engine {
         updateTime();
         this.getGamePane().getPlaying().setGameScore(this.score);
         if(this.level.getPlayerFromEntities(this.getEntities()) == null){
-            this.setGameOver();
+            if(!this.replaying)
+                this.setGameOver();
         }
     }
 
