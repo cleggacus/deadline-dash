@@ -29,6 +29,9 @@ public class Bomb extends Entity{
 
     }
 
+    /**
+     *
+     */
     public void detonateBomb() {
         ArrayList<Bomb> bombThings = Game.getInstance().getEntities(Bomb.class);
         ArrayList<LandMover> landMovers = Game.getInstance().getEntities(LandMover.class);
@@ -77,7 +80,9 @@ public class Bomb extends Entity{
     }
 
 
-
+    /**
+     *
+     */
 
     public void activateBomb() {
         double shakeAmountX = 0.05 * Math.sin(1.1 * countdown * Math.pow(this.time, 3));
@@ -93,13 +98,16 @@ public class Bomb extends Entity{
         }
     }
 
-
+    /**
+     *
+     */
     @Override
     protected void updateMovement() {
-        // TODO Auto-generated method stub
-        
     }
 
+    /**
+     *
+     */
     @Override
     protected void update() {
         ArrayList<LandMover> landMovers = Game.getInstance().getEntities(LandMover.class);
@@ -128,37 +136,8 @@ public class Bomb extends Entity{
             }
         }
 
-        for(FlyingAssassin flyingAssassin : flyingAssassins) {
-            if (flyingAssassin.getX() == this.getX() && flyingAssassin.getY() == (this.getY()-1)) {
-                if (!fuze){
-                    this.bombStart = Game.getInstance().getTime();
-                    this.fuze = true;
-                }
-            } else if (flyingAssassin.getX() == this.getX() && flyingAssassin.getY() == (this.getY()+1)) {
-                if (!fuze){
-                    this.bombStart = Game.getInstance().getTime();
-                    this.fuze = true;
-                }
-            } else if (flyingAssassin.getX() == (this.getX()-1) && flyingAssassin.getY() == (this.getY())) {
-                if (!fuze){
-                    this.bombStart = Game.getInstance().getTime();
-                    this.fuze = true;
-                }
-            } else if (flyingAssassin.getX() == (this.getX()+1) && flyingAssassin.getY() == (this.getY())) {
-                if (!fuze){
-                    this.bombStart = Game.getInstance().getTime();
-                    this.fuze = true;
-                    activateBomb();
-                }
-            }
-        }
-
         if (fuze){
             activateBomb();
         }
     }
-
-        // TODO Auto-generated method stub
-
-
 }
