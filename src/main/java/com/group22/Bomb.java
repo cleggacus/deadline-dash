@@ -8,7 +8,9 @@ public class Bomb extends Entity{
 
     private final int  countdown;
     private double time = 0;
+    private double bombStart;
     boolean fuze;
+    private int fuzeCount = 1;
 
     /**
      *
@@ -21,6 +23,7 @@ public class Bomb extends Entity{
         super(x, y);
         this.countdown = countdown;
         this.fuze = false;
+        this.fuzeCount = fuzeCount;
         this.getSprite().addImageSet("tick", Sprite.createImageFade(
             "item/farron/farron0.png",
             "item/farron/farron5.png",
@@ -55,27 +58,10 @@ public class Bomb extends Entity{
         this.getSprite().setImageSet("tick");
         this.getSprite().setAnimationType(AnimationType.SINGLE);
 
-        /**
-         * CODE BELOW WILL MAKE YOU WANT TO UNALIVE YOURSELF
 
-
-        int counter = countdown;
-
-        while(counter>0){
-            try {
-                Thread.sleep(1000);
-                System.out.println(counter);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            counter--;
-            if (counter == 1){
-                Game.getInstance().removeEntity(this);
-            }
+        if ((this.bombStart - 3) >= Game.getInstance().getTime()){
+            Game.getInstance().removeEntity(this);
         }
-
-         * CODE ABOVE WILL MAKE YOU WANT TO UNALIVE YOURSELF
-         */
     }
 
 
@@ -94,7 +80,11 @@ public class Bomb extends Entity{
                     landMover.getX() == this.getX() &&
                             landMover.getY() == (this.getY()-1)
             ) {
-                activateBomb();
+                if (this.fuzeCount == 1){
+                    this.bombStart = Game.getInstance().getTime();
+                    this.fuze = true;
+                    fuzeCount--;
+                }
             }
         }
 
@@ -103,8 +93,12 @@ public class Bomb extends Entity{
                     flyingAssassin.getX() == this.getX() &&
                             flyingAssassin.getY() == (this.getY()-1)
             ) {
-                activateBomb();
+                this.fuze = true;
             }
+        }
+
+        if (fuze){
+            activateBomb();
         }
     }
 
