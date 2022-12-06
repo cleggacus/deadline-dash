@@ -136,14 +136,15 @@ public abstract class Entity {
             renderer.drawShadow(getDrawX(), getDrawY(), 0.7);
         }
 
-        if(this.animationType == TransitionType.Scale) {
-            double scale = Math.abs((this.timeSinceMove / this.moveEvery)*2-1);
-            renderer.drawImage(this.sprite.getCurrentImage(), getDrawX(), getDrawY(), scale);
-        } else {
-            renderer.drawImage(this.sprite.getCurrentImage(), getDrawX(), getDrawY());
-        }
+        renderer.drawImage(this.sprite.getCurrentImage(), getDrawX(), getDrawY(), getDrawScale());
     }
 
+    public double getDrawScale() {
+        if(this.animationType == TransitionType.Scale) 
+            return Math.abs((this.timeSinceMove / this.moveEvery)*2-1);
+        else
+            return 1;
+    }
 
     /**
      * Returns the sprite of the entitiy.
@@ -218,7 +219,7 @@ public abstract class Entity {
      * @return
      *      Y position for renderering
      */
-    private double getDrawY() {
+    public double getDrawY() {
         double percent = this.timeSinceMove / this.moveEvery;
 
         double offsetDistance = this.spriteOffsetY - this.fromSpriteOffsetY;
@@ -252,7 +253,7 @@ public abstract class Entity {
      * @return
      *      X position for renderering
      */
-    private double getDrawX() {
+    public double getDrawX() {
         double percent = this.timeSinceMove / this.moveEvery;
 
         double offsetDistance = this.spriteOffsetX - this.fromSpriteOffsetX;

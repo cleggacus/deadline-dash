@@ -5,6 +5,7 @@ import java.text.DecimalFormat;
 import com.group22.TimeUtil;
 
 import javafx.geometry.Insets;
+import javafx.scene.CacheHint;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
@@ -12,6 +13,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Screen;
+import javafx.stage.Stage;
+import javafx.stage.Window;
 
 public class Playing extends StackPane {
     private Label timeLabel;
@@ -32,6 +36,11 @@ public class Playing extends StackPane {
 
     public void setInfoBarPadding(double offset) {
         this.infoBar.setPadding(new Insets(0, offset, 0, offset));
+
+        Stage stage = (Stage)this.getScene().getWindow();
+        this.infoBar.prefWidthProperty().bind(stage.widthProperty());
+        this.infoBar.minWidthProperty().bind(stage.widthProperty());
+        this.infoBar.maxWidthProperty().bind(stage.widthProperty());
     }
 
     public GraphicsContext getGraphicsContext() {
@@ -57,8 +66,8 @@ public class Playing extends StackPane {
 
         this.graphicsContext = canvas.getGraphicsContext2D();
 
-        // canvas.setCache(true);
-        // canvas.setCacheHint(CacheHint.SPEED);
+        canvas.setCache(true);
+        canvas.setCacheHint(CacheHint.SPEED);
 
         canvas.widthProperty().bind(canvasOuter.widthProperty());
         canvas.heightProperty().bind(canvasOuter.heightProperty());
@@ -93,8 +102,8 @@ public class Playing extends StackPane {
         innerInfoBar.getStyleClass().add("info-bar");
 
         infoBar.setTop(innerInfoBar);
-        infoBar.minWidthProperty().bind(this.widthProperty());
-        infoBar.maxWidthProperty().bind(this.widthProperty());
+        // infoBar.minWidthProperty().bind(this.widthProperty());
+        // infoBar.maxWidthProperty().bind(this.widthProperty());
 
         return infoBar;
     }

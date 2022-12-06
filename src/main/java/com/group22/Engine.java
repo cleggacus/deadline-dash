@@ -3,12 +3,10 @@ package com.group22;
 import java.util.ArrayList;
 
 import com.group22.gui.GamePane;
-import com.group22.gui.LevelSelector;
 
 import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.StackPane;
 
 /**
  * 
@@ -55,6 +53,10 @@ public abstract class Engine {
 
     public String getUsername() {
         return this.gamePane.getProfileSelector().getUsername();
+    }
+
+    public Renderer getRenderer() {
+        return renderer;
     }
 
     /**
