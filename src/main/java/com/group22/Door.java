@@ -1,6 +1,15 @@
 package com.group22;
 
-import java.util.ArrayList;
+
+/**
+ * Door class is a subclass of Entity and is an entity which is drawn to screen
+ *
+ * Each instance owns its own values for coordinates which are inherited
+ *
+ *
+ * @author Cellan Lees
+ * @version 1.0
+ */
 
 public class Door extends Entity {
 

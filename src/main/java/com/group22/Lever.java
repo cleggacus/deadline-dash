@@ -2,6 +2,16 @@ package com.group22;
 
 import java.util.ArrayList;
 
+/**
+ * Lever class is a subclass of Pickup and is an entity which is drawn to screen
+ *
+ * Each instance owns its own values for coordinates which are inherited and also a colour
+ *
+ *
+ * @author Cellan Lees
+ * @version 1.0
+ */
+
 public class Lever extends PickUp {
     private String leverColour;
     private Boolean leverIsOpen = false;

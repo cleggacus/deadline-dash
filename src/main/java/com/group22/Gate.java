@@ -1,6 +1,15 @@
 package com.group22;
 
-import java.util.ArrayList;
+/**
+ * Gate class is a subclass of Entity and is drawn to screen
+ *
+ * Each instance owns its own values for coordinates which are inherited and also a colour
+ *
+ *
+ * @author Cellan Lees
+ * @version 1.0
+ */
+
 
 public class Gate extends Entity {
 
