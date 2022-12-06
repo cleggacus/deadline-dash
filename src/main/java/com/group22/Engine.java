@@ -37,6 +37,7 @@ public abstract class Engine {
     private double delta = 0;
     /** Time when the last frame updated in nanoseconds. */
     private long lastTime = 0;
+    private KeyCode keyReleased;
 
     /**
      * Creates a new Engine.
@@ -172,6 +173,13 @@ public abstract class Engine {
         return this.keyboardManager.getKeyState(keyCode);
     }
 
+    public KeyCode getLastKeyReleased(){
+        return this.keyboardManager.getLastKeyReleased();
+    }
+
+    public void resetLastKeyReleased(){
+        this.keyboardManager.resetLastKeyReleased();
+    }
     
     /** 
      * Checks if the key is being pressed down on the frame which the method is called.

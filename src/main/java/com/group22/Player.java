@@ -113,6 +113,12 @@ public class Player extends LandMover {
             lastDownTime = Game.getInstance().getTimeElapsed();
             Game.getInstance().newReplayFrame(lastDown, lastDownTime, true);
         }
+        if(Game.getInstance().getLastKeyReleased() != null){
+            lastUp = Game.getInstance().getLastKeyReleased();
+            lastUpTime = Game.getInstance().getTimeElapsed();
+            Game.getInstance().newReplayFrame(lastUp, lastUpTime, false);
+            Game.getInstance().resetLastKeyReleased();
+        }
 
     }
 }

@@ -25,6 +25,7 @@ public class Game extends Engine {
     private ReplayManager replayManager;
     private ReplayFrame currentFrame;
     private double timeElapsed;
+    private Replay replay;
 
     private static Game instance;
 
@@ -52,19 +53,14 @@ public class Game extends Engine {
     }
     
     public void newReplayFrame(KeyCode key, double keyTime, boolean keyDown){
-        if(currentFrame == null){
-            ReplayFrame frame = new ReplayFrame(key, keyTime, keyDown);
-            currentFrame = frame;
-        } else {
-            ReplayFrame frame = new ReplayFrame(key, keyTime, keyDown);
-            this.replayManager.storeFrame(frame);
-            currentFrame = frame;
-        }
+        ReplayFrame frame = new ReplayFrame(key, keyTime, keyDown);
+        this.replay.storeFrame(frame);
+        currentFrame = frame;
 
     }
 
     public void saveReplay(){
-        this.replayManager.saveReplay();
+        this.replayManager.saveReplay(replay);
     }
 
     public Entity getPlayer() {
@@ -145,7 +141,8 @@ public class Game extends Engine {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        this.replayManager = new ReplayManager(Game.getInstance().getLevel());
+        this.replayManager = new ReplayManager();
+        this.replay = new Replay(this.level.getTitle(), this.getUsername());
     }
 
     public void setGameOver(){
