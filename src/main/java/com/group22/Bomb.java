@@ -1,8 +1,6 @@
 package com.group22;
 
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Timer;
 
 public class Bomb extends Entity{
 
