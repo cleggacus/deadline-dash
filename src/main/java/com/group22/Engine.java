@@ -133,6 +133,25 @@ public abstract class Engine {
 
         this.gamePane.setState(gameState);
     }
+
+    public void setReplay(GameState gameState, Replay replay, int levelIndex){
+        GameState currentGameState = this.gamePane.getCurrentState();
+
+        if(gameState == currentGameState)
+            return;
+
+        boolean restart = 
+            currentGameState != GameState.Paused && 
+            gameState == GameState.Playing;
+
+        if(restart) {
+            this.entities.clear();
+            this.startReplay(replay, levelIndex);
+        }
+
+        this.gamePane.setState(gameState);
+
+    }
     
     /** 
      * Creates a scene containing a game pane.

@@ -142,7 +142,10 @@ public class Game extends Engine {
             System.out.println(e.getMessage());
         }
         Player player = this.level.getPlayerFromEntities(this.entities);
-        ReplayPlayer replayPlayer =  new ReplayPlayer(player.getX(), player.getY());
+        System.out.println(replay.getUsername());
+        ReplayPlayer replayPlayer =  new ReplayPlayer(player.getX(), player.getY(),  replay.getFrames());
+        this.addEntity(replayPlayer);
+        this.removeEntity(player);
         
 
     }

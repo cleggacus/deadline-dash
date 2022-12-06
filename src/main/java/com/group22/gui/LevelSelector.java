@@ -77,7 +77,7 @@ public class LevelSelector extends MenuPane {
                 getClass().getResource(path).toString(),
                 () -> Game.getInstance().startFromLevel(i),
                 "▶",
-                () -> {this.gamePane.getReplaysBrowser().setReplays(level.toString(), this.replayManager.getReplaysFromLevel(level), i);
+                () -> {this.gamePane.getReplaysBrowser().setReplays(replayManager.getReplaysFromLevel(level), level.getTitle(), i);
                     this.gamePane.setState(GameState.ReplaysBrowser);
                 }
             );

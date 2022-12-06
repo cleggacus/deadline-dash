@@ -7,16 +7,17 @@ import javafx.scene.input.KeyCode;
 public class ReplayPlayer extends Player {
 
     private KeyCode lastDown;
-    public ReplayPlayer(int x, int y) {
+    private ArrayList<ReplayFrame> frames;
+    private int currentFrame;
+    public ReplayPlayer(int x, int y, ArrayList<ReplayFrame> frames) {
         super(x, y);
+        this.frames = frames;
+        this.currentFrame = 0;
     }
     
     @Override
     protected void updateMovement() {
         this.getSprite().setImageSet("idle");
-
-        //if(this.lastDown == null)
-            //this.lastDown = Game.getInstance().getLastReplayKeyDown(KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D);
 
         if(this.lastDown == KeyCode.W) {
             this.getSprite().setImageSet("up");
@@ -61,9 +62,15 @@ public class ReplayPlayer extends Player {
 
     @Override
     protected void update() {
-        //if(Game.getInstance().getReplayKey()){
-
-        //}
+        if(frames.size() == this.currentFrame){
+            Game.getInstance().setGameOver();
+        }
+        if(frames.get(this.currentFrame).getKeyTime() <= Game.getInstance().getTimeElapsed()){
+            if(frames.get(this.currentFrame).getKeyDown()){
+                this.lastDown = frames.get(this.currentFrame).getKey();
+            }
+            this.currentFrame += 1;
+        }
     }
 
 }
