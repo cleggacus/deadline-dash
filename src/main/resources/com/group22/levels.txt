@@ -6,7 +6,7 @@ RRRR RRRR RRRR RRRR RRRR
 RRRR RRBB RRRR RRRR RRRR
 RRRR RRRR RRRR RRRR RRRR
 RRRR RRRR RRRR RRRR RRRR
-12
+10
 player 0 0
 door 0 1
 loot 1 1 200
@@ -16,8 +16,6 @@ loot 3 3 50
 loot 2 4 100
 loot 4 1 50
 loot 4 4 200
-gate 4 3 R
-gate 3 4 R
 smartmover 2 2
 4
 farron 100 2022-12-02T19:00:36.026863400
@@ -34,16 +32,16 @@ BBRR BBRB BBBB BBBB BBBB BBBB BMBM MMMM
 RGRG MMMM MMMM MMMM MMMM BBRR RRRR MMMM
 RGRR GGRG GGRG GGRG GGRG GGGG MMMM MMMM
 10
-door 7 4
-bomb 7 4 3
-bomb 7 3 3
+door 6 4
+bomb 6 3 3
+bomb 6 2 3
 loot 3 4 100
 loot 1 1 50
 loot 4 3 200
 player 0 0
-flyingassassin 2 1 v
-flyingassassin 3 2 h
-flyingassassin 5 3 h
+flyingassassin 1 1 v
+flyingassassin 2 2 v
+flyingassassin 4 3 v
 4
 farron 100 2022-12-02T19:00:36.026863400
 gary 90 2022-12-01T21:13:36.026863400

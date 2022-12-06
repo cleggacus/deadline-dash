@@ -8,6 +8,7 @@ import javafx.scene.effect.GaussianBlur;
 public class GamePane extends StatePane<GameState> {
     // Panes
     private GameOver gameOver;
+    private LevelComplete levelComplete;
     private Paused paused;
     private Playing playing;
     private ProfileSelector profileSelector;
@@ -29,6 +30,7 @@ public class GamePane extends StatePane<GameState> {
         this.playing = new Playing(this);
         this.paused = new Paused(this);
         this.gameOver = new GameOver(this);
+        this.levelComplete = new LevelComplete(this);
 
         // Add panes with there visible states
         this.addPane(this.profileSelector, GameState.ProfileSelector);
@@ -37,6 +39,7 @@ public class GamePane extends StatePane<GameState> {
         this.addPane(this.levelSelector, GameState.LevelSelector);
         this.addPane(this.playing, GameState.Playing, GameState.Paused, GameState.GameOver);
         this.addPane(this.gameOver, GameState.GameOver);
+        this.addPane(this.levelComplete, GameState.LevelComplete);
         this.addPane(this.paused, GameState.Paused);
     }
 
@@ -54,6 +57,10 @@ public class GamePane extends StatePane<GameState> {
 
     public GameOver getGameOver() {
         return gameOver;
+    }
+
+    public LevelComplete getFinish() {
+        return levelComplete;
     }
 
     public Playing getPlaying() {

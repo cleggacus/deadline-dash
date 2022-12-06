@@ -163,6 +163,11 @@ public class Game extends Engine {
         this.setGameState(GameState.GameOver);
     }
 
+    public void setLevelFinish(){
+        this.getGamePane().getFinish().setStats(this.score, this.time);
+        this.setGameState(GameState.LevelComplete);
+    }
+
     /**
      * Overridden update method from {@code Engine}.
      */
