@@ -68,6 +68,10 @@ public class Game extends Engine {
         return this.tiles[x1][y1].colorMatch(this.tiles[x2][y2]);
     }
 
+    public boolean colorMatch(int x1, int y1, int x2, int y2, TileColor pathColor){
+        return this.tiles[x1][y1].colorMatch(this.tiles[x2][y2], pathColor);
+    }
+
     /**
      * This function adds the given number of seconds to the time variable
      * 
