@@ -11,18 +11,20 @@ public class LevelLoader {
     private List<Level> levels;
     public LevelLoader(){
     }
-    private static final String levelFile = "src/main/resources/com/group22/levels.txt";
+    private static final String levelFile =
+    "src/main/resources/com/group22/levels.txt";
     /**
-     * A recursive method that takes an ArrayList of type strings and an empty ArrayList 
-     * of type Level, and returns a list of levels.
+     * A recursive method that takes an ArrayList of type strings 
+     * and an empty ArrayList of type Level, and returns a list of levels.
      * 
-     * @param levelData A list of strings, each string is a line from the levels file.
-     *                  Once one level is read, if another exists in the file, the method
-     *                  uses recursion to get the next level.
+     * @param levelData A list of strings, each string is a line from the
+     * levels file. Once one level is read, if another exists in the file,
+     * the method uses recursion to get the next level.
      * @param levelArray The list of levels that will be returned.
      * @return The method returns a list of levels.
      */
-    public List<Level> getLevelFromData(List<String> levelData, List<Level> levelArray){
+    public List<Level> getLevelFromData(List<String> levelData,
+        List<Level> levelArray){
 
         try{
             this.linePos = 0;
@@ -35,7 +37,8 @@ public class LevelLoader {
 
             title = getStringFromData(levelData.get(linePos));
             timeToComplete = getIntFromData(levelData.get(linePos));
-            int[] widthHeightSplit = getIntArrayFromData(levelData.get(linePos), " ");
+            int[] widthHeightSplit = getIntArrayFromData(
+                levelData.get(linePos), " ");
             width = widthHeightSplit[0];
             height = widthHeightSplit[1];
 
@@ -44,14 +47,16 @@ public class LevelLoader {
             tiles = getTilesFromData(levelData, width, height, tiles);
 
             int numEntities = getIntFromData(levelData.get(linePos));
-            entities.addAll(getEntitiesFromData(levelData, numEntities, width, height));
+            entities.addAll(getEntitiesFromData(
+                levelData, numEntities, width, height));
 
             int numScores = getIntFromData(levelData.get(linePos));
             String[][] scores = new String[numScores][2];
             scores = getScoresFromData(levelData, scores, numScores);
         
-            Level currentLevel = new Level(title, timeToComplete, height, width, 
-            tiles, entities, scores, levelArray.size());
+            Level currentLevel = new Level(
+                title, timeToComplete, height, width, 
+                tiles, entities, scores, levelArray.size());
             levelArray.add(currentLevel);
 
             this.linePos = this.linePos + 1;
@@ -68,19 +73,22 @@ public class LevelLoader {
         }
     }
 
-    private String[][] getScoresFromData(List<String> levelData, String[][] scores, int numScores){
+    private String[][] getScoresFromData(List<String> levelData,
+        String[][] scores, int numScores){
+
         for(int i=0; i < numScores; i++){
             scores[i] = getStringArrayFromData(levelData.get(linePos), " ");
         }
         return scores;
     }
 
-    private List<String[]> getEntitiesFromData(List<String> levelData, int numEntities, int width, int height) throws Exception{
+    private List<String[]> getEntitiesFromData(List<String> levelData,
+        int numEntities, int width, int height) throws Exception{
+
         List<String[]> entities = new ArrayList<String[]>();
         for(int i=0; i < numEntities; i++){
-            String[] splitEntities = getStringArrayFromData(levelData.get(linePos), " ");
-            //Entity entity = parseEntity(splitEntities);
-            //isValidEntity(entity, width, height);
+            String[] splitEntities = getStringArrayFromData(
+                levelData.get(linePos), " ");
             entities.add(splitEntities);
         }
         return entities;
@@ -95,15 +103,20 @@ public class LevelLoader {
      * @param tiles The 2D array of tiles that will be returned
      * @return The method is returning a 2D array of Tile objects.
      */
-    private Tile[][] getTilesFromData(List<String> levelData, int width, int height, Tile[][] tiles) throws LevelFormatException{
+    private Tile[][] getTilesFromData(List<String> levelData,
+        int width, int height, Tile[][] tiles) throws LevelFormatException{
+
         for(int y=0; y < height; y++){
             int yData = linePos+y;
             if(yData >= levelData.size() || yData < 0)
-                throw new LevelFormatException("Tile missing in the y plane");
-            String[] splitRow = getStringArrayFromData(levelData.get(linePos), " ");
+                throw new LevelFormatException(
+                    "Tile missing in the y plane");
+            String[] splitRow = getStringArrayFromData(
+                levelData.get(linePos), " ");
             for(int x=0; x < width; x++){
                 if(x >= splitRow.length || x < 0)
-                    throw new LevelFormatException("Tile missing in the y plane");
+                    throw new LevelFormatException(
+                        "Tile missing in the y plane");
                 tiles[x][y] = parseTile(splitRow[x], x, y);
             }
         }
@@ -122,7 +135,8 @@ public class LevelLoader {
 
     private int[] getIntArrayFromData(String data, String splitOn){
         linePos = linePos + 1;
-        int[] iArray = Arrays.stream(data.split(splitOn)).mapToInt(Integer::parseInt).toArray();
+        int[] iArray = Arrays.stream(data.split(splitOn)).mapToInt(
+            Integer::parseInt).toArray();
         return iArray;
     }
 
@@ -139,8 +153,8 @@ public class LevelLoader {
 
     /**
      * This function returns a list of all the levels in the game.
-     * Reads the {@code level.txt} file and get results of {@code getLevelFromData()}
-     * using the data retrieved from the file.
+     * Reads the {@code level.txt} file and get results
+     * of {@code getLevelFromData()} using the data retrieved from the file.
      * 
      * @return The method getLevelData is being returned.
      */
@@ -148,6 +162,11 @@ public class LevelLoader {
         return this.levels;
     }
 
+    /**
+     * Reads a text file and returns an ArrayList of Strings
+     * 
+     * @return An ArrayList of Strings.
+     */
     public ArrayList<String> getLevelFileData(){
         
         ArrayList<String> dataArray = new ArrayList<String>();
@@ -172,6 +191,10 @@ public class LevelLoader {
         return new File(levelFile);
     }
 
+    /**
+     * Reads the levels.txt file, calls getLevelFromData on
+     * the data to set this.levels to an ArrayList of levels.
+     */
     public void setUp(){
         List<String> dataArray = new ArrayList<String>();
         

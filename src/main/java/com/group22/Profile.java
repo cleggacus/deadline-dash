@@ -12,7 +12,8 @@ import java.util.Scanner;
 public class Profile {
     private LocalDateTime dateLastActive;
     private String name;
-    private static final String profileFile = "src/main/resources/com/group22/profiles.txt";
+    private static final String profileFile = 
+    "src/main/resources/com/group22/profiles.txt";
     private Integer maxUnlockedLevelIndex;
     private List<Profile> allProfiles;
 
@@ -27,34 +28,57 @@ public class Profile {
     }
 
 
-    public void saveToFile(){        
+    /**
+     * Saves profile data to the profiles.txt file
+     */
+    public void saveToFile(){
         try {
             FileWriter myWriter = new FileWriter(profileFile, true);
-            myWriter.append(this.getName() + " " + this.getTimeAgoLastActive() + " 1\n");
+            myWriter.append(this.getName() + " " +
+                this.getTimeAgoLastActive() + " 1\n");
             myWriter.close();
         } catch (IOException e) {
-            System.out.println("An error occurred writing to the profiles.txt file");
+            System.out.println(
+                "An error occurred writing to the profiles.txt file");
             e.printStackTrace();
         }
     }
 
+    /**
+     * Sets allProfiles to an ArrayList of profiles which
+     * are read from getAllProfilesData and created as
+     * new objects.
+     */
     public void loadAllProfiles(){
         List<String> profileFileData = getAllProfilesData();
         List<Profile> profiles = new ArrayList<Profile>();
 
         for(int i=0; i<profileFileData.size(); i++){
             String[] splitAtSpace = profileFileData.get(i).split(" ");
-            Profile profile = new Profile(splitAtSpace[0], LocalDateTime.parse(splitAtSpace[1]));
+            Profile profile = new Profile(
+                splitAtSpace[0], LocalDateTime.parse(splitAtSpace[1]));
             profiles.add(profile);
         }
 
         this.allProfiles = profiles;
     }
 
+    /**
+     * This function returns a list of all the profiles in the database
+     * 
+     * @return A list of all profiles
+     */
     public List<Profile> getAllProfiles() {
         return allProfiles;
     }
 
+    /**
+     * It loops through all the profiles in the list and returns
+     * the first one that matches the name
+     * 
+     * @param name The name of the profile you want to get.
+     * @return The profile object that matches the name.
+     */
     public Profile getFromName(String name){
         for(Profile p : this.allProfiles){
             if(p.getName().equals(name)){
@@ -100,7 +124,8 @@ public class Profile {
     public void delete(String username){
         try{
             List<String> profileData = getAllProfilesData();
-            BufferedWriter wr = new BufferedWriter(new FileWriter(profileFile, false));
+            BufferedWriter wr = new BufferedWriter(
+                new FileWriter(profileFile, false));
 
             for(int i = 0; i < profileData.size(); i++){
                 if(profileData.get(i).split(" ")[0].equals(username)){
@@ -127,7 +152,8 @@ public class Profile {
         for(int i = 0; i < allProfiles.size(); i++){
             String[] currentProfile = allProfiles.get(i).split(" ");
             if(currentProfile[0].equals(this.getName())){
-                this.maxUnlockedLevelIndex = Integer.parseInt(currentProfile[2]);
+                this.maxUnlockedLevelIndex = Integer.parseInt(
+                    currentProfile[2]);
             }
         }
         return this.maxUnlockedLevelIndex;

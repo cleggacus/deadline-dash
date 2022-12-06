@@ -30,6 +30,11 @@ public class ScoresBrowser extends MenuPane {
     public void setLevel(String level, String[][] scores) {
         this.scoresMenu.getChildren().clear();
 
+        if(scores.length == 0){
+            this.scoresMenu.addH2("No scores yet!");
+            this.scoresMenu.addParagraph("Win the level to be displayed here.");
+        }
+
         for(int i = 0; i < scores.length; i++){
             this.scoresMenu.addParagraph(scores[i][0].toUpperCase() +
             ": " + scores[i][1]);
