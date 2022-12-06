@@ -140,4 +140,36 @@ public class Profile {
     public String getTimeAgoLastActive(){
         return dateLastActive.toString();
     }
+
+    /**
+     * Updates the max level unlocked for the profile in the profiles file
+     * 
+     * @param levelIndex the index of the level that the player has unlocked
+     */
+    public void setUnlockedLevelIndex(int levelIndex) {
+        this.maxUnlockedLevelIndex = levelIndex;
+        try{
+            List<String> profileData = getAllProfilesData();
+            BufferedWriter wr = new BufferedWriter(
+                new FileWriter(profileFile, false));
+
+            for(int i = 0; i < profileData.size(); i++){
+                if(profileData.get(i).split(" ")[0].equals(this.getName())){
+                    String profileString = this.getName() + " " + 
+                        LocalDateTime.now().toString() + " " + 
+                        String.valueOf(levelIndex);
+
+                    profileData.set(i, profileString);
+                }
+
+            }
+            for(int i = 0; i<profileData.size(); i++){
+                wr.write(profileData.get(i) + "\n");
+            }
+            wr.close();
+
+            } catch(Exception e){
+
+        }
+    }
 }
