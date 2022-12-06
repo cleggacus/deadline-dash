@@ -1,9 +1,10 @@
 * {
-    -fx-bg-1: #000000;
-    -fx-bg-2: #1a1a1a;
+    -fx-bg-1: #89afe3;
+    -fx-bg-2: #7397ca;
+    -fx-bg-3: #6884abaa;
 
-    -fx-fg-1: #E69664;
-    -fx-fg-2: #E6966455;
+    -fx-fg-1: #ffffff;
+    -fx-fg-2: #c3d5ef;
 }
 
 .game-pane {
@@ -16,6 +17,8 @@
 .game-pane .image-list .label {
     -fx-font-size: 30;
     -fx-text-fill: -fx-fg-1;
+    -fx-text-alignment: center;
+    -fx-alignment: center;
 }
 
 .game-pane .image-list .footer {
@@ -32,18 +35,13 @@
 
 .game-pane .image-list .text-overlay {
     -fx-cursor: hand;
-    -fx-background-color: #000d;
+    -fx-background-color: -fx-bg-3;
     -fx-transition: fade;
-    -fx-opacity: 0;
-}
-
-.game-pane .image-list .text-overlay:hover {
-    -fx-opacity: 1;
 }
 
 .game-pane .gameover-menu,
 .game-pane .pause-menu {
-    -fx-background-color: #000d;
+    -fx-background-color: -fx-bg-3;
 }
 
 .game-pane .info-bar {

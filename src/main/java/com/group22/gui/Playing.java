@@ -13,6 +13,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Screen;
+import javafx.stage.Stage;
+import javafx.stage.Window;
 
 public class Playing extends StackPane {
     private Label timeLabel;
@@ -32,8 +35,12 @@ public class Playing extends StackPane {
     }
 
     public void setInfoBarPadding(double offset) {
-        double padding = Math.floor(offset);
-        this.infoBar.setPadding(new Insets(0, padding, 0, padding));
+        this.infoBar.setPadding(new Insets(0, offset, 0, offset));
+
+        Stage stage = (Stage)this.getScene().getWindow();
+        this.infoBar.prefWidthProperty().bind(stage.widthProperty());
+        this.infoBar.minWidthProperty().bind(stage.widthProperty());
+        this.infoBar.maxWidthProperty().bind(stage.widthProperty());
     }
 
     public GraphicsContext getGraphicsContext() {
@@ -94,8 +101,9 @@ public class Playing extends StackPane {
         innerInfoBar.setLeft(left);
         innerInfoBar.getStyleClass().add("info-bar");
 
-
         infoBar.setTop(innerInfoBar);
+        // infoBar.minWidthProperty().bind(this.widthProperty());
+        // infoBar.maxWidthProperty().bind(this.widthProperty());
 
         return infoBar;
     }

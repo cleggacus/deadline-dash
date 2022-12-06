@@ -3,6 +3,8 @@ package com.group22.gui;
 import com.group22.GameState;
 import com.group22.gui.base.StatePane;
 
+import javafx.scene.effect.GaussianBlur;
+
 public class GamePane extends StatePane<GameState> {
     // Panes
     private GameOver gameOver;
@@ -38,6 +40,18 @@ public class GamePane extends StatePane<GameState> {
         this.addPane(this.paused, GameState.Paused);
     }
 
+    @Override
+    public void setState(GameState state) {
+        super.setState(state);
+
+        if(state != GameState.Playing) {
+            GaussianBlur blur = new GaussianBlur(20);
+            this.playing.setEffect(blur);
+        } else {
+            this.playing.setEffect(null);
+        }
+    }
+
     public GameOver getGameOver() {
         return gameOver;
     }
@@ -60,6 +74,10 @@ public class GamePane extends StatePane<GameState> {
 
     public ScoresBrowser getScoresBrowser() {
         return scoresBrowser;
+    }
+
+    public void update() {
+        this.levelSelector.update();
     }
 
     private void setStyling() {

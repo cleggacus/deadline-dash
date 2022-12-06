@@ -55,6 +55,10 @@ public abstract class Engine {
         return this.gamePane.getProfileSelector().getUsername();
     }
 
+    public Renderer getRenderer() {
+        return renderer;
+    }
+
     /**
      * Gets an ArrayList of all entities that are a given class or inherits that class.
      * 
@@ -142,7 +146,6 @@ public abstract class Engine {
         Scene scene = new Scene(this.gamePane, INITIAL_WIDTH, INITIAL_HEIGHT);
         this.keyboardManager.setScene(scene);
         this.gameLoop.start();
-
         return scene;
     }
 
@@ -291,6 +294,7 @@ public abstract class Engine {
     private void callUpdate(long now) {
         this.updateTimer(now);
         this.updateState();
+        this.gamePane.update();
 
         if(this.gamePane.getCurrentState() == GameState.Playing) {
             this.update();

@@ -32,11 +32,13 @@ public class Game extends Engine {
     }
 
     /** 
-     * This method is used so the public game data can be accessed in other parts of the applicaiton. 
-     * The instance of Game is created on its first call and is returned in the method.
+     * This method is used so the public game data can be accessed
+     * in other parts of the applicaiton. The instance of Game is created
+     * on its first call and is returned in the method.
      * 
      * @return Game
      */
+    
     public static synchronized Game getInstance() {
         if(Game.instance == null) {
             Game.instance = new Game();
@@ -49,34 +51,55 @@ public class Game extends Engine {
 
 
     public Entity getPlayer() {
+        // Returning the player entity.
         return this.player;
     }
 
     /**
      * Checks if theres a color at (x1, y1) thats in (x2, y2).
      * 
-     * @param x1
-     * @param y1
-     * @param x2
-     * @param y2
+     * @param x1 The x coordinate of the first tile
+     * @param y1 The y-coordinate of the first tile
+     * @param x2 The x coordinate of the second tile
+     * @param y2 The y coordinate of the second tile
      * @return
      */
     public boolean colorMatch(int x1, int y1, int x2, int y2) {
         return this.tiles[x1][y1].colorMatch(this.tiles[x2][y2]);
     }
 
+    /**
+     * This function adds the given number of seconds to the time variable
+     * 
+     * @param seconds The amount of time to add to the timer.
+     */
     public void addTime(double seconds) {
         this.time += seconds;
     }
 
+    /**
+     * This function returns the score of the player
+     * 
+     * @return The score of the player.
+     */
     public int getScore() {
         return score;
     }
 
+    /**
+     * This function returns the time left of a level
+     * 
+     * @return The time variable is being returned.
+     */
     public double getTime() {
         return time;
     }
 
+    /**
+     * This function returns the first door in the list of entities
+     * 
+     * @return The door entity.
+     */
     public Entity getDoor() {
         for(Entity entity : this.entities){
             if(entity instanceof Door){
@@ -86,16 +109,32 @@ public class Game extends Engine {
         return null;
     }
 
+    /**
+     * This function takes an integer as an argument and
+     * adds it to the score variable
+     * 
+     * @param amount The amount to increment the score by.
+     */
     public void incrementScore(int amount) {
         this.setScore(this.score + amount);
     }
 
+    /**
+     * This function sets the score parameter in the game class
+     * 
+     * @param score the score to be set
+     */
     public void setScore(int score) {
         this.score = score;
         this.getGamePane().getPlaying().setGameScore(score);
     }
 
     @Override
+    /**
+     *  Sets the score to 0, sets the level to the one selected
+     *  sets the width and height, sets the time, and
+     *  adds the entities.
+     */
     protected void start() {
         this.setScore(0);
 
@@ -136,6 +175,11 @@ public class Game extends Engine {
         }
     }
 
+    /**
+     * This function updates the time in the game
+     * and if the time is less than or equal to 0, it sets
+     * the game state to GameOver.
+     */
     private void updateTime() {
         this.time -= this.getDelta();
 
@@ -147,6 +191,13 @@ public class Game extends Engine {
         this.getGamePane().getPlaying().setGameTime(this.time);
     }
 
+    /**
+     * This function sets the current level index 
+     * to the level passed in, and sets the game state to
+     * playing
+     * 
+     * @param level The level to start from.
+     */
     public void startFromLevel(int level){
         this.currentLevelIndex = level;
         this.setGameState(GameState.Playing);
@@ -156,6 +207,10 @@ public class Game extends Engine {
         this.setUpProfiles();
     }
 
+    /**
+     * It loads all the levels from the levelLoader
+     * and adds them to the levelSelector
+     */
     private void setUpLeveles() {
         this.levelLoader = new LevelLoader();
         this.levelLoader.setUp();
@@ -165,11 +220,6 @@ public class Game extends Engine {
 
     private void setUpProfiles() {
         Profile checkProfiles = new Profile();
-        List<Profile> profiles = checkProfiles.getAllProfiles();
-
-        for(Profile profile : profiles) {
-            this.getGamePane().getProfileSelector().addProfile(profile.getName());
-        }
 
         this.getGamePane().getProfileSelector().setProfileAddedEvent(username -> {
             Profile profile = new Profile(username, LocalDateTime.now());
@@ -187,10 +237,18 @@ public class Game extends Engine {
         });
 
         this.getGamePane().getProfileSelector().setOnProfileSelectEvent(profile -> {
+            checkProfiles.loadAllProfiles();
+
             this.getGamePane().getLevelSelector().clearLevels();
             this.getGamePane().getLevelSelector().setProfile(checkProfiles.getFromName(profile));
             this.getGamePane().getStartMenu().setUsername(profile);
             this.setUpLeveles();
         });
+
+        List<Profile> profiles = checkProfiles.getAllProfiles();
+
+        for(Profile profile : profiles) {
+            this.getGamePane().getProfileSelector().addProfile(profile.getName());
+        }
     }
 }

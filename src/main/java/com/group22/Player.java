@@ -6,9 +6,12 @@ import javafx.scene.input.KeyCode;
 
 public class Player extends LandMover {
     private KeyCode lastDown;
+    private boolean torch;
 
-    public Player(int x, int y) {
+    public Player(int x, int y, boolean torch) {
         super(x, y);
+
+        this.torch = torch;
 
         this.getSprite().setAnimationSpeed(0.4);
         this.setShadow(true);
@@ -108,5 +111,10 @@ public class Player extends LandMover {
         ) {
             lastDown = Game.getInstance().getLastKeyDown(KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D);
         }
+
+        if(torch)
+            Game.getInstance().getRenderer().setLightPosition(getDrawX(), getDrawY(), 0.25);
+        else
+            Game.getInstance().getRenderer().removeLight();
     }
 }

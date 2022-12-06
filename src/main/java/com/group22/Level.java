@@ -150,7 +150,8 @@ public class Level {
             case("player"):
                 return new Player(
                     Integer.parseInt(entity[1]),
-                    Integer.parseInt(entity[2]));
+                    Integer.parseInt(entity[2]),
+                    entity.length >= 4 && entity[3].equals("torch"));
             case("door"):
                 return new Door(
                     Integer.parseInt(entity[1]),

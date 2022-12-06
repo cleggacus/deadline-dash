@@ -9,7 +9,11 @@ import com.group22.Profile;
 import com.group22.gui.base.ImageList;
 import com.group22.gui.base.MenuPane;
 
+import javafx.scene.layout.StackPane;
+
 public class LevelSelector extends MenuPane {
+    private double shakeTimer = 0;
+    private int lockNotify = -1;
     private ImageList imageList;
     private Profile currentProfile;
     private GamePane gamePane;
@@ -28,6 +32,21 @@ public class LevelSelector extends MenuPane {
         this.imageList.prefWidthProperty().bind(this.widthProperty());
     }
 
+    public void update() {
+        this.imageList.update(Game.getInstance().getDelta());
+        if(lockNotify >= 0) {
+            shakeTimer += Game.getInstance().getDelta();
+            StackPane stackPane = this.imageList.getStackPanes().get(lockNotify);
+            stackPane.setTranslateX(5 * Math.sin(40*shakeTimer));
+
+            if(shakeTimer >= 0.5) {
+                shakeTimer = 0;
+                stackPane.setTranslateX(0);
+                this.lockNotify = -1;
+            }
+        }
+    }
+
     public void addLevels(List<Level> levels) {
         for(Level level : levels) {
             this.addLevel(level);
@@ -35,18 +54,13 @@ public class LevelSelector extends MenuPane {
     }
 
     public void clearLevels(){
-        this.imageList.removeImages();
+        this.imageList = new ImageList();
+        this.replace(this.imageList, 1);
+
     }
 
     public void setProfile(Profile profile){
         this.currentProfile = profile;
-        /*int u = profile.getMaxUnlockedLevelIndex();
-        int l = this.imageList.getLength();
-        for(int i = 0; i < l; i++){
-            if(i >= u){
-                this.imageList.get
-            }
-        }*/
     }
 
     public void addLevel(Level level) {
@@ -69,15 +83,12 @@ public class LevelSelector extends MenuPane {
             this.imageList.addImage(
                 "🔒",
                 getClass().getResource(path).toString(),
-                () -> this.lockedNotif(level.getTitle()),
+                () -> {
+                    lockNotify = i;
+                },
                 "🎓",
                 () -> this.gamePane.getScoresBrowser().setLevel(level.toString(), level.getHighscores())
             );
         }
-    }
-
-    private void lockedNotif(String i){
-        System.out.println("Level '" + i + "' locked");
-        return;
     }
 }
