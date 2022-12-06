@@ -22,6 +22,7 @@ public class LevelComplete extends MenuPane {
 
     public void setStats(int score, double time) {
         setUpLevelComplete();
-        this.addParagraph("Score: " + String.valueOf(score));
+        String timeFinished = String.format("Time: %f", time);
+        this.addParagraph(timeFinished + " Score: " + String.valueOf(score));
     }
 }

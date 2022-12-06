@@ -104,61 +104,42 @@ public class Bomb extends Entity{
     protected void update() {
         ArrayList<LandMover> landMovers = Game.getInstance().getEntities(LandMover.class);
         ArrayList<FlyingAssassin> flyingAssassins = Game.getInstance().getEntities(FlyingAssassin.class);
-        for(LandMover landMover : landMovers) {
-            if (landMover.getX() == this.getX() && landMover.getY() == (this.getY()-1)) {
-                if (!fuze){
+        if(!fuze){
+            for(LandMover landMover : landMovers) {
+                if (landMover.getX() == this.getX() && landMover.getY() == (this.getY()-1)) {
+                    this.bombStart = Game.getInstance().getTime();
+                    this.fuze = true;
+                } else if (landMover.getX() == this.getX() && landMover.getY() == (this.getY()+1)) {
+                    this.bombStart = Game.getInstance().getTime();
+                    this.fuze = true;
+                } else if (landMover.getX() == (this.getX()-1) && landMover.getY() == (this.getY())) {
+                    this.bombStart = Game.getInstance().getTime();
+                    this.fuze = true;
+                } else if (landMover.getX() == (this.getX()+1) && landMover.getY() == (this.getY())) {
                     this.bombStart = Game.getInstance().getTime();
                     this.fuze = true;
                 }
-            } else if (landMover.getX() == this.getX() && landMover.getY() == (this.getY()+1)) {
-                if (!fuze){
+            }
+    
+            for(FlyingAssassin flyingAssassin : flyingAssassins) {
+                if (flyingAssassin.getX() == this.getX() && flyingAssassin.getY() == (this.getY()-1)) {
                     this.bombStart = Game.getInstance().getTime();
                     this.fuze = true;
-                }
-            } else if (landMover.getX() == (this.getX()-1) && landMover.getY() == (this.getY())) {
-                if (!fuze){
+                } else if (flyingAssassin.getX() == this.getX() && flyingAssassin.getY() == (this.getY()+1)) {
                     this.bombStart = Game.getInstance().getTime();
                     this.fuze = true;
-                }
-            } else if (landMover.getX() == (this.getX()+1) && landMover.getY() == (this.getY())) {
-                if (!fuze){
+                } else if (flyingAssassin.getX() == (this.getX()-1) && flyingAssassin.getY() == (this.getY())) {
+                    this.bombStart = Game.getInstance().getTime();
+                    this.fuze = true;
+                } else if (flyingAssassin.getX() == (this.getX()+1) && flyingAssassin.getY() == (this.getY())) {
                     this.bombStart = Game.getInstance().getTime();
                     this.fuze = true;
                 }
             }
         }
-
-        for(FlyingAssassin flyingAssassin : flyingAssassins) {
-            if (flyingAssassin.getX() == this.getX() && flyingAssassin.getY() == (this.getY()-1)) {
-                if (!fuze){
-                    this.bombStart = Game.getInstance().getTime();
-                    this.fuze = true;
-                }
-            } else if (flyingAssassin.getX() == this.getX() && flyingAssassin.getY() == (this.getY()+1)) {
-                if (!fuze){
-                    this.bombStart = Game.getInstance().getTime();
-                    this.fuze = true;
-                }
-            } else if (flyingAssassin.getX() == (this.getX()-1) && flyingAssassin.getY() == (this.getY())) {
-                if (!fuze){
-                    this.bombStart = Game.getInstance().getTime();
-                    this.fuze = true;
-                }
-            } else if (flyingAssassin.getX() == (this.getX()+1) && flyingAssassin.getY() == (this.getY())) {
-                if (!fuze){
-                    this.bombStart = Game.getInstance().getTime();
-                    this.fuze = true;
-                    activateBomb();
-                }
-            }
-        }
-
+        
         if (fuze){
             activateBomb();
         }
-    }
-
-        // TODO Auto-generated method stub
-
-
+}
 }
