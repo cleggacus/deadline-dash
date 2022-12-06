@@ -117,10 +117,9 @@ public class Bomb extends Entity {
                     this.fuze = true;
                 }
             }
-
-            if (fuze) {
-                activateBomb();
-            }
+        }
+        if (fuze) {
+            activateBomb();
         }
     }
 }
