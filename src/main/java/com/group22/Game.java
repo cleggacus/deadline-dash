@@ -20,6 +20,7 @@ public class Game extends Engine {
     private int currentLevelIndex;
     private LevelLoader levelLoader;
     private Level level;
+    private Profile profile;
 
     private static Game instance;
 
@@ -66,6 +67,10 @@ public class Game extends Engine {
      */
     public boolean colorMatch(int x1, int y1, int x2, int y2) {
         return this.tiles[x1][y1].colorMatch(this.tiles[x2][y2]);
+    }
+
+    public boolean colorMatch(int x1, int y1, int x2, int y2, TileColor pathColor){
+        return this.tiles[x1][y1].colorMatch(this.tiles[x2][y2], pathColor);
     }
 
     /**
@@ -163,6 +168,13 @@ public class Game extends Engine {
         this.setGameState(GameState.GameOver);
     }
 
+    public void setLevelFinish(){
+        this.getGamePane().getFinish().setStats(this.score, this.time);
+        this.level.completeLevel(this.getProfile(), this.score);
+        this.setProfile(this.getProfile());
+        this.setGameState(GameState.LevelComplete);
+    }
+
     /**
      * Overridden update method from {@code Engine}.
      */
@@ -231,18 +243,15 @@ public class Game extends Engine {
             }
         });
 
-        this.getGamePane().getProfileSelector().setOnProfileRemoved(profile -> {
+        this.getGamePane().getProfileSelector().setOnProfileRemoved(username -> {
             Profile deleteProfile = new Profile();
-            deleteProfile.delete(profile);
+            deleteProfile.delete(username);
         });
 
-        this.getGamePane().getProfileSelector().setOnProfileSelectEvent(profile -> {
+        this.getGamePane().getProfileSelector().setOnProfileSelectEvent(username -> {
             checkProfiles.loadAllProfiles();
-
-            this.getGamePane().getLevelSelector().clearLevels();
-            this.getGamePane().getLevelSelector().setProfile(checkProfiles.getFromName(profile));
-            this.getGamePane().getStartMenu().setUsername(profile);
-            this.setUpLeveles();
+            Profile profile = checkProfiles.getFromName(username);
+            this.setProfile(profile);
         });
 
         List<Profile> profiles = checkProfiles.getAllProfiles();
@@ -250,5 +259,17 @@ public class Game extends Engine {
         for(Profile profile : profiles) {
             this.getGamePane().getProfileSelector().addProfile(profile.getName());
         }
+    }
+
+    private void setProfile(Profile profile) {
+        this.profile = profile;
+        this.getGamePane().getLevelSelector().clearLevels();
+        this.getGamePane().getLevelSelector().setProfile(profile);
+        this.getGamePane().getStartMenu().setUsername(profile.getName());
+        this.setUpLeveles();
+    }
+
+    public Profile getProfile(){
+        return this.profile;
     }
 }

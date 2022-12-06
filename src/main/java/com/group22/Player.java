@@ -51,11 +51,21 @@ public class Player extends LandMover {
         this.setSpriteOffset(0, -0.3);
         this.moveEvery = 0.15;
     }
+    
+    public void isAtDoor(){
+        ArrayList<PickUp> pickups = Game.getInstance().getEntities(PickUp.class);
+        if(pickups.isEmpty() && this.getX() == Game.getInstance().getDoor().getX()
+        && this.getY() == Game.getInstance().getDoor().getY()){
+            Game.getInstance().incrementScore((int) Game.getInstance().getTime() * 10);
+            Game.getInstance().setLevelFinish();
+        }
+    }
 
     @Override
     protected void updateMovement() {
         this.getSprite().setImageSet("idle");
 
+        isAtDoor();
         if(this.lastDown == null)
             this.lastDown = Game.getInstance().getLastKeyDown(KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D);
 

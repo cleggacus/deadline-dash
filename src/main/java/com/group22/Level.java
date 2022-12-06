@@ -1,5 +1,8 @@
 package com.group22;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 /**
@@ -19,8 +22,11 @@ public class Level {
     private String[][] scores;
     private boolean playerPresent = false;
     private boolean doorPresent = false;    
+    private int levelIndex;
 
-    public Level(String title, int timeToComplete, int height, int width,  Tile[][] tiles, ArrayList<String[]> entities, String[][] scores){
+    public Level(String title, int timeToComplete, int height,
+    int width, Tile[][] tiles, ArrayList<String[]> entities,
+    String[][] scores, int levelIndex){
         this.title = title;
         this.timeToComplete = timeToComplete;
         this.height = height;
@@ -28,6 +34,7 @@ public class Level {
         this.tiles = tiles;
         this.entities = entities;
         this.scores = scores;
+        this.levelIndex = levelIndex;
     }
 
     public Player getPlayerFromEntities(ArrayList<Entity> entities){
@@ -46,6 +53,13 @@ public class Level {
         return title;
     }
 
+    /** 
+     * Getter for the level index
+     * @return String
+     */
+    public int getIndex(){
+        return levelIndex;
+    }
     
     /** 
      * Getter for the total time to complete the level at the begining
@@ -61,6 +75,92 @@ public class Level {
      */
     public String[][] getHighscores(){
         return scores;
+    }
+
+    /**
+     * @param score A String array with the score and name of the player.
+     * @return The position of the score in the highscores array.
+     */
+    public int getScorePosition(int score){
+        String[][] levelHighscores = this.getHighscores();
+        if(levelHighscores.length == 0){
+            return 1;
+        }
+        for(int i = 0; i < 10; i++){
+            if(Integer.parseInt(levelHighscores[i][1]) < score)
+                return i + 1;
+        }
+        return 11;
+    }
+
+    public void completeLevel(Profile profile, int score){
+        int profileUnlockedIndex = profile.getMaxUnlockedLevelIndex();
+        if(profileUnlockedIndex == this.getIndex()){
+            profile.setUnlockedLevelIndex(this.getIndex()+1);
+        }
+        int scorePos = this.getScorePosition(score);
+        if(scorePos <= 10){
+            this.writeScore(profile, score, scorePos);
+        }
+    }
+
+    public void writeScore(Profile profile, int score, int scorePos){
+        if(scorePos <= 10){
+            LevelLoader levelLoader = new LevelLoader();
+            boolean scoreSet = false;
+            int fileLevelIndex = 0;
+            try{
+                ArrayList<String> levelData = levelLoader.getLevelFileData();
+                BufferedWriter wr = new BufferedWriter(
+                    new FileWriter(levelLoader.getLevelFile(), false));
+                for(int i = 0; i < levelData.size(); i++){
+                    if(levelData.get(i).equals("-")){
+                        fileLevelIndex = fileLevelIndex + 1;
+                        if(fileLevelIndex > 0){
+                            i += 1;
+                        }
+                    }
+                    if(this.getIndex() == fileLevelIndex && !scoreSet){
+                        int tileNumIndex = i + 2;
+                        int tileEndIndex = Integer.parseInt(
+                            levelData.get(tileNumIndex).split(" ")[1])
+                            + tileNumIndex + 1;
+                        System.out.println(tileEndIndex);
+                        int entityEndIndex = Integer.parseInt(
+                            levelData.get(tileEndIndex)) + tileEndIndex;
+                        System.out.println(entityEndIndex);
+                        int numScoresIndex = entityEndIndex + 1;
+                        int numScores = Integer.parseInt(
+                            levelData.get(numScoresIndex));
+                        System.out.println(numScoresIndex);
+                        String scoreToInsert = profile.getName() + " "
+                            + String.valueOf(score) + " " 
+                            + LocalDateTime.now().toString();
+                        System.out.println(scoreToInsert);
+                        if(numScores == 10){
+                            levelData.add(numScoresIndex + scorePos, 
+                            scoreToInsert);
+                            levelData.remove(numScoresIndex + numScores + 1);
+                            scoreSet = true;
+                        } else {
+                            levelData.set(numScoresIndex, String.valueOf(numScores + 1));
+                            levelData.add(numScoresIndex + scorePos,
+                            scoreToInsert);
+                            scoreSet = true;
+                        }
+                    }
+    
+                }
+                for(int i = 0; i<levelData.size(); i++){
+                    wr.write(levelData.get(i) + "\n");
+                }
+                wr.close();
+    
+                } catch(Exception e){
+                    System.out.println(e.getMessage());
+    
+            }
+        }
     }
 
     

@@ -121,6 +121,16 @@ public class Tile extends Entity {
         return false;
     }
 
+    public boolean colorMatch(Tile other, TileColor pathColor) {
+        for(TileColor color2 : other.tileLayout) {
+            if(pathColor == color2) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     /**
      * Not implimented.
      */

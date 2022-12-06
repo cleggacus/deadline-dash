@@ -51,7 +51,7 @@ public class LevelLoader {
             scores = getScoresFromData(levelData, scores, numScores);
         
             Level currentLevel = new Level(title, timeToComplete, height, width, 
-            tiles, entities, scores);
+            tiles, entities, scores, levelArray.size());
             levelArray.add(currentLevel);
 
             this.linePos = this.linePos + 1;
@@ -146,6 +146,30 @@ public class LevelLoader {
      */
     public List<Level> getAllLevels(){
         return this.levels;
+    }
+
+    public ArrayList<String> getLevelFileData(){
+        
+        ArrayList<String> dataArray = new ArrayList<String>();
+        
+        try {
+            Scanner sc = new Scanner(new File(levelFile));
+
+            while(sc.hasNext()){
+                String line = sc.nextLine();
+                dataArray.add(line);
+            }
+
+            sc.close();
+        }
+            catch(Exception e) {
+            e.getStackTrace();
+        }
+        return dataArray;
+    }
+
+    public File getLevelFile(){
+        return new File(levelFile);
     }
 
     public void setUp(){

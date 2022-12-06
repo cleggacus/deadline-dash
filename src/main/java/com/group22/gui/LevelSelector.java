@@ -65,7 +65,7 @@ public class LevelSelector extends MenuPane {
 
     public void addLevel(Level level) {
         int i = this.imageList.getLength();
-        int l = this.currentProfile.getMaxUnlockedLevelIndex();
+        int l = this.currentProfile.getMaxUnlockedLevelIndex() + 1;
         String path = "thumb/" + level.getTitle().toLowerCase().replace(" ", "_") + ".png";
 
         if(i < l){ //unlocked
