@@ -119,6 +119,35 @@ public class Game extends Engine {
     }
 
     @Override
+    protected void startReplay(Replay replay, int levelIndex) {
+        this.setScore(0);
+
+        Level currentLevel = this.levels.get(levelIndex);
+        this.level = currentLevel;
+
+        int width = currentLevel.getWidth();
+        int height = currentLevel.getHeight();
+
+        this.getGamePane().getPlaying().setGameLevel(currentLevel.getTitle());
+
+        this.tiles = currentLevel.getTiles();
+        this.time = currentLevel.getTimeToComplete();
+        this.timeElapsed = 0;
+
+        this.setViewSize(width, height);
+
+        try {
+            this.addEntities(currentLevel.createEntities());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        Player player = this.level.getPlayerFromEntities(this.entities);
+        ReplayPlayer replayPlayer =  new ReplayPlayer(player.getX(), player.getY());
+        
+
+    }
+
+    @Override
     protected void start() {
         this.setScore(0);
 

@@ -267,6 +267,9 @@ public abstract class Engine {
      */
     protected abstract void start();
 
+
+    protected abstract void startReplay(Replay replay, int i);
+
     /**
      * Gets the current GamePane GUI element.
      * 

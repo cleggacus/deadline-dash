@@ -31,10 +31,11 @@ public class ReplaysBrowser extends MenuPane {
         return this.username;
     }
 
-    public void setReplays(String level, ArrayList<Replay> replays) {
+    public void setReplays(String level, ArrayList<Replay> replays, int levelIndex) {
         this.replaysMenu.getChildren().clear();
         for(Replay replay : replays){
             this.replaysMenu.addParagraph(replay.getUsername());
+            this.replaysMenu.addSmallPrint(this.relativeTime.getTimeAgo(replay.getTimeOfSave()));
         }
     }
 
