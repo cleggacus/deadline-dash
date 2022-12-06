@@ -86,7 +86,7 @@ public class Level {
         if(levelHighscores.length == 0){
             return 1;
         }
-        for(int i = 0; i < 10; i++){
+        for(int i = 0; i < levelHighscores.length; i++){
             if(Integer.parseInt(levelHighscores[i][1]) < score)
                 return i + 1;
         }
