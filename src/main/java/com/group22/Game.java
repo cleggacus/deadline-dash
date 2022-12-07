@@ -65,10 +65,6 @@ public class Game extends Engine {
 
     }
 
-    public void saveReplay(){
-        this.replayManager.saveReplay(replay);
-    }
-
     public Entity getPlayer() {
         // Returning the player entity.
         return this.player;
@@ -239,7 +235,7 @@ public class Game extends Engine {
 
     public void setLevelFinish(){
         this.getGamePane().getFinish().setStats(this.score, this.time);
-        this.level.completeLevel(this.getProfile(), this.score);
+        this.level.completeLevel(this.profile, replay, score);
         this.setProfile(this.getProfile());
         this.setGameState(GameState.LevelComplete);
     }
@@ -252,7 +248,7 @@ public class Game extends Engine {
         updateTime();
         this.getGamePane().getPlaying().setGameScore(this.score);
         if(this.level.getPlayerFromEntities(this.getEntities()) == null){
-            if(!this.replaying)
+            if(!this.replaying) //TODO implement replayOver pane
                 this.setGameOver();
         }
     }

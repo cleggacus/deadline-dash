@@ -77,7 +77,7 @@ public class LevelSelector extends MenuPane {
                 getClass().getResource(path).toString(),
                 () -> Game.getInstance().startFromLevel(i),
                 "▶",
-                () -> {this.gamePane.getReplaysBrowser().setReplays(replayManager.getReplaysFromLevel(level), level.getTitle(), i);
+                () -> {this.gamePane.getReplaysBrowser().setReplays(replayManager.getReplaysFromLevelTitle(level.getTitle()), level.getTitle(), i);
                     this.gamePane.setState(GameState.ReplaysBrowser);
                 }
             );
@@ -90,7 +90,7 @@ public class LevelSelector extends MenuPane {
                     lockNotify = i;
                 },
                 "👨‍🎓",
-                () -> {this.gamePane.getScoresBrowser().setLevel(level.toString(), level.getHighscores());
+                () -> {this.gamePane.getReplaysBrowser().setReplays(level.getReplays(), level.getTitle(), i);
                     this.gamePane.setState(GameState.ScoresBrowser);}
                     );
         }

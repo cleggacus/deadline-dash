@@ -48,10 +48,13 @@ public class LevelLoader {
             final int NUM_SCORES = getIntFromData(levelData.get(linePos));
             String[][] scores = new String[NUM_SCORES][2];
             scores = getScoresFromData(levelData, scores, NUM_SCORES);
+
+            ReplayManager replayManager = new ReplayManager();
+            ArrayList<Replay> replays = replayManager.getReplaysFromLevelTitle(TITLE);
         
             final Level CURRENT_LEVEL = new Level(
                 TITLE, TIME_TO_COMPLETE, HEIGHT, WIDTH, 
-                tiles, entities, scores, levelArray.size());
+                tiles, entities, replays, levelArray.size());
             levelArray.add(CURRENT_LEVEL);
 
             this.linePos = this.linePos + 1;
