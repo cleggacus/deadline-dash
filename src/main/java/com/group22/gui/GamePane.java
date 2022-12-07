@@ -15,6 +15,7 @@ public class GamePane extends StatePane<GameState> {
     private LevelSelector levelSelector;
     private StartMenu startMenu;
     private ScoresBrowser scoresBrowser;
+    private Credits credits;
 
     public GamePane() {
         // Set initial state
@@ -31,6 +32,7 @@ public class GamePane extends StatePane<GameState> {
         this.paused = new Paused(this);
         this.gameOver = new GameOver(this);
         this.levelComplete = new LevelComplete(this);
+        this.credits = new Credits();
 
         // Add panes with there visible states
         this.addPane(this.profileSelector, GameState.ProfileSelector);
@@ -41,6 +43,7 @@ public class GamePane extends StatePane<GameState> {
         this.addPane(this.gameOver, GameState.GameOver);
         this.addPane(this.levelComplete, GameState.LevelComplete);
         this.addPane(this.paused, GameState.Paused);
+        this.addPane(this.credits, GameState.CREDITS);
     }
 
     @Override

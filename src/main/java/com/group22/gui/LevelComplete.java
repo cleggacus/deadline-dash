@@ -4,25 +4,42 @@ import com.group22.Game;
 import com.group22.GameState;
 import com.group22.gui.base.MenuPane;
 
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+
 public class LevelComplete extends MenuPane {
     private GamePane gamePane;
+    private Label stats;
+    private Button nextLevelButton;
+
     public LevelComplete(GamePane gamePane) {
         this.gamePane = gamePane;
 
-        setUpLevelComplete();
+        this.addH1("FIN");
+        this.addButton("RESTART", () -> Game.getInstance().setGameState(GameState.Playing));
+        this.nextLevelButton = this.addButton("NEXT LEVEL", () -> {});
+
+        this.addButton("EXIT", () -> gamePane.setState(GameState.Start));
+
+        this.stats = this.addParagraph("");
 
         this.getStyleClass().add("levelcomplete-menu");
     }
-    private void setUpLevelComplete(){
-        this.getChildren().clear();
-        this.addH1("FIN");
-        this.addButton("RESTART", () -> Game.getInstance().setGameState(GameState.Playing));
-        this.addButton("EXIT", () -> gamePane.setState(GameState.Start));
-    }
 
     public void setStats(int score, double time) {
-        setUpLevelComplete();
         String timeFinished = String.format("Time: %f", time);
-        this.addParagraph(timeFinished + " Score: " + String.valueOf(score));
+        this.stats.setText(timeFinished + " Score: " + String.valueOf(score));
+    }
+
+    public void setIsLastLevel(boolean isLast) {
+        this.nextLevelButton.setText(isLast ? "CREDITS" : "NEXT LEVEL");
+
+        this.nextLevelButton.setOnMouseClicked(e -> {
+            if(isLast) {
+                Game.getInstance().setGameState(GameState.CREDITS);
+            } else {
+                Game.getInstance().startFromNextLevel();
+            }
+        });
     }
 }

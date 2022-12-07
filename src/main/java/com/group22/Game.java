@@ -141,6 +141,7 @@ public class Game extends Engine {
      *  adds the entities.
      */
     protected void start() {
+
         this.setScore(0);
 
         Level currentLevel = this.levels.get(this.currentLevelIndex);
@@ -149,6 +150,7 @@ public class Game extends Engine {
         int width = currentLevel.getWidth();
         int height = currentLevel.getHeight();
 
+        this.getGamePane().getFinish().setIsLastLevel(this.isLastLevel());
         this.getGamePane().getPlaying().setGameLevel(currentLevel.getTitle());
 
         this.tiles = currentLevel.getTiles();
@@ -213,6 +215,15 @@ public class Game extends Engine {
     public void startFromLevel(int level){
         this.currentLevelIndex = level;
         this.setGameState(GameState.Playing);
+    }
+
+    public void startFromNextLevel() {
+        this.currentLevelIndex++;
+        this.setGameState(GameState.Playing);
+    }
+
+    public boolean isLastLevel() {
+        return this.currentLevelIndex >= this.levels.size() - 1;
     }
 
     private void onInitialized() {

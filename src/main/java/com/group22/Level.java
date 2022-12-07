@@ -199,9 +199,8 @@ public class Level {
             }
             wr.close();
 
-            } catch(Exception e){
-                System.out.println(e.getMessage());
-
+        } catch(Exception e){
+            e.printStackTrace();
         }
     }
 
