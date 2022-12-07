@@ -122,9 +122,8 @@ public class Player extends LandMover {
             lastDown = Game.getInstance().getLastKeyDown(KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D);
         }
 
-        if(torch)
-            Game.getInstance().getRenderer().setLightPosition(getDrawX(), getDrawY(), 0.25);
-        else
-            Game.getInstance().getRenderer().removeLight();
+        if(torch) {
+            Game.getInstance().getRenderer().setLightPosition(getDrawX(), getDrawY(), 0.15);
+        }
     }
 }
