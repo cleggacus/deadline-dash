@@ -2,8 +2,8 @@ package com.group22;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.time.LocalDateTime;
 
 /**
  * The Level class is a class that represents a level in the game. It contains the level's title, time
@@ -82,86 +82,86 @@ public class Level {
      * @return The position of the score in the highscores array.
      */
     public int getScorePosition(int score){
-        String[][] levelHighscores = this.getHighscores();
+        final String[][] levelHighscores = this.getHighscores();
         if(levelHighscores.length == 0){
             return 1;
         }
-        for(int i = 0; i < levelHighscores.length; i++){
-            if(Integer.parseInt(levelHighscores[i][1]) < score)
+        for(int i = 0; i < 10; i++){
+            if(levelHighscores.length == i)
+                return i + 1;
+            final int levelHighscore = Integer.parseInt(levelHighscores[i][1]);
+            if(levelHighscore <= score)
                 return i + 1;
         }
         return 11;
     }
 
     public void completeLevel(Profile profile, int score){
-        int profileUnlockedIndex = profile.getMaxUnlockedLevelIndex();
+        final int profileUnlockedIndex = profile.getMaxUnlockedLevelIndex();
         if(profileUnlockedIndex == this.getIndex()){
             profile.setUnlockedLevelIndex(this.getIndex()+1);
         }
-        int scorePos = this.getScorePosition(score);
+        final int scorePos = this.getScorePosition(score);
         if(scorePos <= 10){
             this.writeScore(profile, score, scorePos);
         }
     }
 
     public void writeScore(Profile profile, int score, int scorePos){
-        if(scorePos <= 10){
-            LevelLoader levelLoader = new LevelLoader();
-            boolean scoreSet = false;
-            int fileLevelIndex = 0;
-
-            try{
-                ArrayList<String> levelData = levelLoader.getLevelFileData();
-                BufferedWriter wr = new BufferedWriter(
-                    new FileWriter(levelLoader.getLevelFile(), false));
-
-                for(int i = 0; i < levelData.size(); i++){
-                    if(levelData.get(i).equals("-")){
-                        fileLevelIndex = fileLevelIndex + 1;
-                        if(fileLevelIndex > 0){
-                            i += 1;
-                        }
+        LevelLoader levelLoader = new LevelLoader();
+        boolean scoreSet = false;
+        int fileLevelIndex = 0;
+        try{
+            ArrayList<String> levelData = levelLoader.getLevelFileData();
+            BufferedWriter wr = new BufferedWriter(
+                new FileWriter(levelLoader.getLevelFile(), false));
+            for(int i = 0; i < levelData.size(); i++){
+                if(levelData.get(i).equals("-")){
+                    fileLevelIndex = fileLevelIndex + 1;
+                    if(fileLevelIndex > 0){
+                        i += 1;
                     }
-                    if(this.getIndex() == fileLevelIndex && !scoreSet){
-                        int tileNumIndex = i + 2;
-                        int tileEndIndex = Integer.parseInt(
-                            levelData.get(tileNumIndex).split(" ")[1])
-                            + tileNumIndex + 1;
+                }
+                if(this.getIndex() == fileLevelIndex && !scoreSet){
+                    final int tileNumIndex = i + 2;
+                    final int tileEndIndex = Integer.parseInt(
+                        levelData.get(tileNumIndex).split(" ")[1])
+                        + tileNumIndex + 1;
 
-                        int entityEndIndex = Integer.parseInt(
-                            levelData.get(tileEndIndex)) + tileEndIndex;
+                    final int entityEndIndex = Integer.parseInt(
+                        levelData.get(tileEndIndex)) + tileEndIndex;
 
-                        int numScoresIndex = entityEndIndex + 1;
-                        int numScores = Integer.parseInt(
-                            levelData.get(numScoresIndex));
+                    final int numScoresIndex = entityEndIndex + 1;
+                    final int numScores = Integer.parseInt(
+                        levelData.get(numScoresIndex));
 
-                        String scoreToInsert = profile.getName() + " "
-                            + String.valueOf(score) + " " 
-                            + LocalDateTime.now().toString();
+                    final String scoreToInsert = profile.getName() + " "
+                        + String.valueOf(score) + " " 
+                        + LocalDateTime.now().toString();
 
-                        if(numScores == 10){
-                            levelData.add(numScoresIndex + scorePos, 
-                            scoreToInsert);
-                            levelData.remove(numScoresIndex + numScores + 1);
-                            scoreSet = true;
-                        } else {
-                            levelData.set(numScoresIndex,
-                                String.valueOf(numScores + 1));
-                            levelData.add(numScoresIndex + scorePos,
-                            scoreToInsert);
-                            scoreSet = true;
-                        }
+                    if(numScores == 10){
+                        levelData.add(numScoresIndex + scorePos, 
+                        scoreToInsert);
+                        levelData.remove(numScoresIndex + numScores + 1);
+                        scoreSet = true;
+                    } else {
+                        levelData.set(numScoresIndex,
+                            String.valueOf(numScores + 1));
+                        levelData.add(numScoresIndex + scorePos,
+                        scoreToInsert);
+                        scoreSet = true;
                     }
-    
                 }
-                for(int i = 0; i<levelData.size(); i++){
-                    wr.write(levelData.get(i) + "\n");
-                }
-                wr.close();
-    
-            } catch(Exception e){
-                e.printStackTrace();
+
             }
+            for(int i = 0; i<levelData.size(); i++){
+                wr.write(levelData.get(i) + "\n");
+            }
+            wr.close();
+
+            } catch(Exception e){
+                System.out.println(e.getMessage());
+
         }
     }
 
@@ -229,7 +229,7 @@ public class Level {
         entities.addAll(this.tilesToEntities());
         
         for(String[] entityData : this.getEntities()) {
-            Entity entity = parseEntity(entityData);
+            final Entity entity = parseEntity(entityData);
             isValidEntity(entity);
             entities.add(entity);
         }
