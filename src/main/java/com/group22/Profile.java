@@ -40,6 +40,7 @@ public class Profile {
         } catch (IOException e) {
             System.out.println(
                 "An error occurred writing to the profiles.txt file");
+
             e.printStackTrace();
         }
     }

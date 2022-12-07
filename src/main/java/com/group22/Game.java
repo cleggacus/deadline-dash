@@ -143,7 +143,6 @@ public class Game extends Engine {
      *  adds the entities.
      */
     protected void start() {
-        System.out.println();
         this.setScore(0);
 
         Level currentLevel = this.levels.get(this.currentLevelIndex);
@@ -162,7 +161,7 @@ public class Game extends Engine {
         try {
             this.addEntities(currentLevel.createEntities());
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 

@@ -109,10 +109,12 @@ public class Level {
             LevelLoader levelLoader = new LevelLoader();
             boolean scoreSet = false;
             int fileLevelIndex = 0;
+
             try{
                 ArrayList<String> levelData = levelLoader.getLevelFileData();
                 BufferedWriter wr = new BufferedWriter(
                     new FileWriter(levelLoader.getLevelFile(), false));
+
                 for(int i = 0; i < levelData.size(); i++){
                     if(levelData.get(i).equals("-")){
                         fileLevelIndex = fileLevelIndex + 1;
@@ -157,9 +159,8 @@ public class Level {
                 }
                 wr.close();
     
-                } catch(Exception e){
-                    System.out.println(e.getMessage());
-    
+            } catch(Exception e){
+                e.printStackTrace();
             }
         }
     }

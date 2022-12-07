@@ -68,9 +68,10 @@ public class LevelLoader {
             }
 
         } catch(Exception e){
-            System.out.println(e);
-            return null;
+            e.printStackTrace();
         }
+
+        return null;
     }
 
     private String[][] getScoresFromData(List<String> levelData,
