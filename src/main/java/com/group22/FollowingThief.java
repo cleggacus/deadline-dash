@@ -80,8 +80,8 @@ public class FollowingThief extends LandMover {
     }
 
     public Boolean hasNextUp(){
-        return nextUp() != this.getY()&& Game.getInstance().colorMatch
-        (this.getX(), this.getY(), this.getX(), nextUp(), pathColor);
+        return nextUp() != this.getY() &&
+            Game.getInstance().tileHasColor(this.getX(), nextUp(), pathColor);
     }
    
     // /** 

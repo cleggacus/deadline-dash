@@ -3,6 +3,8 @@ package com.group22;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.group22.Tile.TileLayout;
+
 /**
  * The {@code Game} class acts as a game manager handling all the game logic.
  * Since there is only one game and it extends Engine it uses the singleton pattern and can be used with the {@link #getInstance()} method.
@@ -69,8 +71,8 @@ public class Game extends Engine {
         return this.tiles[x1][y1].colorMatch(this.tiles[x2][y2]);
     }
 
-    public boolean colorMatch(int x1, int y1, int x2, int y2, TileColor pathColor){
-        return this.tiles[x1][y1].colorMatch(this.tiles[x2][y2], pathColor);
+    public boolean tileHasColor(int x, int y, TileColor color) {
+        return this.tiles[x][y].hasColor(color);
     }
 
     /**
@@ -141,6 +143,7 @@ public class Game extends Engine {
      *  adds the entities.
      */
     protected void start() {
+        System.out.println();
         this.setScore(0);
 
         Level currentLevel = this.levels.get(this.currentLevelIndex);
