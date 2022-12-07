@@ -19,11 +19,11 @@ public class FollowingThief extends LandMover {
 
     
 
-    public FollowingThief(int posX, int posY, TileColor color) { //, Boolean clockwise) {
+    public FollowingThief(int posX, int posY, TileColor color, Boolean clockwise) {
         super(posX, posY);
         startX = posX;
         startY = posY;
-        this.clockwise = true;
+        this.clockwise = clockwise;
         this.pathColor = color;        
         //nextMove();
         this.getSprite().setImage("NPC/FollowingThief.png");

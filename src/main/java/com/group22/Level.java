@@ -37,6 +37,13 @@ public class Level {
         this.levelIndex = levelIndex;
     }
 
+    /**
+     * This function loops through an ArrayList of Entities and returns the 
+     * Player when found.
+     * 
+     * @param entities An ArrayList of all the entities in the level.
+     * @return The player object.
+     */
     public Player getPlayerFromEntities(ArrayList<Entity> entities){
         for(Entity entity : entities){
             if(entity instanceof Player){
@@ -96,6 +103,15 @@ public class Level {
         return 11;
     }
 
+    /**
+     * Called when the player wins the level. If they haven't
+     * unlocked any further levels, then this unlocks the next one.
+     * If the score is in the top 10, then write the score to
+     * the leaderboard for the level.
+     * 
+     * @param profile The profile of the player
+     * @param score the score the player got
+     */
     public void completeLevel(Profile profile, int score){
         final int profileUnlockedIndex = profile.getMaxUnlockedLevelIndex();
         if(profileUnlockedIndex == this.getIndex()){
@@ -107,6 +123,16 @@ public class Level {
         }
     }
 
+    /**
+     * It takes a profile, score, and score position, and writes the score to the level file.
+     * If there is less than 10 scores for the level, it inserts at the end of the scores.
+     * If there is 10 scores for the level, it inserts it to the correct position and moves
+     * the rest of the scores down one, removing the 10th item.
+     * 
+     * @param profile The profile of the player who got the score
+     * @param score the score to be written
+     * @param scorePos The position in the high score list to insert the score
+     */
     public void writeScore(Profile profile, int score, int scorePos){
         LevelLoader levelLoader = new LevelLoader();
         boolean scoreSet = false;
@@ -201,7 +227,15 @@ public class Level {
         return width;
     }
 
-    private void isValidEntity(Entity entity) throws Exception{
+    /**
+     * It checks if the entity is a player or a door, and if it is, it sets the corresponding boolean
+     * to true. Checks if the entity is out of bounds for the level and throws
+     * a LevelFormatException exception if it is out of bounds.
+     * 
+     * @param entity The entity to be checked
+     * @throws LevelFormatException
+     */
+    private void isValidEntity(Entity entity) throws LevelFormatException{
         if(entity instanceof Player){
             this.playerPresent = true;
         }
@@ -214,6 +248,12 @@ public class Level {
             throw new LevelFormatException("Entity out of bounds in y");
     }
 
+    /**
+     * This function checks if the level has a player and a door.
+     * If it doesn't, it throws a LevelFormatException exception.
+     * 
+     * @throws LevelFormatException
+     */
     private void isValidLevel() throws LevelFormatException{
         if(!this.playerPresent)
             throw new LevelFormatException("Player not present for level "
@@ -223,7 +263,16 @@ public class Level {
             + this.getTitle());
     }
 
-    public ArrayList<Entity> createEntities() throws Exception {
+    /**
+     * It takes the data from the level file and creates the entities that
+     * will be used in the game.
+     * Calls {@code isValidEntity()} when the entity is created 
+     * and {@code isValidLevel()} once all entities have been added to the
+     * ArrayList entities.
+     * 
+     * @return An ArrayList of Entities.
+     */
+    public ArrayList<Entity> createEntities() throws LevelFormatException {
         ArrayList<Entity> entities = new ArrayList<>();
 
         entities.addAll(this.tilesToEntities());
@@ -238,6 +287,13 @@ public class Level {
         return entities;
     }
 
+    /**
+     * It takes a 2D array of Tile objects
+     * and returns the ArrayList of entities with these
+     * tiles added to them.
+     * 
+     * @return An ArrayList of Entities.
+     */
     private ArrayList<Entity> tilesToEntities(){
         ArrayList<Entity> entities = new ArrayList<Entity>();
 
@@ -249,6 +305,13 @@ public class Level {
         return entities;
     }
 
+    /**
+     * It takes an array of strings, and returns an object of the type specified
+     * by the first string in the array
+     * 
+     * @param entity the entity to be parsed
+     * @return returns an Entity object.
+     */
     private Entity parseEntity(String[] entity){
         switch(entity[0]){
             case("player"):
@@ -276,7 +339,8 @@ public class Level {
                 return new FollowingThief(
                     Integer.parseInt(entity[1]),
                     Integer.parseInt(entity[2]), 
-                    TileColor.CYAN);
+                    TileColor.getFromLabel(entity[3].toCharArray()[0]),
+                    Boolean.parseBoolean(entity[4]));
             case("lever"):
                 return new Lever(
                     Integer.parseInt(entity[1]),
@@ -301,8 +365,9 @@ public class Level {
                 return new SmartMover(
                     Integer.parseInt(entity[1]),
                     Integer.parseInt(entity[2]));
+            default:
+                return null;
 
         }
-        return null;
     }
 }

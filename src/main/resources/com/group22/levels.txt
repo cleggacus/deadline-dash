@@ -61,7 +61,7 @@ loot 12 1 150
 loot 10 8 50
 door 1 1
 bomb 0 0 3
-followingthief 1 2 C
+followingthief 1 2 C true
 lever 13 4 B
 gate 10 4 B
 lever 14 4 R
@@ -83,7 +83,7 @@ YYYY CCCC CCCC CCCC RRRR CCCC CBCC RRRR BCCC CCCC GGGG CCCC CCCC CCCC YYYY
 CCBB YYBB CCBC CCCC CCCC CCCC CCCC RRGG CCCC CCCC CCCC CCCC CCCB MMBB CCBB
 BBBB BBBB BGBG CCCC GGGG CCCC GGGG MBBM GGGG CCCC GGGG CCCC GBGB BBBB BBBB
 YBBY BBBB BCBC GGGG CCCC GGGG CCCC GGGG CCCC GGGG CCCC GGGG CBCB BBBB YYYY
-15
+14
 door 7 4
 loot 3 0 200
 loot 11 0 150
@@ -95,7 +95,6 @@ bomb 6 8 3
 bomb 8 8 3
 bomb 6 0 3
 bomb 8 0 3
-followingthief 0 0
 player 1 1
 flyingassassin 0 0 h
 flyingassassin 14 8 h
