@@ -276,7 +276,7 @@ public class Level {
                 return new FollowingThief(
                     Integer.parseInt(entity[1]),
                     Integer.parseInt(entity[2]), 
-                    null);
+                    TileColor.CYAN);
             case("lever"):
                 return new Lever(
                     Integer.parseInt(entity[1]),
