@@ -21,6 +21,7 @@ public class KeyboardManager {
     private HashSet<KeyCode> keysUp;
 
     private Scene scene;
+    private KeyCode keyReleased;
 
     /**
      * Creates a keyboard manager.
@@ -52,10 +53,23 @@ public class KeyboardManager {
         }));
 
         scene.setOnKeyReleased((e -> {
+            this.keyReleased = e.getCode();
             keysUp.add(e.getCode());
         }));
     }
-     
+
+    public KeyCode getLastKeyReleased(){
+        if(this.keyReleased != null){
+            KeyCode keyToReturn = this.keyReleased;
+            return keyToReturn;
+        }
+        return null;
+    }
+
+    public void resetLastKeyReleased(){
+        this.keyReleased = null;
+    }
+
     /**
      * Should be called when a frame or given time period is updated.
      */
