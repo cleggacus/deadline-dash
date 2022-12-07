@@ -18,6 +18,7 @@ import javafx.scene.paint.Color;
  * @version 1.0
  */
 public class Sprite {
+    private static HashMap<String, Image> imageCache = new HashMap<>();
     private AnimationType animationType = AnimationType.INFINITE;
     private double timeSinceLastSpriteFrame = 0;
     private double spriteAnimationSpeed = -1;
@@ -29,6 +30,19 @@ public class Sprite {
      * Creates a new Sprite.
      */
     public Sprite() {}
+
+    public static Image imageFromPath(String path) {
+        String resourcePath = Sprite.class.getResource(path).toString();
+
+        Image image = imageCache.get(resourcePath);
+
+        if(image != null)
+            return image;
+
+        image = new Image(resourcePath);
+        imageCache.put(resourcePath, image);
+        return image;
+    }
 
     /**
      * Gets the current image in the current selected set and frame.
@@ -115,7 +129,7 @@ public class Sprite {
         Image images[] = new Image[paths.length];
 
         for(int i = 0; i < paths.length; i++) {
-            images[i] = new Image (getClass().getResource("/com/group22/" + paths[i]).toString());
+            images[i] = Sprite.imageFromPath(paths[i]);
         }
 
         addImageSet(tag, images);
@@ -208,8 +222,8 @@ public class Sprite {
     }
 
     static public Image[] createImageFade(String path1, String path2, int imageCount) {
-        Image image1 = new Image(Sprite.class.getResource("/com/group22/" + path1).toString());
-        Image image2 = new Image(Sprite.class.getResource("/com/group22/" + path2).toString());
+        Image image1 = Sprite.imageFromPath(path1);
+        Image image2 = Sprite.imageFromPath(path2);
         return createImageFade(image1, image2, imageCount);
     }
 

@@ -44,10 +44,15 @@ public class Tile extends Entity {
             char[] arr1 = this.toString().toCharArray();
             char[] arr2 = tileLayout.toString().toCharArray();
 
-            Arrays.sort(arr1);
-            Arrays.sort(arr2);
+            for(char c1 : arr1) {
+                for(char c2 : arr2) {
+                    if(c1 == c2) {
+                        return true;
+                    }
+                }
+            }
 
-            return Arrays.equals(arr1, arr2);
+            return false;
         }
 
         @Override
@@ -259,9 +264,9 @@ public class Tile extends Entity {
      */
     private void loadTileSprites() {
         tileSprites = new Image[] {
-            new Image(getClass().getResource("/com/group22/tile0.png").toString()),
-            new Image(getClass().getResource("/com/group22/tile1.png").toString()),
-            new Image(getClass().getResource("/com/group22/tile2.png").toString())
+            Sprite.imageFromPath("tile0.png"),
+            Sprite.imageFromPath("tile1.png"),
+            Sprite.imageFromPath("tile2.png")
         };
     }
 }
