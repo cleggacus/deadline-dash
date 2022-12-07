@@ -1,6 +1,5 @@
 package com.group22;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import javafx.scene.input.KeyCode;
@@ -8,7 +7,6 @@ import javafx.scene.input.KeyCode;
 public class Player extends LandMover {
     private KeyCode lastDown;
     private boolean torch;
-    private double lastDownTime;
 
     public Player(int x, int y, boolean torch) {
         super(x, y);
@@ -132,7 +130,6 @@ public class Player extends LandMover {
             Game.getInstance().getKeyDown(KeyCode.D)
         ) {
             lastDown = Game.getInstance().getLastKeyDown(KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D);
-            lastDownTime = Game.getInstance().getTimeElapsed();
         }
 
         if(torch) {

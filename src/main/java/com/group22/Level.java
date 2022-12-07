@@ -1,9 +1,6 @@
 package com.group22;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.util.ArrayList;
-import java.time.LocalDateTime;
 
 /**
  * The {@code Level} class represents an instance of a level in the game.

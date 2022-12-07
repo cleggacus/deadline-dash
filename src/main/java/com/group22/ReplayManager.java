@@ -9,8 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import javafx.scene.input.KeyCode;
-
 public class ReplayManager {
     //private Level level;
     private static final String replayFolder = "src/main/resources/com/group22/replays/";

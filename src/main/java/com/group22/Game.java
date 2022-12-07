@@ -3,9 +3,6 @@ package com.group22;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import javafx.animation.KeyFrame;
-import javafx.scene.input.KeyCode;
-
 /**
  * The {@code Game} class acts as a game manager handling all the game logic.
  * Since there is only one game and it extends Engine it uses the singleton pattern and can be used with the {@link #getInstance()} method.
@@ -24,8 +21,6 @@ public class Game extends Engine {
     private LevelLoader levelLoader;
     private Level level;
     private Profile profile;
-    private ReplayManager replayManager;
-    private ReplayFrame currentFrame;
     private double timeElapsed;
     private Replay replay;
     private int framesElapsed;
@@ -61,7 +56,6 @@ public class Game extends Engine {
     public void newReplayFrame(int x, int y, double keyTime){
         ReplayFrame frame = new ReplayFrame(x, y, keyTime);
         this.replay.storeFrame(frame);
-        currentFrame = frame;
 
     }
 
@@ -224,7 +218,6 @@ public class Game extends Engine {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        this.replayManager = new ReplayManager();
         this.replay = new Replay(this.level.getTitle(), this.getUsername());
     }
 
