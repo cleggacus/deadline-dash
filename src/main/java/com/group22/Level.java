@@ -6,8 +6,7 @@ import java.util.ArrayList;
 import java.time.LocalDateTime;
 
 /**
- * The Level class is a class that represents a level in the game. It contains the level's title, time
- * to complete, height, width, tiles, entities and scores and implements getters for all of the above.
+ * The {@code Level} class represents an instance of a level in the game.
  * 
  * @author Sam Austin
  * @version 1.0
@@ -24,6 +23,18 @@ public class Level {
     private boolean doorPresent = false;    
     private int levelIndex;
 
+    /**
+     * Creates a new level from params listed.
+     * 
+     * @param title             level title
+     * @param timeToComplete    time to complete level
+     * @param height            height of the level in tiles
+     * @param width             width of the level in tiles
+     * @param tiles             2d array of the tiles
+     * @param entities          ArrayList of strings of entities
+     * @param scores            2d array of highscores for the level
+     * @param levelIndex        the index of the level in the level file
+     */
     public Level(String title, int timeToComplete, int height,
     int width, Tile[][] tiles, ArrayList<String[]> entities,
     String[][] scores, int levelIndex){
@@ -85,19 +96,22 @@ public class Level {
     }
 
     /**
-     * @param score A String array with the score and name of the player.
-     * @return The position of the score in the highscores array.
+     * Gets the position of the players score in the levels.txt file.
+     * 
+     * @param score The players score as an integer value.
+     * @return The position of the score in the highscores array. 11 if 
+     * the player didn't qualify for the top 10.
      */
     public int getScorePosition(int score){
-        final String[][] levelHighscores = this.getHighscores();
-        if(levelHighscores.length == 0){
+        final String[][] LEVEL_HIGHSCORES = this.getHighscores();
+        if(LEVEL_HIGHSCORES.length == 0){
             return 1;
         }
         for(int i = 0; i < 10; i++){
-            if(levelHighscores.length == i)
+            if(LEVEL_HIGHSCORES.length == i)
                 return i + 1;
-            final int levelHighscore = Integer.parseInt(levelHighscores[i][1]);
-            if(levelHighscore <= score)
+            final int LEVEL_HIGHSCORE = Integer.parseInt(LEVEL_HIGHSCORES[i][1]);
+            if(LEVEL_HIGHSCORE <= score)
                 return i + 1;
         }
         return 11;
@@ -113,13 +127,13 @@ public class Level {
      * @param score the score the player got
      */
     public void completeLevel(Profile profile, int score){
-        final int profileUnlockedIndex = profile.getMaxUnlockedLevelIndex();
-        if(profileUnlockedIndex == this.getIndex()){
+        final int PROFILE_UNLOCKED_INDEX = profile.getMaxUnlockedLevelIndex();
+        if(PROFILE_UNLOCKED_INDEX == this.getIndex()){
             profile.setUnlockedLevelIndex(this.getIndex()+1);
         }
-        final int scorePos = this.getScorePosition(score);
-        if(scorePos <= 10){
-            this.writeScore(profile, score, scorePos);
+        final int SCORE_POS = this.getScorePosition(score);
+        if(SCORE_POS <= 10){
+            this.writeScore(profile, score, SCORE_POS);
         }
     }
 
@@ -149,32 +163,32 @@ public class Level {
                     }
                 }
                 if(this.getIndex() == fileLevelIndex && !scoreSet){
-                    final int tileNumIndex = i + 2;
-                    final int tileEndIndex = Integer.parseInt(
-                        levelData.get(tileNumIndex).split(" ")[1])
-                        + tileNumIndex + 1;
+                    final int TILE_NUM_INDEX = i + 2;
+                    final int TILE_END_INDEX = Integer.parseInt(
+                        levelData.get(TILE_NUM_INDEX).split(" ")[1])
+                        + TILE_NUM_INDEX + 1;
 
-                    final int entityEndIndex = Integer.parseInt(
-                        levelData.get(tileEndIndex)) + tileEndIndex;
+                    final int ENTITY_END_INDEX = Integer.parseInt(
+                        levelData.get(TILE_END_INDEX)) + TILE_END_INDEX;
 
-                    final int numScoresIndex = entityEndIndex + 1;
-                    final int numScores = Integer.parseInt(
-                        levelData.get(numScoresIndex));
+                    final int NUM_SCORES_INDEX = ENTITY_END_INDEX + 1;
+                    final int NUM_SCORES = Integer.parseInt(
+                        levelData.get(NUM_SCORES_INDEX));
 
-                    final String scoreToInsert = profile.getName() + " "
+                    final String SCORE_TO_INSERT = profile.getName() + " "
                         + String.valueOf(score) + " " 
                         + LocalDateTime.now().toString();
 
-                    if(numScores == 10){
-                        levelData.add(numScoresIndex + scorePos, 
-                        scoreToInsert);
-                        levelData.remove(numScoresIndex + numScores + 1);
+                    if(NUM_SCORES == 10){
+                        levelData.add(NUM_SCORES_INDEX + scorePos, 
+                        SCORE_TO_INSERT);
+                        levelData.remove(NUM_SCORES_INDEX + NUM_SCORES + 1);
                         scoreSet = true;
                     } else {
-                        levelData.set(numScoresIndex,
-                            String.valueOf(numScores + 1));
-                        levelData.add(numScoresIndex + scorePos,
-                        scoreToInsert);
+                        levelData.set(NUM_SCORES_INDEX,
+                            String.valueOf(NUM_SCORES + 1));
+                        levelData.add(NUM_SCORES_INDEX + scorePos,
+                        SCORE_TO_INSERT);
                         scoreSet = true;
                     }
                 }

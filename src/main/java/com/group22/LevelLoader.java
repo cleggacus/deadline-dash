@@ -12,7 +12,7 @@ public class LevelLoader {
     private List<Level> levels;
     public LevelLoader(){
     }
-    private static final String levelFile =
+    private static final String LEVEL_FILE =
     "src/main/resources/com/group22/levels.txt";
     /**
      * A recursive method that takes an ArrayList of type strings 
@@ -30,29 +30,29 @@ public class LevelLoader {
         try{
             this.linePos = 0;
 
-            final String title = getStringFromData(levelData.get(linePos));
-            final int timeToComplete = getIntFromData(levelData.get(linePos));
-            final int[] widthHeightSplit = getIntArrayFromData(
+            final String TITLE = getStringFromData(levelData.get(linePos));
+            final int TIME_TO_COMPLETE = getIntFromData(levelData.get(linePos));
+            final int[] WIDTH_HEIGHT_SPLIT = getIntArrayFromData(
                 levelData.get(linePos), " ");
-            final int width = widthHeightSplit[0];
-            final int height = widthHeightSplit[1];
+            final int WIDTH = WIDTH_HEIGHT_SPLIT[0];
+            final int HEIGHT = WIDTH_HEIGHT_SPLIT[1];
 
-            Tile[][] tiles = new Tile[width][height];
+            Tile[][] tiles = new Tile[WIDTH][HEIGHT];
             ArrayList<String[]> entities = new ArrayList<String[]>();
-            tiles = getTilesFromData(levelData, width, height, tiles);
+            tiles = getTilesFromData(levelData, WIDTH, HEIGHT, tiles);
 
-            final int numEntities = getIntFromData(levelData.get(linePos));
+            final int NUM_ENTITIES = getIntFromData(levelData.get(linePos));
             entities.addAll(getEntitiesFromData(
-                levelData, numEntities, width, height));
+                levelData, NUM_ENTITIES, WIDTH, HEIGHT));
 
-            final int numScores = getIntFromData(levelData.get(linePos));
-            String[][] scores = new String[numScores][2];
-            scores = getScoresFromData(levelData, scores, numScores);
+            final int NUM_SCORES = getIntFromData(levelData.get(linePos));
+            String[][] scores = new String[NUM_SCORES][2];
+            scores = getScoresFromData(levelData, scores, NUM_SCORES);
         
-            Level currentLevel = new Level(
-                title, timeToComplete, height, width, 
+            final Level CURRENT_LEVEL = new Level(
+                TITLE, TIME_TO_COMPLETE, HEIGHT, WIDTH, 
                 tiles, entities, scores, levelArray.size());
-            levelArray.add(currentLevel);
+            levelArray.add(CURRENT_LEVEL);
 
             this.linePos = this.linePos + 1;
             if(levelData.size() > this.linePos){
@@ -83,9 +83,9 @@ public class LevelLoader {
 
         List<String[]> entities = new ArrayList<String[]>();
         for(int i=0; i < numEntities; i++){
-            final String[] splitEntities = getStringArrayFromData(
+            final String[] SPLIT_ENTITIES = getStringArrayFromData(
                 levelData.get(linePos), " ");
-            entities.add(splitEntities);
+            entities.add(SPLIT_ENTITIES);
         }
         return entities;
     }
@@ -103,17 +103,17 @@ public class LevelLoader {
     int width, int height, Tile[][] tiles) throws LevelFormatException{
 
         for(int y=0; y < height; y++){
-            final int yData = linePos+y;
-            if(yData >= levelData.size() || yData < 0)
+            final int Y_DATA = linePos+y;
+            if(Y_DATA >= levelData.size() || Y_DATA < 0)
                 throw new LevelFormatException(
                     "Tile missing in the y plane");
-            final String[] splitRow = getStringArrayFromData(
+            final String[] SPLIT_ROW = getStringArrayFromData(
                 levelData.get(linePos), " ");
             for(int x=0; x < width; x++){
-                if(x >= splitRow.length || x < 0)
+                if(x >= SPLIT_ROW.length || x < 0)
                     throw new LevelFormatException(
                         "Tile missing in the y plane");
-                tiles[x][y] = parseTile(splitRow[x], x, y);
+                tiles[x][y] = parseTile(SPLIT_ROW[x], x, y);
             }
         }
         return tiles;
@@ -142,7 +142,7 @@ public class LevelLoader {
     }
 
     private Tile parseTile(String tile, int x, int y){
-        final Tile newTile = new Tile(x, y);
+        Tile newTile = new Tile(x, y);
         newTile.setTileLayout(tile);
         return newTile;
     }
@@ -168,7 +168,7 @@ public class LevelLoader {
         ArrayList<String> dataArray = new ArrayList<String>();
         
         try {
-            Scanner sc = new Scanner(new File(levelFile));
+            Scanner sc = new Scanner(new File(LEVEL_FILE));
 
             while(sc.hasNext()){
                 String line = sc.nextLine();
@@ -184,7 +184,7 @@ public class LevelLoader {
     }
 
     public File getLevelFile(){
-        return new File(levelFile);
+        return new File(LEVEL_FILE);
     }
 
     /**
