@@ -101,18 +101,10 @@ public class LevelLoader {
      */
     private Tile[][] getTilesFromData(List<String> levelData,
     int width, int height, Tile[][] tiles) throws LevelFormatException{
-
         for(int y=0; y < height; y++){
-            final int Y_DATA = linePos+y;
-            if(Y_DATA >= levelData.size() || Y_DATA < 0)
-                throw new LevelFormatException(
-                    "Tile missing in the y plane");
             final String[] SPLIT_ROW = getStringArrayFromData(
                 levelData.get(linePos), " ");
             for(int x=0; x < width; x++){
-                if(x >= SPLIT_ROW.length || x < 0)
-                    throw new LevelFormatException(
-                        "Tile missing in the y plane");
                 tiles[x][y] = parseTile(SPLIT_ROW[x], x, y);
             }
         }
