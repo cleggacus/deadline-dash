@@ -61,7 +61,7 @@ loot 12 1 150
 loot 10 8 50
 door 1 1
 bomb 0 0 3
-followingthief 1 2
+followingthief 1 2 C
 lever 13 4 B
 gate 10 4 B
 lever 14 4 R
