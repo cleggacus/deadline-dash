@@ -67,16 +67,7 @@ public class LevelLoader {
 
         return null;
     }
-
-    private String[][] getScoresFromData(List<String> levelData,
-    String[][] scores, int numScores){
-
-        for(int i=0; i < numScores; i++){
-            scores[i] = getStringArrayFromData(levelData.get(linePos), " ");
-        }
-        return scores;
-    }
-
+    
     private List<String[]> getEntitiesFromData(List<String> levelData,
     int numEntities, int width, int height) throws Exception{
 
