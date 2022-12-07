@@ -9,6 +9,9 @@ public class ReplayPlayer extends LandMover {
     private ArrayList<KeyCode> keysDown;
     private ArrayList<ReplayFrame> frames;
     private int currentFrame;
+    private KeyCode lastDown;
+    private int x;
+    private int y;
     public ReplayPlayer(int x, int y, ArrayList<ReplayFrame> frames) {
         super(x, y);
         this.frames = frames;
@@ -50,27 +53,35 @@ public class ReplayPlayer extends LandMover {
         });
 
         this.setSpriteOffset(0, -0.3);
-        this.moveEvery = 0.15;
+        this.moveEvery = 0;
     }
     
     @Override
     protected void updateMovement() {
         this.getSprite().setImageSet("idle");
-
-        for(KeyCode keyDown : keysDown){
-            if(keyDown == KeyCode.W) {
-                this.getSprite().setImageSet("up");
-                move(0, -1);
-            } else if(keyDown == KeyCode.S) {
-                this.getSprite().setImageSet("down");
-                move(0, 1);
-            } else if(keyDown == KeyCode.A) {
-                this.getSprite().setImageSet("left");
-                move(-1, 0);
-            } else if(keyDown == KeyCode.D) {
-                this.getSprite().setImageSet("right");
-                move(1, 0);
-            }
+        if(this.x == 1){
+            this.getSprite().setImageSet("right");
+            move(this.x, this.y);
+            this.x = 0;
+            this.y = 0;
+        }
+        if(this.x == -1){
+            this.getSprite().setImageSet("left");
+            move(this.x, this.y);
+            this.x = 0;
+            this.y = 0;
+        }
+        if(this.y == 1){
+            this.getSprite().setImageSet("up");
+            move(this.x, this.y);
+            this.x = 0;
+            this.y = 0;
+        }
+        if(this.y == -1){
+            this.getSprite().setImageSet("down");
+            move(this.x, this.y);
+            this.x = 0;
+            this.y = 0;
         }
 
         ArrayList<Door> doors = Game.getInstance().getEntities(Door.class);
@@ -101,18 +112,13 @@ public class ReplayPlayer extends LandMover {
     }
 
     @Override
-    protected void update() {
+    protected void update(){
         if(frames.size() == 0){
             Game.getInstance().setGameOver();
         }
         if(frames.get(0).getKeyTime() <= Game.getInstance().getTimeElapsed()){
-            if(frames.get(0).getKeyDown()){
-                this.keysDown.add(frames.get(this.currentFrame).getKey());
-                System.out.println("Key " + frames.get(this.currentFrame).getKey() + " down");
-            } else {
-                System.out.println("Key " + frames.get(this.currentFrame).getKey() + " up");
-                this.keysDown.remove(frames.get(this.currentFrame).getKey());
-            }
+            this.x = frames.get(0).getX() - this.getX();
+            this.y = frames.get(0).getY() - this.getY();
             frames.remove(0);
         }
     }

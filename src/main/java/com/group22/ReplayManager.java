@@ -6,6 +6,7 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import javafx.scene.input.KeyCode;
@@ -59,31 +60,22 @@ public class ReplayManager {
             String username = dataArray.get(1);
             LocalDateTime timeOfSave = LocalDateTime.parse(dataArray.get(2));
 
-            ArrayList<ReplayFrame> replayFrames = parseFramesFromData(dataArray);
+            ArrayList<ReplayFrame> replayFrames = parseFramesFromData(dataArray.subList(3, dataArray.size()));
             Replay replay = new Replay(level.getTitle(), username, timeOfSave, replayFrames);
             replays.add(replay);
         }
         return replays;
     }
     
-    private ArrayList<ReplayFrame> parseFramesFromData(ArrayList<String> framesData){
+    private ArrayList<ReplayFrame> parseFramesFromData(List<String> framesData){
         ArrayList<ReplayFrame> replayFrames = new ArrayList<ReplayFrame>();
         for(String frameString : framesData){
             String[] splitFrameString = frameString.split(" ");
-            System.out.println(splitFrameString[0]);
-            if(splitFrameString[0].equals("W") ||
-                splitFrameString[0].equals("A") ||
-                splitFrameString[0].equals("S") ||
-                splitFrameString[0].equals("D")){
-                    System.out.println(splitFrameString[0]);
-                    ReplayFrame currentFrame = new ReplayFrame(KeyCode.getKeyCode(splitFrameString[0]),
-                    Double.parseDouble(splitFrameString[1]), Boolean.parseBoolean(splitFrameString[2]));
-                    replayFrames.add(currentFrame);
-            }
+            ReplayFrame currentFrame = new ReplayFrame(Integer.parseInt(splitFrameString[0]),
+            Integer.parseInt(splitFrameString[1]), Double.parseDouble(splitFrameString[2]));
+            replayFrames.add(currentFrame);
         }
-        //System.out.println(replayFrames.get(0));
         return replayFrames;
-
     }
 
     public void saveReplay(Replay replay){
@@ -100,7 +92,7 @@ public class ReplayManager {
             replayWriter.append(LocalDateTime.now().toString() + "\n");
 
             for(ReplayFrame frame : replay.getFrames()){
-                replayWriter.append(frame.getKey() + " " + frame.getKeyTime() + " " + frame.getKeyDown() + "\n");
+                replayWriter.append(frame.getX() + " " + frame.getY() + " " + frame.getKeyTime() + "\n");
             }
 
             replayWriter.close();

@@ -1,15 +1,13 @@
 package com.group22;
 
-import javafx.scene.input.KeyCode;
-
 public class ReplayFrame {
+    private int x;
+    private int y;
     private double keyTime;
-    private boolean keyDown;
-    private KeyCode key;
 
-    public ReplayFrame(KeyCode key, double keyTime, boolean keyDown){
-        this.key = key;
-        this.keyDown = keyDown;
+    public ReplayFrame(int x, int y, double keyTime){
+        this.x = x;
+        this.y = y;
         this.keyTime = keyTime;
     }
 
@@ -17,12 +15,12 @@ public class ReplayFrame {
         return this.keyTime;
     }
 
-    public KeyCode getKey(){
-        return this.key;
+    public int getX(){
+        return this.x;
     }
 
-    public Boolean getKeyDown(){
-        return this.keyDown;
+    public int getY(){
+        return this.y;
     }
 
 }

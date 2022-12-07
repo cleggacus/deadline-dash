@@ -55,8 +55,8 @@ public class Game extends Engine {
         return Game.instance;
     }
     
-    public void newReplayFrame(KeyCode key, double keyTime, boolean keyDown){
-        ReplayFrame frame = new ReplayFrame(key, keyTime, keyDown);
+    public void newReplayFrame(int x, int y, double keyTime){
+        ReplayFrame frame = new ReplayFrame(x, y, keyTime);
         this.replay.storeFrame(frame);
         currentFrame = frame;
 
@@ -150,7 +150,6 @@ public class Game extends Engine {
             System.out.println(e.getMessage());
         }
         Player player = this.level.getPlayerFromEntities(this.entities);
-        System.out.println(replay.getUsername());
         ReplayPlayer replayPlayer =  new ReplayPlayer(player.getX(), player.getY(),  replay.getFrames());
         this.addEntity(replayPlayer);
         this.removeEntity(player);

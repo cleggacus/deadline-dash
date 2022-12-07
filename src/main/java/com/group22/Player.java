@@ -1,5 +1,6 @@
 package com.group22;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import javafx.scene.input.KeyCode;
@@ -7,8 +8,6 @@ import javafx.scene.input.KeyCode;
 public class Player extends LandMover {
     private KeyCode lastDown;
     private double lastDownTime;
-    private double lastUpTime;
-    private KeyCode lastUp;
 
     public Player(int x, int y) {
         super(x, y);
@@ -55,22 +54,30 @@ public class Player extends LandMover {
     @Override
     protected void updateMovement() {
         this.getSprite().setImageSet("idle");
+        double keyTime = Game.getInstance().getTimeElapsed();
 
         if(this.lastDown == null)
             this.lastDown = Game.getInstance().getLastKeyDown(KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D);
 
         if(this.lastDown == KeyCode.W) {
             this.getSprite().setImageSet("up");
+            keyTime = Game.getInstance().getTimeElapsed();
             move(0, -1);
+            Game.getInstance().newReplayFrame(this.getX(), this.getY(), keyTime);
         } else if(lastDown == KeyCode.S) {
             this.getSprite().setImageSet("down");
+            keyTime = Game.getInstance().getTimeElapsed();
             move(0, 1);
         } else if(lastDown == KeyCode.A) {
             this.getSprite().setImageSet("left");
+            keyTime = Game.getInstance().getTimeElapsed();
             move(-1, 0);
+            Game.getInstance().newReplayFrame(this.getX(), this.getY(), keyTime);
         } else if(lastDown == KeyCode.D) {
             this.getSprite().setImageSet("right");
+            keyTime = Game.getInstance().getTimeElapsed();
             move(1, 0);
+            Game.getInstance().newReplayFrame(this.getX(), this.getY(), keyTime);
         }
 
         ArrayList<Door> doors = Game.getInstance().getEntities(Door.class);
@@ -111,12 +118,8 @@ public class Player extends LandMover {
         ) {
             lastDown = Game.getInstance().getLastKeyDown(KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D);
             lastDownTime = Game.getInstance().getTimeElapsed();
-            Game.getInstance().newReplayFrame(lastDown, lastDownTime, true);
         }
         if(Game.getInstance().getLastKeyReleased() != null){
-            lastUp = Game.getInstance().getLastKeyReleased();
-            lastUpTime = Game.getInstance().getTimeElapsed();
-            Game.getInstance().newReplayFrame(lastUp, lastUpTime, false);
             Game.getInstance().resetLastKeyReleased();
         }
 
