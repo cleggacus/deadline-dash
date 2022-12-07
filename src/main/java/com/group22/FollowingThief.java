@@ -44,10 +44,10 @@ public class FollowingThief extends LandMover {
     public void nextMove(){
         if (movingDirection.equals("right")) {
             if ((hasNextUp() && clockwise) || ((!hasNextRight() && hasNextUp() && !clockwise))) {
-                this.move(0,-1, TransitionType.Bob);
+                this.move(0,1, TransitionType.Bob);
                 movingDirection = "up";
             } else if ((hasNextDown() && !clockwise) || (!hasNextRight() && hasNextDown() && clockwise)) {
-                this.move(0,1, TransitionType.Bob);
+                this.move(0,-1, TransitionType.Bob);
                 movingDirection = "down";
             } else if (hasNextRight()) {
                 this.move(1,0, TransitionType.Bob);
@@ -61,10 +61,10 @@ public class FollowingThief extends LandMover {
 
         if (movingDirection.equals("left")) {
             if ((hasNextDown() && clockwise) || ((!hasNextLeft() && hasNextDown() && !clockwise))) {
-                this.move(0,1, TransitionType.Bob);
+                this.move(0,-1, TransitionType.Bob);
                 movingDirection = "down";
             } else if ((hasNextUp() && !clockwise) || (!hasNextLeft() && hasNextUp() && clockwise)) {
-                this.move(0,-1, TransitionType.Bob);
+                this.move(0,1, TransitionType.Bob);
                 movingDirection = "up";
             } else if (hasNextLeft()) {
                 this.move(-1,0, TransitionType.Bob);
