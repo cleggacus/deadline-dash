@@ -53,10 +53,14 @@ public class Player extends LandMover {
     }
     
     public void isAtDoor(){
-        ArrayList<PickUp> pickups = Game.getInstance().getEntities(PickUp.class);
-        if(pickups.isEmpty() && this.getX() == Game.getInstance().getDoor().getX()
+        ArrayList<PickUp> pickups
+        = new ArrayList<>(Game.getInstance().getEntities(Loot.class));
+        pickups.addAll(Game.getInstance().getEntities(Lever.class));
+        if(pickups.isEmpty()
+        && this.getX() == Game.getInstance().getDoor().getX()
         && this.getY() == Game.getInstance().getDoor().getY()){
-            Game.getInstance().incrementScore((int) Game.getInstance().getTime() * 10);
+            Game.getInstance().incrementScore
+            ((int) Game.getInstance().getTime() * 10);
             Game.getInstance().setLevelFinish();
         }
     }
