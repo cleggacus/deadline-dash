@@ -67,9 +67,9 @@ public class ReplayManager {
             replays.add(replay);
         }
         replays.sort((Replay r1, Replay r2) -> {
-            if (r1.getScore() > r2.getScore())
-              return 1;
             if (r1.getScore() < r2.getScore())
+              return 1;
+            if (r1.getScore() > r2.getScore())
               return -1;
             return 0;
          });

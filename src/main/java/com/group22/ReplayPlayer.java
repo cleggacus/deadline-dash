@@ -58,7 +58,8 @@ public class ReplayPlayer extends LandMover {
     
     @Override
     protected void updateMovement() {
-        this.getSprite().setImageSet("idle");
+        if(this.x == 0 && this.y == 0)
+            this.getSprite().setImageSet("idle");
         if(this.x == 1){
             this.getSprite().setImageSet("right");
             move(this.x, this.y);

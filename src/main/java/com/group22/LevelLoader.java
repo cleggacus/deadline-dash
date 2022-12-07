@@ -45,10 +45,6 @@ public class LevelLoader {
             entities.addAll(getEntitiesFromData(
                 levelData, NUM_ENTITIES, WIDTH, HEIGHT));
 
-            final int NUM_SCORES = getIntFromData(levelData.get(linePos));
-            String[][] scores = new String[NUM_SCORES][2];
-            scores = getScoresFromData(levelData, scores, NUM_SCORES);
-
             ReplayManager replayManager = new ReplayManager();
             ArrayList<Replay> replays = replayManager.getReplaysFromLevelTitle(TITLE);
         

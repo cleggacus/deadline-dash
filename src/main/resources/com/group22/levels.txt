@@ -17,7 +17,6 @@ loot 2 4 100
 loot 4 1 50
 loot 4 4 200
 smartmover 2 2
-0
 -
 Farrons Office
 30
@@ -38,9 +37,6 @@ player 0 0
 flyingassassin 1 1 v
 flyingassassin 2 2 v
 flyingassassin 4 3 v
-2
-lewis 550 2022-12-07T21:55:34.701949100
-lewis 540 2022-12-07T21:50:01.558242400
 -
 Test level 1
 45
@@ -71,7 +67,6 @@ gate 11 4 R
 player 2 1
 flyingassassin 5 5 v
 flyingassassin 5 5 h
-0
 -
 Test Level 2
 120
@@ -100,7 +95,6 @@ bomb 8 0 3
 player 1 1
 flyingassassin 0 0 h
 flyingassassin 14 8 h
-0
 -
 Test level 3
 10
@@ -114,5 +108,4 @@ MMRR RRRR RRRR RRBB RRRR RRMM
 clock 2 1 15
 door 1 2
 player 1 1
-0
 -

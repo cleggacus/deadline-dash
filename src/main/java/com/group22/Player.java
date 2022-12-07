@@ -80,7 +80,6 @@ public class Player extends LandMover {
             this.getSprite().setImageSet("up");
             keyTime = Game.getInstance().getTimeElapsed();
             move(0, -1);
-            Game.getInstance().newReplayFrame(this.getX(), this.getY(), keyTime);
         } else if(lastDown == KeyCode.S) {
             this.getSprite().setImageSet("down");
             keyTime = Game.getInstance().getTimeElapsed();
@@ -89,13 +88,12 @@ public class Player extends LandMover {
             this.getSprite().setImageSet("left");
             keyTime = Game.getInstance().getTimeElapsed();
             move(-1, 0);
-            Game.getInstance().newReplayFrame(this.getX(), this.getY(), keyTime);
         } else if(lastDown == KeyCode.D) {
             this.getSprite().setImageSet("right");
             keyTime = Game.getInstance().getTimeElapsed();
             move(1, 0);
-            Game.getInstance().newReplayFrame(this.getX(), this.getY(), keyTime);
         }
+        Game.getInstance().newReplayFrame(this.getX(), this.getY(), keyTime);
 
         ArrayList<Door> doors = Game.getInstance().getEntities(Door.class);
         ArrayList<PickUp> pickUps = Game.getInstance().getEntities(PickUp.class);

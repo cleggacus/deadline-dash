@@ -35,7 +35,7 @@ public class ReplaysBrowser extends MenuPane {
     public void setReplays(ArrayList<Replay> replays, String level, int levelIndex) {
         this.replaysMenu.getChildren().clear();
         for(Replay replay : replays){
-            this.replaysMenu.addButton(replay.getUsername(),
+            this.replaysMenu.addButton(replay.getUsername() + ": " + replay.getScore(),
             () -> Game.getInstance().setReplay(GameState.Playing, replay, levelIndex));
             this.replaysMenu.addSmallPrint(this.relativeTime.getTimeAgo(replay.getTimeOfSave()));
         }
