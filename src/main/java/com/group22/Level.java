@@ -2,8 +2,8 @@ package com.group22;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.time.LocalDateTime;
 
 /**
  * The Level class is a class that represents a level in the game. It contains the level's title, time

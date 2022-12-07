@@ -1,7 +1,5 @@
 package com.group22;
 
-import java.util.ArrayList;
-
 public class Door extends Entity {
 
     private Boolean gateIsOpen = false;

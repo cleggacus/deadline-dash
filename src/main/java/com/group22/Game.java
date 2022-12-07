@@ -3,8 +3,6 @@ package com.group22;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.group22.Tile.TileLayout;
-
 /**
  * The {@code Game} class acts as a game manager handling all the game logic.
  * Since there is only one game and it extends Engine it uses the singleton pattern and can be used with the {@link #getInstance()} method.
