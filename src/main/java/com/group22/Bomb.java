@@ -59,9 +59,6 @@ public class Bomb extends Entity{
 
     }
 
-
-
-
     public void activateBomb() {
         double shakeAmountX = 0.05 * Math.sin(1.1 * countdown * Math.pow(this.time, 3));
         double shakeAmountY = 0.05 * Math.sin(0.9 * countdown * Math.pow(this.time, 3));
@@ -86,7 +83,7 @@ public class Bomb extends Entity{
     @Override
     protected void update() {
         ArrayList<LandMover> landMovers = Game.getInstance().getEntities(LandMover.class);
-        //ArrayList<FlyingAssassin> flyingAssassins = Game.getInstance().getEntities(FlyingAssassin.class);
+
         if(!fuze){
             for(LandMover landMover : landMovers) {
                 if (landMover.getX() == this.getX() && landMover.getY() == (this.getY()-1)) {
@@ -103,22 +100,7 @@ public class Bomb extends Entity{
                     this.fuze = true;
                 }
             }
-    
-//            for(FlyingAssassin flyingAssassin : flyingAssassins) {
-//                if (flyingAssassin.getX() == this.getX() && flyingAssassin.getY() == (this.getY()-1)) {
-//                    this.bombStart = Game.getInstance().getTime();
-//                    this.fuze = true;
-//                } else if (flyingAssassin.getX() == this.getX() && flyingAssassin.getY() == (this.getY()+1)) {
-//                    this.bombStart = Game.getInstance().getTime();
-//                    this.fuze = true;
-//                } else if (flyingAssassin.getX() == (this.getX()-1) && flyingAssassin.getY() == (this.getY())) {
-//                    this.bombStart = Game.getInstance().getTime();
-//                    this.fuze = true;
-//                } else if (flyingAssassin.getX() == (this.getX()+1) && flyingAssassin.getY() == (this.getY())) {
-//                    this.bombStart = Game.getInstance().getTime();
-//                    this.fuze = true;
-//                }
-//            }
+
         }
         
         if (fuze){
