@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 /**
  * The super class for all pickup objects and an inheritor of entity,
- * doesn't do much but has all the code that pickups should share.
+ * checks for collision with thieves.
  * 
  * @author Lewis Meekings
  * @version 1.0
