@@ -11,18 +11,14 @@ package com.group22;
 
 public class FollowingThief extends LandMover {
 
-    public int startX;
-    public int startY;
     public TileColor pathColor;
-    private String movingDirection = "right";
+    private String movingDirection = "down";
     private Boolean clockwise;
 
     
 
     public FollowingThief(int posX, int posY, TileColor color, Boolean clockwise) {
         super(posX, posY);
-        startX = posX;
-        startY = posY;
         this.clockwise = clockwise;
         this.pathColor = color;        
         //nextMove();
@@ -42,12 +38,12 @@ public class FollowingThief extends LandMover {
     }
 
     public void nextMove(){
-        if (movingDirection.equals("right")) {
+         if (movingDirection.equals("right")) {
             if ((hasNextUp() && clockwise) || ((!hasNextRight() && hasNextUp() && !clockwise))) {
-                this.move(0,1, TransitionType.Bob);
+                this.move(0,-1, TransitionType.Bob);
                 movingDirection = "up";
             } else if ((hasNextDown() && !clockwise) || (!hasNextRight() && hasNextDown() && clockwise)) {
-                this.move(0,-1, TransitionType.Bob);
+                this.move(0,1, TransitionType.Bob);
                 movingDirection = "down";
             } else if (hasNextRight()) {
                 this.move(1,0, TransitionType.Bob);
@@ -57,14 +53,15 @@ public class FollowingThief extends LandMover {
                 this.move(-1,0, TransitionType.Bob);
                 movingDirection = "left";
             }
-        }
+        } 
+
 
         if (movingDirection.equals("left")) {
             if ((hasNextDown() && clockwise) || ((!hasNextLeft() && hasNextDown() && !clockwise))) {
-                this.move(0,-1, TransitionType.Bob);
+                this.move(0,1, TransitionType.Bob);
                 movingDirection = "down";
             } else if ((hasNextUp() && !clockwise) || (!hasNextLeft() && hasNextUp() && clockwise)) {
-                this.move(0,1, TransitionType.Bob);
+                this.move(0,-1, TransitionType.Bob);
                 movingDirection = "up";
             } else if (hasNextLeft()) {
                 this.move(-1,0, TransitionType.Bob);
@@ -77,18 +74,18 @@ public class FollowingThief extends LandMover {
         }
 
         if (movingDirection.equals("up")) {
-            if (((nextLeft() != this.getX()) && clockwise) || ((nextUp() == this.getY() && !clockwise))) {
+            if ((hasNextLeft() && clockwise) || ((!hasNextUp() && hasNextLeft() && !clockwise))) {
                 this.move(-1,0, TransitionType.Bob);
                 movingDirection = "left";
-            } else if (((nextRight() != this.getX()) && !clockwise) || ((nextUp() == this.getY()) && clockwise)) {
+            } else if ((hasNextRight() && !clockwise) || ((!hasNextUp() && hasNextRight() && clockwise))) {
                 this.move(1,0, TransitionType.Bob);
                 movingDirection = "right";
-            } else if (nextUp() != this.getX()) {
-                this.move(0,1, TransitionType.Bob);
+            } else if (hasNextUp()) {
+                this.move(0,-1, TransitionType.Bob);
                 movingDirection = "up";
             } else {
                 clockwise = !clockwise;
-                this.move(0,-1, TransitionType.Bob);
+                this.move(0,1, TransitionType.Bob);
                 movingDirection = "down";
             }
         }
@@ -101,20 +98,19 @@ public class FollowingThief extends LandMover {
                 this.move(-1,0, TransitionType.Bob);
                 movingDirection = "left";
             } else if (hasNextDown()) {
-                this.move(0,-1, TransitionType.Bob);
+                this.move(0,1, TransitionType.Bob);
                 movingDirection = "down";
             } else {
                 clockwise = !clockwise;
-                this.move(0,1, TransitionType.Bob);
+                this.move(0,-1, TransitionType.Bob);
                 movingDirection = "up";
             }
-        }
-    
-        
+        }  
+          
     }
 
     public Boolean hasNextUp(){
-        System.out.println(Game.getInstance().tileHasColor(this.getX(), nextUp(), pathColor));
+        //System.out.println(Game.getInstance().tileHasColor(this.getX(), nextUp(), pathColor));
         return nextUp() < this.getY() &&
             Game.getInstance().tileHasColor(this.getX(), nextUp(), pathColor);
     }
@@ -152,6 +148,7 @@ public class FollowingThief extends LandMover {
     @Override
     protected void updateMovement() {
         nextMove();
+        System.out.println(movingDirection);
     }
 
     @Override
