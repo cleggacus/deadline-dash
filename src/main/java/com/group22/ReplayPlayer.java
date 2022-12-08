@@ -2,21 +2,14 @@ package com.group22;
 
 import java.util.ArrayList;
 
-import javafx.scene.input.KeyCode;
-
 public class ReplayPlayer extends LandMover {
 
-    private ArrayList<KeyCode> keysDown;
     private ArrayList<ReplayFrame> frames;
-    private int currentFrame;
-    private KeyCode lastDown;
     private int x;
     private int y;
     public ReplayPlayer(int x, int y, ArrayList<ReplayFrame> frames) {
         super(x, y);
         this.frames = frames;
-        this.currentFrame = 0;
-        this.keysDown = new ArrayList<KeyCode>();
         this.getSprite().setAnimationSpeed(0.4);
         this.setShadow(true);
 
@@ -58,7 +51,8 @@ public class ReplayPlayer extends LandMover {
     
     @Override
     protected void updateMovement() {
-        this.getSprite().setImageSet("idle");
+        if(this.x == 0 && this.y == 0)
+            this.getSprite().setImageSet("idle");
         if(this.x == 1){
             this.getSprite().setImageSet("right");
             move(this.x, this.y);
@@ -115,6 +109,7 @@ public class ReplayPlayer extends LandMover {
     protected void update(){
         if(frames.size() == 0){
             Game.getInstance().setGameOver();
+            return;
         }
         if(frames.get(0).getKeyTime() <= Game.getInstance().getTimeElapsed()){
             this.x = frames.get(0).getX() - this.getX();

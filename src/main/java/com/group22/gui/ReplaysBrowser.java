@@ -1,12 +1,10 @@
 package com.group22.gui;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import com.group22.Game;
 import com.group22.GameState;
 import com.group22.Replay;
-import com.group22.ReplayManager;
 import com.group22.TimeUtil;
 import com.group22.gui.base.MenuPane;
 
@@ -16,11 +14,9 @@ public class ReplaysBrowser extends MenuPane {
     private GamePane gamePane;
     private MenuPane replaysMenu;
     private TimeUtil relativeTime;
-    private ReplayManager replayManager;
 
     public ReplaysBrowser(GamePane gamePane) {
         this.gamePane = gamePane;
-        this.replayManager = new ReplayManager();
         this.relativeTime = new TimeUtil();
         this.replaysMenu = new MenuPane();
         this.addH1("REPLAYS");
@@ -34,8 +30,12 @@ public class ReplaysBrowser extends MenuPane {
 
     public void setReplays(ArrayList<Replay> replays, String level, int levelIndex) {
         this.replaysMenu.getChildren().clear();
+        if (replays.size() == 0){
+            this.replaysMenu.addH2("No plays yet!");
+            this.replaysMenu.addParagraph("Complete the level to have your score and replay saved.");
+        }
         for(Replay replay : replays){
-            this.replaysMenu.addButton(replay.getUsername(),
+            this.replaysMenu.addButton(replay.getUsername() + ": " + replay.getScore(),
             () -> Game.getInstance().setReplay(GameState.Playing, replay, levelIndex));
             this.replaysMenu.addSmallPrint(this.relativeTime.getTimeAgo(replay.getTimeOfSave()));
         }

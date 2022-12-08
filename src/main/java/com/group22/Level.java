@@ -1,9 +1,6 @@
 package com.group22;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.util.ArrayList;
-import java.time.LocalDateTime;
 
 /**
  * The {@code Level} class represents an instance of a level in the game.
@@ -18,10 +15,11 @@ public class Level {
     private int width;
     private Tile[][] tiles;
     private ArrayList<String[]> entities;
-    private String[][] scores;
+    private ArrayList<Replay> replays;
     private boolean playerPresent = false;
     private boolean doorPresent = false;    
     private int levelIndex;
+    private ReplayManager replayManager = new ReplayManager();
 
     /**
      * Creates a new level from params listed.
@@ -32,19 +30,19 @@ public class Level {
      * @param width             width of the level in tiles
      * @param tiles             2d array of the tiles
      * @param entities          ArrayList of strings of entities
-     * @param scores            2d array of highscores for the level
+     * @param replays           ArrayList of replays for the level
      * @param levelIndex        the index of the level in the level file
      */
     public Level(String title, int timeToComplete, int height,
     int width, Tile[][] tiles, ArrayList<String[]> entities,
-    String[][] scores, int levelIndex){
+    ArrayList<Replay> replays, int levelIndex){
         this.title = title;
         this.timeToComplete = timeToComplete;
         this.height = height;
         this.width = width;
         this.tiles = tiles;
         this.entities = entities;
-        this.scores = scores;
+        this.replays = replays;
         this.levelIndex = levelIndex;
     }
 
@@ -91,8 +89,8 @@ public class Level {
      * This will change due to the requirement of player profiles.....
      * @return String[][]
      */
-    public String[][] getHighscores(){
-        return scores;
+    public ArrayList<Replay> getReplays(){
+        return replays;
     }
 
     /**
@@ -103,14 +101,14 @@ public class Level {
      * the player didn't qualify for the top 10.
      */
     public int getScorePosition(int score){
-        final String[][] LEVEL_HIGHSCORES = this.getHighscores();
-        if(LEVEL_HIGHSCORES.length == 0){
+        final ArrayList<Replay> LEVEL_REPLAYS = this.getReplays();
+        if(LEVEL_REPLAYS.size() == 0){
             return 1;
         }
         for(int i = 0; i < 10; i++){
-            if(LEVEL_HIGHSCORES.length == i)
+            if(LEVEL_REPLAYS.size() == i)
                 return i + 1;
-            final int LEVEL_HIGHSCORE = Integer.parseInt(LEVEL_HIGHSCORES[i][1]);
+            final int LEVEL_HIGHSCORE = LEVEL_REPLAYS.get(i).getScore();
             if(LEVEL_HIGHSCORE <= score)
                 return i + 1;
         }
@@ -126,84 +124,16 @@ public class Level {
      * @param profile The profile of the player
      * @param score the score the player got
      */
-    public void completeLevel(Profile profile, int score){
+    public void completeLevel(Profile profile, Replay replay, int score){
         final int PROFILE_UNLOCKED_INDEX = profile.getMaxUnlockedLevelIndex();
         if(PROFILE_UNLOCKED_INDEX == this.getIndex()){
             profile.setUnlockedLevelIndex(this.getIndex()+1);
         }
         final int SCORE_POS = this.getScorePosition(score);
         if(SCORE_POS <= 10){
-            this.writeScore(profile, score, SCORE_POS);
+            this.replayManager.saveReplay(this, replay, score);
         }
     }
-
-    /**
-     * It takes a profile, score, and score position, and writes the score to the level file.
-     * If there is less than 10 scores for the level, it inserts at the end of the scores.
-     * If there is 10 scores for the level, it inserts it to the correct position and moves
-     * the rest of the scores down one, removing the 10th item.
-     * 
-     * @param profile The profile of the player who got the score
-     * @param score the score to be written
-     * @param scorePos The position in the high score list to insert the score
-     */
-    public void writeScore(Profile profile, int score, int scorePos){
-        LevelLoader levelLoader = new LevelLoader();
-        boolean scoreSet = false;
-        int fileLevelIndex = 0;
-        try{
-            ArrayList<String> levelData = levelLoader.getLevelFileData();
-            BufferedWriter wr = new BufferedWriter(
-                new FileWriter(levelLoader.getLevelFile(), false));
-            for(int i = 0; i < levelData.size(); i++){
-                if(levelData.get(i).equals("-")){
-                    fileLevelIndex = fileLevelIndex + 1;
-                    if(fileLevelIndex > 0){
-                        i += 1;
-                    }
-                }
-                if(this.getIndex() == fileLevelIndex && !scoreSet){
-                    final int TILE_NUM_INDEX = i + 2;
-                    final int TILE_END_INDEX = Integer.parseInt(
-                        levelData.get(TILE_NUM_INDEX).split(" ")[1])
-                        + TILE_NUM_INDEX + 1;
-
-                    final int ENTITY_END_INDEX = Integer.parseInt(
-                        levelData.get(TILE_END_INDEX)) + TILE_END_INDEX;
-
-                    final int NUM_SCORES_INDEX = ENTITY_END_INDEX + 1;
-                    final int NUM_SCORES = Integer.parseInt(
-                        levelData.get(NUM_SCORES_INDEX));
-
-                    final String SCORE_TO_INSERT = profile.getName() + " "
-                        + String.valueOf(score) + " " 
-                        + LocalDateTime.now().toString();
-
-                    if(NUM_SCORES == 10){
-                        levelData.add(NUM_SCORES_INDEX + scorePos, 
-                        SCORE_TO_INSERT);
-                        levelData.remove(NUM_SCORES_INDEX + NUM_SCORES + 1);
-                        scoreSet = true;
-                    } else {
-                        levelData.set(NUM_SCORES_INDEX,
-                            String.valueOf(NUM_SCORES + 1));
-                        levelData.add(NUM_SCORES_INDEX + scorePos,
-                        SCORE_TO_INSERT);
-                        scoreSet = true;
-                    }
-                }
-
-            }
-            for(int i = 0; i<levelData.size(); i++){
-                wr.write(levelData.get(i) + "\n");
-            }
-            wr.close();
-
-        } catch(Exception e){
-            e.printStackTrace();
-        }
-    }
-
     
     /** 
      * Getter for retrieving the Tile objects for the level

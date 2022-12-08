@@ -17,7 +17,6 @@ public class GameOver extends MenuPane {
         this.getChildren().clear();
         this.addH1("GAMEOVER");
         this.addButton("RESTART", () -> Game.getInstance().setGameState(GameState.Playing));
-        this.addButton("SAVE REPLAY", () -> Game.getInstance().saveReplay());
         this.addButton("EXIT", () -> gamePane.setState(GameState.Start));
     }
 

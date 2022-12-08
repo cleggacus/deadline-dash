@@ -1,6 +1,5 @@
 package com.group22;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import javafx.scene.input.KeyCode;
@@ -8,7 +7,6 @@ import javafx.scene.input.KeyCode;
 public class Player extends LandMover {
     private KeyCode lastDown;
     private boolean torch;
-    private double lastDownTime;
 
     public Player(int x, int y, boolean torch) {
         super(x, y);
@@ -80,7 +78,6 @@ public class Player extends LandMover {
             this.getSprite().setImageSet("up");
             keyTime = Game.getInstance().getTimeElapsed();
             move(0, -1);
-            Game.getInstance().newReplayFrame(this.getX(), this.getY(), keyTime);
         } else if(lastDown == KeyCode.S) {
             this.getSprite().setImageSet("down");
             keyTime = Game.getInstance().getTimeElapsed();
@@ -89,13 +86,12 @@ public class Player extends LandMover {
             this.getSprite().setImageSet("left");
             keyTime = Game.getInstance().getTimeElapsed();
             move(-1, 0);
-            Game.getInstance().newReplayFrame(this.getX(), this.getY(), keyTime);
         } else if(lastDown == KeyCode.D) {
             this.getSprite().setImageSet("right");
             keyTime = Game.getInstance().getTimeElapsed();
             move(1, 0);
-            Game.getInstance().newReplayFrame(this.getX(), this.getY(), keyTime);
         }
+        Game.getInstance().newReplayFrame(this.getX(), this.getY(), keyTime);
 
         ArrayList<Door> doors = Game.getInstance().getEntities(Door.class);
         ArrayList<PickUp> pickUps = Game.getInstance().getEntities(PickUp.class);
@@ -134,7 +130,6 @@ public class Player extends LandMover {
             Game.getInstance().getKeyDown(KeyCode.D)
         ) {
             lastDown = Game.getInstance().getLastKeyDown(KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D);
-            lastDownTime = Game.getInstance().getTimeElapsed();
         }
 
         if(torch) {
