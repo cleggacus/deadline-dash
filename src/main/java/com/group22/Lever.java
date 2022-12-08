@@ -52,8 +52,6 @@ public class Lever extends PickUp {
         for (Gate gate : gates){
             if (gate.getGateColour().equals( this.getLeverColour())){
                  gate.setGateIsOpen(true);
-                 Game.getInstance().removeEntity(gate);
-
             }
         }
         Game.getInstance().removeEntity(this);
