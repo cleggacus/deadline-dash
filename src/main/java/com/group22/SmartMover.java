@@ -13,6 +13,9 @@ import java.util.Random;
  */
 public class SmartMover extends LandMover{
 
+    /**
+     * An arraylist of integers representing 2d coordinates
+     */
     ArrayList<Integer> path = new ArrayList<>();
     /**
      * The constructor for the smartmover entity class.
@@ -32,9 +35,8 @@ public class SmartMover extends LandMover{
     protected void findPath(){
         ArrayList<ArrayList<Integer>> paths = new ArrayList<>();
         path = new ArrayList<>();
-        ArrayList<Integer> originPath = new ArrayList<>();
         Boolean targetFound = false;
-        Branch root = new Branch(this.getX(), this.getY(), originPath);
+        Branch root = new Branch(this.getX(), this.getY(),  new ArrayList<>());
         root.clear();
         root.addBranch(root);
         ArrayList<Branch> currentBranches = new ArrayList<>();
@@ -255,6 +257,9 @@ public class SmartMover extends LandMover{
         return true;
     }
 
+    /**
+     * Can exit level once all loot and levers are collected or destroyed.
+     */
     private void isAtDoor(){
         ArrayList<PickUp> pickups
         = new ArrayList<>(Game.getInstance().getEntities(Loot.class));
