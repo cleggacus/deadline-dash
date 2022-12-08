@@ -72,10 +72,6 @@ public class Bomb extends Entity{
         this.getSprite().setAnimationType(AnimationType.SINGLE);
 
         if ((this.bombStart - countdown) >= Game.getInstance().getTime()){
-
-        }
-
-        if ((this.bombStart - countdown) >= Game.getInstance().getTime()){
             detonateBomb();
         }
     }
@@ -124,17 +120,12 @@ public class Bomb extends Entity{
 
         }
 
-        if ((this.bombStart - countdown) >= Game.getInstance().getTime()){
-            this.explosion = true;
-        }
-
-        if ((this.bombStart - 3.5) >= Game.getInstance().getTime()){
-            this.explosion = false;
-        }
-
         if (fuze){
             activateBomb();
-            this.explosion = true;
+        }
+
+        if ((this.bombStart - 2.99 >= Game.getInstance().getTime())){
+            explosion = true;
         }
 }
 }
