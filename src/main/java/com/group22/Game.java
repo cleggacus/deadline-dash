@@ -226,6 +226,11 @@ public class Game extends Engine {
         this.setGameState(GameState.GameOver);
     }
 
+    public void setReplayOver(){
+        this.getGamePane().getReplayOver().setStats(replay.getScore(), this.time);
+        this.setGameState(GameState.ReplayOver);
+    }
+
     public void setLevelFinish(){
         this.getGamePane().getFinish().setStats(this.score, this.time);
         this.level.completeLevel(this.profile, replay, score);
@@ -241,7 +246,7 @@ public class Game extends Engine {
         updateTime();
         this.getGamePane().getPlaying().setGameScore(this.score);
         if(this.level.getPlayerFromEntities(this.getEntities()) == null){
-            if(!this.replaying) //TODO implement replayOver pane
+            if(!this.replaying)
                 this.setGameOver();
         }
     }

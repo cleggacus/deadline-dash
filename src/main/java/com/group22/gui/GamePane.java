@@ -9,6 +9,7 @@ public class GamePane extends StatePane<GameState> {
     // Panes
     private GameOver gameOver;
     private LevelComplete levelComplete;
+    private ReplayOver replayOver;
     private Paused paused;
     private Playing playing;
     private ProfileSelector profileSelector;
@@ -28,6 +29,7 @@ public class GamePane extends StatePane<GameState> {
         this.startMenu = new StartMenu(this);
         this.levelSelector = new LevelSelector(this);
         this.replaysBrowser = new ReplaysBrowser(this);
+        this.replayOver = new ReplayOver(this);
         this.playing = new Playing(this);
         this.paused = new Paused(this);
         this.gameOver = new GameOver(this);
@@ -38,6 +40,7 @@ public class GamePane extends StatePane<GameState> {
         this.addPane(this.profileSelector, GameState.ProfileSelector);
         this.addPane(this.startMenu, GameState.Start);
         this.addPane(this.replaysBrowser, GameState.ReplaysBrowser);
+        this.addPane(this.replayOver, GameState.ReplayOver);
         this.addPane(this.levelSelector, GameState.LevelSelector);
         this.addPane(this.playing, GameState.Playing, GameState.Paused, GameState.GameOver);
         this.addPane(this.gameOver, GameState.GameOver);
@@ -84,6 +87,10 @@ public class GamePane extends StatePane<GameState> {
 
     public ReplaysBrowser getReplaysBrowser() {
         return replaysBrowser;
+    }
+
+    public ReplayOver getReplayOver(){
+        return replayOver;
     }
 
     public void update() {
