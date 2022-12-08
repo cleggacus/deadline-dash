@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Bomb extends Entity {
 
-    private final int countdown;
+    private final int COUNTDOWN;
     private double time = 0;
     private double bombStart;
     private boolean fuze;
@@ -15,9 +15,9 @@ public class Bomb extends Entity {
      * @param countdown the countdown timer of the bomb's detonation
      */
 
-    public Bomb(int x, int y, int countdown) {
+    public Bomb(int x, int y) {
         super(x, y);
-        this.countdown = countdown;
+        this.COUNTDOWN = 3;
         this.fuze = false;
         this.getSprite().addImageSet("tick", Sprite.createImageFade(
                 "item/farron/farron0.png",
@@ -77,11 +77,11 @@ public class Bomb extends Entity {
 
 
     public void activateBomb() {
-        double shakeAmountX = 0.05 * Math.sin(1.1 * countdown * Math.pow(this.time, 3));
-        double shakeAmountY = 0.05 * Math.sin(0.9 * countdown * Math.pow(this.time, 3));
+        double shakeAmountX = 0.05 * Math.sin(1.1 * COUNTDOWN * Math.pow(this.time, 3));
+        double shakeAmountY = 0.05 * Math.sin(0.9 * COUNTDOWN * Math.pow(this.time, 3));
         this.setSpriteOffset(shakeAmountX, shakeAmountY);
         this.time += Game.getInstance().getDelta();
-        this.getSprite().setAnimationSpeed(countdown);
+        this.getSprite().setAnimationSpeed(COUNTDOWN);
         this.getSprite().setImageSet("tick");
         this.getSprite().setAnimationType(AnimationType.SINGLE);
 
@@ -90,6 +90,10 @@ public class Bomb extends Entity {
         }
     }
 
+    @Override
+    public String toString(){
+        return ("bomb " + getX() + " " + getY());
+    }
 
     @Override
     protected void updateMovement() {

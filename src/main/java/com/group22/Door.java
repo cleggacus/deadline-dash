@@ -27,6 +27,11 @@ public class Door extends Entity {
     }
 
     @Override
+    public String toString(){
+        return ("door " + getX() + " " + getY());
+    }
+
+    @Override
     protected void updateMovement() {
         // TODO Auto-generated method stub
         

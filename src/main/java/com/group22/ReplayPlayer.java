@@ -46,13 +46,11 @@ public class ReplayPlayer extends LandMover {
         });
 
         this.setSpriteOffset(0, -0.3);
-        this.moveEvery = 0;
+        this.moveEvery = 0.15;
     }
     
     @Override
     protected void updateMovement() {
-        if(this.x == 0 && this.y == 0)
-            this.getSprite().setImageSet("idle");
         if(this.x == 1){
             this.getSprite().setImageSet("right");
             move(this.x, this.y);

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.group22.Game;
 import com.group22.GameState;
 import com.group22.Replay;
+import com.group22.ReplayManager;
 import com.group22.TimeUtil;
 import com.group22.gui.base.MenuPane;
 
@@ -14,11 +15,13 @@ public class ReplaysBrowser extends MenuPane {
     private GamePane gamePane;
     private MenuPane replaysMenu;
     private TimeUtil relativeTime;
+    private ReplayManager replayManager;
 
     public ReplaysBrowser(GamePane gamePane) {
         this.gamePane = gamePane;
         this.relativeTime = new TimeUtil();
         this.replaysMenu = new MenuPane();
+        this.replayManager = new ReplayManager();
         this.addH1("REPLAYS");
         this.add(this.replaysMenu.getAsScrollPane());
         this.addButton("BACK", () -> this.gamePane.setState(GameState.LevelSelector));
@@ -28,8 +31,9 @@ public class ReplaysBrowser extends MenuPane {
         return this.username;
     }
 
-    public void setReplays(ArrayList<Replay> replays, String level, int levelIndex) {
+    public void setReplays(String level, int levelIndex) {
         this.replaysMenu.getChildren().clear();
+        ArrayList<Replay> replays = this.replayManager.getReplaysFromLevelTitle(level);
         if (replays.size() == 0){
             this.replaysMenu.addH2("No plays yet!");
             this.replaysMenu.addParagraph("Complete the level to have your score and replay saved.");

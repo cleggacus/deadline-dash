@@ -13,12 +13,10 @@ import java.util.List;
 public class Game extends Engine {
     private double time;
     private int score; 
-
     private Tile[][] tiles;
     private Entity player;
     private List<Level> levels;
     private int currentLevelIndex;
-    private LevelLoader levelLoader;
     private Level level;
     private Profile profile;
     private double timeElapsed;
@@ -154,6 +152,9 @@ public class Game extends Engine {
         this.getGamePane().getPlaying().setGameScore(score);
     }
 
+    public void setState(SavedState savedState, Level level){
+
+    }
     @Override
     /**
      *  Sets the score to 0, sets the level to the one selected
@@ -294,9 +295,7 @@ public class Game extends Engine {
      * and adds them to the levelSelector
      */
     private void setUpLeveles() {
-        this.levelLoader = new LevelLoader();
-        this.levelLoader.setUp();
-        this.levels = Game.instance.levelLoader.getAllLevels();
+        this.levels = LevelManager.getInstance().getAllLevels();
         this.getGamePane().getLevelSelector().addLevels(this.levels);
     }
 
@@ -341,5 +340,10 @@ public class Game extends Engine {
 
     public Profile getProfile(){
         return this.profile;
+    }
+
+    public void saveState() {
+        SavedStateManager stateManager = new SavedStateManager();
+        stateManager.createState(getLevel().getTitle(), getUsername(), getEntities(), score, time);
     }
 }

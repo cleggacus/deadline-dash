@@ -31,6 +31,11 @@ public class Lever extends PickUp {
         return this.leverIsOpen;
     }
 
+    @Override
+    public String toString(){
+        return ("lever " + getX() + " " + getY() + " " + getLeverColour());
+    }
+
     /**
      * Searches through a list of gates via the list of entities, opening gates
      * of the same colour as the lever.

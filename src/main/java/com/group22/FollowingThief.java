@@ -130,20 +130,11 @@ public class FollowingThief extends LandMover {
         return nextRight() > this.getX() &&
             Game.getInstance().tileHasColor(nextRight(), this.getY(), pathColor);
     }
-
-   
-    // /** 
-    //  * @param x
-    //  * @param y
-    //  * @param type
-    //  */
-    // @Override 
-    // protected void move(int x, int y, AnimationType type) {
-        
-    // }
-
     
-
+    @Override
+    public String toString(){
+        return ("followingthief " + getX() + " " + getY() + " " + getPathColor().label);
+    }
 
     @Override
     protected void updateMovement() {

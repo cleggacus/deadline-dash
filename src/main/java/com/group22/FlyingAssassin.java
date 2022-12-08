@@ -14,11 +14,13 @@ import java.util.ArrayList;
 public class FlyingAssassin extends Entity {
     private int moveByY;
     private int moveByX;
+    private boolean isVertical;
 
     public FlyingAssassin(int x, int y, boolean isVertical) {
         super(x, y);
         this.getSprite().setImage("NPC/FollowingThief.png");
         this.moveEvery = 0.2;
+        this.isVertical = isVertical;
 
         this.moveByX = isVertical ? 0 : 1;
         this.moveByY = isVertical ? 1 : 0;
@@ -61,6 +63,15 @@ public class FlyingAssassin extends Entity {
         // when flyingAssassin is not in bounds
         //    flyingAssassin rotates 180 degrees
 
+    }
+
+    public boolean getIsVertical(){
+        return isVertical;
+    }
+
+    @Override
+    public String toString(){
+        return ("flyingassassin " + getX() + " " + getY() + " " + getIsVertical());
     }
 
     @Override

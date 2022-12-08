@@ -40,6 +40,11 @@ public class Clock extends PickUp {
         return this.time;
     }
 
+    @Override
+    public String toString(){
+        return ("clock " + getX() + " " + getY() + " " + getTime());
+    }
+
     /**
      * If the player grabs the loot it will decrease the level time and be added
      * to inventory, if another thief grabs it the time decreases.

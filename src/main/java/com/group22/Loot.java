@@ -70,6 +70,11 @@ public class Loot extends PickUp {
 
         Game.getInstance().removeEntity(this);
     }
+    
+    @Override
+    public String toString(){
+        return ("loot " + getX() + " " + getY() + " " + getValue());
+    }
 }
 
 /**ADDED TO GAME: Is this right? 

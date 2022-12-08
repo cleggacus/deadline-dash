@@ -2,59 +2,32 @@ package com.group22;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class ReplayManager {
     //private Level level;
     private static final String replayFolder = "src/main/resources/com/group22/replays/";
-
+    private FileManager fileManager;
     public ReplayManager(){
-    }
-
-    public ArrayList<String> getDataFromFile(File file){
-        ArrayList<String> dataArray = new ArrayList<String>();
-        
-        try {
-            Scanner sc = new Scanner(file);
-
-            while(sc.hasNext()){
-                String line = sc.nextLine();
-                dataArray.add(line);
-            }
-
-            sc.close();
-        }
-            catch(Exception e) {
-            e.getStackTrace();
-        }
-        return dataArray;
-
+        this.fileManager = new FileManager();
     }
 
     public ArrayList<Replay> getReplaysFromLevelIndex(int levelIndex){
-        LevelLoader levelLoader = new LevelLoader();
-        Level level = levelLoader.getAllLevels().get(levelIndex);
+        Level level = LevelManager.getInstance().getAllLevels().get(levelIndex);
         return getReplaysFromLevelTitle(level.getTitle());
     }
 
 
     public ArrayList<Replay> getReplaysFromLevelTitle(String levelTitle){
-        File f = new File(replayFolder);
         String levelTitleForFilePath = levelTitle.replace(" ", "-");
-        File[] matchingFiles = f.listFiles(new FilenameFilter() {
-            public boolean accept(File dir, String name) {
-                return name.startsWith(levelTitleForFilePath) && name.endsWith("txt");
-            }
-        });
-
+        File[] matchingFiles = fileManager.getMatchingFiles(replayFolder, levelTitleForFilePath, ".txt");
+        
         ArrayList<Replay> replays = new ArrayList<Replay>();
         for(File file : matchingFiles){
-            ArrayList<String> dataArray = getDataFromFile(file);
+            ArrayList<String> dataArray = this.fileManager.getDataFromFile(file);
 
             String username = dataArray.get(1);
             LocalDateTime timeOfSave = LocalDateTime.parse(dataArray.get(2));
@@ -75,13 +48,8 @@ public class ReplayManager {
     }
 
     private void deleteWorstReplay(String levelTitle){
-        File f = new File(replayFolder);
         String levelTitleForFilePath = levelTitle.replace(" ", "-");
-        File[] matchingFiles = f.listFiles(new FilenameFilter() {
-            public boolean accept(File dir, String name) {
-                return name.startsWith(levelTitleForFilePath) && name.endsWith("txt");
-            }
-        });
+        File[] matchingFiles = fileManager.getMatchingFiles(replayFolder, levelTitleForFilePath, ".txt");
         int worstScoreIndex = 0;
         for(int i = 0; i < matchingFiles.length; i++){
             int currentScore = Integer.parseInt(matchingFiles[i].getName().split("_")[1]);
@@ -93,14 +61,8 @@ public class ReplayManager {
     }
 
     private int getNumReplays(String levelTitle){
-        File f = new File(replayFolder);
         String levelNameForFilePath = levelTitle.replace(" ", "-");
-        File[] matchingFiles = f.listFiles(new FilenameFilter() {
-            public boolean accept(File dir, String name) {
-                return name.startsWith(levelNameForFilePath) && name.endsWith("txt");
-            }
-        });
-
+        File[] matchingFiles = fileManager.getMatchingFiles(replayFolder, levelNameForFilePath, ".txt");
         return matchingFiles.length;
 
     }

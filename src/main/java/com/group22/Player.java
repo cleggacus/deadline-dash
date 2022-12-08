@@ -66,6 +66,11 @@ public class Player extends LandMover {
     }
 
     @Override
+    public String toString(){
+        return ("player " + getX() + " " + getY());
+    }
+
+    @Override
     protected void updateMovement() {
         this.getSprite().setImageSet("idle");
         double keyTime = Game.getInstance().getTimeElapsed();

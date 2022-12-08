@@ -25,16 +25,17 @@
     <property name="fileExtensions" value="java"/>
     <property name="max" value="80"/>
   </module>
-  <module name="MethodLength">
-    <property name="tokens" value="METHOD_DEF"/>
-    <property name="max" value="75"/>
-    <property name="countEmpty" value="false"/>
-  </module>
-  <module name="WhitespaceAround">
-  <property name="tokens"
-    value="LITERAL_IF,LITERAL_FOR,LITERAL_ELSE,ASSIGN,MINUS_ASSIGN,PLUS_ASSIGN,PLUS,MINUS,EQUAL,NOT_EQUAL"/>
-  </module>
+
   <module name="TreeWalker">
+    <module name="WhitespaceAround">
+      <property name="tokens"
+        value="LITERAL_IF,LITERAL_FOR,LITERAL_ELSE,ASSIGN,MINUS_ASSIGN,PLUS_ASSIGN,PLUS,MINUS,EQUAL,NOT_EQUAL"/>
+    </module>
+    <module name="MethodLength">
+      <property name="tokens" value="METHOD_DEF"/>
+      <property name="max" value="75"/>
+      <property name="countEmpty" value="false"/>
+    </module>
     <module name="MethodParamPad"/>
     <module name="MissingJavadocMethod">
       <property name="scope" value="public"/>

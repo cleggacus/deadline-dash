@@ -14,6 +14,9 @@ public class Paused extends MenuPane {
             Game.getInstance().setGameState(GameState.GameOver);
             Game.getInstance().setGameState(GameState.Playing);
         });
+        this.addButton("SAVE", () -> {
+            Game.getInstance().saveState();
+        });
         this.addButton("TOGGLE FULLSCREEN", () -> {
             Stage stage = (Stage)this.getScene().getWindow();
             stage.setFullScreen(!stage.isFullScreen());

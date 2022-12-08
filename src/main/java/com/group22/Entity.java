@@ -212,7 +212,6 @@ public abstract class Entity {
      */
     protected abstract void update();
 
-
     /**
      * Gets the Y position the renderer should renderer based on animation and offset.
      * 

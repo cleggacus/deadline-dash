@@ -76,6 +76,10 @@ public class Level {
     public int getIndex(){
         return levelIndex;
     }
+
+    public ArrayList<Replay> getReplays(){
+        return replays;
+    }
     
     /** 
      * Getter for the total time to complete the level at the begining
@@ -83,14 +87,6 @@ public class Level {
      */
     public int getTimeToComplete(){
         return timeToComplete;
-    }
-
-    /** 
-     * This will change due to the requirement of player profiles.....
-     * @return String[][]
-     */
-    public ArrayList<Replay> getReplays(){
-        return replays;
     }
 
     /**
@@ -101,7 +97,7 @@ public class Level {
      * the player didn't qualify for the top 10.
      */
     public int getScorePosition(int score){
-        final ArrayList<Replay> LEVEL_REPLAYS = this.getReplays();
+        final ArrayList<Replay> LEVEL_REPLAYS = this.replayManager.getReplaysFromLevelTitle(this.getTitle());
         if(LEVEL_REPLAYS.size() == 0){
             return 1;
         }
@@ -255,7 +251,7 @@ public class Level {
      * @param entity the entity to be parsed
      * @return returns an Entity object.
      */
-    private Entity parseEntity(String[] entity){
+    public Entity parseEntity(String[] entity){
         switch(entity[0]){
             case("player"):
                 return new Player(
@@ -275,9 +271,7 @@ public class Level {
             case("bomb"):
                 return new Bomb(
                     Integer.parseInt(entity[1]),
-                    Integer.parseInt(entity[2]),
-                    Integer.parseInt(entity[3])
-                    );
+                    Integer.parseInt(entity[2]));
             case("followingthief"):
                 return new FollowingThief(
                     Integer.parseInt(entity[1]),
