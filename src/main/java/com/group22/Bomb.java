@@ -30,50 +30,33 @@ public class Bomb extends Entity{
     }
 
     public void detonateBomb() {
+        ArrayList<Entity> allEntity = new ArrayList();
         ArrayList<Bomb> bombThings = Game.getInstance().getEntities(Bomb.class);
         ArrayList<LandMover> landMovers = Game.getInstance().getEntities(LandMover.class);
         ArrayList<FlyingAssassin> flyingAssassins = Game.getInstance().getEntities(FlyingAssassin.class);
         ArrayList<PickUp> pickUps = Game.getInstance().getEntities(PickUp.class);
 
+        allEntity.addAll(bombThings);
+        allEntity.addAll(landMovers);
+        allEntity.addAll(flyingAssassins);
+        allEntity.addAll(pickUps);
+
         Game.getInstance().removeEntity(this);
 
-        for(LandMover landMover : landMovers) {
-            if (landMover.getX() == this.getX()){
-                Game.getInstance().removeEntity(landMover);
-            } else if (landMover.getY() == this.getY()){
-                Game.getInstance().removeEntity(landMover);
-            }
-        }
-
-        for(FlyingAssassin flyingAssassin : flyingAssassins) {
-            if (flyingAssassin.getX() == this.getX()){
-                Game.getInstance().removeEntity(flyingAssassin);
-            } else if (flyingAssassin.getY() == this.getY()){
-                Game.getInstance().removeEntity(flyingAssassin);
-            }
-        }
-
-        for(PickUp pickUp : pickUps) {
-            if (pickUp.getX() == this.getX()){
-                Game.getInstance().removeEntity(pickUp);
-            } else if (pickUp.getY() == this.getY()){
-                Game.getInstance().removeEntity(pickUp);
-            }
-        }
-
-        for(Bomb bombThing : bombThings) {
-            if (bombThing.getX() == this.getX()){
-                if (!(bombThing == this)) {
-                    bombThing.detonateBomb();
-                    Game.getInstance().removeEntity(bombThing);
+        for(Entity entity : allEntity) {
+            if (entity.getX() == this.getX()){
+                if(entity instanceof Bomb){
+                    ((Bomb) entity).detonateBomb();
                 }
-            } else if (bombThing.getY() == this.getY()){
-                if (!(bombThing == this)) {
-                    bombThing.detonateBomb();
-                    Game.getInstance().removeEntity(bombThing);
+                Game.getInstance().removeEntity(entity);
+            } else if (entity.getY() == this.getY()){
+                if(entity instanceof Bomb){
+                    ((Bomb) entity).detonateBomb();
                 }
+                Game.getInstance().removeEntity(entity);
             }
         }
+
     }
 
 
@@ -103,7 +86,7 @@ public class Bomb extends Entity{
     @Override
     protected void update() {
         ArrayList<LandMover> landMovers = Game.getInstance().getEntities(LandMover.class);
-        ArrayList<FlyingAssassin> flyingAssassins = Game.getInstance().getEntities(FlyingAssassin.class);
+        //ArrayList<FlyingAssassin> flyingAssassins = Game.getInstance().getEntities(FlyingAssassin.class);
         if(!fuze){
             for(LandMover landMover : landMovers) {
                 if (landMover.getX() == this.getX() && landMover.getY() == (this.getY()-1)) {
@@ -121,21 +104,21 @@ public class Bomb extends Entity{
                 }
             }
     
-            for(FlyingAssassin flyingAssassin : flyingAssassins) {
-                if (flyingAssassin.getX() == this.getX() && flyingAssassin.getY() == (this.getY()-1)) {
-                    this.bombStart = Game.getInstance().getTime();
-                    this.fuze = true;
-                } else if (flyingAssassin.getX() == this.getX() && flyingAssassin.getY() == (this.getY()+1)) {
-                    this.bombStart = Game.getInstance().getTime();
-                    this.fuze = true;
-                } else if (flyingAssassin.getX() == (this.getX()-1) && flyingAssassin.getY() == (this.getY())) {
-                    this.bombStart = Game.getInstance().getTime();
-                    this.fuze = true;
-                } else if (flyingAssassin.getX() == (this.getX()+1) && flyingAssassin.getY() == (this.getY())) {
-                    this.bombStart = Game.getInstance().getTime();
-                    this.fuze = true;
-                }
-            }
+//            for(FlyingAssassin flyingAssassin : flyingAssassins) {
+//                if (flyingAssassin.getX() == this.getX() && flyingAssassin.getY() == (this.getY()-1)) {
+//                    this.bombStart = Game.getInstance().getTime();
+//                    this.fuze = true;
+//                } else if (flyingAssassin.getX() == this.getX() && flyingAssassin.getY() == (this.getY()+1)) {
+//                    this.bombStart = Game.getInstance().getTime();
+//                    this.fuze = true;
+//                } else if (flyingAssassin.getX() == (this.getX()-1) && flyingAssassin.getY() == (this.getY())) {
+//                    this.bombStart = Game.getInstance().getTime();
+//                    this.fuze = true;
+//                } else if (flyingAssassin.getX() == (this.getX()+1) && flyingAssassin.getY() == (this.getY())) {
+//                    this.bombStart = Game.getInstance().getTime();
+//                    this.fuze = true;
+//                }
+//            }
         }
         
         if (fuze){
