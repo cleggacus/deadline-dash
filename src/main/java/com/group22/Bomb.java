@@ -6,11 +6,13 @@ import java.util.ArrayList;
 
 public class Bomb extends Entity{
 
+    private static final double ANIMATION_DURATION = 0.032;
     private final int  countdown;
     private double time = 0;
     private double bombStart;
     private boolean fuze;
     private boolean explosion;
+
 
     /**
      *
@@ -51,7 +53,7 @@ public class Bomb extends Entity{
             if (entity.getX() == this.getX()){
                 if(entity instanceof Bomb){
                     Bomb bomb = (Bomb) entity;
-                    bomb.bombStart = Game.getInstance().getTime() + countdown - 0.01;
+                    bomb.bombStart = Game.getInstance().getTime() + countdown - ANIMATION_DURATION;
                     bomb.fuze = true;
                 } else {
                     Game.getInstance().removeEntity(entity);
@@ -59,7 +61,7 @@ public class Bomb extends Entity{
             } else if (entity.getY() == this.getY()){
                 if(entity instanceof Bomb){
                     Bomb bomb = (Bomb) entity;
-                    bomb.bombStart = Game.getInstance().getTime() + countdown - 0.01;
+                    bomb.bombStart = Game.getInstance().getTime() + countdown - ANIMATION_DURATION;
                     bomb.fuze = true;
                 } else {
                     Game.getInstance().removeEntity(entity);
@@ -130,7 +132,7 @@ public class Bomb extends Entity{
             activateBomb();
         }
 
-        if ((this.bombStart - countdown + 0.032) >= Game.getInstance().getTime()){
+        if ((this.bombStart - countdown + ANIMATION_DURATION) >= Game.getInstance().getTime()){
             explosion = true;
         }
 
