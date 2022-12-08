@@ -12,7 +12,8 @@ import java.time.LocalDateTime;
 public class Profile {
     private LocalDateTime dateLastActive;
     private String name;
-    private static final String profileFile = Profile.class.getResource("profiles.txt").toString();
+    private static final String profileFile = 
+    "src/main/resources/com/group22/profiles.txt";
     private Integer maxUnlockedLevelIndex;
     private List<Profile> allProfiles;
 

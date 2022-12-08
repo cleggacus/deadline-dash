@@ -27,25 +27,28 @@ public class ReplayManager {
         File[] matchingFiles = fileManager.getMatchingFiles(replayFolder, levelTitleForFilePath, ".txt");
         
         ArrayList<Replay> replays = new ArrayList<Replay>();
-        for(File file : matchingFiles){
-            ArrayList<String> dataArray = this.fileManager.getDataFromFile(file);
-
-            String username = dataArray.get(1);
-            LocalDateTime timeOfSave = LocalDateTime.parse(dataArray.get(2));
-            int score = Integer.parseInt(dataArray.get(3));
-
-            ArrayList<ReplayFrame> replayFrames = parseFramesFromData(dataArray.subList(4, dataArray.size()));
-            Replay replay = new Replay(levelTitle, username, timeOfSave, replayFrames, score);
-            replays.add(replay);
+        if(matchingFiles != null){
+            for(File file : matchingFiles){
+                ArrayList<String> dataArray = this.fileManager.getDataFromFile(file);
+    
+                String username = dataArray.get(1);
+                LocalDateTime timeOfSave = LocalDateTime.parse(dataArray.get(2));
+                int score = Integer.parseInt(dataArray.get(3));
+    
+                ArrayList<ReplayFrame> replayFrames = parseFramesFromData(dataArray.subList(4, dataArray.size()));
+                Replay replay = new Replay(levelTitle, username, timeOfSave, replayFrames, score);
+                replays.add(replay);
+            }
+            replays.sort((Replay r1, Replay r2) -> {
+                if (r1.getScore() < r2.getScore())
+                  return 1;
+                if (r1.getScore() > r2.getScore())
+                  return -1;
+                return 0;
+             });
+            return replays;
         }
-        replays.sort((Replay r1, Replay r2) -> {
-            if (r1.getScore() < r2.getScore())
-              return 1;
-            if (r1.getScore() > r2.getScore())
-              return -1;
-            return 0;
-         });
-        return replays;
+        return null;
     }
 
     private void deleteWorstReplay(String levelTitle){
