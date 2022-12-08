@@ -16,10 +16,9 @@ public class Gate extends Entity {
     private Boolean gateIsOpen = false;
     private String gateColour;
 
-    public Gate(int gateX, int gateY, String gateColour) {
+    public Gate(int gateX, int gateY, String gateColour, boolean isOpen) {
         super(gateX, gateY);
         setGateColour(gateColour);
-
         this.getSprite().addImageSet("closed", new String[] {
             "item/gate.png"
         });
@@ -30,6 +29,8 @@ public class Gate extends Entity {
         this.getSprite().setImageSet("closed");
 
         this.getSprite().applyColor(TileColor.getFromLabel(gateColour.charAt(0)).color);
+        if(isOpen)
+            setGateIsOpen(true);
     }
 
     private void setGateColour(String gateColour) {
@@ -50,13 +51,16 @@ public class Gate extends Entity {
     }
 
     @Override
+    public String toString(){
+        return ("gate " + getX() + " " + getY() + " " + getGateColour() + " " + getGateIsOpen());
+    }
+
+    @Override
     protected void updateMovement() {
-        // TODO Auto-generated method stub
 
     }
     
     protected void removeGate(){
-
 
     }
 

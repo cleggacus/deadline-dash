@@ -1,0 +1,17 @@
+Test level 1
+accessall
+150
+26.88842429999999
+2
+loot 2 4 100
+loot 5 6 200
+loot 10 8 50
+door 1 1
+bomb 0 0 1.3517422
+followingthief 1 7 C true
+gate 10 4 B true
+lever 14 4 R
+gate 11 4 R false
+player 2 1
+flyingassassin 5 9 v
+flyingassassin 11 5 h

@@ -187,7 +187,6 @@ public class Game extends Engine {
     @Override
     protected void startSavedState(SavedState savedState){
         this.replaying = false;
-        System.out.println(savedState.getScore());
         this.setScore(savedState.getScore());
         Level currentLevel = this.levels.get(savedState.getLevelIndex());
         this.level = currentLevel;

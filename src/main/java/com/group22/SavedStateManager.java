@@ -41,8 +41,9 @@ public class SavedStateManager {
             ArrayList<String> data = fileManager.getDataFromFile(file);
             int score = Integer.parseInt(data.get(2));
             double time = Double.parseDouble(data.get(3));
-
+            
             ArrayList<Entity> entities = new ArrayList<Entity>();
+            entities.addAll(level.getTilesAsEntities());
             for (String entityString : data.subList(5, data.size())) {
                 entities.add(level.parseEntity(entityString.split(" ")));
             }

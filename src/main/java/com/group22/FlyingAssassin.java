@@ -33,7 +33,7 @@ public class FlyingAssassin extends Entity {
 
     @Override
     public String toString(){
-        return ("flyingassassin " + getX() + " " + getY() + " " + getIsVertical());
+        return ("flyingassassin " + getX() + " " + getY() + " " + (getIsVertical() ? "v" : "h"));
     }
 
     @Override

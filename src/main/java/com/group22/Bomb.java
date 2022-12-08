@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class Bomb extends Entity{
 
     private static final double ANIMATION_DURATION = 0.032;
-    private final int COUNTDOWN;
+    private double countdown;
     private double time = 0;
     private double bombStart;
     private boolean fuze;
@@ -21,10 +21,8 @@ public class Bomb extends Entity{
      * @param countdown the countdown timer of the bomb's detonation
      */
 
-    public Bomb(int x, int y) {
+    public Bomb(int x, int y, double timeRemaining) {
         super(x, y);
-        this.COUNTDOWN = 3;
-        this.fuze = false;
         this.explosion = false;
         this.getSprite().addImageSet("tick", Sprite.createImageFade(
             "item/farron/farron0.png",
@@ -32,6 +30,15 @@ public class Bomb extends Entity{
             12*3
         ));
         this.getSprite().setImage("item/farron/farron0.png");
+        
+        if(timeRemaining < 3){
+            this.countdown = timeRemaining;
+            this.bombStart = Game.getInstance().getTime() + countdown - ANIMATION_DURATION;
+            this.fuze = true;
+        } else {
+            this.countdown = 3;
+            this.fuze = false;
+        }
     }
 
     public void detonateBomb() {
@@ -53,7 +60,7 @@ public class Bomb extends Entity{
             if (entity.getX() == this.getX()){
                 if(entity instanceof Bomb){
                     Bomb bomb = (Bomb) entity;
-                    bomb.bombStart = Game.getInstance().getTime() + COUNTDOWN - ANIMATION_DURATION;
+                    bomb.bombStart = Game.getInstance().getTime() + countdown - ANIMATION_DURATION;
                     bomb.fuze = true;
                 } else {
                     Game.getInstance().removeEntity(entity);
@@ -61,7 +68,7 @@ public class Bomb extends Entity{
             } else if (entity.getY() == this.getY()){
                 if(entity instanceof Bomb){
                     Bomb bomb = (Bomb) entity;
-                    bomb.bombStart = Game.getInstance().getTime() + COUNTDOWN - ANIMATION_DURATION;
+                    bomb.bombStart = Game.getInstance().getTime() + countdown - ANIMATION_DURATION;
                     bomb.fuze = true;
                 } else {
                     Game.getInstance().removeEntity(entity);
@@ -71,22 +78,22 @@ public class Bomb extends Entity{
     }
 
     public void activateBomb() {
-        double shakeAmountX = 0.05 * Math.sin(1.1 * COUNTDOWN * Math.pow(this.time, 3));
-        double shakeAmountY = 0.05 * Math.sin(0.9 * COUNTDOWN * Math.pow(this.time, 3));
+        double shakeAmountX = 0.05 * Math.sin(1.1 * countdown * Math.pow(this.time, 3));
+        double shakeAmountY = 0.05 * Math.sin(0.9 * countdown * Math.pow(this.time, 3));
         this.setSpriteOffset(shakeAmountX, shakeAmountY);
         this.time += Game.getInstance().getDelta();
-        this.getSprite().setAnimationSpeed(COUNTDOWN);
+        this.getSprite().setAnimationSpeed(countdown);
         this.getSprite().setImageSet("tick");
         this.getSprite().setAnimationType(AnimationType.SINGLE);
 
-        if ((this.bombStart - COUNTDOWN) >= Game.getInstance().getTime()){
+        if ((this.bombStart - countdown) >= Game.getInstance().getTime()){
             detonateBomb();
         }
     }
 
     @Override
     public String toString(){
-        return ("bomb " + getX() + " " + getY());
+        return ("bomb " + getX() + " " + getY() + " " + (3 - this.time));
     }
 
     @Override
@@ -137,7 +144,7 @@ public class Bomb extends Entity{
             activateBomb();
         }
 
-        if ((this.bombStart - COUNTDOWN + ANIMATION_DURATION) >= Game.getInstance().getTime()){
+        if ((this.bombStart - countdown + ANIMATION_DURATION) >= Game.getInstance().getTime()){
             explosion = true;
         }
 
