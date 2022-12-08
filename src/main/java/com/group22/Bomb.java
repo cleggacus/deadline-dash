@@ -39,6 +39,7 @@ public class Bomb extends Entity{
         ArrayList<FlyingAssassin> flyingAssassins = Game.getInstance().getEntities(FlyingAssassin.class);
         ArrayList<PickUp> pickUps = Game.getInstance().getEntities(PickUp.class);
 
+
         allEntity.addAll(bombs);
         allEntity.addAll(landMovers);
         allEntity.addAll(flyingAssassins);
@@ -49,15 +50,20 @@ public class Bomb extends Entity{
         for(Entity entity : allEntity) {
             if (entity.getX() == this.getX()){
                 if(entity instanceof Bomb){
-                    ((Bomb) entity).detonateBomb();
+                    Bomb bomb = (Bomb) entity;
+                    bomb.bombStart = Game.getInstance().getTime() + countdown - 0.01;
+                    bomb.fuze = true;
+                } else {
+                    Game.getInstance().removeEntity(entity);
                 }
-                Game.getInstance().removeEntity(entity);
             } else if (entity.getY() == this.getY()){
                 if(entity instanceof Bomb){
-                    ((Bomb) entity).detonateBomb();
+                    Bomb bomb = (Bomb) entity;
+                    bomb.bombStart = Game.getInstance().getTime() + countdown - 0.01;
+                    bomb.fuze = true;
+                } else {
+                    Game.getInstance().removeEntity(entity);
                 }
-                Game.getInstance().removeEntity(entity);
-
             }
         }
     }
@@ -124,8 +130,10 @@ public class Bomb extends Entity{
             activateBomb();
         }
 
-        if ((this.bombStart - 2.9 >= Game.getInstance().getTime())){
+        if ((this.bombStart - countdown + 0.032) >= Game.getInstance().getTime()){
             explosion = true;
         }
+
+
 }
 }
