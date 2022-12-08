@@ -88,11 +88,11 @@ public class Bomb extends Entity{
 
         if (this.explosion) {
             for(int x = 0; x < renderer.getViewWidth(); x++) {
-                renderer.drawRect(x, this.getY(), 1, 0.5, Color.RED);
+                renderer.drawRect(x, this.getY(), 1, 0.1, Color.RED);
             }
 
             for(int y = 0; y < renderer.getViewHeight(); y++) {
-                renderer.drawRect(this.getX(), y, 0.5, 1, Color.RED);
+                renderer.drawRect(this.getX(), y, 0.1, 1, Color.RED);
             }
         }
     }
