@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 public class ReplayManager {
     //private Level level;
-    private static final String replayFolder = "src/main/resources/com/group22/replays/";
+    private static final String replayFolder = Profile.class.getResource("replays").toString();
 
     public ReplayManager(){
     }
