@@ -1,5 +1,6 @@
 package com.group22;
 
+import java.util.ArrayList;
 
 /** 
  * 
@@ -43,13 +44,14 @@ public class FollowingThief extends LandMover {
                     movingDirection = "down";
                 }
             } else if (hasNextRight()) {
-                this.move(1,0, TransitionType.Bob);
+                move(1,0, TransitionType.Bob);
                 movingDirection = "right";
             } else {
                 clockwise = !clockwise;
-                this.move(-1,0, TransitionType.Bob);
+                move(-1,0, TransitionType.Bob);
                 movingDirection = "left";
             }
+            return;
         } 
 
 
@@ -72,6 +74,7 @@ public class FollowingThief extends LandMover {
                 this.move(1,0, TransitionType.Bob);
                 movingDirection = "right";
             }
+            return;
         }
 
         if (movingDirection.equals("up")) {
@@ -93,6 +96,7 @@ public class FollowingThief extends LandMover {
                 this.move(0,1, TransitionType.Bob);
                 movingDirection = "down";
             }
+            return;
         }
 
         if (movingDirection.equals("down")) {
@@ -114,6 +118,7 @@ public class FollowingThief extends LandMover {
                 this.move(0,-1, TransitionType.Bob);
                 movingDirection = "up";
             }
+            return;
         }  
           
     }
@@ -138,20 +143,6 @@ public class FollowingThief extends LandMover {
         return nextRight() > this.getX() && !isBlocked(nextRight(), this.getY()) &&
             Game.getInstance().tileHasColor(nextRight(), this.getY(), pathColor);
     }
-
-   
-    // /** 
-    //  * @param x
-    //  * @param y
-    //  * @param type
-    //  */
-    // @Override 
-    // protected void move(int x, int y, AnimationType type) {
-        
-    // }
-
-    
-
 
     @Override
     protected void updateMovement() {
