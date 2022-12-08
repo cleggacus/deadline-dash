@@ -1,20 +1,23 @@
 package com.group22;
-
-
-
 /** 
- * 
- * The class FollowingThief extrends the Landmover class.
+ * The class FollowingThief extends the Landmover class.
  * FollowingThief follows a set path around the game, interacting with 
  * any other entities in its path.
  */
-
 
 public class FollowingThief extends LandMover {
     public TileColor pathColor;
     private String movingDirection = "down";
     private Boolean clockwise;
 
+    /**
+     * The constructor for the FollowingThief entity class.
+     * @param posX The horizontal position of this entity
+     * @param posY The vertical position of this entity
+     * @param color The color of the tiles the entity follows
+     * @param clockwise The direction that the entity moves arount the game
+     * 
+     */
     public FollowingThief(int posX, int posY, TileColor color, Boolean clockwise) {
         super(posX, posY);
         this.clockwise = clockwise;
@@ -23,10 +26,18 @@ public class FollowingThief extends LandMover {
         this.moveEvery = 0.3;
     }
 
+    
+    /** 
+     * @param color
+     */
     public void setPathColor(TileColor color){
         pathColor = color;
     }
 
+    
+    /** 
+     * @return TileColor
+     */
     public TileColor getPathColor() {
         return pathColor;
     }
@@ -117,22 +128,47 @@ public class FollowingThief extends LandMover {
         }
     }
 
+    
+    /** 
+     * A method to check if the FollowingThief can move to the next tile on its path,
+     * if the tile is in the upwards direction
+     * @return Boolean
+     */
     public Boolean hasNextUp(){
         return nextUp() < this.getY() && !isBlocked(this.getX(), nextUp()) &&
             Game.getInstance().tileHasColor(this.getX(), nextUp(), pathColor);
     }
 
+    
+    /** 
+     * A method to check if the FollowingThief can move to the next tile on its path,
+     * if the tile is in the downwards direction
+     * @return Boolean
+     */
     public Boolean hasNextDown(){
         return nextDown() > this.getY() && !isBlocked(this.getX(), nextDown()) &&
             Game.getInstance().tileHasColor(this.getX(), nextDown(), pathColor);
 
     }
 
+    
+    /** 
+     * A method to check if the FollowingThief can move to the next tile on its path,
+     * if the tile is in the leftwards direction
+     * @return Boolean
+     */
     public Boolean hasNextLeft(){
         return nextLeft() < this.getX() && !isBlocked(nextLeft(), this.getY()) &&
             Game.getInstance().tileHasColor(nextLeft(), this.getY(), pathColor);
     }
 
+    
+    /** 
+     * 
+     * A method to check if the FollowingThief can move to the next tile on its path,
+     * if the tile is in the rightwards direction
+     * @return Boolean
+     */
     public Boolean hasNextRight(){
         return nextRight() > this.getX() && !isBlocked(nextRight(), this.getY()) &&
             Game.getInstance().tileHasColor(nextRight(), this.getY(), pathColor);

@@ -17,7 +17,7 @@ public class FlyingAssassin extends Entity {
 
     public FlyingAssassin(int x, int y, boolean isVertical) {
         super(x, y);
-        this.getSprite().setImage("NPC/FollowingThief.png");
+        this.getSprite().setImage("NPC/FlyingAssassin.png");
         this.moveEvery = 0.2;
 
         this.moveByX = isVertical ? 0 : 1;
