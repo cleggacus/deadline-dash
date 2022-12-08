@@ -183,6 +183,7 @@ public class Game extends Engine {
         this.removeEntity(player);
 
     }
+
     @Override
     protected void startSavedState(SavedState savedState){
         this.replaying = false;
@@ -209,6 +210,7 @@ public class Game extends Engine {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        this.replay = new Replay(this.level.getTitle(), this.getUsername());
     }
 
     @Override
