@@ -39,6 +39,7 @@ public class Gate extends Entity {
     protected void setGateIsOpen(Boolean gateIsOpen) {
         this.gateIsOpen = gateIsOpen;
         this.getSprite().setImageSet("open");
+        this.getSprite().applyColor(TileColor.getFromLabel(gateColour.charAt(0)).color);
     }
     public Boolean getGateIsOpen(){
         return gateIsOpen;
