@@ -9,8 +9,9 @@ import java.util.List;
 
 public class ReplayManager {
     //private Level level;
-    private static final String replayFolder = "src/main/resources/com/group22/replays/";
+    private static final String replayFolder = Profile.class.getResource("replays").toString();
     private FileManager fileManager;
+
     public ReplayManager(){
         this.fileManager = new FileManager();
     }

@@ -1,5 +1,16 @@
 package com.group22;
 
+/**
+ * Gate class is a subclass of Entity and is drawn to screen
+ *
+ * Each instance owns its own values for coordinates which are inherited and also a colour
+ *
+ *
+ * @author Cellan Lees
+ * @version 1.0
+ */
+
+
 public class Gate extends Entity {
 
     private Boolean gateIsOpen = false;
@@ -9,7 +20,15 @@ public class Gate extends Entity {
         super(gateX, gateY);
         setGateColour(gateColour);
 
-        this.getSprite().setImage("item/gate.png");
+        this.getSprite().addImageSet("closed", new String[] {
+            "item/gate.png"
+        });
+
+        this.getSprite().addImageSet("open", new String[] {
+                "item/gateOpen.png"
+        });
+        this.getSprite().setImageSet("closed");
+
         this.getSprite().applyColor(TileColor.getFromLabel(gateColour.charAt(0)).color);
     }
 
@@ -19,7 +38,8 @@ public class Gate extends Entity {
 
     protected void setGateIsOpen(Boolean gateIsOpen) {
         this.gateIsOpen = gateIsOpen;
-
+        this.getSprite().setImageSet("open");
+        this.getSprite().applyColor(TileColor.getFromLabel(gateColour.charAt(0)).color);
     }
     public Boolean getGateIsOpen(){
         return gateIsOpen;

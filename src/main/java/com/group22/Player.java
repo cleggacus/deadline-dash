@@ -61,7 +61,7 @@ public class Player extends LandMover {
         && this.getY() == Game.getInstance().getDoor().getY()){
             Game.getInstance().incrementScore
             ((int) Game.getInstance().getTime() * 10);
-            Game.getInstance().setLevelFinish();
+            Game.getInstance().getDoor().setIsOpen(true);
         }
     }
 

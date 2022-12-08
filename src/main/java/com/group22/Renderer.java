@@ -179,6 +179,18 @@ public class Renderer {
         );
     }
 
+    public void drawRect(double x, double y, double width, double height, Color color) {
+        this.graphicsContext.setFill(color);
+
+        width *= tileSize;
+        height *= tileSize;
+
+        double drawX = x*this.tileSize + this.offsetX + (tileSize - width)/2;
+        double drawY = y*this.tileSize + this.offsetY + (tileSize - height)/2;
+
+        this.graphicsContext.fillRect(drawX, drawY, width, height);
+    }
+
     public void drawShadow(double x, double y, double scale) {
         double shadowOffset = 0.1;
 

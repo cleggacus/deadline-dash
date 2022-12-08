@@ -106,7 +106,7 @@ public class ReplayPlayer extends LandMover {
     @Override
     protected void update(){
         if(frames.size() == 0){
-            Game.getInstance().setGameOver();
+            Game.getInstance().setReplayOver();
             return;
         }
         if(frames.get(0).getKeyTime() <= Game.getInstance().getTimeElapsed()){

@@ -269,7 +269,8 @@ public class Branch {
      */
     public Boolean isTarget(){
         ArrayList<PickUp> pickups
-        = Game.getInstance().getEntities(PickUp.class);
+        = new ArrayList<>(Game.getInstance().getEntities(Loot.class));
+        pickups.addAll(Game.getInstance().getEntities(Lever.class));
         if(pickups.isEmpty()){
             if (this.getX() == Game.getInstance().getDoor().getX()
             && this.getY() == Game.getInstance().getDoor().getY()){
@@ -323,12 +324,12 @@ public class Branch {
             = Game.getInstance().getEntities(entityClass);
 
             for(Entity entity : entities){
-                if(x ==  entity.getX() && y == entity.getY()){
+                if(entity instanceof Gate && ((Gate) entity).getGateIsOpen()){
+                } else if(x ==  entity.getX() && y == entity.getY()){
                     return true;
                 }
+                }
             }
-        }
-
         return false;
     }
 }
