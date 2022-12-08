@@ -12,8 +12,10 @@ package com.group22;
  */
 
 public class Door extends Entity {
-
-    private Boolean gateIsOpen = false;
+    private static final double OPEN_ANIMATION_DURATION = 0.5;
+    private double openTimer = 0;
+    private boolean isOpen = false;
+    private boolean gateIsOpen = false;
 
     /**
      * cosntructor calls super constructor
@@ -26,12 +28,20 @@ public class Door extends Entity {
     public Door(int doorX, int doorY){
         super(doorX,doorY);
         this.setSpriteOffset(0, -0.3);
-        this.getSprite().setImage("item/door_closed.png");
+        this.getSprite().addImageSet("closed", new String[] {
+                "item/door_closed.png"
+        });
+
+        this.getSprite().addImageSet("open", new String[] {
+                "item/DoorOpen.png"
+        });
     }
 
-    protected void setGateIsOpen(Boolean gateIsOpen) {
-        this.gateIsOpen = gateIsOpen;
+    public void setIsOpen(boolean isOpen) {
+        this.isOpen = isOpen;
     }
+
+
 
     public Boolean getGateIsOpen(){
         return this.gateIsOpen;
@@ -46,7 +56,16 @@ public class Door extends Entity {
     @Override
     protected void update() {
         // TODO Auto-generated method stub
-        
+        if(this.isOpen) {
+            this.getSprite().setImageSet("open");
+            this.openTimer += Game.getInstance().getDelta();
+        } else {
+            this.getSprite().setImageSet("closed");
+        }
+
+        if(this.openTimer >= Door.OPEN_ANIMATION_DURATION) {
+            Game.getInstance().setLevelFinish();
+        }
     }
 
 

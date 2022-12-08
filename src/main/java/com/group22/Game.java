@@ -121,25 +121,21 @@ public class Game extends Engine {
         return framesElapsed;
     }
 
-    public Entity getDoor() {
-        for(Entity entity : this.entities){
-            if(entity instanceof Door){
-                return entity;
-            }
-        }
-        return null;
+    public Door getDoor() {
+        return this.getEntities(Door.class).get(0);
+    }
+
+
+    public Level getLevel() {
+        return this.level;
     }
 
     /**
      * This function takes an integer as an argument and
      * adds it to the score variable
-     * 
+     *
      * @param amount The amount to increment the score by.
      */
-    public Level getLevel() {
-        return this.level;
-    }
-
     public void incrementScore(int amount) {
         this.setScore(this.score + amount);
     }

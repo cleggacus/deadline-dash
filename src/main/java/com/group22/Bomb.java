@@ -48,15 +48,7 @@ public class Bomb extends Entity{
         Game.getInstance().removeEntity(this);
 
         for(Entity entity : allEntity) {
-            if (entity.getX() == this.getX()){
-                if(entity instanceof Bomb){
-                    Bomb bomb = (Bomb) entity;
-                    bomb.bombStart = Game.getInstance().getTime() + countdown - 0.01;
-                    bomb.fuze = true;
-                } else {
-                    Game.getInstance().removeEntity(entity);
-                }
-            } else if (entity.getY() == this.getY()){
+            if (entity.getX() == this.getX() || entity.getY() == this.getY()){
                 if(entity instanceof Bomb){
                     Bomb bomb = (Bomb) entity;
                     bomb.bombStart = Game.getInstance().getTime() + countdown - 0.01;
