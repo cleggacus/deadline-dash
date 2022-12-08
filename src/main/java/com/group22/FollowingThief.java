@@ -10,23 +10,18 @@ package com.group22;
 
 
 public class FollowingThief extends LandMover {
-
     public TileColor pathColor;
     private String movingDirection = "down";
     private Boolean clockwise;
-
-    
 
     public FollowingThief(int posX, int posY, TileColor color, Boolean clockwise) {
         super(posX, posY);
         this.clockwise = clockwise;
         this.pathColor = color;        
-        //nextMove();
         this.getSprite().setImage("NPC/FollowingThief.png");
         this.getSprite().setAnimationSpeed(0.1);
         this.setSpriteOffset(0, -0.3);
         this.moveEvery = 0.3;
-        
     }
 
     public void setPathColor(TileColor color){
@@ -111,23 +106,23 @@ public class FollowingThief extends LandMover {
 
     public Boolean hasNextUp(){
         //System.out.println(Game.getInstance().tileHasColor(this.getX(), nextUp(), pathColor));
-        return nextUp() < this.getY() &&
+        return nextUp() < this.getY() && !isBlocked(this.getX(), nextUp()) &&
             Game.getInstance().tileHasColor(this.getX(), nextUp(), pathColor);
     }
 
     public Boolean hasNextDown(){
-        return nextDown() > this.getY() &&
+        return nextDown() > this.getY() && !isBlocked(this.getX(), nextDown()) &&
             Game.getInstance().tileHasColor(this.getX(), nextDown(), pathColor);
 
     }
 
     public Boolean hasNextLeft(){
-        return nextLeft() < this.getX() &&
+        return nextLeft() < this.getX() && !isBlocked(nextLeft(), this.getY()) &&
             Game.getInstance().tileHasColor(nextLeft(), this.getY(), pathColor);
     }
 
     public Boolean hasNextRight(){
-        return nextRight() > this.getX() &&
+        return nextRight() > this.getX() && !isBlocked(nextRight(), this.getY()) &&
             Game.getInstance().tileHasColor(nextRight(), this.getY(), pathColor);
     }
 
