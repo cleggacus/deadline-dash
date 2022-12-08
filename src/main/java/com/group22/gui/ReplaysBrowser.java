@@ -38,7 +38,7 @@ public class ReplaysBrowser extends MenuPane {
             this.replaysMenu.addH2("No plays yet!");
             this.replaysMenu.addParagraph("Complete the level to have your score and replay saved.");
         }
-        for(Replay replay : replays){
+        for (Replay replay : replays) {
             this.replaysMenu.addButton(replay.getUsername() + ": " + replay.getScore(),
             () -> Game.getInstance().setReplay(GameState.Playing, replay, levelIndex));
             this.replaysMenu.addSmallPrint(this.relativeTime.getTimeAgo(replay.getTimeOfSave()));

@@ -27,7 +27,7 @@ public class SavedStateManager {
         }
 
         String fileName = levelTitle.replace(" ", "-") + "_" + username + "_" +
-        LocalDateTime.now().toString().replace(":", ",");
+        LocalDateTime.now().toString().replace(":", ",") + ".txt";
         File file = new File(statesFolder + fileName);
 
         fileManager.saveFile(data, file);
@@ -36,14 +36,14 @@ public class SavedStateManager {
         String startsWith = level.getTitle().replace(" ", "-") + "_" + username;
         File[] files = fileManager.getMatchingFiles(statesFolder, startsWith, ".txt");
         ArrayList<SavedState> savedStates = new ArrayList<SavedState>();
-        for(File file : files){
+        for (File file : files) {
             ArrayList<String> data = fileManager.getDataFromFile(file);
             int score = Integer.parseInt(data.get(2));
             double time = Double.parseDouble(data.get(3));
 
             ArrayList<Entity> entities = new ArrayList<Entity>();
-            for(String entityString : data.subList(4, data.size())){
-                entities.add(level.parseEntity(entityString.split("")));
+            for (String entityString : data.subList(4, data.size())) {
+                entities.add(level.parseEntity(entityString.split(" ")));
             }
 
             SavedState savedState = new SavedState(level.getTitle(), entities, score, time, LocalDateTime.now());

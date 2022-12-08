@@ -8,6 +8,8 @@ package com.group22;
  * @version 1.0
  */
 public enum GameState {
-    ReplayOver, ReplaysBrowser, ScoresBrowser, LevelSelector, ProfileSelector, Start, Playing, Paused, GameOver, LevelComplete, Loading, CREDITS
+    ReplayOver, ReplaysBrowser, ScoresBrowser, LevelSelector, ProfileSelector,
+    Start, Playing, Paused, GameOver, LevelComplete, Loading,
+    CREDITS, SavesBrowser
 }
 

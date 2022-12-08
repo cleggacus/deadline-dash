@@ -9,7 +9,7 @@ import java.util.List;
 
 public class ReplayManager {
     //private Level level;
-    private static final String replayFolder = "src/main/resources/com/group22/replays/";
+    private static final String replayFolder = "src/main/resources/com/group22/replays";
     private FileManager fileManager;
 
     public ReplayManager(){
@@ -30,7 +30,6 @@ public class ReplayManager {
         if (matchingFiles != null){
             for (File file : matchingFiles){
                 ArrayList<String> dataArray = this.fileManager.getDataFromFile(file);
-    
                 String username = dataArray.get(1);
                 LocalDateTime timeOfSave = LocalDateTime.parse(dataArray.get(2));
                 int score = Integer.parseInt(dataArray.get(3));

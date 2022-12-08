@@ -17,7 +17,7 @@ public class LevelManager {
     }
 
     public static synchronized LevelManager getInstance() {
-        if(LevelManager.instance == null) {
+        if (LevelManager.instance == null) {
             LevelManager.instance = new LevelManager();
             LevelManager.instance.onInitialized();
         }
@@ -36,11 +36,11 @@ public class LevelManager {
         levels = setUpLevels(levels, data);
     }
 
-    private ArrayList<Level> setUpLevels(ArrayList<Level> levels, ArrayList<String> data){
+    private ArrayList<Level> setUpLevels(ArrayList<Level> levels, 
+    ArrayList<String> data){
 
         try{
             this.linePos = 0;
-            System.out.println(data.get(linePos));
 
             final String TITLE = data.get(linePos);
             this.linePos += 1;
@@ -48,8 +48,8 @@ public class LevelManager {
             final int TIME_TO_COMPLETE = Integer.parseInt(data.get(linePos));
             this.linePos += 1;
 
-            final int[] WIDTH_HEIGHT_SPLIT = Arrays.stream(data.get(linePos).split(" ")).mapToInt(
-                Integer::parseInt).toArray();
+            final int[] WIDTH_HEIGHT_SPLIT = Arrays.stream(data.get(linePos)
+            .split(" ")).mapToInt(Integer::parseInt).toArray();
             this.linePos += 1;
 
             final int WIDTH = WIDTH_HEIGHT_SPLIT[0];
@@ -57,10 +57,10 @@ public class LevelManager {
 
             Tile[][] tiles = new Tile[WIDTH][HEIGHT];
             ArrayList<String[]> entities = new ArrayList<String[]>();
-            for(int y=0; y < HEIGHT; y++){
+            for (int y = 0; y < HEIGHT; y++) {
                 final String[] SPLIT_ROW = data.get(linePos).split(" ");
                 this.linePos += 1;
-                for(int x=0; x < WIDTH; x++){
+                for (int x = 0; x < WIDTH; x++) {
                     tiles[x][y] = new Tile(x, y);
                     tiles[x][y].setTileLayout(SPLIT_ROW[x]);
                 }
@@ -70,7 +70,7 @@ public class LevelManager {
             final int NUM_ENTITIES = Integer.parseInt(data.get(linePos));
             this.linePos += 1;
 
-            for(int i=0; i < NUM_ENTITIES; i++){
+            for (int i = 0; i < NUM_ENTITIES; i++) {
                 final String[] SPLIT_ENTITIES = data.get(linePos).split(" ");
                 this.linePos += 1;
                 entities.add(SPLIT_ENTITIES);
@@ -78,15 +78,18 @@ public class LevelManager {
             //TODO validateEntities();
             this.linePos += 1;
 
-            ArrayList<Replay> replays = this.replayManager.getReplaysFromLevelTitle(TITLE);
+            ArrayList<Replay> replays = this.replayManager
+            .getReplaysFromLevelTitle(TITLE);
         
             final Level CURRENT_LEVEL = new Level(
                 TITLE, TIME_TO_COMPLETE, HEIGHT, WIDTH, 
                 tiles, entities, replays, levels.size());
             levels.add(CURRENT_LEVEL);
 
-            if(data.size() > this.linePos){
-                return setUpLevels(levels, new ArrayList<String>(data.subList(this.linePos, data.size())));
+            if (data.size() > this.linePos) {
+                return setUpLevels(levels, new ArrayList<String>(
+                    data.subList(this.linePos, data.size()))
+                );
             } else {
                 return levels;
             }

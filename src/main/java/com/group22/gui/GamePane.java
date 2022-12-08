@@ -16,6 +16,7 @@ public class GamePane extends StatePane<GameState> {
     private LevelSelector levelSelector;
     private StartMenu startMenu;
     private ReplaysBrowser replaysBrowser;
+    private SavesBrowser savesBrowser;
     private Credits credits;
 
     public GamePane() {
@@ -29,6 +30,7 @@ public class GamePane extends StatePane<GameState> {
         this.startMenu = new StartMenu(this);
         this.levelSelector = new LevelSelector(this);
         this.replaysBrowser = new ReplaysBrowser(this);
+        this.savesBrowser = new SavesBrowser(this);
         this.replayOver = new ReplayOver(this);
         this.playing = new Playing(this);
         this.paused = new Paused(this);
@@ -42,7 +44,9 @@ public class GamePane extends StatePane<GameState> {
         this.addPane(this.replaysBrowser, GameState.ReplaysBrowser);
         this.addPane(this.replayOver, GameState.ReplayOver);
         this.addPane(this.levelSelector, GameState.LevelSelector);
-        this.addPane(this.playing, GameState.Playing, GameState.Paused, GameState.GameOver);
+        this.addPane(this.savesBrowser, GameState.SavesBrowser);
+        this.addPane(this.playing, GameState.Playing, GameState.Paused,
+        GameState.GameOver);
         this.addPane(this.gameOver, GameState.GameOver);
         this.addPane(this.levelComplete, GameState.LevelComplete);
         this.addPane(this.paused, GameState.Paused);
@@ -75,6 +79,10 @@ public class GamePane extends StatePane<GameState> {
 
     public StartMenu getStartMenu() {
         return startMenu;
+    }
+
+    public SavesBrowser getSavesBrowser() {
+        return savesBrowser;
     }
 
     public ProfileSelector getProfileSelector() {
