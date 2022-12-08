@@ -4,6 +4,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
+/**
+ * The SmartMover class handles the moving of the smart mover, using paths
+ * discovered with its branches through the branch class. The smart mover can
+ * also change its path if the pickup it is after is blown up or collected.
+ * @author Lewis Meekings
+ * @version 1.0
+ */
 public class SmartMover extends LandMover{
 
     ArrayList<Integer> path = new ArrayList<>();

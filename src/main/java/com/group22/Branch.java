@@ -269,7 +269,8 @@ public class Branch {
      */
     public Boolean isTarget(){
         ArrayList<PickUp> pickups
-        = Game.getInstance().getEntities(PickUp.class);
+        = new ArrayList<>(Game.getInstance().getEntities(Loot.class));
+        pickups.addAll(Game.getInstance().getEntities(Lever.class));
         if(pickups.isEmpty()){
             if (this.getX() == Game.getInstance().getDoor().getX()
             && this.getY() == Game.getInstance().getDoor().getY()){

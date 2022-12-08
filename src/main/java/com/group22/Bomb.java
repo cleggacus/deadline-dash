@@ -1,5 +1,7 @@
 package com.group22;
 
+import javafx.scene.paint.Color;
+
 import java.util.ArrayList;
 
 public class Bomb extends Entity{
@@ -8,6 +10,7 @@ public class Bomb extends Entity{
     private double time = 0;
     private double bombStart;
     private boolean fuze;
+    private boolean explosion;
 
     /**
      *
@@ -20,23 +23,23 @@ public class Bomb extends Entity{
         super(x, y);
         this.countdown = countdown;
         this.fuze = false;
+        this.explosion = false;
         this.getSprite().addImageSet("tick", Sprite.createImageFade(
             "item/farron/farron0.png",
             "item/farron/farron5.png",
             12*3
         ));
         this.getSprite().setImage("item/farron/farron0.png");
-
     }
 
     public void detonateBomb() {
         ArrayList<Entity> allEntity = new ArrayList();
-        ArrayList<Bomb> bombThings = Game.getInstance().getEntities(Bomb.class);
+        ArrayList<Bomb> bombs = Game.getInstance().getEntities(Bomb.class);
         ArrayList<LandMover> landMovers = Game.getInstance().getEntities(LandMover.class);
         ArrayList<FlyingAssassin> flyingAssassins = Game.getInstance().getEntities(FlyingAssassin.class);
         ArrayList<PickUp> pickUps = Game.getInstance().getEntities(PickUp.class);
 
-        allEntity.addAll(bombThings);
+        allEntity.addAll(bombs);
         allEntity.addAll(landMovers);
         allEntity.addAll(flyingAssassins);
         allEntity.addAll(pickUps);
@@ -54,9 +57,9 @@ public class Bomb extends Entity{
                     ((Bomb) entity).detonateBomb();
                 }
                 Game.getInstance().removeEntity(entity);
+
             }
         }
-
     }
 
     public void activateBomb() {
@@ -68,16 +71,30 @@ public class Bomb extends Entity{
         this.getSprite().setImageSet("tick");
         this.getSprite().setAnimationType(AnimationType.SINGLE);
 
-        if ((this.bombStart - 3) >= Game.getInstance().getTime()){
+        if ((this.bombStart - countdown) >= Game.getInstance().getTime()){
             detonateBomb();
         }
     }
-
 
     @Override
     protected void updateMovement() {
         // TODO Auto-generated method stub
         
+    }
+
+    @Override
+    public void draw(Renderer renderer) {
+        super.draw(renderer);
+
+        if (this.explosion) {
+            for(int x = 0; x < renderer.getViewWidth(); x++) {
+                renderer.drawRect(x, this.getY(), 1, 0.1, Color.RED);
+            }
+
+            for(int y = 0; y < renderer.getViewHeight(); y++) {
+                renderer.drawRect(this.getX(), y, 0.1, 1, Color.RED);
+            }
+        }
     }
 
     @Override
@@ -102,9 +119,13 @@ public class Bomb extends Entity{
             }
 
         }
-        
+
         if (fuze){
             activateBomb();
+        }
+
+        if ((this.bombStart - 2.99 >= Game.getInstance().getTime())){
+            explosion = true;
         }
 }
 }
