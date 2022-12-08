@@ -11,13 +11,14 @@ public class SavedStateManager {
         fileManager = new FileManager();
     }
 
-    public void createState(String levelTitle, String username, ArrayList<Entity> entities, int score, double time){
+    public void createState(String levelTitle, String username, ArrayList<Entity> entities, int score, double time, int levelIndex){
         ArrayList<String> data = new ArrayList<String>();
 
         data.add(levelTitle);
         data.add(username);
         data.add(String.valueOf(score));
         data.add(String.valueOf(time));
+        data.add(String.valueOf(levelIndex));
 
         for(Entity entity : entities){
             if(!(entity instanceof Tile)){
@@ -42,11 +43,11 @@ public class SavedStateManager {
             double time = Double.parseDouble(data.get(3));
 
             ArrayList<Entity> entities = new ArrayList<Entity>();
-            for (String entityString : data.subList(4, data.size())) {
+            for (String entityString : data.subList(5, data.size())) {
                 entities.add(level.parseEntity(entityString.split(" ")));
             }
 
-            SavedState savedState = new SavedState(level.getTitle(), entities, score, time, LocalDateTime.now());
+            SavedState savedState = new SavedState(level.getTitle(), entities, score, time, LocalDateTime.now(), level.getIndex());
             savedStates.add(savedState);
         }
         return savedStates;

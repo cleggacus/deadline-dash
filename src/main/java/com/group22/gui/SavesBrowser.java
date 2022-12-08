@@ -40,7 +40,7 @@ public class SavesBrowser extends MenuPane {
         }
         for (SavedState savedState : savedStates) {
             this.savesMenu.addButton(this.relativeTime.getTimeAgo(savedState.getTimeOfSave()),
-            () -> Game.getInstance().setState(savedState, level));
+            () -> Game.getInstance().setSavedState(savedState));
             this.savesMenu.addSmallPrint("Score: " + savedState.getScore());
             this.savesMenu.addSmallPrint("Time left: " + savedState.getTime());
         }

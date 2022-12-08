@@ -148,9 +148,6 @@ public class Game extends Engine {
         this.getGamePane().getPlaying().setGameScore(score);
     }
 
-    public void setState(SavedState savedState, Level level){
-
-    }
     @Override
     /**
      *  Sets the score to 0, sets the level to the one selected
@@ -184,8 +181,34 @@ public class Game extends Engine {
         ReplayPlayer replayPlayer =  new ReplayPlayer(player.getX(), player.getY(),  replay.getFrames());
         this.addEntity(replayPlayer);
         this.removeEntity(player);
-        
 
+    }
+    @Override
+    protected void startSavedState(SavedState savedState){
+        this.replaying = false;
+        System.out.println(savedState.getScore());
+        this.setScore(savedState.getScore());
+        Level currentLevel = this.levels.get(savedState.getLevelIndex());
+        this.level = currentLevel;
+
+        int width = currentLevel.getWidth();
+        int height = currentLevel.getHeight();
+
+        this.getGamePane().getFinish().setIsLastLevel(this.isLastLevel());
+        this.getGamePane().getPlaying().setGameLevel(currentLevel.getTitle());
+
+        this.tiles = currentLevel.getTiles();
+        this.time = savedState.getTime();
+        this.timeElapsed = savedState.getTime();
+        this.framesElapsed = 0;
+
+        this.setViewSize(width, height);
+
+        try {
+            this.addEntities(savedState.getEntities());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -345,6 +368,6 @@ public class Game extends Engine {
 
     public void saveState() {
         SavedStateManager stateManager = new SavedStateManager();
-        stateManager.createState(getLevel().getTitle(), getUsername(), getEntities(), score, time);
+        stateManager.createState(getLevel().getTitle(), getUsername(), getEntities(), score, time, getLevel().getIndex());
     }
 }

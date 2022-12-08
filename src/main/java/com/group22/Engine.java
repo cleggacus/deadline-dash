@@ -154,6 +154,13 @@ public abstract class Engine {
         this.gamePane.setState(gameState);
 
     }
+
+    public void setSavedState(SavedState savedState){
+        this.entities.clear();
+        this.startSavedState(savedState);
+        this.gamePane.setState(GameState.Playing);
+
+    }
     
     /** 
      * Creates a scene containing a game pane.
@@ -288,8 +295,9 @@ public abstract class Engine {
      */
     protected abstract void start();
 
-
     protected abstract void startReplay(Replay replay, int i);
+
+    protected abstract void startSavedState(SavedState savedState);
 
     /**
      * Gets the current GamePane GUI element.
