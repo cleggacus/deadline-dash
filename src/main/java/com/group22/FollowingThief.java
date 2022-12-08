@@ -1,6 +1,6 @@
 package com.group22;
 
-import java.util.ArrayList;
+
 
 /** 
  * 
@@ -31,8 +31,9 @@ public class FollowingThief extends LandMover {
         return pathColor;
     }
 
-    public void nextMove(){
-         if (movingDirection.equals("right")) {
+     
+    public void ifRight() {
+        if (movingDirection.equals("right")) {
             if ((hasNextUp() && clockwise) || ((!hasNextRight() && hasNextUp() && !clockwise))) {
                 this.move(0,-1, TransitionType.Bob);
                 if(!clockwise){
@@ -53,8 +54,9 @@ public class FollowingThief extends LandMover {
             }
             return;
         } 
+    }
 
-
+    public void ifLeft() {
         if (movingDirection.equals("left")) {
             if ((hasNextDown() && clockwise) || ((!hasNextLeft() && hasNextDown() && !clockwise))) {
                 this.move(0,1, TransitionType.Bob);
@@ -76,7 +78,9 @@ public class FollowingThief extends LandMover {
             }
             return;
         }
+    }
 
+    public void ifUp() {
         if (movingDirection.equals("up")) {
             if ((hasNextLeft() && clockwise) || ((!hasNextUp() && hasNextLeft() && !clockwise))) {
                 this.move(-1,0, TransitionType.Bob);
@@ -98,7 +102,9 @@ public class FollowingThief extends LandMover {
             }
             return;
         }
+    }
 
+    public void ifDown() {
         if (movingDirection.equals("down")) {
             if ((hasNextRight() && clockwise) || (!hasNextDown() && hasNextRight() && !clockwise)) {
                 this.move(1,0, TransitionType.Bob);
@@ -119,8 +125,7 @@ public class FollowingThief extends LandMover {
                 movingDirection = "up";
             }
             return;
-        }  
-          
+        }
     }
 
     public Boolean hasNextUp(){
@@ -146,13 +151,13 @@ public class FollowingThief extends LandMover {
 
     @Override
     protected void updateMovement() {
-        nextMove();
+        ifRight();
+        ifLeft();
+        ifUp();
+        ifDown();
     }
 
     @Override
-    protected void update() {
-        // TODO Auto-generated method stub
-        
-    }
+    protected void update() {}
     
 }
