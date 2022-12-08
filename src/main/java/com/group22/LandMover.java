@@ -13,7 +13,7 @@ public abstract class LandMover extends Entity {
     @SuppressWarnings("unchecked")
     private static final Class<? extends Entity>[] COLLIDERS = new Class[] {
         LandMover.class,  
-        Bomb.class,  
+        Bomb.class,
         Gate.class
     };
 
@@ -82,12 +82,12 @@ public abstract class LandMover extends Entity {
             ArrayList<? extends Entity> entities = Game.getInstance().getEntities(entityClass);
 
             for(Entity entity : entities){
-                if(x ==  entity.getX() && y == entity.getY()){
+                if(entity instanceof Gate && ((Gate) entity).getGateIsOpen()){
+                } else if (x ==  entity.getX() && y == entity.getY()){
                     return true;
                 }
             }
         }
-
         return false;
     }
 

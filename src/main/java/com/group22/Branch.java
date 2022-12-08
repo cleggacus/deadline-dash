@@ -324,12 +324,12 @@ public class Branch {
             = Game.getInstance().getEntities(entityClass);
 
             for(Entity entity : entities){
-                if(x ==  entity.getX() && y == entity.getY()){
+                if(entity instanceof Gate && ((Gate) entity).getGateIsOpen()){
+                } else if(x ==  entity.getX() && y == entity.getY()){
                     return true;
                 }
+                }
             }
-        }
-
         return false;
     }
 }
