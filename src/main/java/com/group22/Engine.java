@@ -35,6 +35,7 @@ public abstract class Engine {
     private double delta = 0;
     /** Time when the last frame updated in nanoseconds. */
     private long lastTime = 0;
+    private KeyCode keyReleased;
 
     /**
      * Creates a new Engine.
@@ -134,6 +135,25 @@ public abstract class Engine {
 
         this.gamePane.setState(gameState);
     }
+
+    public void setReplay(GameState gameState, Replay replay, int levelIndex){
+        GameState currentGameState = this.gamePane.getCurrentState();
+
+        if(gameState == currentGameState)
+            return;
+
+        boolean restart = 
+            currentGameState != GameState.Paused && 
+            gameState == GameState.Playing;
+
+        if(restart) {
+            this.entities.clear();
+            this.startReplay(replay, levelIndex);
+        }
+
+        this.gamePane.setState(gameState);
+
+    }
     
     /** 
      * Creates a scene containing a game pane.
@@ -174,6 +194,13 @@ public abstract class Engine {
         return this.keyboardManager.getKeyState(keyCode);
     }
 
+    public KeyCode getLastKeyReleased(){
+        return this.keyboardManager.getLastKeyReleased();
+    }
+
+    public void resetLastKeyReleased(){
+        this.keyboardManager.resetLastKeyReleased();
+    }
     
     /** 
      * Checks if the key is being pressed down on the frame which the method is called.
@@ -260,6 +287,9 @@ public abstract class Engine {
      * THe start method is called when the game is put into the Playing state from either Start or GameOver.
      */
     protected abstract void start();
+
+
+    protected abstract void startReplay(Replay replay, int i);
 
     /**
      * Gets the current GamePane GUI element.

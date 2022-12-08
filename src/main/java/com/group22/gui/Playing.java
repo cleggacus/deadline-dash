@@ -1,8 +1,8 @@
 package com.group22.gui;
 
-import java.text.DecimalFormat;
-
 import com.group22.TimeUtil;
+
+import java.text.DecimalFormat;
 
 import javafx.geometry.Insets;
 import javafx.scene.CacheHint;
@@ -13,9 +13,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 
 public class Playing extends StackPane {
     private Label timeLabel;

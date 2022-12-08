@@ -23,45 +23,7 @@ public class FlyingAssassin extends Entity {
         this.moveByX = isVertical ? 0 : 1;
         this.moveByY = isVertical ? 1 : 0;
     }
-
-    /** 
-     * Gives the class the path to follow
-     * 
-     * @param vector
-     *      The direction which the class will move along
-     * 
-     * @param x
-     *      The starting x coordinate
-     *
-     * @param y
-     *       The starting y coordinate
-     *
-     */
-
-     public void move(int x, int y, int[][] vector) {
-
-            // starts at X,Y
-            // moves along vector in straight line
-
-
-     }
-
-    /**
-    * Reverse the direction the FlyingAssassin is moving
-    *
-    * @param vector
-    *      The new direction which the class will move along
-     */ 
-
-    public void reverseVector(int[][] vector) {
-
-        // if flyingAssassin reaches end of map
-        // then direction will change 180 degrees
-
-        // when flyingAssassin is not in bounds
-        //    flyingAssassin rotates 180 degrees
-
-    }
+    
 
     @Override
     protected void updateMovement() {

@@ -1,9 +1,15 @@
 package com.group22;
 
+import java.util.ArrayList;
+
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.effect.Blend;
+import javafx.scene.effect.BlendMode;
+import javafx.scene.effect.Effect;
 import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
+import javafx.scene.effect.Light.Point;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
@@ -20,6 +26,8 @@ import javafx.stage.Screen;
 public class Renderer {
     private static final double DEFAULT_WIDTH = 15;
     private static final double DEFAULT_HEIGHT = 10;
+
+    private ArrayList<Lighting> effects = new ArrayList<>();
 
     private double viewWidth = DEFAULT_WIDTH;
     private double viewHeight = DEFAULT_HEIGHT;
@@ -183,12 +191,11 @@ public class Renderer {
         this.graphicsContext.setGlobalAlpha(1);
     }
 
-    public void removeLight() {
-        Canvas canvas = graphicsContext.getCanvas();
-        canvas.setEffect(null);
+    public void setLightPosition(double x, double y, double amount) {
+        setLightPosition(x, y, amount, Color.rgb(255, 190, 158, 1));
     }
 
-    public void setLightPosition(double x, double y, double amount) {
+    public void setLightPosition(double x, double y, double amount, Color color) {
         Screen screen = Screen.getPrimary();
         double scaleX = screen.getOutputScaleX();
         double scaleY = screen.getOutputScaleY();
@@ -205,13 +212,12 @@ public class Renderer {
         light.setX(x);
         light.setY(y);
         light.setZ(amount * 0.2 * Math.sqrt(scaleX * canvas.getWidth() * canvas.getHeight()));
-        light.setColor(Color.rgb(255, 190, 158, 0.5));
+        light.setColor(color);
 
         Lighting lighting = new Lighting();
         lighting.setLight(light);
-        lighting.setSurfaceScale(5.0);
 
-        canvas.setEffect(lighting);
+        effects.add(lighting);
     }
 
     /**
@@ -230,6 +236,32 @@ public class Renderer {
 
         this.getViewInfo();
         this.drawOutline();
+
+
+        if(effects.size() > 0) {
+            Lighting brightest = effects.get(0);
+
+            for(Lighting lighting : effects) {
+                if(((Point)lighting.getLight()).getZ() > ((Point)brightest.getLight()).getZ()) {
+                    brightest = lighting;
+                }
+            }
+
+            // brightest.setSpecularExponent(10);
+
+            Effect blend = this.effects.get(0);
+
+            for(int i = 1; i < effects.size(); i++) {
+                blend = new Blend(
+                    BlendMode.ADD,
+                    blend, 
+                    this.effects.get(i));
+            }
+
+            canvas.setEffect(blend);
+        }
+
+        this.effects.clear();
     }
 
     private void drawOutline() {

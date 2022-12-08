@@ -1,7 +1,5 @@
 package com.group22.gui;
 
-import java.util.List;
-
 import com.group22.GameState;
 import com.group22.MOTD;
 import com.group22.gui.base.MenuPane;

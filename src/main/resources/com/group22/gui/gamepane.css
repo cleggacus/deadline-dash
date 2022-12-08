@@ -23,6 +23,7 @@
 
 .game-pane .image-list .footer {
     -fx-cursor: hand;
+    -fx-padding: 10 0 0 0;
 }
 
 .game-pane .image-list .footer .label {

@@ -53,10 +53,14 @@ public class Player extends LandMover {
     }
     
     public void isAtDoor(){
-        ArrayList<PickUp> pickups = Game.getInstance().getEntities(PickUp.class);
-        if(pickups.isEmpty() && this.getX() == Game.getInstance().getDoor().getX()
+        ArrayList<PickUp> pickups
+        = new ArrayList<>(Game.getInstance().getEntities(Loot.class));
+        pickups.addAll(Game.getInstance().getEntities(Lever.class));
+        if(pickups.isEmpty()
+        && this.getX() == Game.getInstance().getDoor().getX()
         && this.getY() == Game.getInstance().getDoor().getY()){
-            Game.getInstance().incrementScore((int) Game.getInstance().getTime() * 10);
+            Game.getInstance().incrementScore
+            ((int) Game.getInstance().getTime() * 10);
             Game.getInstance().setLevelFinish();
         }
     }
@@ -64,6 +68,7 @@ public class Player extends LandMover {
     @Override
     protected void updateMovement() {
         this.getSprite().setImageSet("idle");
+        double keyTime = Game.getInstance().getTimeElapsed();
 
         isAtDoor();
         if(this.lastDown == null)
@@ -71,17 +76,22 @@ public class Player extends LandMover {
 
         if(this.lastDown == KeyCode.W) {
             this.getSprite().setImageSet("up");
+            keyTime = Game.getInstance().getTimeElapsed();
             move(0, -1);
         } else if(lastDown == KeyCode.S) {
             this.getSprite().setImageSet("down");
+            keyTime = Game.getInstance().getTimeElapsed();
             move(0, 1);
         } else if(lastDown == KeyCode.A) {
             this.getSprite().setImageSet("left");
+            keyTime = Game.getInstance().getTimeElapsed();
             move(-1, 0);
         } else if(lastDown == KeyCode.D) {
             this.getSprite().setImageSet("right");
+            keyTime = Game.getInstance().getTimeElapsed();
             move(1, 0);
         }
+        Game.getInstance().newReplayFrame(this.getX(), this.getY(), keyTime);
 
         ArrayList<Door> doors = Game.getInstance().getEntities(Door.class);
         ArrayList<PickUp> pickUps = Game.getInstance().getEntities(PickUp.class);
@@ -122,9 +132,12 @@ public class Player extends LandMover {
             lastDown = Game.getInstance().getLastKeyDown(KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D);
         }
 
-        if(torch)
-            Game.getInstance().getRenderer().setLightPosition(getDrawX(), getDrawY(), 0.25);
-        else
-            Game.getInstance().getRenderer().removeLight();
+        if(torch) {
+            Game.getInstance().getRenderer().setLightPosition(getDrawX(), getDrawY(), 0.15);
+        }
+        if(Game.getInstance().getLastKeyReleased() != null){
+            Game.getInstance().resetLastKeyReleased();
+        }
+
     }
 }

@@ -6,6 +6,7 @@ import com.group22.Game;
 import com.group22.GameState;
 import com.group22.Level;
 import com.group22.Profile;
+import com.group22.ReplayManager;
 import com.group22.gui.base.ImageList;
 import com.group22.gui.base.MenuPane;
 
@@ -17,10 +18,12 @@ public class LevelSelector extends MenuPane {
     private ImageList imageList;
     private Profile currentProfile;
     private GamePane gamePane;
+    private ReplayManager replayManager;
 
     public LevelSelector(GamePane gamePane) {
         this.gamePane = gamePane;
         this.imageList = new ImageList();
+        this.replayManager = new ReplayManager();
 
         this.addH1("LEVELS");
 
@@ -65,7 +68,7 @@ public class LevelSelector extends MenuPane {
 
     public void addLevel(Level level) {
         int i = this.imageList.getLength();
-        int l = this.currentProfile.getMaxUnlockedLevelIndex();
+        int l = this.currentProfile.getMaxUnlockedLevelIndex() + 1;
         String path = "thumb/" + level.getTitle().toLowerCase().replace(" ", "_") + ".png";
 
         if(i < l){ //unlocked
@@ -73,9 +76,9 @@ public class LevelSelector extends MenuPane {
                 level.getTitle(),
                 getClass().getResource(path).toString(),
                 () -> Game.getInstance().startFromLevel(i),
-                "🎓",
-                () -> {this.gamePane.getScoresBrowser().setLevel(level.toString(), level.getHighscores());
-                    this.gamePane.setState(GameState.ScoresBrowser);
+                "🔁",
+                () -> {this.gamePane.getReplaysBrowser().setReplays(replayManager.getReplaysFromLevelTitle(level.getTitle()), level.getTitle(), i);
+                    this.gamePane.setState(GameState.ReplaysBrowser);
                 }
             );
 
@@ -86,9 +89,10 @@ public class LevelSelector extends MenuPane {
                 () -> {
                     lockNotify = i;
                 },
-                "🎓",
-                () -> this.gamePane.getScoresBrowser().setLevel(level.toString(), level.getHighscores())
-            );
+                "🔁",
+                () -> {this.gamePane.getReplaysBrowser().setReplays(level.getReplays(), level.getTitle(), i);
+                    this.gamePane.setState(GameState.ScoresBrowser);}
+                    );
         }
     }
 }

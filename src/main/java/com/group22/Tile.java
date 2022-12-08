@@ -1,6 +1,8 @@
 package com.group22;
 
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Objects;
+
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.PixelWriter;
@@ -17,9 +19,55 @@ import javafx.scene.paint.Color;
  * @version 1.0
  */
 public class Tile extends Entity {
-    private static Image[] tileSprites;
+    private static final TileColor DEFAULT_TILE_COLOR = TileColor.BLUE;
 
-    private TileColor[] tileLayout = new TileColor[4];
+    private static Image[] tileSprites;
+    private static HashMap<TileLayout, Image> cachedSprites = new HashMap<>();
+
+    private TileLayout tileLayout = new TileLayout();
+
+    public class TileLayout {
+        public TileColor topLeft = DEFAULT_TILE_COLOR;
+        public TileColor topRight = DEFAULT_TILE_COLOR;
+        public TileColor bottomLeft = DEFAULT_TILE_COLOR;
+        public TileColor bottomRight = DEFAULT_TILE_COLOR;
+
+        public void setValues(TileColor topLeft, TileColor topRight, TileColor bottomLeft, TileColor bottomRight) {
+            this.topLeft = topLeft == null ? DEFAULT_TILE_COLOR : topLeft;
+            this.topRight = topRight == null ? DEFAULT_TILE_COLOR : topRight;
+            this.bottomLeft = bottomLeft == null ? DEFAULT_TILE_COLOR : bottomLeft;
+            this.bottomRight = bottomRight == null ? DEFAULT_TILE_COLOR : bottomRight;
+        }
+
+        public boolean matches(TileLayout tileLayout) {
+            char[] arr1 = this.toString().toCharArray();
+            char[] arr2 = tileLayout.toString().toCharArray();
+
+            for(char c1 : arr1) {
+                for(char c2 : arr2) {
+                    if(c1 == c2) {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(topLeft, topRight, bottomLeft, bottomRight);
+        }
+
+        @Override
+        public String toString() {
+            return 
+                topLeft.toString() + 
+                topRight.toString() +
+                bottomLeft.toString() +
+                bottomRight.toString();
+        }
+    }
 
     /**
      * Creates a tile based on its position and colors.
@@ -55,7 +103,6 @@ public class Tile extends Entity {
         if(tileSprites == null)
             loadTileSprites();
 
-        Arrays.fill(tileLayout, TileColor.BLUE);
         renderTileImage();
     }
 
@@ -70,35 +117,16 @@ public class Tile extends Entity {
         if(colors.length() != 4)
             return;
 
-        for(int i = 0; i < 4; i++) {
-            TileColor tileColor = TileColor.getFromLabel(colors.charAt(i));
-            this.tileLayout[i] = tileColor == null ? TileColor.BLUE : tileColor;
-        }
+        this.tileLayout.setValues(
+            TileColor.getFromLabel(colors.charAt(0)),
+            TileColor.getFromLabel(colors.charAt(1)),
+            TileColor.getFromLabel(colors.charAt(2)),
+            TileColor.getFromLabel(colors.charAt(3))
+        );
 
         renderTileImage();
     }
 
-    
-    /** 
-     * Sets the tile layout to the provided tile colors and renders a sprite images correspondingly. 
-     * 
-     * @param tl 
-        *  Top left TileColor
-     * @param tr 
-     *      Top right TileColor
-     * @param bl 
-     *      Bottom left TileColor
-     * @param br 
-     *      Bottom rigtht TileColor
-     */
-    public void setTileLayout(TileColor tl, TileColor tr, TileColor bl, TileColor br) {
-        this.tileLayout[0] = tl;
-        this.tileLayout[1] = tr;
-        this.tileLayout[2] = bl;
-        this.tileLayout[3] = br;
-
-        renderTileImage();
-    }
 
     /**
      * Checks if theres a color in other thats in this.
@@ -110,25 +138,15 @@ public class Tile extends Entity {
      *      Weather there is a common color.
      */
     public boolean colorMatch(Tile other) {
-        for(TileColor color1 : this.tileLayout) {
-            for(TileColor color2 : other.tileLayout) {
-                if(color1 == color2) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
+        return this.tileLayout.matches(other.tileLayout);
     }
 
-    public boolean colorMatch(Tile other, TileColor pathColor) {
-        for(TileColor color2 : other.tileLayout) {
-            if(pathColor == color2) {
-                return true;
-            }
-        }
-
-        return false;
+    public boolean hasColor(TileColor tileColor) {
+        return 
+            this.tileLayout.topLeft == tileColor ||
+            this.tileLayout.topRight == tileColor ||
+            this.tileLayout.bottomLeft == tileColor ||
+            this.tileLayout.bottomRight == tileColor;
     }
 
     /**
@@ -149,6 +167,13 @@ public class Tile extends Entity {
      * 
      */
     private void renderTileImage() {
+        Image cachedImage = Tile.cachedSprites.get(this.tileLayout);
+
+        if(cachedImage != null) {
+            this.getSprite().setImage(cachedImage);
+            return;
+        }
+
         Image sprite = getTileSprite();
         PixelReader pixelReader = sprite.getPixelReader();
         WritableImage writableImage = new WritableImage((int)sprite.getWidth(), (int)sprite.getHeight());
@@ -161,8 +186,8 @@ public class Tile extends Entity {
 
                 TileColor c = 
                     top ? (
-                        left ? tileLayout[0] : tileLayout[1]
-                    ) : left ? tileLayout[2] : tileLayout[3];
+                        left ? tileLayout.topLeft : tileLayout.topRight
+                    ) : left ? tileLayout.bottomLeft : tileLayout.bottomRight;
 
                 Color color = pixelReader.getColor(x, y);
 
@@ -178,6 +203,8 @@ public class Tile extends Entity {
         }
 
         this.getSprite().setImage(writableImage);
+
+        Tile.cachedSprites.put(this.tileLayout, writableImage);
     }
 
     
@@ -236,9 +263,9 @@ public class Tile extends Entity {
      */
     private void loadTileSprites() {
         tileSprites = new Image[] {
-            new Image(getClass().getResource("/com/group22/tile0.png").toString()),
-            new Image(getClass().getResource("/com/group22/tile1.png").toString()),
-            new Image(getClass().getResource("/com/group22/tile2.png").toString())
+            Sprite.imageFromPath("tile0.png"),
+            Sprite.imageFromPath("tile1.png"),
+            Sprite.imageFromPath("tile2.png")
         };
     }
 }

@@ -20,6 +20,11 @@ public class Game extends Engine {
     private int currentLevelIndex;
     private LevelLoader levelLoader;
     private Level level;
+    private Profile profile;
+    private double timeElapsed;
+    private Replay replay;
+    private int framesElapsed;
+    private boolean replaying;
 
     private static Game instance;
 
@@ -47,8 +52,12 @@ public class Game extends Engine {
 
         return Game.instance;
     }
+    
+    public void newReplayFrame(int x, int y, double keyTime){
+        ReplayFrame frame = new ReplayFrame(x, y, keyTime);
+        this.replay.storeFrame(frame);
 
-
+    }
 
     public Entity getPlayer() {
         // Returning the player entity.
@@ -68,8 +77,8 @@ public class Game extends Engine {
         return this.tiles[x1][y1].colorMatch(this.tiles[x2][y2]);
     }
 
-    public boolean colorMatch(int x1, int y1, int x2, int y2, TileColor pathColor){
-        return this.tiles[x1][y1].colorMatch(this.tiles[x2][y2], pathColor);
+    public boolean tileHasColor(int x, int y, TileColor color) {
+        return this.tiles[x][y].hasColor(color);
     }
 
     /**
@@ -104,6 +113,14 @@ public class Game extends Engine {
      * 
      * @return The door entity.
      */
+    public double getTimeElapsed() {
+        return timeElapsed;
+    }
+
+    public int getFramesElapsed() {
+        return framesElapsed;
+    }
+
     public Entity getDoor() {
         for(Entity entity : this.entities){
             if(entity instanceof Door){
@@ -119,6 +136,10 @@ public class Game extends Engine {
      * 
      * @param amount The amount to increment the score by.
      */
+    public Level getLevel() {
+        return this.level;
+    }
+
     public void incrementScore(int amount) {
         this.setScore(this.score + amount);
     }
@@ -139,10 +160,11 @@ public class Game extends Engine {
      *  sets the width and height, sets the time, and
      *  adds the entities.
      */
-    protected void start() {
+    protected void startReplay(Replay replay, int levelIndex) {
+        this.replaying = true;
         this.setScore(0);
 
-        Level currentLevel = this.levels.get(this.currentLevelIndex);
+        Level currentLevel = this.levels.get(levelIndex);
         this.level = currentLevel;
 
         int width = currentLevel.getWidth();
@@ -152,14 +174,51 @@ public class Game extends Engine {
 
         this.tiles = currentLevel.getTiles();
         this.time = currentLevel.getTimeToComplete();
+        this.timeElapsed = 0;
+        this.framesElapsed = 0;
+
+        this.setViewSize(width, height);
+        try {
+            this.addEntities(currentLevel.createEntities());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        Player player = this.level.getPlayerFromEntities(this.entities);
+        ReplayPlayer replayPlayer =  new ReplayPlayer(player.getX(), player.getY(),  replay.getFrames());
+        this.addEntity(replayPlayer);
+        this.removeEntity(player);
+        
+
+    }
+
+    @Override
+    protected void start() {
+        this.replaying = false;
+
+        this.setScore(0);
+
+        Level currentLevel = this.levels.get(this.currentLevelIndex);
+        this.level = currentLevel;
+
+        int width = currentLevel.getWidth();
+        int height = currentLevel.getHeight();
+
+        this.getGamePane().getFinish().setIsLastLevel(this.isLastLevel());
+        this.getGamePane().getPlaying().setGameLevel(currentLevel.getTitle());
+
+        this.tiles = currentLevel.getTiles();
+        this.time = currentLevel.getTimeToComplete();
+        this.timeElapsed = 0;
+        this.framesElapsed = 0;
 
         this.setViewSize(width, height);
 
         try {
             this.addEntities(currentLevel.createEntities());
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
+        this.replay = new Replay(this.level.getTitle(), this.getUsername());
     }
 
     public void setGameOver(){
@@ -167,8 +226,15 @@ public class Game extends Engine {
         this.setGameState(GameState.GameOver);
     }
 
+    public void setReplayOver(){
+        this.getGamePane().getReplayOver().setStats(replay.getScore(), this.time);
+        this.setGameState(GameState.ReplayOver);
+    }
+
     public void setLevelFinish(){
         this.getGamePane().getFinish().setStats(this.score, this.time);
+        this.level.completeLevel(this.profile, replay, score);
+        this.setProfile(this.getProfile());
         this.setGameState(GameState.LevelComplete);
     }
 
@@ -180,7 +246,8 @@ public class Game extends Engine {
         updateTime();
         this.getGamePane().getPlaying().setGameScore(this.score);
         if(this.level.getPlayerFromEntities(this.getEntities()) == null){
-            this.setGameOver();
+            if(!this.replaying)
+                this.setGameOver();
         }
     }
 
@@ -191,6 +258,8 @@ public class Game extends Engine {
      */
     private void updateTime() {
         this.time -= this.getDelta();
+        this.timeElapsed += this.getDelta();
+        this.framesElapsed += 1;
 
         if(this.time <= 0) {
             this.time = 0;
@@ -210,6 +279,15 @@ public class Game extends Engine {
     public void startFromLevel(int level){
         this.currentLevelIndex = level;
         this.setGameState(GameState.Playing);
+    }
+
+    public void startFromNextLevel() {
+        this.currentLevelIndex++;
+        this.setGameState(GameState.Playing);
+    }
+
+    public boolean isLastLevel() {
+        return this.currentLevelIndex >= this.levels.size() - 1;
     }
 
     private void onInitialized() {
@@ -240,18 +318,15 @@ public class Game extends Engine {
             }
         });
 
-        this.getGamePane().getProfileSelector().setOnProfileRemoved(profile -> {
+        this.getGamePane().getProfileSelector().setOnProfileRemoved(username -> {
             Profile deleteProfile = new Profile();
-            deleteProfile.delete(profile);
+            deleteProfile.delete(username);
         });
 
-        this.getGamePane().getProfileSelector().setOnProfileSelectEvent(profile -> {
+        this.getGamePane().getProfileSelector().setOnProfileSelectEvent(username -> {
             checkProfiles.loadAllProfiles();
-
-            this.getGamePane().getLevelSelector().clearLevels();
-            this.getGamePane().getLevelSelector().setProfile(checkProfiles.getFromName(profile));
-            this.getGamePane().getStartMenu().setUsername(profile);
-            this.setUpLeveles();
+            Profile profile = checkProfiles.getFromName(username);
+            this.setProfile(profile);
         });
 
         List<Profile> profiles = checkProfiles.getAllProfiles();
@@ -259,5 +334,17 @@ public class Game extends Engine {
         for(Profile profile : profiles) {
             this.getGamePane().getProfileSelector().addProfile(profile.getName());
         }
+    }
+
+    private void setProfile(Profile profile) {
+        this.profile = profile;
+        this.getGamePane().getLevelSelector().clearLevels();
+        this.getGamePane().getLevelSelector().setProfile(profile);
+        this.getGamePane().getStartMenu().setUsername(profile.getName());
+        this.setUpLeveles();
+    }
+
+    public Profile getProfile(){
+        return this.profile;
     }
 }

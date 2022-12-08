@@ -1,5 +1,6 @@
 package com.group22;
 
+import java.util.ArrayList;
 
 /** 
  * 
@@ -10,26 +11,16 @@ package com.group22;
 
 
 public class FollowingThief extends LandMover {
-
-    public int startX;
-    public int startY;
     public TileColor pathColor;
-    private String loopDirection = "clockwise";
-    private String checkDirection;
-    private int[] moveCoords = new int[2];
+    private String movingDirection = "down";
+    private Boolean clockwise;
 
-    
-
-    public FollowingThief(int posX, int posY, TileColor color) {
+    public FollowingThief(int posX, int posY, TileColor color, Boolean clockwise) {
         super(posX, posY);
-        startX = posX;
-        startY = posY;
-        //nextMove();
+        this.clockwise = clockwise;
+        this.pathColor = color;        
         this.getSprite().setImage("NPC/FollowingThief.png");
-        this.getSprite().setAnimationSpeed(0.1);
-        this.setSpriteOffset(0, -0.3);
         this.moveEvery = 0.3;
-        
     }
 
     public void setPathColor(TileColor color){
@@ -40,66 +31,122 @@ public class FollowingThief extends LandMover {
         return pathColor;
     }
 
-// change tempX/Y to field not local. Work out why its breaking: "this.tiles is null"
     public void nextMove(){
-        if (loopDirection.equals("clockwise")) {
-            if (nextUp() != this.getY()) {
-                int tempY = nextUp();
-                int tempX = 0;
-                if (isMoveLegal(tempX, tempY)) {
-                    moveCoords[0] = tempX;
-                    moveCoords[1] = tempY;
-                    checkDirection = "left";
-                }  
-            } else if (nextRight() != this.getX()) {
-                int tempY = 0;
-                int tempX = nextRight();
-                if (isMoveLegal(tempX, tempY)) {
-                    moveCoords[0] = tempX;
-                    moveCoords[1] = tempY;
-                    checkDirection = "up";
+         if (movingDirection.equals("right")) {
+            if ((hasNextUp() && clockwise) || ((!hasNextRight() && hasNextUp() && !clockwise))) {
+                this.move(0,-1, TransitionType.Bob);
+                if(!clockwise){
+                    movingDirection = "up";
                 }
-            } else if (nextDown() != this.getY()) {
-                int tempY = nextDown();
-                int tempX = 0;
-                if (isMoveLegal(tempX, tempY)) {
-                    moveCoords[0] = tempX;
-                    moveCoords[1] = tempY;
-                    checkDirection = "right";
+            } else if ((hasNextDown() && !clockwise) || (!hasNextRight() && hasNextDown() && clockwise)) {
+                this.move(0,1, TransitionType.Bob);
+                if(clockwise){
+                    movingDirection = "down";
                 }
-            } else if (nextRight() != this.getX()) {
-                int tempY = 0;
-                int tempX = nextRight();
-                if (isMoveLegal(tempX, tempY)) {
-                    moveCoords[0] = tempX;
-                    moveCoords[1] = tempY;
-                    checkDirection = "down";
-                }
+            } else if (hasNextRight()) {
+                move(1,0, TransitionType.Bob);
+                movingDirection = "right";
+            } else {
+                clockwise = !clockwise;
+                move(-1,0, TransitionType.Bob);
+                movingDirection = "left";
             }
+            return;
+        } 
+
+
+        if (movingDirection.equals("left")) {
+            if ((hasNextDown() && clockwise) || ((!hasNextLeft() && hasNextDown() && !clockwise))) {
+                this.move(0,1, TransitionType.Bob);
+                if(!clockwise){
+                    movingDirection = "down";
+                }
+            } else if ((hasNextUp() && !clockwise) || (!hasNextLeft() && hasNextUp() && clockwise)) {
+                this.move(0,-1, TransitionType.Bob);
+                if(clockwise){
+                    movingDirection = "up";
+                }
+            } else if (hasNextLeft()) {
+                this.move(-1,0, TransitionType.Bob);
+                movingDirection = "left";
+            } else {
+                clockwise = !clockwise;
+                this.move(1,0, TransitionType.Bob);
+                movingDirection = "right";
+            }
+            return;
         }
+
+        if (movingDirection.equals("up")) {
+            if ((hasNextLeft() && clockwise) || ((!hasNextUp() && hasNextLeft() && !clockwise))) {
+                this.move(-1,0, TransitionType.Bob);
+                if(!clockwise){
+                    movingDirection = "left";
+                }
+            } else if ((hasNextRight() && !clockwise) || ((!hasNextUp() && hasNextRight() && clockwise))) {
+                this.move(1,0, TransitionType.Bob);
+                if(clockwise){
+                    movingDirection = "right";
+                }
+            } else if (hasNextUp()) {
+                this.move(0,-1, TransitionType.Bob);
+                movingDirection = "up";
+            } else {
+                clockwise = !clockwise;
+                this.move(0,1, TransitionType.Bob);
+                movingDirection = "down";
+            }
+            return;
+        }
+
+        if (movingDirection.equals("down")) {
+            if ((hasNextRight() && clockwise) || (!hasNextDown() && hasNextRight() && !clockwise)) {
+                this.move(1,0, TransitionType.Bob);
+                if(!clockwise){
+                    movingDirection = "right";
+                }
+            } else if ((hasNextLeft() && !clockwise) || (!hasNextDown() && hasNextLeft() && clockwise)) {
+                this.move(-1,0, TransitionType.Bob);
+                if(clockwise){
+                    movingDirection = "left";
+                }
+            } else if (hasNextDown()) {
+                this.move(0,1, TransitionType.Bob);
+                movingDirection = "down";
+            } else {
+                clockwise = !clockwise;
+                this.move(0,-1, TransitionType.Bob);
+                movingDirection = "up";
+            }
+            return;
+        }  
+          
     }
 
     public Boolean hasNextUp(){
-        return nextUp() != this.getY()&& Game.getInstance().colorMatch
-        (this.getX(), this.getY(), this.getX(), nextUp(), pathColor);
+        return nextUp() < this.getY() && !isBlocked(this.getX(), nextUp()) &&
+            Game.getInstance().tileHasColor(this.getX(), nextUp(), pathColor);
     }
-   
-    // /** 
-    //  * @param x
-    //  * @param y
-    //  * @param type
-    //  */
-    // @Override 
-    // protected void move(int x, int y, AnimationType type) {
-        
-    // }
 
-    
+    public Boolean hasNextDown(){
+        return nextDown() > this.getY() && !isBlocked(this.getX(), nextDown()) &&
+            Game.getInstance().tileHasColor(this.getX(), nextDown(), pathColor);
 
+    }
+
+    public Boolean hasNextLeft(){
+        return nextLeft() < this.getX() && !isBlocked(nextLeft(), this.getY()) &&
+            Game.getInstance().tileHasColor(nextLeft(), this.getY(), pathColor);
+    }
+
+    public Boolean hasNextRight(){
+        return nextRight() > this.getX() && !isBlocked(nextRight(), this.getY()) &&
+            Game.getInstance().tileHasColor(nextRight(), this.getY(), pathColor);
+    }
 
     @Override
     protected void updateMovement() {
-        this.move((int)Math.floor(Math.random()*3-1), 0, TransitionType.Bob);
+        nextMove();
     }
 
     @Override

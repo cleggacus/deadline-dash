@@ -249,7 +249,11 @@ public class SmartMover extends LandMover{
     }
 
     private void isAtDoor(){
-        if(this.getX() == Game.getInstance().getDoor().getX()
+        ArrayList<PickUp> pickups
+        = new ArrayList<>(Game.getInstance().getEntities(Loot.class));
+        pickups.addAll(Game.getInstance().getEntities(Lever.class));
+        if(pickups.isEmpty()
+        && this.getX() == Game.getInstance().getDoor().getX()
         && this.getY() == Game.getInstance().getDoor().getY()){
             Game.getInstance().setGameOver();
         }

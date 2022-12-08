@@ -9,12 +9,14 @@ public class GamePane extends StatePane<GameState> {
     // Panes
     private GameOver gameOver;
     private LevelComplete levelComplete;
+    private ReplayOver replayOver;
     private Paused paused;
     private Playing playing;
     private ProfileSelector profileSelector;
     private LevelSelector levelSelector;
     private StartMenu startMenu;
-    private ScoresBrowser scoresBrowser;
+    private ReplaysBrowser replaysBrowser;
+    private Credits credits;
 
     public GamePane() {
         // Set initial state
@@ -26,21 +28,25 @@ public class GamePane extends StatePane<GameState> {
         this.profileSelector = new ProfileSelector(this);
         this.startMenu = new StartMenu(this);
         this.levelSelector = new LevelSelector(this);
-        this.scoresBrowser = new ScoresBrowser(this);
+        this.replaysBrowser = new ReplaysBrowser(this);
+        this.replayOver = new ReplayOver(this);
         this.playing = new Playing(this);
         this.paused = new Paused(this);
         this.gameOver = new GameOver(this);
         this.levelComplete = new LevelComplete(this);
+        this.credits = new Credits();
 
         // Add panes with there visible states
         this.addPane(this.profileSelector, GameState.ProfileSelector);
         this.addPane(this.startMenu, GameState.Start);
-        this.addPane(this.scoresBrowser, GameState.ScoresBrowser);
+        this.addPane(this.replaysBrowser, GameState.ReplaysBrowser);
+        this.addPane(this.replayOver, GameState.ReplayOver);
         this.addPane(this.levelSelector, GameState.LevelSelector);
         this.addPane(this.playing, GameState.Playing, GameState.Paused, GameState.GameOver);
         this.addPane(this.gameOver, GameState.GameOver);
         this.addPane(this.levelComplete, GameState.LevelComplete);
         this.addPane(this.paused, GameState.Paused);
+        this.addPane(this.credits, GameState.CREDITS);
     }
 
     @Override
@@ -79,8 +85,12 @@ public class GamePane extends StatePane<GameState> {
         return levelSelector;
     }
 
-    public ScoresBrowser getScoresBrowser() {
-        return scoresBrowser;
+    public ReplaysBrowser getReplaysBrowser() {
+        return replaysBrowser;
+    }
+
+    public ReplayOver getReplayOver(){
+        return replayOver;
     }
 
     public void update() {

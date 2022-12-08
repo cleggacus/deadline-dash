@@ -6,22 +6,33 @@ RRRR RRRR RRRR RRRR RRRR
 RRRR RRBB RRRR RRRR RRRR
 RRRR RRRR RRRR RRRR RRRR
 RRRR RRRR RRRR RRRR RRRR
-10
+26
 player 0 0
 door 0 1
-loot 1 1 200
-loot 0 2 100
+loot 0 2 50
+loot 0 3 50
+loot 0 4 50
+loot 1 0 50
+loot 1 1 50
+loot 1 2 50
+loot 1 3 50
+loot 1 4 50
+loot 2 0 50
 loot 2 1 50
+loot 2 2 50
+loot 2 3 50
+loot 2 4 50
+loot 3 0 50
+loot 3 1 50
+loot 3 2 50
 loot 3 3 50
-loot 2 4 100
+loot 3 4 50
+loot 4 0 50
 loot 4 1 50
-loot 4 4 200
-smartmover 2 2
-4
-farron 100 2022-12-02T19:00:36.026863400
-gary 90 2022-12-01T21:13:36.026863400
-oliver 50 2022-11-16T21:13:36.026863400
-liam 20 2022-11-27T21:13:36.026863400
+loot 4 2 50
+loot 4 3 50
+loot 4 4 50
+followingthief 2 2 R true
 -
 Farrons Office
 30
@@ -42,11 +53,6 @@ player 0 0
 flyingassassin 1 1 v
 flyingassassin 2 2 v
 flyingassassin 4 3 v
-4
-farron 100 2022-12-02T19:00:36.026863400
-gary 90 2022-12-01T21:13:36.026863400
-oliver 50 2022-11-16T21:13:36.026863400
-liam 20 2022-11-27T21:13:36.026863400
 -
 Test level 1
 45
@@ -69,7 +75,7 @@ loot 12 1 150
 loot 10 8 50
 door 1 1
 bomb 0 0 3
-followingthief 1 2
+followingthief 1 2 C true
 lever 13 4 B
 gate 10 4 B
 lever 14 4 R
@@ -77,11 +83,6 @@ gate 11 4 R
 player 2 1
 flyingassassin 5 5 v
 flyingassassin 5 5 h
-4
-farron 100 2022-12-02T19:00:36.026863400
-gary 90 2022-12-01T21:13:36.026863400
-oliver 50 2022-11-16T21:13:36.026863400
-liam 20 2022-11-27T21:13:36.026863400
 -
 Test Level 2
 120
@@ -95,7 +96,7 @@ YYYY CCCC CCCC CCCC RRRR CCCC CBCC RRRR BCCC CCCC GGGG CCCC CCCC CCCC YYYY
 CCBB YYBB CCBC CCCC CCCC CCCC CCCC RRGG CCCC CCCC CCCC CCCC CCCB MMBB CCBB
 BBBB BBBB BGBG CCCC GGGG CCCC GGGG MBBM GGGG CCCC GGGG CCCC GBGB BBBB BBBB
 YBBY BBBB BCBC GGGG CCCC GGGG CCCC GGGG CCCC GGGG CCCC GGGG CBCB BBBB YYYY
-15
+14
 door 7 4
 loot 3 0 200
 loot 11 0 150
@@ -107,18 +108,9 @@ bomb 6 8 3
 bomb 8 8 3
 bomb 6 0 3
 bomb 8 0 3
-followingthief 0 0
 player 1 1
 flyingassassin 0 0 h
 flyingassassin 14 8 h
-7
-farron 100 2022-12-02T19:00:36.026863400
-gary 90 2022-12-01T21:13:36.026863400
-oliver 50 2022-11-16T21:13:36.026863400
-liam 20 2022-11-27T21:13:36.026863400
-rhys 20 2022-11-27T21:13:36.026863400
-cellan 20 2022-11-27T21:13:36.026863400
-sam 20 2022-11-27T21:13:36.026863400
 -
 Test level 3
 10
@@ -132,9 +124,4 @@ MMRR RRRR RRRR RRBB RRRR RRMM
 clock 2 1 15
 door 1 2
 player 1 1
-4
-farron 100 2022-12-02T19:00:36.026863400
-gary 90 2022-12-01T21:13:36.026863400
-oliver 50 2022-11-16T21:13:36.026863400
-liam 20 2022-11-27T21:13:36.026863400
 -
