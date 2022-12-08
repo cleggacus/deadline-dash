@@ -26,7 +26,6 @@ public class Bomb extends Entity{
             12*3
         ));
         this.getSprite().setImage("item/farron/farron0.png");
-
     }
 
     public void detonateBomb() {
@@ -56,7 +55,6 @@ public class Bomb extends Entity{
                 Game.getInstance().removeEntity(entity);
             }
         }
-
     }
 
     public void activateBomb() {
@@ -72,7 +70,6 @@ public class Bomb extends Entity{
             detonateBomb();
         }
     }
-
 
     @Override
     protected void updateMovement() {
