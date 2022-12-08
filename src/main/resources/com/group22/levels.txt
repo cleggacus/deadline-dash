@@ -16,7 +16,7 @@ loot 3 3 50
 loot 2 4 100
 loot 4 1 50
 loot 4 4 200
-smartmover 2 2
+followingthief 2 2 R true
 -
 Farrons Office
 30
