@@ -124,7 +124,7 @@ public class Bomb extends Entity{
             activateBomb();
         }
 
-        if ((this.bombStart - 2.99 >= Game.getInstance().getTime())){
+        if ((this.bombStart - 2.9 >= Game.getInstance().getTime())){
             explosion = true;
         }
 }
