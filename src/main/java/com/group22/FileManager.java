@@ -45,7 +45,7 @@ public class FileManager {
     public void saveFile(ArrayList<String> dataArray, File file){
         try (FileWriter writer = new FileWriter(file, true)) {
 
-            for(String data : dataArray){
+            for (String data : dataArray){
                 writer.append(data + "\n");
             }
 

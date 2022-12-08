@@ -9,7 +9,7 @@ import java.util.List;
 
 public class ReplayManager {
     //private Level level;
-    private static final String replayFolder = "src/main/resources/com/group22/replays";
+    private static final String replayFolder = "src/main/resources/com/group22/replays/";
     private FileManager fileManager;
 
     public ReplayManager(){
@@ -27,16 +27,18 @@ public class ReplayManager {
         File[] matchingFiles = fileManager.getMatchingFiles(replayFolder, levelTitleForFilePath, ".txt");
         
         ArrayList<Replay> replays = new ArrayList<Replay>();
-        if(matchingFiles != null){
-            for(File file : matchingFiles){
+        if (matchingFiles != null){
+            for (File file : matchingFiles){
                 ArrayList<String> dataArray = this.fileManager.getDataFromFile(file);
     
                 String username = dataArray.get(1);
                 LocalDateTime timeOfSave = LocalDateTime.parse(dataArray.get(2));
                 int score = Integer.parseInt(dataArray.get(3));
     
-                ArrayList<ReplayFrame> replayFrames = parseFramesFromData(dataArray.subList(4, dataArray.size()));
-                Replay replay = new Replay(levelTitle, username, timeOfSave, replayFrames, score);
+                ArrayList<ReplayFrame> replayFrames = parseFramesFromData(
+                    dataArray.subList(4, dataArray.size()));
+                Replay replay = new Replay(levelTitle, username,
+                    timeOfSave, replayFrames, score);
                 replays.add(replay);
             }
             replays.sort((Replay r1, Replay r2) -> {
