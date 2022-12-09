@@ -10,6 +10,7 @@ public class Bomb extends Entity {
     private boolean fuze = false;
     private boolean explosion = false;
     private double time;
+    private double shakeTimer;
 
     /**
      * @param x the horizontal position of a bomb on the map
@@ -21,17 +22,24 @@ public class Bomb extends Entity {
         super(x, y);
         this.countdown = 3;
         this.time = 0;
+        this.shakeTimer = 0.1;
 
         this.getSprite().addImageSet("tick", Sprite.createImageFade(
                 "item/farron/farron0.png",
                 "item/farron/farron5.png",
                 12 * 3
         ));
+        this.getSprite().addImageSet("tick2", Sprite.createImageFade(
+                "item/farron/farron0.png",
+                "item/farron/farron4.png",
+                12 * 3
+        ));
         this.getSprite().setImage("item/farron/farron0.png");
+        this.getSprite().setImageSet("tick2");
     }
 
     private void updateTime() {
-        this.time -= Game.getInstance().getDelta();
+        this.time += Game.getInstance().getDelta();
     }
 
     public void detonationAnimation() {
@@ -44,14 +52,12 @@ public class Bomb extends Entity {
         }
     }
 
-    private void shake(){
-        double shakeAmountX = 0.05 * Math.sin(1.1 * this.countdown * Math.pow(this.time, 3));
-        double shakeAmountY = 0.05 * Math.sin(0.9 * this.countdown * Math.pow(this.time, 3));
+    private void shake(double timeshake){
+        double shakeAmountX = 0.05 * Math.sin(1.1 * timeshake * Math.pow(this.countdown, 3));
+        double shakeAmountY = 0.05 * Math.sin(0.9 * timeshake * Math.pow(this.countdown, 3));
 
         this.setSpriteOffset(shakeAmountX, shakeAmountY);
-        this.time += Game.getInstance().getDelta();
-        this.getSprite().setAnimationSpeed(this.countdown);
-        this.getSprite().setImageSet("tick");
+        this.getSprite().setAnimationSpeed(shakeTimer);
         this.getSprite().setAnimationType(AnimationType.SINGLE);
     }
 
@@ -128,10 +134,10 @@ public class Bomb extends Entity {
                     this.fuze = true;
                 }
             }
-
         }
  
         if (fuze) {
+            this.getSprite().setImageSet("tick");
             if(time >= countdown - 0.3){
                 detonationAnimation();
             }
@@ -140,14 +146,16 @@ public class Bomb extends Entity {
                 this.time = 3;
                 detonateBomb();
             }
-            this.shake();
+            this.shake(this.time);
+
             ArrayList<Bomb> bombs = new ArrayList<>(Game.getInstance().getEntities(Bomb.class));
 
             for (Bomb bomb : bombs) {
                 if (this.getX() == bomb.getX() || this.getY() == bomb.getY()) {
-                    bomb.shake();
+                    bomb.shake(this.time);
                 }
             }
+            
             updateTime();
         }
     }
