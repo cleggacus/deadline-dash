@@ -7,7 +7,7 @@ import java.util.concurrent.*;
 
 public class Bomb extends Entity {
 
-    private static final int FRAME_OFFSET = 20;
+    private static final int FRAME_OFFSET = 50;
     private double countdown;
     private double countUp = 0;
     private boolean fuze = false;
