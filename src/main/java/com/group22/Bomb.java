@@ -7,7 +7,7 @@ import java.util.concurrent.*;
 
 public class Bomb extends Entity{
 
-    private static final double COUNTDOWN = 3;
+    private static double countdown;
     private double countUp = 0;
     private boolean fuze = false;
     private boolean explosion = false;
@@ -23,8 +23,9 @@ public class Bomb extends Entity{
      * @param countdown the countdown timer of the bomb's detonation
      */
 
-    public Bomb(int x, int y) {
+    public Bomb(int x, int y, double c) {
         super(x, y);
+        this.countdown = c;
         scheduler
             = Executors.newScheduledThreadPool(4);
         this.getSprite().addImageSet("tick", Sprite.createImageFade(
@@ -38,34 +39,43 @@ public class Bomb extends Entity{
     public void countUp(){
         countUp += 0.250;
     }
+
+    public void detonationAnimation(){
+        ArrayList<Bomb> bombs = new ArrayList<>(Game.getInstance().getEntities(Bomb.class));
+
+        for(Bomb bomb : bombs){
+            if(this.getX() == bomb.getX() || this.getY() == bomb.getY()){
+                bomb.explosion = true;
+
+            }
+        }
+    }
     public void detonateBomb() {
-        ArrayList<Entity> allEntity = new ArrayList<>(Game.getInstance().getEntities(Bomb.class));
-        allEntity.addAll(Game.getInstance().getEntities(LandMover.class));
+        ArrayList<Entity> allEntity = new ArrayList<>(Game.getInstance().getEntities(LandMover.class));
+        allEntity.addAll(Game.getInstance().getEntities(Bomb.class));
         allEntity.addAll(Game.getInstance().getEntities(FlyingAssassin.class));
         allEntity.addAll(Game.getInstance().getEntities(PickUp.class));
 
         Game.getInstance().removeEntity(this);
 
         for(Entity entity : allEntity) {
-            if (entity.getX() == this.getX()){
-                if(entity instanceof Bomb){
-                    Bomb bomb = (Bomb) entity;
-                    bomb.countUp = COUNTDOWN;
-                    bomb.fuze = true;
-                } else {
-                    Game.getInstance().removeEntity(entity);
-                }
+            if (entity instanceof Bomb && entity.getDrawX() == this.getX()){
+                Bomb bomb = ((Bomb) entity);
+                bomb.fuze = true;
+                bomb.countUp = countdown;
+            }
+            else if (entity.getX() == this.getX()){
+                Game.getInstance().removeEntity(entity);
+            } else if (entity instanceof Bomb && entity.getY() == this.getY()){
+                Bomb bomb = ((Bomb) entity);
+                bomb.fuze = true;
+                bomb.countUp = countdown;
             } else if (entity.getY() == this.getY()){
-                if(entity instanceof Bomb){
-                    Bomb bomb = (Bomb) entity;
-                    bomb.countUp = COUNTDOWN;
-                    bomb.fuze = true;
-                } else {
-                    Game.getInstance().removeEntity(entity);
-                }
+                Game.getInstance().removeEntity(entity);
             }
         }
     }
+    
 
     @Override
     public String toString(){
@@ -112,21 +122,21 @@ public class Bomb extends Entity{
 
         }
 
-        if(COUNTDOWN - countUp < 0.5){
-            this.explosion = true;
+        if(this.countdown - countUp < 0.5){
+            detonationAnimation();
         }
-        if (countUp >= COUNTDOWN){
+        if (countUp >= this.countdown){
             scheduler.shutdown();
             detonateBomb();
         }
 
         if (fuze && !doneOnce){
             doneOnce = true;
-            double shakeAmountX = 0.05 * Math.sin(1.1 * COUNTDOWN * Math.pow(this.time, 3));
-            double shakeAmountY = 0.05 * Math.sin(0.9 * COUNTDOWN * Math.pow(this.time, 3));
+            double shakeAmountX = 0.05 * Math.sin(1.1 * this.countdown * Math.pow(this.time, 3));
+            double shakeAmountY = 0.05 * Math.sin(0.9 * this.countdown * Math.pow(this.time, 3));
             this.setSpriteOffset(shakeAmountX, shakeAmountY);
             this.time += Game.getInstance().getDelta();
-            this.getSprite().setAnimationSpeed(COUNTDOWN);
+            this.getSprite().setAnimationSpeed(this.countdown);
             this.getSprite().setImageSet("tick");
             this.getSprite().setAnimationType(AnimationType.SINGLE);
             for (int i = 12; i >= 0; i--) {
