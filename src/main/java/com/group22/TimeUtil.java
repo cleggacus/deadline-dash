@@ -6,10 +6,21 @@ import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * 
+ */
 public class TimeUtil {
 
+    /**
+     * 
+     */
     public TimeUtil(){}
 
+    
+    /** 
+     * @param pastTime
+     * @return String
+     */
     public String getTimeAgo(LocalDateTime pastTime) {
         Period dateBetween = Period.between(
             pastTime.toLocalDate(), LocalDateTime.now().toLocalDate());
@@ -46,7 +57,12 @@ public class TimeUtil {
         return "A few moments ago";
     }
 
-    public String getStringifiedTime(int seconds){
+    
+    /** 
+     * @param seconds
+     * @return String
+     */
+    public String getStringifiedTime(int seconds) {
         if (seconds >= 60) {
             long minute = TimeUnit.SECONDS.toMinutes(seconds);
             int secMinusMin = (int) (seconds - (60*minute));
@@ -60,11 +76,16 @@ public class TimeUtil {
         return seconds + (seconds == 1 ? " second" : " seconds");
     }
 
-    public String getLevelTimeLeft(double seconds){
+    
+    /** 
+     * @param seconds
+     * @return String
+     */
+    public String getLevelTimeLeft(double seconds) {
         final DecimalFormat df = new DecimalFormat("0.00");
-        if (seconds >= 60){
+        if (seconds >= 60) {
             long minute = TimeUnit.SECONDS.toMinutes((long) seconds);
-            int secMinusMin = (int) (seconds - (60*minute));
+            int secMinusMin = (int) (seconds - (60 * minute));
             return minute + "m " + secMinusMin + "s";  
         } else {
             return df.format(seconds) + "s";

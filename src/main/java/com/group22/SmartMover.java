@@ -11,7 +11,7 @@ import java.util.Random;
  * @author Lewis Meekings
  * @version 1.0
  */
-public class SmartMover extends LandMover{
+public class SmartMover extends LandMover {
 
     ArrayList<Integer> path = new ArrayList<>();
     /**
@@ -19,7 +19,7 @@ public class SmartMover extends LandMover{
      * @param posX The horizontal position of this entity
      * @param posY The vertical position of this entity
      */
-    public SmartMover(int posX, int posY){
+    public SmartMover(int posX, int posY) {
         super(posX, posY);
         this.getSprite().setImage("NPC/SmartMover.png");
         this.moveEvery = 0.45;
@@ -29,7 +29,7 @@ public class SmartMover extends LandMover{
      * Finds a path for this landmover. It does this using the branch class to
      * look for every possible path.
      */
-    protected void findPath(){
+    protected void findPath() {
         ArrayList<ArrayList<Integer>> paths = new ArrayList<>();
         path = new ArrayList<>();
         ArrayList<Integer> originPath = new ArrayList<>();
@@ -41,30 +41,30 @@ public class SmartMover extends LandMover{
         ArrayList<Branch> newBranches = new ArrayList<>();
         currentBranches.add(root);
 
-        while(!targetFound && !currentBranches.isEmpty()){
-            for(Branch branch : currentBranches){
-                if(branch.isTarget()){
+        while (!targetFound && !currentBranches.isEmpty()) {
+            for (Branch branch : currentBranches) {
+                if (branch.isTarget()) {
                     targetFound = true;
                 }
                 ArrayList<Branch> connections = new ArrayList<>();
-                Branch left
-                = new Branch(branch.getLeft(), branch.getY(), branch.getPath());
-                Branch right
-                = new Branch(branch.getRight(), branch.getY(), branch.getPath());
-                Branch up
-                = new Branch(branch.getX(), branch.getUp(), branch.getPath());
-                Branch down
-                = new Branch(branch.getX(), branch.getDown(), branch.getPath());
+                Branch left = new Branch(
+                    branch.getLeft(), branch.getY(), branch.getPath());
+                Branch right = new Branch(
+                    branch.getRight(), branch.getY(), branch.getPath());
+                Branch up = new Branch(
+                    branch.getX(), branch.getUp(), branch.getPath());
+                Branch down = new Branch(
+                    branch.getX(), branch.getDown(), branch.getPath());
                 connections.add(left);
                 connections.add(right);
                 connections.add(up);
                 connections.add(down);
 
-                for(Branch subBranch : connections){
-                    if(subBranch.isUniqueBranch()){
+                for (Branch subBranch : connections) {
+                    if (subBranch.isUniqueBranch()) {
                         newBranches.add(subBranch);
                         subBranch.addBranch(subBranch);
-                        if(subBranch.isTarget()){
+                        if (subBranch.isTarget()) {
                             targetFound = true;
                         }
                     }
@@ -75,13 +75,13 @@ public class SmartMover extends LandMover{
         }
         
         paths = Branch.getPaths();
-        if(paths.isEmpty()){
+        if (paths.isEmpty()) {
                 randomMove();
         } else {
             removeBiggerPaths(paths);
-            ArrayList<PickUp> pickups
-            = Game.getInstance().getEntities(PickUp.class);
-            if(pickups.isEmpty() || paths.size() == 1){
+            ArrayList<PickUp> pickups = Game.getInstance().getEntities(
+                PickUp.class);
+            if (pickups.isEmpty() || paths.size() == 1) {
                 path = new ArrayList<>(paths.get(0));
             } else {
                 path = new ArrayList<>(reduceTargets(paths));
@@ -95,35 +95,35 @@ public class SmartMover extends LandMover{
      * Will call to randomly move left, right, up or down until it gets a valid
      * movement.
      */
-    protected void randomMove(){
-        while(path.isEmpty()){
+    protected void randomMove() {
+        while (path.isEmpty()) {
             Random rngNum = new Random();
             int rngMove = rngNum.nextInt(4);
             switch (rngMove) {
                 case 0:
-                    if(nextLeft() != this.getX()
-                    && !(isBlocked(nextLeft(), this.getY()))){
+                    if (nextLeft() != this.getX() && 
+                        !(isBlocked(nextLeft(), this.getY()))) {
                         path.add(nextLeft());
                         path.add(this.getY());
                     }
                     break;
                 case 1:
-                    if(nextRight() != this.getX()
-                    && !(isBlocked(nextRight(), this.getY()))){
+                    if (nextRight() != this.getX() && 
+                        !(isBlocked(nextRight(), this.getY()))) {
                         path.add(nextRight());
                         path.add(this.getY());
                     }
                     break;
                 case 2:
-                    if(nextUp() != this.getY()
-                    && !(isBlocked(this.getX(), nextUp()))){
+                    if (nextUp() != this.getY() && 
+                        !(isBlocked(this.getX(), nextUp()))) {
                         path.add(this.getX());
                         path.add(this.nextUp());
                     }
                     break;
                 case 3:
-                    if(nextDown() != this.getX()
-                    && !(isBlocked(this.getX(), nextDown()))){
+                    if (nextDown() != this.getX() && 
+                        !(isBlocked(this.getX(), nextDown()))) {
                         path.add(this.getX());
                         path.add(this.nextDown());
                     }
@@ -138,18 +138,18 @@ public class SmartMover extends LandMover{
      * paths.
      * @param paths The array of paths to remove bigger paths from.
      */
-    protected void removeBiggerPaths(ArrayList<ArrayList<Integer>> paths){
+    protected void removeBiggerPaths(ArrayList<ArrayList<Integer>> paths) {
         Boolean shouldRemove = false;
             int i = 0;
-            for(Iterator<ArrayList<Integer>> iter
-            = paths.iterator(); iter.hasNext();){
-                if(shouldRemove == true){
+            for (Iterator<ArrayList<Integer>> iter = 
+                paths.iterator(); iter.hasNext();) {
+                if (shouldRemove == true){
                     iter.remove();
                     i--;
                 }
                 shouldRemove = false;
-                for(ArrayList<Integer> pathA : paths){
-                    if(paths.get(i).size() > pathA.size()){
+                for (ArrayList<Integer> pathA : paths) {
+                    if (paths.get(i).size() > pathA.size()) {
                         shouldRemove = true;
                     }
                 }
@@ -157,8 +157,8 @@ public class SmartMover extends LandMover{
                 i++;
             }
 
-            if(shouldRemove == true){
-                paths.remove(paths.size()-1);
+            if (shouldRemove == true) {
+                paths.remove(paths.size() - 1);
             }
     }
 
@@ -172,14 +172,15 @@ public class SmartMover extends LandMover{
      * @param paths the array of paths passed to this function. It must reduce
      * paths until all paths have equal priority.
      */
-    protected ArrayList<Integer> reduceTargets(ArrayList<ArrayList<Integer>> paths){
-        ArrayList<PickUp> pickups
-        = Game.getInstance().getEntities(PickUp.class);
+    protected ArrayList<Integer> reduceTargets(
+        ArrayList<ArrayList<Integer>> paths) {
+        ArrayList<PickUp> pickups = 
+            Game.getInstance().getEntities(PickUp.class);
         ArrayList<PickUp> targetPickUps = new ArrayList<>();
-        for(ArrayList<Integer> pathA : paths){
-            for(PickUp pickup : pickups){
-                if(pickup.getX() == pathA.get(pathA.size()-2)
-                && pickup.getY() == pathA.get(pathA.size()-1)){
+        for (ArrayList<Integer> pathA : paths) {
+            for (PickUp pickup : pickups) {
+                if (pickup.getX() == pathA.get(pathA.size() - 2) && 
+                    pickup.getY() == pathA.get(pathA.size() - 1)) {
                     targetPickUps.add(pickup);
                 }
             }
@@ -188,34 +189,38 @@ public class SmartMover extends LandMover{
         int i = 0;
 
         Boolean shouldRemove = false;
-        for(Iterator<ArrayList<Integer>> iter
-        = paths.iterator(); iter.hasNext();){
-            if(shouldRemove == true){
+        for (Iterator<ArrayList<Integer>> iter = 
+            paths.iterator(); iter.hasNext();) {
+            if (shouldRemove == true) {
                     iter.remove();
                     i--;
                     targetPickUps.remove(i);
             }
+
             shouldRemove = false;
-            for(PickUp pickup : targetPickUps){
+            for (PickUp pickup : targetPickUps) {
                 PickUp pickup1 = targetPickUps.get(i);
                 PickUp pickup2 = pickup;
-                if(!(pickup1 instanceof Loot) && pickup2 instanceof Loot){
+                if (!(pickup1 instanceof Loot) && pickup2 instanceof Loot) {
                     shouldRemove = true;
-                } else if(pickup1 instanceof Loot && pickup2 instanceof Loot){
+                } else if (pickup1 instanceof Loot && pickup2 instanceof Loot) {
                     Loot loot1 = (Loot) pickup1;
                     Loot loot2 = (Loot) pickup2;
-                    if(loot1.getValue() < loot2.getValue()){
+                    if (loot1.getValue() < loot2.getValue()) {
                         shouldRemove = true;
                     }
                 }
             }
+
             iter.next();
             i++;
-            }
-            if(shouldRemove == true){
-                paths.remove(paths.size()-1);
-            }
-            return paths.get(0);
+        }
+
+        if (shouldRemove == true) {
+            paths.remove(paths.size() - 1);
+        }
+
+        return paths.get(0);
     }
 
     /**
@@ -224,44 +229,47 @@ public class SmartMover extends LandMover{
      * class but I wanted to include it in the project.
      * @return Whether the item the smart mover is after still exists.
      */
-    protected Boolean alterPath(){
-        ArrayList<Entity> entities
-        = new ArrayList<>(Game.getInstance().getEntities());
+    protected Boolean alterPath() {
+        ArrayList<Entity> entities = new ArrayList<>(
+            Game.getInstance().getEntities());
         Boolean shouldRemove = false;
         int i = 0;
-        for(Iterator<Entity> iter = entities.iterator(); iter.hasNext();){
-            if(shouldRemove == true){
+        for (Iterator<Entity> iter = entities.iterator(); iter.hasNext();) {
+            if (shouldRemove == true) {
                 iter.remove();
                 i--;
             }
+
             shouldRemove = false;
             Entity entity = entities.get(i);
-            if(entity.getX() != path.get(path.size()-2)
-            || entity.getY() != path.get(path.size()-1)){
+            if (entity.getX() != path.get(path.size() - 2) || 
+                entity.getY() != path.get(path.size() - 1)) {
                 shouldRemove = true;
             }
+
             iter.next();
             i++;
-            }
-            if(shouldRemove == true){
-                entities.remove(entities.size()-1);
+        }
+        if (shouldRemove == true) {
+            entities.remove(entities.size() - 1);
         }
 
-        for(Entity entity : entities){
-            if(entity instanceof PickUp || entity instanceof Door){
+        for (Entity entity : entities) {
+            if (entity instanceof PickUp || entity instanceof Door) {
                 return false;
             }
         }
+
         return true;
     }
 
-    private void isAtDoor(){
+    private void isAtDoor() {
         ArrayList<PickUp> pickups
         = new ArrayList<>(Game.getInstance().getEntities(Loot.class));
         pickups.addAll(Game.getInstance().getEntities(Lever.class));
-        if(pickups.isEmpty()
-        && this.getX() == Game.getInstance().getDoor().getX()
-        && this.getY() == Game.getInstance().getDoor().getY()){
+        if (pickups.isEmpty() && 
+            this.getX() == Game.getInstance().getDoor().getX() && 
+            this.getY() == Game.getInstance().getDoor().getY()) {
             Game.getInstance().setGameOver();
         }
     }
@@ -272,11 +280,10 @@ public class SmartMover extends LandMover{
      */
     @Override
     protected void updateMovement() {
-        // TODO Auto-generated method stub
-        if(path.isEmpty()){
+        if (path.isEmpty()) {
             isAtDoor();
             findPath();
-        } else if(alterPath()){
+        } else if (alterPath()) {
             findPath();
         }
 
@@ -284,16 +291,13 @@ public class SmartMover extends LandMover{
         int destinationY = path.get(1);
         move(destinationX - this.getX(), destinationY - this.getY());
         
-        if(this.getX() == destinationX && this.getY() == destinationY){
+        if (this.getX() == destinationX && this.getY() == destinationY) {
             path.remove(0);
             path.remove(0);
         }
     }
 
     @Override
-    protected void update() {
-        // TODO Auto-generated method stub
-        
-    }
+    protected void update() {}
     
 }
