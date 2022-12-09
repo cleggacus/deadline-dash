@@ -304,8 +304,7 @@ public class Level {
                         + " applicable attributes in " + this.getTitle());
                 return new Bomb(
                     Integer.parseInt(entity[1]),
-                    Integer.parseInt(entity[2]),
-                    Double.parseDouble(entity[3]));
+                    Integer.parseInt(entity[2]));
             case("followingthief"):
                 if (entity.length != 5)
                     throw new LevelFormatException(
