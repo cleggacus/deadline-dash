@@ -7,7 +7,7 @@ package com.group22;
 
 public class FollowingThief extends LandMover {
     public TileColor pathColor;
-    private String movingDirection = "down";
+    private String movingDirection = "right";
     private Boolean clockwise;
 
     /**
