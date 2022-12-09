@@ -7,6 +7,7 @@ import java.util.concurrent.*;
 
 public class Bomb extends Entity {
 
+    private static final int FRAME_OFFSET = 20;
     private double countdown;
     private double countUp = 0;
     private boolean fuze = false;
@@ -36,7 +37,7 @@ public class Bomb extends Entity {
     }
 
     public void countUp() {
-        countUp += 0.250;
+        countUp += 0.0001;
     }
 
     public void detonationAnimation() {
@@ -47,6 +48,17 @@ public class Bomb extends Entity {
                 bomb.explosion = true;
             }
         }
+    }
+
+    private void shake(){
+        double shakeAmountX = 0.05 * Math.sin(1.1 * this.countdown * Math.pow(this.time, 3));
+        double shakeAmountY = 0.05 * Math.sin(0.9 * this.countdown * Math.pow(this.time, 3));
+
+        this.setSpriteOffset(shakeAmountX, shakeAmountY);
+        this.time += Game.getInstance().getDelta();
+        this.getSprite().setAnimationSpeed(this.countdown);
+        this.getSprite().setImageSet("tick");
+        this.getSprite().setAnimationType(AnimationType.SINGLE);
     }
 
     public void detonateBomb() {
@@ -123,28 +135,21 @@ public class Bomb extends Entity {
 
         }
 
-        if (this.countdown - countUp <= 0.25) {
+        if (this.countdown - countUp <= 0.3) {
             detonationAnimation();
         }
-        if (countUp >= this.countdown) {
+        if (this.countUp >= this.countdown) {
             scheduler.shutdown();
             detonateBomb();
         }
 
         if (fuze) {
-            double shakeAmountX = 0.05 * Math.sin(1.1 * this.countdown * Math.pow(this.time, 3));
-            double shakeAmountY = 0.05 * Math.sin(0.9 * this.countdown * Math.pow(this.time, 3));
-
-            this.setSpriteOffset(shakeAmountX, shakeAmountY);
-            this.time += Game.getInstance().getDelta();
-            this.getSprite().setAnimationSpeed(this.countdown);
-            this.getSprite().setImageSet("tick");
-            this.getSprite().setAnimationType(AnimationType.SINGLE);
+            this.shake();
             if (!doneOnce) {
                 doneOnce = true;
-                for (int i = (int) this.countdown * 4; i >= 0; i--) {
-                    scheduler.schedule(new Task(this), i * 250,
-                            TimeUnit.MILLISECONDS);
+                for (int i = (int) this.countdown * 10000 + FRAME_OFFSET; i >= 0; i--) {
+                    scheduler.schedule(new Task(this), i * 100,
+                            TimeUnit.MICROSECONDS);
                 }
             }
         }
