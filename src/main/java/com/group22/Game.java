@@ -3,9 +3,12 @@ package com.group22;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.group22.gui.ProfileSelector;
+
 /**
  * The {@code Game} class acts as a game manager handling all the game logic.
- * Since there is only one game and it extends Engine it uses the singleton pattern and can be used with the {@link #getInstance()} method.
+ * Since there is only one game and it extends Engine it uses the singleton 
+ * pattern and can be used with the {@link #getInstance()} method.
  * 
  * @author Liam Clegg
  * @version 1.0
@@ -43,7 +46,7 @@ public class Game extends Engine {
      */
     
     public static synchronized Game getInstance() {
-        if(Game.instance == null) {
+        if (Game.instance == null) {
             Game.instance = new Game();
             Game.instance.onInitialized();
         }
@@ -51,7 +54,7 @@ public class Game extends Engine {
         return Game.instance;
     }
     
-    public void newReplayFrame(int x, int y, double keyTime){
+    public void newReplayFrame(int x, int y, double keyTime) {
         ReplayFrame frame = new ReplayFrame(x, y, keyTime);
         this.replay.storeFrame(frame);
 
@@ -172,13 +175,16 @@ public class Game extends Engine {
         this.framesElapsed = 0;
 
         this.setViewSize(width, height);
+
         try {
             this.addEntities(currentLevel.createEntities());
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
+
         Player player = this.level.getPlayerFromEntities(this.entities);
-        ReplayPlayer replayPlayer =  new ReplayPlayer(player.getX(), player.getY(),  replay.getFrames());
+        ReplayPlayer replayPlayer =  
+            new ReplayPlayer(player.getX(), player.getY(),  replay.getFrames());
         this.addEntity(replayPlayer);
         this.removeEntity(player);
 
@@ -248,7 +254,9 @@ public class Game extends Engine {
     }
 
     public void setReplayOver(){
-        this.getGamePane().getReplayOver().setStats(replay.getScore(), this.time);
+        this.getGamePane().getReplayOver().setStats(
+            replay.getScore(), this.time);
+
         this.setGameState(GameState.ReplayOver);
     }
 
@@ -266,9 +274,10 @@ public class Game extends Engine {
     protected void update() {
         updateTime();
         this.getGamePane().getPlaying().setGameScore(this.score);
-        if(this.level.getPlayerFromEntities(this.getEntities()) == null){
-            if(!this.replaying)
-                this.setGameOver();
+        Player player = this.level.getPlayerFromEntities(this.getEntities());
+
+        if (player == null && !this.replaying) {
+            this.setGameOver();
         }
     }
 
@@ -282,7 +291,7 @@ public class Game extends Engine {
         this.timeElapsed += this.getDelta();
         this.framesElapsed += 1;
 
-        if(this.time <= 0) {
+        if (this.time <= 0) {
             this.time = 0;
             this.setGameState(GameState.GameOver);
         }
@@ -326,23 +335,25 @@ public class Game extends Engine {
 
     private void setUpProfiles() {
         Profile checkProfiles = new Profile();
+        ProfileSelector profileSelector = 
+            this.getGamePane().getProfileSelector();
 
-        this.getGamePane().getProfileSelector().setProfileAddedEvent(username -> {
-            Profile profile = new Profile(username, LocalDateTime.now());
+        profileSelector.setProfileAddedEvent(username -> {
+                Profile profile = new Profile(username, LocalDateTime.now());
 
-            if(!profile.exists()){
-                profile.saveToFile();
-            } else {
-                profile.updateTimeActive();
-            }
-        });
+                if (!profile.exists()){
+                    profile.saveToFile();
+                } else {
+                    profile.updateTimeActive();
+                }
+            });
 
-        this.getGamePane().getProfileSelector().setOnProfileRemoved(username -> {
-            Profile deleteProfile = new Profile();
-            deleteProfile.delete(username);
-        });
+        profileSelector.setOnProfileRemoved(username -> {
+                Profile deleteProfile = new Profile();
+                deleteProfile.delete(username);
+            });
 
-        this.getGamePane().getProfileSelector().setOnProfileSelectEvent(username -> {
+        profileSelector.setOnProfileSelectEvent(username -> {
             checkProfiles.loadAllProfiles();
             Profile profile = checkProfiles.getFromName(username);
             this.setProfile(profile);
@@ -350,8 +361,8 @@ public class Game extends Engine {
 
         List<Profile> profiles = checkProfiles.getAllProfiles();
 
-        for(Profile profile : profiles) {
-            this.getGamePane().getProfileSelector().addProfile(profile.getName());
+        for (Profile profile : profiles) {
+            profileSelector.addProfile(profile.getName());
         }
     }
 
@@ -369,6 +380,13 @@ public class Game extends Engine {
 
     public void saveState() {
         SavedStateManager stateManager = new SavedStateManager();
-        stateManager.createState(getLevel().getTitle(), getUsername(), getEntities(), score, time, getLevel().getIndex());
+
+        stateManager.createState(
+            getLevel().getTitle(), 
+            getUsername(), 
+            getEntities(), 
+            score, 
+            time, 
+            getLevel().getIndex());
     }
 }
