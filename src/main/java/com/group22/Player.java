@@ -59,8 +59,6 @@ public class Player extends LandMover {
         if(pickups.isEmpty()
         && this.getX() == Game.getInstance().getDoor().getX()
         && this.getY() == Game.getInstance().getDoor().getY()){
-            Game.getInstance().incrementScore
-            ((int) Game.getInstance().getTime() * 10);
             Game.getInstance().getDoor().setIsOpen(true);
         }
     }

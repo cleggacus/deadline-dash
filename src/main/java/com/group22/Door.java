@@ -69,6 +69,8 @@ public class Door extends Entity {
         }
 
         if(this.openTimer >= Door.OPEN_ANIMATION_DURATION) {
+            Game.getInstance().incrementScore
+            ((int) Game.getInstance().getTime() * 10);
             Game.getInstance().setLevelFinish();
         }
     }
