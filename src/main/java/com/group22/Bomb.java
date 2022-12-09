@@ -3,15 +3,17 @@ package com.group22;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
+import java.util.concurrent.*;
 
 public class Bomb extends Entity{
 
-    private static final double ANIMATION_DURATION = 0.032;
-    private double countdown;
-    private double time = 0;
-    private double bombStart;
-    private boolean fuze;
-    private boolean explosion;
+    private static final int COUNTDOWN = 3;
+    private double countUp = 0;
+    private boolean fuze = false;
+    private boolean explosion = false;
+    private boolean doneOnce = false;
+    private double time;
+    private ScheduledExecutorService scheduler;
 
 
     /**
@@ -23,36 +25,27 @@ public class Bomb extends Entity{
 
     public Bomb(int x, int y, double timeRemaining) {
         super(x, y);
-        this.explosion = false;
+        scheduler
+            = Executors.newScheduledThreadPool(4);
         this.getSprite().addImageSet("tick", Sprite.createImageFade(
             "item/farron/farron0.png",
             "item/farron/farron5.png",
             12*3
         ));
         this.getSprite().setImage("item/farron/farron0.png");
-        
-        if(timeRemaining < 3){
-            this.countdown = timeRemaining;
-            this.bombStart = Game.getInstance().getTime() + countdown - ANIMATION_DURATION;
+        this.countUp = (3 - timeRemaining);
+        if(timeRemaining < 3)
             this.fuze = true;
-        } else {
-            this.countdown = 3;
-            this.fuze = false;
-        }
     }
 
+    public void countUp(){
+        countUp++;
+    }
     public void detonateBomb() {
-        ArrayList<Entity> allEntity = new ArrayList();
-        ArrayList<Bomb> bombs = Game.getInstance().getEntities(Bomb.class);
-        ArrayList<LandMover> landMovers = Game.getInstance().getEntities(LandMover.class);
-        ArrayList<FlyingAssassin> flyingAssassins = Game.getInstance().getEntities(FlyingAssassin.class);
-        ArrayList<PickUp> pickUps = Game.getInstance().getEntities(PickUp.class);
-
-
-        allEntity.addAll(bombs);
-        allEntity.addAll(landMovers);
-        allEntity.addAll(flyingAssassins);
-        allEntity.addAll(pickUps);
+        ArrayList<Entity> allEntity = new ArrayList<>(Game.getInstance().getEntities(Bomb.class));
+        allEntity.addAll(Game.getInstance().getEntities(LandMover.class));
+        allEntity.addAll(Game.getInstance().getEntities(FlyingAssassin.class));
+        allEntity.addAll(Game.getInstance().getEntities(PickUp.class));
 
         Game.getInstance().removeEntity(this);
 
@@ -60,7 +53,7 @@ public class Bomb extends Entity{
             if (entity.getX() == this.getX()){
                 if(entity instanceof Bomb){
                     Bomb bomb = (Bomb) entity;
-                    bomb.bombStart = Game.getInstance().getTime() + countdown - ANIMATION_DURATION;
+                    bomb.countUp = COUNTDOWN;
                     bomb.fuze = true;
                 } else {
                     Game.getInstance().removeEntity(entity);
@@ -68,26 +61,12 @@ public class Bomb extends Entity{
             } else if (entity.getY() == this.getY()){
                 if(entity instanceof Bomb){
                     Bomb bomb = (Bomb) entity;
-                    bomb.bombStart = Game.getInstance().getTime() + countdown - ANIMATION_DURATION;
+                    bomb.countUp = COUNTDOWN;
                     bomb.fuze = true;
                 } else {
                     Game.getInstance().removeEntity(entity);
                 }
             }
-        }
-    }
-
-    public void activateBomb() {
-        double shakeAmountX = 0.05 * Math.sin(1.1 * countdown * Math.pow(this.time, 3));
-        double shakeAmountY = 0.05 * Math.sin(0.9 * countdown * Math.pow(this.time, 3));
-        this.setSpriteOffset(shakeAmountX, shakeAmountY);
-        this.time += Game.getInstance().getDelta();
-        this.getSprite().setAnimationSpeed(countdown);
-        this.getSprite().setImageSet("tick");
-        this.getSprite().setAnimationType(AnimationType.SINGLE);
-
-        if ((this.bombStart - countdown) >= Game.getInstance().getTime()){
-            detonateBomb();
         }
     }
 
@@ -124,30 +103,46 @@ public class Bomb extends Entity{
         if(!fuze){
             for(LandMover landMover : landMovers) {
                 if (landMover.getX() == this.getX() && landMover.getY() == (this.getY()-1)) {
-                    this.bombStart = Game.getInstance().getTime();
                     this.fuze = true;
                 } else if (landMover.getX() == this.getX() && landMover.getY() == (this.getY()+1)) {
-                    this.bombStart = Game.getInstance().getTime();
                     this.fuze = true;
                 } else if (landMover.getX() == (this.getX()-1) && landMover.getY() == (this.getY())) {
-                    this.bombStart = Game.getInstance().getTime();
                     this.fuze = true;
                 } else if (landMover.getX() == (this.getX()+1) && landMover.getY() == (this.getY())) {
-                    this.bombStart = Game.getInstance().getTime();
                     this.fuze = true;
                 }
             }
 
         }
 
-        if (fuze){
-            activateBomb();
+        if (countUp >= COUNTDOWN){
+            scheduler.shutdown();
+            this.explosion = true;
+            detonateBomb();
         }
 
-        if ((this.bombStart - countdown + ANIMATION_DURATION) >= Game.getInstance().getTime()){
-            explosion = true;
-        }
+        if (fuze && !doneOnce){
+            doneOnce = true;
+            double shakeAmountX = 0.05 * Math.sin(1.1 * COUNTDOWN * Math.pow(this.time, 3));
+            double shakeAmountY = 0.05 * Math.sin(0.9 * COUNTDOWN * Math.pow(this.time, 3));
+            this.setSpriteOffset(shakeAmountX, shakeAmountY);
+            this.time += Game.getInstance().getDelta();
+            this.getSprite().setAnimationSpeed(COUNTDOWN);
+            this.getSprite().setImageSet("tick");
+            this.getSprite().setAnimationType(AnimationType.SINGLE);
+            for (int i = 3; i >= 0; i--) {
+                scheduler.schedule(new Task(this), 4 - i,
+                                   TimeUnit.SECONDS);        }
 
+}
+}
 
+class Task implements Runnable {
+    private Bomb bomb;
+    public Task(Bomb bomb) { this.bomb = bomb; }
+    public void run()
+    {
+        bomb.countUp();
+    }
 }
 }
