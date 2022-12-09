@@ -13,7 +13,7 @@ import java.util.Random;
  */
 public class SmartMover extends LandMover{
 
-    ArrayList<Integer> path = new ArrayList<>();
+    private ArrayList<Integer> path = new ArrayList<>();
     /**
      * The constructor for the smartmover entity class.
      * @param posX The horizontal position of this entity
@@ -31,12 +31,12 @@ public class SmartMover extends LandMover{
      */
     protected void findPath(){
         ArrayList<ArrayList<Integer>> paths = new ArrayList<>();
-        path = new ArrayList<>();
-        ArrayList<Integer> originPath = new ArrayList<>();
+        this.path = new ArrayList<>();
         Boolean targetFound = false;
-        Branch root = new Branch(this.getX(), this.getY(), originPath);
+        Branch root = new Branch(this.getX(), this.getY(), new ArrayList<>());
         root.clear();
         root.addBranch(root);
+
         ArrayList<Branch> currentBranches = new ArrayList<>();
         ArrayList<Branch> newBranches = new ArrayList<>();
         currentBranches.add(root);

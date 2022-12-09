@@ -44,8 +44,8 @@ GGGG MMMM MMMM MMMM MMMM BBRR RRRR MMMM
 RGRR GGRG GGRG GGRG GGRG GGGG MMMM MMMM
 10
 door 6 4
-bomb 6 3 3
-bomb 6 2 3
+bomb 6 3 0
+bomb 6 2 0
 loot 3 0 100
 loot 1 1 50
 loot 4 2 200
@@ -74,7 +74,7 @@ loot 5 6 200
 loot 12 1 150
 loot 10 8 50
 door 1 1
-bomb 0 0 3
+bomb 0 0 0
 followingthief 1 2 C true
 lever 13 4 B
 gate 10 4 B false
@@ -104,10 +104,10 @@ loot 3 8 150
 loot 11 8 200
 loot 6 1 50
 loot 14 8 100
-bomb 6 8 3
-bomb 8 8 3
-bomb 6 0 3
-bomb 8 0 3
+bomb 6 8 0
+bomb 8 8 0
+bomb 6 0 0
+bomb 8 0 0
 player 1 1
 flyingassassin 0 0 h
 flyingassassin 14 8 h

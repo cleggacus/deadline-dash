@@ -22,9 +22,9 @@ public class Bomb extends Entity {
         super(x, y);
         this.countdown = 3;
         this.time = 0;
-        if(c < countdown){
+        if(c > 0){
             this.fuze = true;
-            this.time = countdown - c;
+            this.time = c;
         }
         this.shakeTimer = 0.1;
 
@@ -35,10 +35,6 @@ public class Bomb extends Entity {
         ));
         this.getSprite().setImage("item/farron/farron0.png");
         this.getSprite().setImageSet("tick");
-    }
-
-    private void updateTime() {
-        this.time += Game.getInstance().getDelta();
     }
 
     public void detonationAnimation() {
@@ -88,7 +84,7 @@ public class Bomb extends Entity {
 
     @Override
     public String toString() {
-        return ("bomb " + getX() + " " + getY() + " " + (this.countdown - this.time));
+        return ("bomb " + getX() + " " + getY() + " " + (this.time));
     }
 
     @Override
@@ -137,7 +133,7 @@ public class Bomb extends Entity {
  
         if (fuze) {
             this.getSprite().setImageSet("tick");
-            if(time >= countdown - 0.3){
+            if(time >= countdown - 0.15){
                 detonationAnimation();
             }
     
