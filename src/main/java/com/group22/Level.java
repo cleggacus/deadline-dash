@@ -244,6 +244,9 @@ public class Level {
         return entities;
     }
 
+    public ArrayList<Entity> getTilesAsEntities(){
+        return tilesToEntities();
+    }
     /**
      * It takes an array of strings, and returns an object of the type specified
      * by the first string in the array
@@ -271,8 +274,10 @@ public class Level {
             case("bomb"):
                 return new Bomb(
                     Integer.parseInt(entity[1]),
-                    Integer.parseInt(entity[2]));
+                    Integer.parseInt(entity[2]),
+                    Double.parseDouble(entity[3]));
             case("followingthief"):
+                System.out.println(entity.length);
                 return new FollowingThief(
                     Integer.parseInt(entity[1]),
                     Integer.parseInt(entity[2]), 
@@ -287,7 +292,8 @@ public class Level {
                 return new Gate(
                     Integer.parseInt(entity[1]),
                     Integer.parseInt(entity[2]),
-                    entity[3]);
+                    entity[3],
+                    Boolean.parseBoolean(entity[4]));
             case("loot"):
                 return new Loot(
                     Integer.parseInt(entity[1]),

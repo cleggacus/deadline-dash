@@ -9,13 +9,15 @@ public class SavedState {
     private LocalDateTime timeOfSave;
     private int score;
     private double time;
+    private int levelIndex;
 
-    public SavedState(String levelTitle, ArrayList<Entity> entities, int score, double time, LocalDateTime timeOfSave){
+    public SavedState(String levelTitle, ArrayList<Entity> entities, int score, double time, LocalDateTime timeOfSave, int levelIndex){
         this.levelTitle = levelTitle;
         this.entities = entities;
         this.score = score;
         this.time = time;
         this.timeOfSave = timeOfSave;
+        this.levelIndex = levelIndex;
     }
 
     public LocalDateTime getTimeOfSave(){
@@ -24,6 +26,10 @@ public class SavedState {
 
     public String getLevelTitle(){
         return levelTitle;
+    }
+
+    public int getLevelIndex(){
+        return levelIndex;
     }
 
     public ArrayList<Entity> getEntities(){

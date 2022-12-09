@@ -31,20 +31,16 @@ public class SavesBrowser extends MenuPane {
             GameState.LevelSelector));
     }
 
-    public String getUsername() {
-        return this.username;
-    }
-
     public void setSavedStates(Level level, int levelIndex) {
         this.savesMenu.getChildren().clear();
-        ArrayList<SavedState> savedStates = this.savedStateManager.getStates(level, getUsername());
-        if (savedStates.size() == 0){
+        ArrayList<SavedState> savedStates = this.savedStateManager.getStates(level, Game.getInstance().getUsername());
+        if (savedStates.size() == 0) {
             this.savesMenu.addH2("No saves yet!");
             this.savesMenu.addParagraph("Save in the pause menu and load it here later.");
         }
-        for(SavedState savedState : savedStates){
+        for (SavedState savedState : savedStates) {
             this.savesMenu.addButton(this.relativeTime.getTimeAgo(savedState.getTimeOfSave()),
-            () -> Game.getInstance().setState(savedState, level));
+            () -> Game.getInstance().setSavedState(savedState));
             this.savesMenu.addSmallPrint("Score: " + savedState.getScore());
             this.savesMenu.addSmallPrint("Time left: " + savedState.getTime());
         }

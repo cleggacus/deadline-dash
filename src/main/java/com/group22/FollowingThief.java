@@ -176,11 +176,11 @@ public class FollowingThief extends LandMover {
     
     @Override
     public String toString(){
-        return ("followingthief " + getX() + " " + getY() + " " + getPathColor().label);
+        return ("followingthief " + getX() + " " + getY() + " " + getPathColor().label + " " + String.valueOf(clockwise));
     }
 
     @Override
-    protected void updateMovement() {
+    protected void updateMovement(){
         switch (movingDirection){
             case "right":
                 goingRight();
