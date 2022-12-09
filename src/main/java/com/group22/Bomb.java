@@ -147,15 +147,6 @@ public class Bomb extends Entity {
                 detonateBomb();
             }
             this.shake(this.time);
-
-            ArrayList<Bomb> bombs = new ArrayList<>(Game.getInstance().getEntities(Bomb.class));
-
-            for (Bomb bomb : bombs) {
-                if (this.getX() == bomb.getX() || this.getY() == bomb.getY()) {
-                    bomb.shake(this.time);
-                }
-            }
-            
             updateTime();
         }
     }
