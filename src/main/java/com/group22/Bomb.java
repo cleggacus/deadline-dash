@@ -46,7 +46,6 @@ public class Bomb extends Entity{
         for(Bomb bomb : bombs){
             if(this.getX() == bomb.getX() || this.getY() == bomb.getY()){
                 bomb.explosion = true;
-
             }
         }
     }
@@ -61,14 +60,12 @@ public class Bomb extends Entity{
         for(Entity entity : allEntity) {
             if (entity instanceof Bomb && entity.getDrawX() == this.getX()){
                 Bomb bomb = ((Bomb) entity);
-                bomb.fuze = true;
                 bomb.countUp = countdown;
             }
             else if (entity.getX() == this.getX()){
                 Game.getInstance().removeEntity(entity);
             } else if (entity instanceof Bomb && entity.getY() == this.getY()){
                 Bomb bomb = ((Bomb) entity);
-                bomb.fuze = true;
                 bomb.countUp = countdown;
             } else if (entity.getY() == this.getY()){
                 Game.getInstance().removeEntity(entity);
@@ -139,7 +136,7 @@ public class Bomb extends Entity{
             this.getSprite().setAnimationSpeed(this.countdown);
             this.getSprite().setImageSet("tick");
             this.getSprite().setAnimationType(AnimationType.SINGLE);
-            for (int i = 12; i >= 0; i--) {
+            for (int i = (int) this.countdown *4; i >= 0; i--) {
                 scheduler.schedule(new Task(this), i*250,
                                    TimeUnit.MILLISECONDS);        }
 
