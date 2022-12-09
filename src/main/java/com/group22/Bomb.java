@@ -7,8 +7,8 @@ import java.util.concurrent.*;
 
 public class Bomb extends Entity{
 
-    private static final int COUNTDOWN = 3;
-    private int countUp = 0;
+    private static final double COUNTDOWN = 3;
+    private double countUp = 0;
     private boolean fuze = false;
     private boolean explosion = false;
     private boolean doneOnce = false;
@@ -23,7 +23,7 @@ public class Bomb extends Entity{
      * @param countdown the countdown timer of the bomb's detonation
      */
 
-    public Bomb(int x, int y, double timeRemaining) {
+    public Bomb(int x, int y) {
         super(x, y);
         scheduler
             = Executors.newScheduledThreadPool(4);
@@ -36,7 +36,7 @@ public class Bomb extends Entity{
     }
 
     public void countUp(){
-        countUp++;
+        countUp += 0.250;
     }
     public void detonateBomb() {
         ArrayList<Entity> allEntity = new ArrayList<>(Game.getInstance().getEntities(Bomb.class));
@@ -112,9 +112,11 @@ public class Bomb extends Entity{
 
         }
 
+        if(COUNTDOWN - countUp < 0.5){
+            this.explosion = true;
+        }
         if (countUp >= COUNTDOWN){
             scheduler.shutdown();
-            this.explosion = true;
             detonateBomb();
         }
 
@@ -127,9 +129,9 @@ public class Bomb extends Entity{
             this.getSprite().setAnimationSpeed(COUNTDOWN);
             this.getSprite().setImageSet("tick");
             this.getSprite().setAnimationType(AnimationType.SINGLE);
-            for (int i = 3; i >= 0; i--) {
-                scheduler.schedule(new Task(this), 4 - i,
-                                   TimeUnit.SECONDS);        }
+            for (int i = 12; i >= 0; i--) {
+                scheduler.schedule(new Task(this), i*250,
+                                   TimeUnit.MILLISECONDS);        }
 
 }
 }
