@@ -20,7 +20,7 @@
             <artifactId>javafx-fxml</artifactId>
             <version>17.0.1</version>
         </dependency>
-        <<dependency>
+        <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-media</artifactId>
             <version>17.0.1</version>
