@@ -40,7 +40,6 @@ public class LevelManager {
 
         try{
             this.linePos = 0;
-            System.out.println(data.get(linePos));
 
             final String TITLE = data.get(linePos);
             this.linePos += 1;

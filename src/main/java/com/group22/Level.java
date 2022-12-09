@@ -277,7 +277,6 @@ public class Level {
                     Integer.parseInt(entity[2]),
                     Double.parseDouble(entity[3]));
             case("followingthief"):
-                System.out.println(entity.length);
                 return new FollowingThief(
                     Integer.parseInt(entity[1]),
                     Integer.parseInt(entity[2]), 
