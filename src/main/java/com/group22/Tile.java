@@ -11,9 +11,11 @@ import javafx.scene.paint.Color;
 
 /**
  * 
- * The class {@code Tile} is an {@code Entity} which is used to render the tiles in the game.
+ * The class {@code Tile} is an {@code Entity} which 
+ * is used to render the tiles in the game.
  * 
- * The tile images are procedurally generated from 4 colors and a grey scale tile sprite.
+ * The tile images are procedurally generated from 
+ * 4 colors and a grey scale tile sprite.
  * 
  * @author Liam Clegg
  * @version 1.0
@@ -26,26 +28,46 @@ public class Tile extends Entity {
 
     private TileLayout tileLayout = new TileLayout();
 
+    /**
+     * 
+     */
     public class TileLayout {
         public TileColor topLeft = DEFAULT_TILE_COLOR;
         public TileColor topRight = DEFAULT_TILE_COLOR;
         public TileColor bottomLeft = DEFAULT_TILE_COLOR;
         public TileColor bottomRight = DEFAULT_TILE_COLOR;
 
-        public void setValues(TileColor topLeft, TileColor topRight, TileColor bottomLeft, TileColor bottomRight) {
-            this.topLeft = topLeft == null ? DEFAULT_TILE_COLOR : topLeft;
-            this.topRight = topRight == null ? DEFAULT_TILE_COLOR : topRight;
-            this.bottomLeft = bottomLeft == null ? DEFAULT_TILE_COLOR : bottomLeft;
-            this.bottomRight = bottomRight == null ? DEFAULT_TILE_COLOR : bottomRight;
+        /**
+         * 
+         * @param topLeft
+         * @param topRight
+         * @param bottomLeft
+         * @param bottomRight
+         */
+        public void setValues(TileColor topLeft, TileColor topRight, 
+                TileColor bottomLeft, TileColor bottomRight) {
+            this.topLeft = topLeft == 
+                null ? DEFAULT_TILE_COLOR : topLeft;
+            this.topRight = topRight == 
+                null ? DEFAULT_TILE_COLOR : topRight;
+            this.bottomLeft = bottomLeft == 
+                null ? DEFAULT_TILE_COLOR : bottomLeft;
+            this.bottomRight = bottomRight == 
+                null ? DEFAULT_TILE_COLOR : bottomRight;
         }
 
+        /**
+         * 
+         * @param tileLayout
+         * @return
+         */
         public boolean matches(TileLayout tileLayout) {
             char[] arr1 = this.toString().toCharArray();
             char[] arr2 = tileLayout.toString().toCharArray();
 
-            for(char c1 : arr1) {
-                for(char c2 : arr2) {
-                    if(c1 == c2) {
+            for (char c1 : arr1) {
+                for (char c2 : arr2) {
+                    if (c1 == c2) {
                         return true;
                     }
                 }
@@ -82,15 +104,19 @@ public class Tile extends Entity {
     public Tile(int x, int y, String colors) {
         super(x, y);
 
-        if(tileSprites == null)
+        if (tileSprites == null) {
             loadTileSprites();
+        }
 
         setTileLayout(colors);
+        
     }
 
     /**
      * Creates a tile based on its position with a default color.
-     * Note: do not run this if you are going to set TileLayout directly after since 2 images will have to be rendered slowing down performance.
+     * Note: do not run this if you are going to set TileLayout 
+     * directly after since 2 images will have to be rendered 
+     * slowing down performance.
      * 
      * @param x
      *      X position of the tile.
@@ -100,22 +126,26 @@ public class Tile extends Entity {
     public Tile(int x, int y) {
         super(x, y);
 
-        if(tileSprites == null)
+        if (tileSprites == null) {
             loadTileSprites();
+        }
 
         renderTileImage();
     }
 
     
     /** 
-     * Sets the tile layout to the provided string of color labels set in {@code TileColor} and renders a sprite images correspondingly.
+     * Sets the tile layout to the provided string of 
+     * color labels set in {@code TileColor} and 
+     * renders a sprite images correspondingly.
      * 
      * @param colors
      *      The colors of the tile given by a string containing each color tag.
      */
     public void setTileLayout(String colors) {
-        if(colors.length() != 4)
+        if (colors.length() != 4) {
             return;
+        }
 
         this.tileLayout.setValues(
             TileColor.getFromLabel(colors.charAt(0)),
@@ -141,6 +171,11 @@ public class Tile extends Entity {
         return this.tileLayout.matches(other.tileLayout);
     }
 
+    
+    /** 
+     * @param tileColor
+     * @return boolean
+     */
     public boolean hasColor(TileColor tileColor) {
         return 
             this.tileLayout.topLeft == tileColor ||
@@ -169,20 +204,23 @@ public class Tile extends Entity {
     private void renderTileImage() {
         Image cachedImage = Tile.cachedSprites.get(this.tileLayout);
 
-        if(cachedImage != null) {
+        if (cachedImage != null) {
             this.getSprite().setImage(cachedImage);
             return;
         }
 
         Image sprite = getTileSprite();
         PixelReader pixelReader = sprite.getPixelReader();
-        WritableImage writableImage = new WritableImage((int)sprite.getWidth(), (int)sprite.getHeight());
+        WritableImage writableImage = new WritableImage(
+            (int) sprite.getWidth(), (int) sprite.getHeight());
         PixelWriter pixelWriter = writableImage.getPixelWriter();
 
-        for (int y = 0; y < sprite.getHeight(); y++){
-            for (int x = 0; x < sprite.getWidth(); x++){
-                boolean top = isTopHalfTile(x, y, sprite.getWidth(), sprite.getHeight());
-                boolean left = isLeftHalfTile(x, y, sprite.getWidth(), sprite.getHeight());
+        for (int y = 0; y < sprite.getHeight(); y++) {
+            for (int x = 0; x < sprite.getWidth(); x++) {
+                boolean top = isTopHalfTile(
+                    x, y, sprite.getWidth(), sprite.getHeight());
+                boolean left = isLeftHalfTile(
+                    x, y, sprite.getWidth(), sprite.getHeight());
 
                 TileColor c = 
                     top ? (
@@ -216,12 +254,14 @@ public class Tile extends Entity {
      */
     private Image getTileSprite() {
         int tileCount = tileSprites.length;
-        int spriteIndex = ((this.getY()%tileCount) + (this.getX()%tileCount))%tileCount;
+        int spriteIndex = ((this.getY() % tileCount) + 
+            (this.getX() % tileCount)) % tileCount;
         return tileSprites[spriteIndex];
     }
 
     /**
-     * Checks if the pixel position in a tile is in the top half when the top and bottom are sepereated by a sine wave.
+     * Checks if the pixel position in a tile is in the 
+     * top half when the top and bottom are sepereated by a sine wave.
      * 
      * @param x
      *      The x position of the pixel.
@@ -234,13 +274,16 @@ public class Tile extends Entity {
      * @return
      *      Weather the pixel is in the top half.
      */
-    private boolean isTopHalfTile(double x, double y, double tileWidth, double tileHeight) {
-        double realY = tileHeight * 0.1 * Math.sin(Math.PI * 2 * x / tileWidth) + (tileHeight/2);
+    private boolean isTopHalfTile(
+        double x, double y, double tileWidth, double tileHeight) {
+        double realY = tileHeight * 0.1 * 
+            Math.sin(Math.PI * 2 * x / tileWidth) + (tileHeight / 2);
         return y < realY;
     }
 
     /**
-     * Checks if the pixel position in a tile is in the left half when the top and bottom are sepereated by a vertical sine wave.
+     * Checks if the pixel position in a tile is in the left half 
+     * when the top and bottom are sepereated by a vertical sine wave.
      * 
      * @param x
      *      The x position of the pixel.
@@ -253,13 +296,16 @@ public class Tile extends Entity {
      * @return
      *      Weather the pixel is in the left half.
      */
-    private boolean isLeftHalfTile(double x, double y, double tileWidth, double tileHeight) {
-        double realX = tileWidth * 0.1 * Math.sin(Math.PI + Math.PI * 2 * y / tileHeight) + (tileWidth/2);
+    private boolean isLeftHalfTile(
+        double x, double y, double tileWidth, double tileHeight) {
+        double realX = tileWidth * 0.1 * 
+            Math.sin(Math.PI + Math.PI * 2 * y / tileHeight) + (tileWidth / 2);
         return x < realX;
     }
 
     /**
-     * Loads all the posible sprite images into a static varible so images only have to be loaded once for writing.
+     * Loads all the posible sprite images into a static varible 
+     * so images only have to be loaded once for writing.
      */
     private void loadTileSprites() {
         tileSprites = new Image[] {
