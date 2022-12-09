@@ -10,9 +10,11 @@ import javafx.scene.paint.Color;
 
 /**
  * 
- * The class {@code Sprite} allows mutiple sets of images to be added to an objects with given names.
+ * The class {@code Sprite} allows mutiple sets of images to be 
+ * added to an objects with given names.
  * 
- * This class allows for animation and an abstraction for switching between the different image sets.
+ * This class allows for animation and an abstraction for 
+ * switching between the different image sets.
  * 
  * @author Liam Clegg
  * @version 1.0
@@ -31,13 +33,19 @@ public class Sprite {
      */
     public Sprite() {}
 
+    /**
+     * 
+     * @param path
+     * @return
+     */
     public static Image imageFromPath(String path) {
         String resourcePath = Sprite.class.getResource(path).toString();
 
         Image image = imageCache.get(resourcePath);
 
-        if(image != null)
+        if (image != null) {
             return image;
+        }
 
         image = new Image(resourcePath);
         imageCache.put(resourcePath, image);
@@ -51,33 +59,36 @@ public class Sprite {
      *      The current image.
      */
     public Image getCurrentImage() {
-        if(
-            this.images.get(currentImageSet) == null || 
-            this.images.get(currentImageSet).length == 0
-        ) {
+        if (this.images.get(currentImageSet) == null || 
+            this.images.get(currentImageSet).length == 0) {
             return null;
         }
 
-        if(currentFrame >= this.images.get(currentImageSet).length)
+        if (currentFrame >= this.images.get(currentImageSet).length) {
             currentFrame = 0;
+        }
 
         return this.images.get(currentImageSet)[currentFrame];
     }
 
     /**
-     * Updates the current image to the next frame in the set based on the {@link #spriteAnimationSpeed}.
+     * Updates the current image to the next frame in the 
+     * set based on the {@link #spriteAnimationSpeed}.
      * 
      */
     public void update() {
-        if(spriteAnimationSpeed <= 0 || this.animationType == AnimationType.NONE)
+        if (spriteAnimationSpeed <= 0 || 
+            this.animationType == AnimationType.NONE) {
             return;
+        }
 
         double delta = Game.getInstance().getDelta();
         this.timeSinceLastSpriteFrame += delta;
 
-        double frameSpeed = spriteAnimationSpeed / (double)getCurrentImageCount();
+        double frameSpeed = spriteAnimationSpeed / 
+            (double) getCurrentImageCount();
 
-        if(this.timeSinceLastSpriteFrame >= frameSpeed) {
+        if (this.timeSinceLastSpriteFrame >= frameSpeed) {
             boolean loop = this.animationType == AnimationType.INFINITE;
             this.incrementSprite(loop);
             this.timeSinceLastSpriteFrame -= frameSpeed;
@@ -85,23 +96,30 @@ public class Sprite {
     }
 
     /**
-     * Increments the current frame in the current set by on and loops if its at the end of the set.
+     * Increments the current frame in the current set by 
+     * on and loops if its at the end of the set.
      * 
      */
     public void incrementSprite(boolean loop) {
-        if(this.images.get(this.currentImageSet) == null)
+        if (this.images.get(this.currentImageSet) == null) {
             return;
+        }
 
         this.currentFrame++;
 
-        if(this.currentFrame >= getCurrentImageCount() - 1) {
+        if (this.currentFrame >= getCurrentImageCount() - 1) {
             this.currentFrame = loop ? 0 : this.currentFrame - 1;
         }
     }
 
+    
+    /** 
+     * @return int
+     */
     public int getCurrentImageCount() {
-        if(this.images.get(this.currentImageSet) == null)
+        if (this.images.get(this.currentImageSet) == null) {
             return 0;
+        }
 
         return this.images.get(this.currentImageSet).length;
     }
@@ -117,7 +135,8 @@ public class Sprite {
     }
 
     /**
-     * Adds a new image set with a given tag and an array of paths relative to the resources directory.
+     * Adds a new image set with a given tag and an array 
+     * of paths relative to the resources directory.
      * 
      * @param tag
      *      The name of the set.
@@ -128,7 +147,7 @@ public class Sprite {
     public void addImageSet(String tag, String[] paths) {
         Image images[] = new Image[paths.length];
 
-        for(int i = 0; i < paths.length; i++) {
+        for (int i = 0; i < paths.length; i++) {
             images[i] = Sprite.imageFromPath(paths[i]);
         }
 
@@ -159,7 +178,8 @@ public class Sprite {
     }
     
     /**
-     * If only one image is used in the sprite setImage will add a given image to a set of length one with the tag "default".
+     * If only one image is used in the sprite setImage will 
+     * add a given image to a set of length one with the tag "default".
      * This method also will set the current image set to "default"
      * 
      * @param image
@@ -171,11 +191,13 @@ public class Sprite {
     }
 
     /**
-     * If only one image is used in the sprite setImage will add a given image to a set of length one with the tag "default".
+     * If only one image is used in the sprite setImage will 
+     * add a given image to a set of length one with the tag "default".
      * This method also will set the current image set to "default"
      * 
      * @param image
-     *      The path of the image relative to resources that will be used for the sprite.
+     *      The path of the image relative to resources that 
+     *      will be used for the sprite.
      */
     public void setImage(String path) {
         addImageSet("default", new String[] { path });
@@ -183,7 +205,8 @@ public class Sprite {
     }
 
     /**
-     * Sets the speed of the animation based on how many seconds between each frame.
+     * Sets the speed of the animation based on 
+     * how many seconds between each frame.
      * 
      * @param speed
      *      The number of seconds between each frame.
@@ -192,19 +215,29 @@ public class Sprite {
         this.spriteAnimationSpeed = speed;
     }
 
+    
+    /** 
+     * @param animationType
+     */
     public void setAnimationType(AnimationType animationType) {
         this.animationType = animationType;
     }
 
+    
+    /** 
+     * @param applyColor
+     * @return Image
+     */
     public Image applyColor(Color applyColor) {
         Image loaded = this.getCurrentImage();
 
         PixelReader pixelReader = loaded.getPixelReader();
-        WritableImage writableImage = new WritableImage((int)loaded.getWidth(), (int)loaded.getHeight());
+        WritableImage writableImage = new WritableImage(
+            (int) loaded.getWidth(), (int) loaded.getHeight());
         PixelWriter pixelWriter = writableImage.getPixelWriter();
 
-        for (int y = 0; y < loaded.getHeight(); y++){
-            for (int x = 0; x < loaded.getWidth(); x++){
+        for (int y = 0; y < loaded.getHeight(); y++) {
+            for (int x = 0; x < loaded.getWidth(); x++) {
                 Color color = pixelReader.getColor(x, y);
 
                 Color tint = new Color(
@@ -221,27 +254,48 @@ public class Sprite {
         return this.images.get(currentImageSet)[currentFrame] = writableImage;
     }
 
-    static public Image[] createImageFade(String path1, String path2, int imageCount) {
+    
+    /** 
+     * @param path1
+     * @param path2
+     * @param imageCount
+     * @return Image[]
+     */
+    static public Image[] createImageFade(
+        String path1, String path2, int imageCount) {
         Image image1 = Sprite.imageFromPath(path1);
         Image image2 = Sprite.imageFromPath(path2);
         return createImageFade(image1, image2, imageCount);
     }
 
-    static public Image[] createImageFade(Image image1, Image image2, int imageCount) {
+    
+    /** 
+     * @param image1
+     * @param image2
+     * @param imageCount
+     * @return Image[]
+     */
+    static public Image[] createImageFade(
+        Image image1, Image image2, int imageCount) {
         Image[] images = new Image[imageCount];
 
-        for(int i = 0; i < imageCount; i++) {
-            images[i] = createFade(image1, image2, i/(double)imageCount);
+        for (int i = 0; i < imageCount; i++) {
+            images[i] = createFade(image1, image2, i / (double) imageCount);
         }
 
         return images;
     }
 
+    
+    /** 
+     * @param image1
+     * @param image2
+     * @param amount
+     * @return Image
+     */
     static private Image createFade(Image image1, Image image2, double amount) {
-        if(
-            image1.getHeight() != image2.getHeight() || 
-            image1.getWidth() != image2.getWidth()
-        ) {
+        if (image1.getHeight() != image2.getHeight() || 
+            image1.getWidth() != image2.getWidth()) {
             return image1;
         }
 
@@ -254,16 +308,20 @@ public class Sprite {
         WritableImage writableImage = new WritableImage(width, height);
         PixelWriter pixelWriter = writableImage.getPixelWriter();
 
-        for(int y = 0; y < height; y++) {
-            for(int x = 0; x < width; x++) {
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
                 Color color1 = pixelReader1.getColor(x, y);
                 Color color2 = pixelReader2.getColor(x, y);
 
-                Color result = new Color (
-                    color1.getRed() * (1-amount) + color2.getRed() * amount, 
-                    color1.getGreen() * (1-amount) + color2.getGreen() * amount, 
-                    color1.getBlue() * (1-amount) + color2.getBlue() * amount, 
-                    color1.getOpacity() * (1-amount) + color2.getOpacity() * amount
+                Color result = new Color(
+                    color1.getRed() * (1 - amount) + 
+                        color2.getRed() * amount, 
+                    color1.getGreen() * (1 - amount) + 
+                        color2.getGreen() * amount,
+                    color1.getBlue() * (1 - amount) + 
+                        color2.getBlue() * amount, 
+                    color1.getOpacity() * (1 - amount) + 
+                        color2.getOpacity() * amount
                 );
 
                 pixelWriter.setColor(x, y, result);
