@@ -3,19 +3,13 @@ package com.group22;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
-import java.util.concurrent.*;
 
 public class Bomb extends Entity {
 
-    private static final int FRAME_OFFSET = 50;
     private double countdown;
-    private double countUp = 0;
     private boolean fuze = false;
     private boolean explosion = false;
-    private boolean doneOnce = false;
     private double time;
-    private ScheduledExecutorService scheduler;
-
 
     /**
      * @param x the horizontal position of a bomb on the map
@@ -25,9 +19,9 @@ public class Bomb extends Entity {
 
     public Bomb(int x, int y, double c) {
         super(x, y);
-        this.countdown = c;
-        scheduler
-                = Executors.newScheduledThreadPool(4);
+        this.countdown = 3;
+        this.time = 0;
+
         this.getSprite().addImageSet("tick", Sprite.createImageFade(
                 "item/farron/farron0.png",
                 "item/farron/farron5.png",
@@ -36,8 +30,8 @@ public class Bomb extends Entity {
         this.getSprite().setImage("item/farron/farron0.png");
     }
 
-    public void countUp() {
-        countUp += 0.0001;
+    private void updateTime() {
+        this.time -= Game.getInstance().getDelta();
     }
 
     public void detonationAnimation() {
@@ -72,12 +66,14 @@ public class Bomb extends Entity {
         for (Entity entity : allEntity) {
             if (entity instanceof Bomb && entity.getDrawX() == this.getX()) {
                 Bomb bomb = ((Bomb) entity);
-                bomb.countUp = countdown;
+                bomb.time = 3;
+                bomb.fuze = true;
             } else if (entity.getX() == this.getX()) {
                 Game.getInstance().removeEntity(entity);
             } else if (entity instanceof Bomb && entity.getY() == this.getY()) {
                 Bomb bomb = ((Bomb) entity);
-                bomb.countUp = countdown;
+                bomb.time = 3;
+                bomb.fuze = true;
             } else if (entity.getY() == this.getY()) {
                 Game.getInstance().removeEntity(entity);
             }
@@ -87,7 +83,7 @@ public class Bomb extends Entity {
 
     @Override
     public String toString() {
-        return ("bomb " + getX() + " " + getY() + " " + (this.countdown - this.countUp));
+        return ("bomb " + getX() + " " + getY() + " " + (this.countdown - this.time));
     }
 
     @Override
@@ -134,36 +130,25 @@ public class Bomb extends Entity {
             }
 
         }
-
-        if (this.countdown - countUp <= 0.3) {
-            detonationAnimation();
-        }
-        if (this.countUp >= this.countdown) {
-            scheduler.shutdown();
-            detonateBomb();
-        }
-
+ 
         if (fuze) {
+            if(time >= countdown - 0.3){
+                detonationAnimation();
+            }
+    
+            if(time >= countdown){
+                this.time = 3;
+                detonateBomb();
+            }
             this.shake();
-            if (!doneOnce) {
-                doneOnce = true;
-                for (int i = (int) this.countdown * 10000 + FRAME_OFFSET; i >= 0; i--) {
-                    scheduler.schedule(new Task(this), i * 100,
-                            TimeUnit.MICROSECONDS);
+            ArrayList<Bomb> bombs = new ArrayList<>(Game.getInstance().getEntities(Bomb.class));
+
+            for (Bomb bomb : bombs) {
+                if (this.getX() == bomb.getX() || this.getY() == bomb.getY()) {
+                    bomb.shake();
                 }
             }
-        }
-    }
-
-    class Task implements Runnable {
-        private Bomb bomb;
-
-        public Task(Bomb bomb) {
-            this.bomb = bomb;
-        }
-
-        public void run() {
-            bomb.countUp();
+            updateTime();
         }
     }
 }
