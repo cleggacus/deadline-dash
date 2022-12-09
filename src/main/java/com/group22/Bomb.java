@@ -126,19 +126,22 @@ public class Bomb extends Entity{
             scheduler.shutdown();
             detonateBomb();
         }
-
-        if (fuze && !doneOnce){
-            doneOnce = true;
+    
+        if (fuze){
             double shakeAmountX = 0.05 * Math.sin(1.1 * this.countdown * Math.pow(this.time, 3));
             double shakeAmountY = 0.05 * Math.sin(0.9 * this.countdown * Math.pow(this.time, 3));
+            
             this.setSpriteOffset(shakeAmountX, shakeAmountY);
             this.time += Game.getInstance().getDelta();
             this.getSprite().setAnimationSpeed(this.countdown);
             this.getSprite().setImageSet("tick");
             this.getSprite().setAnimationType(AnimationType.SINGLE);
+            if(!doneOnce){
+            doneOnce = true;
             for (int i = (int) this.countdown *4; i >= 0; i--) {
                 scheduler.schedule(new Task(this), i*250,
                                    TimeUnit.MILLISECONDS);        }
+            }
 
 }
 }
