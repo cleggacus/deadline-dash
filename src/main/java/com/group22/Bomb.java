@@ -7,7 +7,6 @@ import java.util.concurrent.*;
 
 public class Bomb extends Entity{
 
-<<<<<<< HEAD
     private static final int COUNTDOWN = 3;
     private int countUp = 0;
     private boolean fuze = false;
@@ -15,14 +14,6 @@ public class Bomb extends Entity{
     private boolean doneOnce = false;
     private double time;
     private ScheduledExecutorService scheduler;
-=======
-    private static final double ANIMATION_DURATION = 0.032;
-    private double countdown;
-    private double time = 0;
-    private double bombStart;
-    private boolean fuze;
-    private boolean explosion;
->>>>>>> 9beaa0d6f7937ed67fffed91acf59e637f0054a1
 
 
     /**
@@ -32,29 +23,16 @@ public class Bomb extends Entity{
      * @param countdown the countdown timer of the bomb's detonation
      */
 
-    public Bomb(int x, int y, double timeRemaining) {
+    public Bomb(int x, int y) {
         super(x, y);
-<<<<<<< HEAD
         scheduler
             = Executors.newScheduledThreadPool(4);
-=======
-        this.explosion = false;
->>>>>>> 9beaa0d6f7937ed67fffed91acf59e637f0054a1
         this.getSprite().addImageSet("tick", Sprite.createImageFade(
             "item/farron/farron0.png",
             "item/farron/farron5.png",
             12*3
         ));
         this.getSprite().setImage("item/farron/farron0.png");
-        
-        if(timeRemaining < 3){
-            this.countdown = timeRemaining;
-            this.bombStart = Game.getInstance().getTime() + countdown - ANIMATION_DURATION;
-            this.fuze = true;
-        } else {
-            this.countdown = 3;
-            this.fuze = false;
-        }
     }
 
     public void countUp(){
@@ -72,11 +50,7 @@ public class Bomb extends Entity{
             if (entity.getX() == this.getX()){
                 if(entity instanceof Bomb){
                     Bomb bomb = (Bomb) entity;
-<<<<<<< HEAD
                     bomb.countUp = COUNTDOWN;
-=======
-                    bomb.bombStart = Game.getInstance().getTime() + countdown - ANIMATION_DURATION;
->>>>>>> 9beaa0d6f7937ed67fffed91acf59e637f0054a1
                     bomb.fuze = true;
                 } else {
                     Game.getInstance().removeEntity(entity);
@@ -84,11 +58,7 @@ public class Bomb extends Entity{
             } else if (entity.getY() == this.getY()){
                 if(entity instanceof Bomb){
                     Bomb bomb = (Bomb) entity;
-<<<<<<< HEAD
                     bomb.countUp = COUNTDOWN;
-=======
-                    bomb.bombStart = Game.getInstance().getTime() + countdown - ANIMATION_DURATION;
->>>>>>> 9beaa0d6f7937ed67fffed91acf59e637f0054a1
                     bomb.fuze = true;
                 } else {
                     Game.getInstance().removeEntity(entity);
@@ -97,23 +67,6 @@ public class Bomb extends Entity{
         }
     }
 
-<<<<<<< HEAD
-=======
-    public void activateBomb() {
-        double shakeAmountX = 0.05 * Math.sin(1.1 * countdown * Math.pow(this.time, 3));
-        double shakeAmountY = 0.05 * Math.sin(0.9 * countdown * Math.pow(this.time, 3));
-        this.setSpriteOffset(shakeAmountX, shakeAmountY);
-        this.time += Game.getInstance().getDelta();
-        this.getSprite().setAnimationSpeed(countdown);
-        this.getSprite().setImageSet("tick");
-        this.getSprite().setAnimationType(AnimationType.SINGLE);
-
-        if ((this.bombStart - countdown) >= Game.getInstance().getTime()){
-            detonateBomb();
-        }
-    }
-
->>>>>>> 9beaa0d6f7937ed67fffed91acf59e637f0054a1
     @Override
     public String toString(){
         return ("bomb " + getX() + " " + getY() + " " + (3 - this.time));
@@ -159,19 +112,10 @@ public class Bomb extends Entity{
 
         }
 
-<<<<<<< HEAD
         if (countUp >= COUNTDOWN){
             scheduler.shutdown();
             this.explosion = true;
             detonateBomb();
-=======
-        if (fuze){
-            activateBomb();
-        }
-
-        if ((this.bombStart - countdown + ANIMATION_DURATION) >= Game.getInstance().getTime()){
-            explosion = true;
->>>>>>> 9beaa0d6f7937ed67fffed91acf59e637f0054a1
         }
 
         if (fuze && !doneOnce){
