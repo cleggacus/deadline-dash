@@ -24,13 +24,13 @@ public class Level {
     /**
      * Creates a new level from params listed.
      * 
-     * @param title             level title
-     * @param timeToComplete    time to complete level
-     * @param height            height of the level in tiles
-     * @param width             width of the level in tiles
-     * @param tiles             2d array of the tiles
+     * @param title             level title string
+     * @param timeToComplete    time to complete level as double
+     * @param height            height of the level in tiles as in
+     * @param width             width of the level in tiles as int
+     * @param tiles             2D array of {@link Tile} objects
      * @param entities          ArrayList of strings of entities
-     * @param replays           ArrayList of replays for the level
+     * @param replays           ArrayList of {@link Replay}'s for the level
      * @param levelIndex        the index of the level in the level file
      */
     public Level(String title, int timeToComplete, int height,
@@ -47,15 +47,15 @@ public class Level {
     }
 
     /**
-     * This function loops through an ArrayList of Entities and returns the 
-     * Player when found.
+     * This function loops through an {@link ArrayList} of type {@link Entity}
+     * and returns the {@link Player} when found.
      * 
-     * @param entities An ArrayList of all the entities in the level.
-     * @return The player object.
+     * @param entities An {@link ArrayList} of type {@link Entity}.
+     * @return The {@link Player} object.
      */
     public Player getPlayerFromEntities(ArrayList<Entity> entities){
-        for(Entity entity : entities){
-            if(entity instanceof Player){
+        for (Entity entity : entities) {
+            if (entity instanceof Player) {
                 return (Player) entity;
             }
         }
@@ -71,12 +71,16 @@ public class Level {
 
     /** 
      * Getter for the level index
-     * @return String
+     * @return int
      */
     public int getIndex(){
         return levelIndex;
     }
 
+    /**
+     * Getter for the level's {@link Replay}'s.
+     * @return {@link ArrayList} of type {@link} Replay}'s
+     */
     public ArrayList<Replay> getReplays(){
         return replays;
     }
@@ -90,22 +94,23 @@ public class Level {
     }
 
     /**
-     * Gets the position of the players score in the levels.txt file.
+     * Gets the position of the {@link Player}'s score in the
+     * {@code levels.txt} file.
      * 
      * @param score The players score as an integer value.
-     * @return The position of the score in the highscores array. 11 if 
-     * the player didn't qualify for the top 10.
+     * @return The position of the score in the {@link Replay}'s
+     * {@link ArrayList}, returns 11 if the player didn't
+     * qualify for the top 10.
      */
     public int getScorePosition(int score){
-        final ArrayList<Replay> LEVEL_REPLAYS = this.replayManager.getReplaysFromLevelTitle(this.getTitle());
-        if(LEVEL_REPLAYS.size() == 0){
+        if (this.replays.size() == 0){
             return 1;
         }
-        for(int i = 0; i < 10; i++){
-            if(LEVEL_REPLAYS.size() == i)
+        for (int i = 0; i < 10; i++){
+            if (this.replays.size() == i)
                 return i + 1;
-            final int LEVEL_HIGHSCORE = LEVEL_REPLAYS.get(i).getScore();
-            if(LEVEL_HIGHSCORE <= score)
+            final int LEVEL_HIGHSCORE = this.replays.get(i).getScore();
+            if (LEVEL_HIGHSCORE <= score)
                 return i + 1;
         }
         return 11;
@@ -114,25 +119,25 @@ public class Level {
     /**
      * Called when the player wins the level. If they haven't
      * unlocked any further levels, then this unlocks the next one.
-     * If the score is in the top 10, then write the score to
-     * the leaderboard for the level.
+     * If the score is in the top 10, then write the replay to
+     * the replays file.
      * 
-     * @param profile The profile of the player
-     * @param score the score the player got
+     * @param profile The {@link Profile} of the user
+     * @param score the score the user got
      */
     public void completeLevel(Profile profile, Replay replay, int score){
         final int PROFILE_UNLOCKED_INDEX = profile.getMaxUnlockedLevelIndex();
-        if(PROFILE_UNLOCKED_INDEX == this.getIndex()){
+        if (PROFILE_UNLOCKED_INDEX == this.getIndex()) {
             profile.setUnlockedLevelIndex(this.getIndex()+1);
         }
         final int SCORE_POS = this.getScorePosition(score);
-        if(SCORE_POS <= 10){
+        if (SCORE_POS <= 10) {
             this.replayManager.saveReplay(this, replay, score);
         }
     }
     
     /** 
-     * Getter for retrieving the Tile objects for the level
+     * Getter for retrieving the {@link Tile} objects for the level
      * @return Tile[][]
      */
     public Tile[][] getTiles(){
@@ -141,8 +146,9 @@ public class Level {
 
     
     /** 
-     * Getter for retrieving an ArrayList of entities. This may change
-     * @return List<? super Entity>
+     * Getter for retrieving an {@link ArrayList} of a {@link String}
+     * array of entity data.
+     * @return {@link ArrayList} of a {@link String} array
      */
     public ArrayList<String[]> getEntities(){
         return entities;
@@ -167,56 +173,61 @@ public class Level {
     }
 
     /**
-     * It checks if the entity is a player or a door, and if it is, it sets the corresponding boolean
-     * to true. Checks if the entity is out of bounds for the level and throws
-     * a LevelFormatException exception if it is out of bounds.
+     * It checks if the entity is a player or a door, and if it is,
+     * it sets the corresponding boolean to true. Checks if the
+     * entity is out of bounds for the level and throws
+     * a {@link LevelFormatException} if it is out of bounds.
      * 
      * @param entity The entity to be checked
      * @throws LevelFormatException
      */
     private void isValidEntity(Entity entity) throws LevelFormatException{
-        if(entity instanceof Player){
+        if (entity instanceof Player) {
             this.playerPresent = true;
         }
-        if(entity instanceof Door){
+        if (entity instanceof Door) {
             this.doorPresent = true;
         }
-        if(entity.getX() > this.width-1)
+        if (entity.getX() > this.width - 1)
             throw new LevelFormatException("Entity out of bounds in x");
-        if(entity.getY() > this.height-1)
+        if (entity.getY() > this.height - 1)
             throw new LevelFormatException("Entity out of bounds in y");
     }
 
     /**
-     * This function checks if the level has a player and a door.
-     * If it doesn't, it throws a LevelFormatException exception.
+     * This function checks if the level has a {@link Player}
+     * and a {@link Door}. If it doesn't, it throws a
+     * {@link LevelFormatException} exception.
      * 
      * @throws LevelFormatException
      */
     private void isValidLevel() throws LevelFormatException{
-        if(!this.playerPresent)
+        if (!this.playerPresent)
             throw new LevelFormatException("Player not present for level "
             + this.getTitle());
-        if(!this.doorPresent)
+        if (!this.doorPresent)
             throw new LevelFormatException("Door not present for level "
             + this.getTitle());
     }
 
     /**
-     * It takes the data from the level file and creates the entities that
-     * will be used in the game.
-     * Calls {@code isValidEntity()} when the entity is created 
-     * and {@code isValidLevel()} once all entities have been added to the
+     * It takes the data from the level file and creates an {@link ArrayList}
+     * of {@link Entity}'s using the {@link tilesToEntities} function for
+     * {@link Tile}'s and the {@link #parseEntity()} function for other
+     * {@link Entity}'s.
+     * Calls {@link #isValidEntity()} when the entity is created 
+     * and {@link #isValidLevel()} once all entities have been added to the
      * ArrayList entities.
      * 
-     * @return An ArrayList of Entities.
+     * @return {@link ArrayList} of type {@link Entity}.
+     * @throws LevelFormatException
      */
     public ArrayList<Entity> createEntities() throws LevelFormatException {
         ArrayList<Entity> entities = new ArrayList<>();
 
         entities.addAll(this.tilesToEntities());
         
-        for(String[] entityData : this.getEntities()) {
+        for (String[] entityData : this.getEntities()) {
             final Entity entity = parseEntity(entityData);
             isValidEntity(entity);
             entities.add(entity);
@@ -227,17 +238,17 @@ public class Level {
     }
 
     /**
-     * It takes a 2D array of Tile objects
-     * and returns the ArrayList of entities with these
+     * It takes a 2D array of {@link Tile} objects from the level
+     * and returns the {@link ArrayList} of type {@link Entity} with these
      * tiles added to them.
      * 
-     * @return An ArrayList of Entities.
+     * @return {@link ArrayList} of type {@link Entity}
      */
     private ArrayList<Entity> tilesToEntities(){
         ArrayList<Entity> entities = new ArrayList<Entity>();
 
-        for(Tile[] yTiles : tiles){
-            for(Tile xTiles : yTiles){
+        for (Tile[] yTiles : tiles) {
+            for (Tile xTiles : yTiles) {
                 entities.add(xTiles);
             }
         }
@@ -247,14 +258,18 @@ public class Level {
     public ArrayList<Entity> getTilesAsEntities(){
         return tilesToEntities();
     }
+
     /**
-     * It takes an array of strings, and returns an object of the type specified
-     * by the first string in the array
+     * It takes an array of strings, and returns an {@link Entity} of the
+     * type specified by the first string in the array. Performs error
+     * checking on each entity to ensure all details are present.
      * 
-     * @param entity the entity to be parsed
-     * @return returns an Entity object.
+     * @param entity the entity to be parsed as a String
+     * @return returns an {@link Entity} object.
+     * @throws LevelFormatException
      */
-    public Entity parseEntity(String[] entity){
+    public Entity parseEntity(String[] entity) 
+        throws LevelFormatException{
         switch(entity[0]){
             case("player"):
                 return new Player(
@@ -262,54 +277,100 @@ public class Level {
                     Integer.parseInt(entity[2]),
                     entity.length >= 4 && entity[3].equals("torch"));
             case("door"):
+                if (entity.length != 3)
+                    throw new LevelFormatException(
+                        "door has " 
+                        + (entity.length < 3 ? "too few" : "too many")
+                        + " applicable attributes in " + this.getTitle());
                 return new Door(
                     Integer.parseInt(entity[1]),
                     Integer.parseInt(entity[2]));
             case("clock"):
+                if (entity.length != 4)
+                    throw new LevelFormatException(
+                        "clock has " 
+                        + (entity.length < 4 ? "too few" : "too many")
+                        + " applicable attributes in " + this.getTitle());
                 return new Clock(
                     Integer.parseInt(entity[1]),
                     Integer.parseInt(entity[2]),
                     Integer.parseInt(entity[3])
                     );
             case("bomb"):
+                if (entity.length != 4)
+                    throw new LevelFormatException(
+                        "bomb has" 
+                        + (entity.length < 4 ? "too few" : "too many")
+                        + " applicable attributes in " + this.getTitle());
                 return new Bomb(
                     Integer.parseInt(entity[1]),
                     Integer.parseInt(entity[2]),
                     Double.parseDouble(entity[3]));
             case("followingthief"):
+                if (entity.length != 5)
+                    throw new LevelFormatException(
+                        "followingthief has" 
+                        + (entity.length < 5 ? "too few" : "too many")
+                        + " applicable attributes in " + this.getTitle());
                 return new FollowingThief(
                     Integer.parseInt(entity[1]),
                     Integer.parseInt(entity[2]), 
                     TileColor.getFromLabel(entity[3].toCharArray()[0]),
                     Boolean.parseBoolean(entity[4]));
             case("lever"):
+                if (entity.length != 4)
+                    throw new LevelFormatException(
+                        "lever has" 
+                        + (entity.length < 4 ? "too few" : "too many")
+                        + " applicable attributes in " + this.getTitle());
                 return new Lever(
                     Integer.parseInt(entity[1]),
                     Integer.parseInt(entity[2]),
                     entity[3]);
             case("gate"):
+                if (entity.length != 5)
+                    throw new LevelFormatException(
+                        "gate has" 
+                        + (entity.length < 5 ? "too few" : "too many")
+                        + " applicable attributes in " + this.getTitle());
                 return new Gate(
                     Integer.parseInt(entity[1]),
                     Integer.parseInt(entity[2]),
                     entity[3],
                     Boolean.parseBoolean(entity[4]));
             case("loot"):
+                if (entity.length != 4)
+                    throw new LevelFormatException(
+                        "loot has" 
+                        + (entity.length < 4 ? "too few" : "too many")
+                        + " applicable attributes in " + this.getTitle());
                 return new Loot(
                     Integer.parseInt(entity[1]),
                     Integer.parseInt(entity[2]),
                     Integer.parseInt(entity[3]));
             case("flyingassassin"):
+                if (entity.length != 4)
+                    throw new LevelFormatException(
+                        "flyingassassin has" 
+                        + (entity.length < 4 ? "too few" : "too many")
+                        + " applicable attributes in " + this.getTitle());
                 return new FlyingAssassin(
                     Integer.parseInt(entity[1]),
                     Integer.parseInt(entity[2]),
                     entity[3].equals("v"));
             case("smartmover"):
+            if (entity.length != 3)
+                throw new LevelFormatException(
+                    "smartmover has" 
+                    + (entity.length < 3 ? "too few" : "too many")
+                    + " applicable attributes in " + this.getTitle());
                 return new SmartMover(
                     Integer.parseInt(entity[1]),
                     Integer.parseInt(entity[2]));
             default:
-                return null;
-
+                throw  new LevelFormatException(
+                    "Entity name is not applicable."
+                );
         }
     }
 }

@@ -9,7 +9,7 @@ import java.util.List;
 
 public class ReplayManager {
     //private Level level;
-    private static final String replayFolder = "src/main/resources/com/group22/replays";
+    private static final String replayFolder = "src/main/resources/com/group22/replays/";
     private FileManager fileManager;
 
     public ReplayManager(){
@@ -101,6 +101,7 @@ public class ReplayManager {
             replayWriter.append(score + "\n");
 
             for(ReplayFrame frame : replay.getFrames()){
+                System.out.println("frame " + frame.getKeyTime());
                 replayWriter.append(frame.getX() + " " + frame.getY() + " " + frame.getKeyTime() + "\n");
             }
 

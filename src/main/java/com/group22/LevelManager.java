@@ -4,6 +4,14 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * The {@code LevelManager} class has methods which ease the loading of
+ * {@link Level}'s, and holds these levels as a static {@link ArrayList}
+ * of {@link Level}'s.
+ * 
+ * @author Sam Austin
+ * @version 1.0
+ */
 public class LevelManager {
     private static LevelManager instance;
     private FileManager fileManager;
@@ -16,8 +24,14 @@ public class LevelManager {
     private LevelManager(){
     }
 
+    /**
+     * If the instance is null, create a new instance and
+     * call the {@link #onInitialized()} function
+     * 
+     * @return The instance of the {@link LevelManager} class.
+     */
     public static synchronized LevelManager getInstance() {
-        if(LevelManager.instance == null) {
+        if (LevelManager.instance == null) {
             LevelManager.instance = new LevelManager();
             LevelManager.instance.onInitialized();
         }
@@ -36,7 +50,8 @@ public class LevelManager {
         levels = setUpLevels(levels, data);
     }
 
-    private ArrayList<Level> setUpLevels(ArrayList<Level> levels, ArrayList<String> data){
+    private ArrayList<Level> setUpLevels(
+        ArrayList<Level> levels, ArrayList<String> data){
 
         try{
             this.linePos = 0;

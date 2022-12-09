@@ -45,7 +45,11 @@ public class SavedStateManager {
             ArrayList<Entity> entities = new ArrayList<Entity>();
             entities.addAll(level.getTilesAsEntities());
             for (String entityString : data.subList(5, data.size())) {
-                entities.add(level.parseEntity(entityString.split(" ")));
+                try {
+                    entities.add(level.parseEntity(entityString.split(" ")));
+                } catch (LevelFormatException e) {
+                    e.printStackTrace();
+                }
             }
 
             SavedState savedState = new SavedState(level.getTitle(), entities, score, time, LocalDateTime.now(), level.getIndex());

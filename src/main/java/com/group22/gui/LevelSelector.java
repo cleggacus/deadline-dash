@@ -6,56 +6,76 @@ import com.group22.Game;
 import com.group22.GameState;
 import com.group22.Level;
 import com.group22.Profile;
-import com.group22.ReplayManager;
 import com.group22.gui.base.ImageList;
 import com.group22.gui.base.MenuPane;
 
 import javafx.scene.layout.StackPane;
-
+/** LevelSelector is the menu in which users pick which level they want to play.
+ *  It allows the user to navigate to the replays and saves browsers for each
+ *  level. It also displays levels that the user hasn't unlocked yet.
+ * @author Sam Austin
+ * @version 1.0
+*/
 public class LevelSelector extends MenuPane {
     private double shakeTimer = 0;
-    private int lockNotify = -1;
+    private int lockClicked = -1;
     private ImageList imageList;
     private Profile currentProfile;
     private GamePane gamePane;
-    private ReplayManager replayManager;
 
+    /**
+     * Initialiser for the {@code LevelSelector}
+     * @param gamePane The current {@link GamePane} object
+     */
     public LevelSelector(GamePane gamePane) {
         this.gamePane = gamePane;
         this.imageList = new ImageList();
-        this.replayManager = new ReplayManager();
 
         this.addH1("LEVELS");
-
         this.add(imageList);
-
         this.addButton("GO BACK", () -> gamePane.setState(GameState.Start));
 
-        this.imageList.prefHeightProperty().bind(this.heightProperty().multiply(0.5));
+        this.imageList.prefHeightProperty().bind(
+            this.heightProperty().multiply(0.5));
         this.imageList.prefWidthProperty().bind(this.widthProperty());
     }
 
+    /**
+     * This method handles image shaking when a locked level is clicked by the
+     * user. If the lockClicked variable is greater than or equal to 0, the
+     * shakeTimer is started, the stackPane is translated using a sine wave,
+     * and if the shakeTimer is greater than or equal to 0.5, then the
+     * shakeTimer is set to 0 and the animation is stopped.
+     */
     public void update() {
         this.imageList.update(Game.getInstance().getDelta());
-        if(lockNotify >= 0) {
+        if (lockClicked >= 0) {
             shakeTimer += Game.getInstance().getDelta();
-            StackPane stackPane = this.imageList.getStackPanes().get(lockNotify);
+            StackPane stackPane = this.imageList.getStackPanes().get(
+                lockClicked);
             stackPane.setTranslateX(5 * Math.sin(40*shakeTimer));
 
-            if(shakeTimer >= 0.5) {
+            if (shakeTimer >= 0.5) {
                 shakeTimer = 0;
                 stackPane.setTranslateX(0);
-                this.lockNotify = -1;
+                this.lockClicked = -1;
             }
         }
     }
 
+    /**
+     * Passes each level to {@link #addLevel(Level) addLevel}
+     * @param levels A {@link List} of {@link Level}'s
+     */
     public void addLevels(List<Level> levels) {
-        for(Level level : levels) {
+        for (Level level : levels) {
             this.addLevel(level);
         }
     }
 
+    /**
+     * This function clears the imageList of all items
+     */
     public void clearLevels(){
         this.imageList = new ImageList();
         this.replace(this.imageList, 1);
@@ -66,33 +86,54 @@ public class LevelSelector extends MenuPane {
         this.currentProfile = profile;
     }
 
+    /**
+     * Creates an {@link ImageList} object with the details of the {@link Level}
+     * @param level The level to add to the {@link ImageList}
+     */
     public void addLevel(Level level) {
-        int i = this.imageList.getLength();
-        int l = this.currentProfile.getMaxUnlockedLevelIndex() + 1;
-        String path = "thumb/" + level.getTitle().toLowerCase().replace(" ", "_") + ".png";
+        int currentLevelIndex = this.imageList.getLength();
+        int maxUnlockedLevel = this.currentProfile
+            .getMaxUnlockedLevelIndex() + 1;
 
-        if(i < l){ //unlocked
+        // set path to the current levels thumbnail image path
+        String path = "thumb/" + level.getTitle().toLowerCase()
+        .replace(" ", "_") + ".png";
+
+        if (currentLevelIndex < maxUnlockedLevel) { // level is unlocked
             this.imageList.addImage(
+                // add image
                 level.getTitle(),
                 getClass().getResource(path).toString(),
-                () -> Game.getInstance().startFromLevel(i),
+                () -> Game.getInstance().startFromLevel(currentLevelIndex),
+                // add footer
                 "🔁",
-                () -> {this.gamePane.getSavesBrowser().setSavedStates(level, i);
+                () -> {
+                    /*  set saved states in the saves
+                        browser for this level and user */
+                    this.gamePane.getSavesBrowser().setSavedStates(
+                        level, currentLevelIndex);
                     this.gamePane.setState(GameState.SavesBrowser);
                 }
             );
 
-        } else { //locked
+        } else { // level is locked
             this.imageList.addImage(
+                // add image
                 "🔒",
                 getClass().getResource(path).toString(),
                 () -> {
-                    lockNotify = i;
+                    // shake this image
+                    lockClicked = currentLevelIndex;
                 },
+                // add footer
                 "🔁",
-                () -> {this.gamePane.getReplaysBrowser().setReplays(level.getTitle(), i);
-                    this.gamePane.setState(GameState.ReplaysBrowser);}
-                    );
+                () -> {
+                    // set replays in the replays browser for this level
+                    this.gamePane.getReplaysBrowser().setReplays(
+                        level.getTitle(), currentLevelIndex);
+                    this.gamePane.setState(GameState.ReplaysBrowser);
+                }
+            );
         }
     }
 }
