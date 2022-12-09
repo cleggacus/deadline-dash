@@ -7,7 +7,7 @@ import java.util.concurrent.*;
 
 public class Bomb extends Entity{
 
-    private static double countdown;
+    private double countdown;
     private double countUp = 0;
     private boolean fuze = false;
     private boolean explosion = false;
@@ -76,7 +76,7 @@ public class Bomb extends Entity{
 
     @Override
     public String toString(){
-        return ("bomb " + getX() + " " + getY() + " " + (3 - this.time));
+        return ("bomb " + getX() + " " + getY() + " " + (this.countdown - this.countUp));
     }
 
     @Override
