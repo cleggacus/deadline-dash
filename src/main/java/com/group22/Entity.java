@@ -35,7 +35,7 @@ public abstract class Entity {
     /** Image sprites drawn to show for entity. */
     private Sprite sprite = new Sprite();
 
-    private TransitionType animationType = TransitionType.None;
+    private TransitionType animationType = TransitionType.NONE;
 
     /** X position the entitiy is animating from. */
     private double fromSpriteOffsetX = 0;
@@ -108,7 +108,7 @@ public abstract class Entity {
         this.timeSinceMove += delta;
 
         if(this.timeSinceMove >= this.moveEvery) {
-            this.animationType = TransitionType.None;
+            this.animationType = TransitionType.NONE;
             this.fromX = this.x;
             this.fromY = this.y;
             this.fromSpriteOffsetX = this.spriteOffsetX;
@@ -140,7 +140,7 @@ public abstract class Entity {
     }
 
     public double getDrawScale() {
-        if(this.animationType == TransitionType.Scale) 
+        if(this.animationType == TransitionType.SCALE) 
             return Math.abs((this.timeSinceMove / this.moveEvery)*2-1);
         else
             return 1;
@@ -167,7 +167,7 @@ public abstract class Entity {
      *      How much to increment y position by.
      */
     protected void move(int x, int y) {
-        move(x, y, TransitionType.Linear);
+        move(x, y, TransitionType.LINEAR);
     }
 
 
@@ -225,12 +225,12 @@ public abstract class Entity {
         double animOffsetY = this.fromSpriteOffsetY + offsetDistance*percent;
 
         switch(this.animationType) {
-            case Linear:
+            case LINEAR:
                 double distance = this.y - this.fromY;
                 double animY = this.fromY + distance*percent;
 
                 return animOffsetY + animY;
-            case Bob:
+            case BOB:
                 double period = 2;
                 double amount = 0.1;
 
@@ -238,7 +238,7 @@ public abstract class Entity {
                 double bobAnimY = this.fromY + bobDistance*percent;
 
                 return animOffsetY + bobAnimY + amount * Math.sin(2 * Math.PI * percent * period);
-            case Scale:
+            case SCALE:
                 return animOffsetY + (percent > 0.5 ? this.y : fromY);
             default:
                 return this.spriteOffsetY + this.y;
@@ -259,12 +259,12 @@ public abstract class Entity {
         double animOffsetX = this.fromSpriteOffsetX + offsetDistance*percent;
 
         switch(this.animationType) {
-            case Linear: 
-            case Bob: 
+            case LINEAR: 
+            case BOB: 
                 double distance = this.x - this.fromX; 
                 double animX = this.fromX + distance*percent; 
                 return animOffsetX + animX;
-            case Scale:
+            case SCALE:
                 return animOffsetX + (percent > 0.5 ? this.x : fromX);
             default:
                 return this.spriteOffsetX + this.x;

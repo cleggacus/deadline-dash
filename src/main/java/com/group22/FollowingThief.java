@@ -45,21 +45,21 @@ public class FollowingThief extends LandMover {
      
     public void goingRight() {
         if ((hasNextUp() && clockwise) || ((!hasNextRight() && hasNextUp() && !clockwise))) {
-            this.move(0,-1, TransitionType.Bob);
+            this.move(0,-1, TransitionType.BOB);
             if(!clockwise){
                 movingDirection = "up";
             }
         } else if ((hasNextDown() && !clockwise) || (!hasNextRight() && hasNextDown() && clockwise)) {
-            this.move(0,1, TransitionType.Bob);
+            this.move(0,1, TransitionType.BOB);
             if(clockwise){
                 movingDirection = "down";
             }
         } else if (hasNextRight()) {
-            move(1,0, TransitionType.Bob);
+            move(1,0, TransitionType.BOB);
             movingDirection = "right";
         } else {
             clockwise = !clockwise;
-            move(-1,0, TransitionType.Bob);
+            move(-1,0, TransitionType.BOB);
             movingDirection = "left";
         }
     } 
@@ -67,63 +67,63 @@ public class FollowingThief extends LandMover {
 
     public void goingLeft() {
         if ((hasNextDown() && clockwise) || ((!hasNextLeft() && hasNextDown() && !clockwise))) {
-            this.move(0,1, TransitionType.Bob);
+            this.move(0,1, TransitionType.BOB);
             if(!clockwise){
                 movingDirection = "down";
             }
         } else if ((hasNextUp() && !clockwise) || (!hasNextLeft() && hasNextUp() && clockwise)) {
-            this.move(0,-1, TransitionType.Bob);
+            this.move(0,-1, TransitionType.BOB);
             if(clockwise){
                 movingDirection = "up";
             }
         } else if (hasNextLeft()) {
-            this.move(-1,0, TransitionType.Bob);
+            this.move(-1,0, TransitionType.BOB);
             movingDirection = "left";
         } else {
             clockwise = !clockwise;
-            this.move(1,0, TransitionType.Bob);
+            this.move(1,0, TransitionType.BOB);
             movingDirection = "right";
         }
     }
 
     public void goingUp() {
         if ((hasNextLeft() && clockwise) || ((!hasNextUp() && hasNextLeft() && !clockwise))) {
-            this.move(-1,0, TransitionType.Bob);
+            this.move(-1,0, TransitionType.BOB);
             if(!clockwise){
                 movingDirection = "left";
             }
         } else if ((hasNextRight() && !clockwise) || ((!hasNextUp() && hasNextRight() && clockwise))) {
-            this.move(1,0, TransitionType.Bob);
+            this.move(1,0, TransitionType.BOB);
             if(clockwise){
                 movingDirection = "right";
             }
         } else if (hasNextUp()) {
-            this.move(0,-1, TransitionType.Bob);
+            this.move(0,-1, TransitionType.BOB);
             movingDirection = "up";
         } else {
             clockwise = !clockwise;
-            this.move(0,1, TransitionType.Bob);
+            this.move(0,1, TransitionType.BOB);
             movingDirection = "down";
         }
     }
 
     public void goingDown() {
         if ((hasNextRight() && clockwise) || (!hasNextDown() && hasNextRight() && !clockwise)) {
-            this.move(1,0, TransitionType.Bob);
+            this.move(1,0, TransitionType.BOB);
             if(!clockwise){
                 movingDirection = "right";
             }
         } else if ((hasNextLeft() && !clockwise) || (!hasNextDown() && hasNextLeft() && clockwise)) {
-            this.move(-1,0, TransitionType.Bob);
+            this.move(-1,0, TransitionType.BOB);
             if(clockwise){
                 movingDirection = "left";
             }
         } else if (hasNextDown()) {
-            this.move(0,1, TransitionType.Bob);
+            this.move(0,1, TransitionType.BOB);
             movingDirection = "down";
         } else {
             clockwise = !clockwise;
-            this.move(0,-1, TransitionType.Bob);
+            this.move(0,-1, TransitionType.BOB);
             movingDirection = "up";
         }
     }

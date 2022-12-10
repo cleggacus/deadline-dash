@@ -8,5 +8,5 @@ package com.group22;
  * @version 1.0
  */
 public enum TransitionType {
-    Linear, Bob, Scale, None
+    LINEAR, BOB, SCALE, NONE
 }

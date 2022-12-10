@@ -56,7 +56,7 @@ public abstract class LandMover extends Entity {
 
 
             if(Math.abs(moveY) > 1 || Math.abs(moveX) > 1) {
-                super.move(moveX, moveY, TransitionType.Scale);
+                super.move(moveX, moveY, TransitionType.SCALE);
             } else {
                 super.move(moveX, moveY, type);
             }
