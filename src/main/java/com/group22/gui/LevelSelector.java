@@ -8,7 +8,9 @@ import com.group22.Level;
 import com.group22.Profile;
 import com.group22.gui.base.ImageList;
 import com.group22.gui.base.MenuPane;
+import com.group22.gui.base.ListButton.OnClickEvent;
 
+import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 /** LevelSelector is the menu in which users pick which level they want to play.
  *  It allows the user to navigate to the replays and saves browsers for each
@@ -105,14 +107,23 @@ public class LevelSelector extends MenuPane {
                 level.getTitle(),
                 getClass().getResource(path).toString(),
                 () -> Game.getInstance().startFromLevel(currentLevelIndex),
-                // add footer
-                "🔁",
-                () -> {
-                    /*  set saved states in the saves
-                        browser for this level and user */
-                    this.gamePane.getSavesBrowser().setSavedStates(
-                        level, currentLevelIndex);
-                    this.gamePane.setState(GameState.SavesBrowser);
+                new Button[] {
+                    createButton("🔁", () -> {
+                        // set replays in the replays browser for this level
+                        this.gamePane.getReplaysBrowser().setReplays(
+                            level.getTitle(), currentLevelIndex);
+                        this.gamePane.setState(GameState.ReplaysBrowser);
+                    }),
+                    createButton("💾", () -> {
+                        /*  set saved states in the saves
+                            browser for this level and user */
+                        this.gamePane.getSavesBrowser().setSavedStates(
+                            level, currentLevelIndex);
+                        this.gamePane.setState(GameState.SavesBrowser);
+                    }),
+                    createButton("⏵", () -> 
+                        Game.getInstance().startFromLevel(currentLevelIndex)
+                    )
                 }
             );
 
@@ -121,19 +132,32 @@ public class LevelSelector extends MenuPane {
                 // add image
                 "🔒",
                 getClass().getResource(path).toString(),
-                () -> {
-                    // shake this image
-                    lockClicked = currentLevelIndex;
-                },
-                // add footer
-                "🔁",
-                () -> {
-                    // set replays in the replays browser for this level
-                    this.gamePane.getReplaysBrowser().setReplays(
-                        level.getTitle(), currentLevelIndex);
-                    this.gamePane.setState(GameState.ReplaysBrowser);
+                () -> lockClicked = currentLevelIndex,
+                new Button[] {
+                    createButton("🔁", () -> {
+                        // set replays in the replays browser for this level
+                        this.gamePane.getReplaysBrowser().setReplays(
+                            level.getTitle(), currentLevelIndex);
+                        this.gamePane.setState(GameState.ReplaysBrowser);
+                    }),
+                    createButton("💾", () -> {
+                        /*  set saved states in the saves
+                            browser for this level and user */
+                        this.gamePane.getSavesBrowser().setSavedStates(
+                            level, currentLevelIndex);
+                        this.gamePane.setState(GameState.SavesBrowser);
+                    }),
+                    createButton("🔒", () -> 
+                        lockClicked = currentLevelIndex
+                    )
                 }
             );
         }
+    }
+
+    public Button createButton(String name, OnClickEvent onClick) {
+        Button button = new Button(name);
+        button.setOnAction(e -> onClick.run());
+        return button;
     }
 }
