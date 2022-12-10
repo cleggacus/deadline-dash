@@ -16,7 +16,7 @@ public abstract class PickUp extends Entity {
      * @param posX the horizontal location of the pickup
      * @param posY the vertical location of the pickup
      */
-    public PickUp (int posX, int posY){
+    public PickUp(int posX, int posY) {
         super(posX, posY);
     }
 
@@ -28,20 +28,26 @@ public abstract class PickUp extends Entity {
      */
     public abstract void activatePickUpEffect(LandMover landMover);
 
+    /**
+     * 
+     */
     @Override
     protected void update() {
-        ArrayList<LandMover> landMovers = Game.getInstance().getEntities(LandMover.class);
+        ArrayList<LandMover> landMovers = 
+            Game.getInstance().getEntities(LandMover.class);
 
-        for(LandMover landMover : landMovers) {
-            if(
-                landMover.getX() == this.getX() && 
-                landMover.getY() == this.getY()
-            ) {
+        for (LandMover landMover : landMovers) {
+            if (landMover.getX() == this.getX() && 
+                landMover.getY() == this.getY()) {
+
                 this.activatePickUpEffect(landMover);
             }
         }
     }
 
+    /**
+     * 
+     */
     @Override
     protected void updateMovement() {}
 }

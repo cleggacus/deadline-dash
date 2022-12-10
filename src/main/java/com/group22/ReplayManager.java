@@ -42,6 +42,7 @@ public class ReplayManager {
                 replayFolder, levelTitleForFilePath, ".txt");
         
         ArrayList<Replay> replays = new ArrayList<Replay>();
+
         if (matchingFiles != null) {
             for (File file : matchingFiles) {
                 ArrayList<String> dataArray = 
@@ -115,9 +116,9 @@ public class ReplayManager {
      * @param framesData
      * @return {@link ArrayList}{@link ReplayFrame}
      */
-    private ArrayList<ReplayFrame> parseFramesFromData(
-        List<String> framesData) {
+    private ArrayList<ReplayFrame> parseFramesFromData(List<String> framesData) {
         ArrayList<ReplayFrame> replayFrames = new ArrayList<ReplayFrame>();
+        
         for (String frameString : framesData) {
             String[] splitFrameString = frameString.split(" ");
             ReplayFrame currentFrame = 

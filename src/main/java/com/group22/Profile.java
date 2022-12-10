@@ -9,21 +9,29 @@ import java.util.List;
 import java.util.Scanner;
 import java.time.LocalDateTime;
 
+/**
+ * 
+ */
 public class Profile {
     private LocalDateTime dateLastActive;
     private String name;
     private static final String profileFile = 
-    "src/main/resources/com/group22/profiles.txt";
+        "src/main/resources/com/group22/profiles.txt";
     private Integer maxUnlockedLevelIndex;
     private List<Profile> allProfiles;
 
-    public Profile(String name, LocalDateTime dateLastActive){
+    /**
+     * 
+     * @param name
+     * @param dateLastActive
+     */
+    public Profile(String name, LocalDateTime dateLastActive) {
         this.name = name;
         this.dateLastActive = dateLastActive;
         this.maxUnlockedLevelIndex = getMaxUnlockedLevelIndex();
     }
 
-    public Profile(){
+    public Profile() {
         this.loadAllProfiles();
     }
 
@@ -31,7 +39,7 @@ public class Profile {
     /**
      * Saves profile data to the profiles.txt file
      */
-    public void saveToFile(){
+    public void saveToFile() {
         try {
             FileWriter myWriter = new FileWriter(profileFile, true);
             myWriter.append(this.getName() + " " +
@@ -45,16 +53,17 @@ public class Profile {
         }
     }
 
+
     /**
      * Sets allProfiles to an ArrayList of profiles which
      * are read from getAllProfilesData and created as
      * new objects.
      */
-    public void loadAllProfiles(){
+    public void loadAllProfiles() {
         List<String> profileFileData = getAllProfilesData();
         List<Profile> profiles = new ArrayList<Profile>();
 
-        for(int i=0; i<profileFileData.size(); i++){
+        for (int i = 0; i < profileFileData.size(); i++) {
             String[] splitAtSpace = profileFileData.get(i).split(" ");
             Profile profile = new Profile(
                 splitAtSpace[0], LocalDateTime.parse(splitAtSpace[1]));
@@ -63,6 +72,7 @@ public class Profile {
 
         this.allProfiles = profiles;
     }
+
 
     /**
      * This function returns a list of all the profiles in the database
@@ -73,16 +83,17 @@ public class Profile {
         return allProfiles;
     }
 
+
     /**
      * It loops through all the profiles in the list and returns
      * the first one that matches the name
      * 
      * @param name The name of the profile you want to get.
-     * @return The profile object that matches the name.
+     * @return The {@link Profile} that matches the name.
      */
     public Profile getFromName(String name){
-        for(Profile p : this.allProfiles){
-            if(p.getName().equals(name)){
+        for (Profile p : this.allProfiles) {
+            if (p.getName().equals(name)) {
                 return p;
             }
         }
@@ -90,13 +101,16 @@ public class Profile {
         return null;
     }
 
-
+    
+    /** 
+     * @return {@link List}{@link String}
+     */
     private List<String> getAllProfilesData(){
         List<String> dataArray = new ArrayList<String>();
         try {
             Scanner sc = new Scanner(new File(profileFile));
 
-            while(sc.hasNext()){
+            while (sc.hasNext()) {
                 String line = sc.nextLine();
                 dataArray.add(line);
             }
@@ -109,61 +123,83 @@ public class Profile {
         return dataArray;
     }
 
+    
+    /** 
+     * @return {@link Boolean}
+     */
     public Boolean exists(){
         List<String> profileFileData = getAllProfilesData();
 
-        for(int i=0; i<profileFileData.size(); i++){
+        for (int i = 0; i < profileFileData.size(); i++) {
             String[] profile = profileFileData.get(i).split(" ");
-            if(profile[0].equals(this.getName())){
+            if (profile[0].equals(this.getName())) {
                 return true;
             }
         }
         return false;
-
     }
     
+    
+    /** 
+     * @param username
+     */
     public void delete(String username){
         try{
             List<String> profileData = getAllProfilesData();
             BufferedWriter wr = new BufferedWriter(
                 new FileWriter(profileFile, false));
 
-            for(int i = 0; i < profileData.size(); i++){
-                if(profileData.get(i).split(" ")[0].equals(username)){
+            for (int i = 0; i < profileData.size(); i++) {
+                if (profileData.get(i).split(" ")[0].equals(username)) {
                     profileData.remove(i);
                 }
 
             }
-            for(int i = 0; i<profileData.size(); i++){
+            for (int i = 0; i < profileData.size(); i++) {
                 wr.write(profileData.get(i) + "\n");
             }
             wr.close();
 
-            } catch(Exception e){
+            } catch(Exception e) {
 
         }
     }
 
-    public void updateTimeActive(){
+    /**
+     * 
+     */
+    public void updateTimeActive() {
         return;
     }
     
+    
+    /** 
+     * @return {@link Integer}
+     */
     public Integer getMaxUnlockedLevelIndex(){
         List<String> allProfiles = this.getAllProfilesData();
-        for(int i = 0; i < allProfiles.size(); i++){
+        for (int i = 0; i < allProfiles.size(); i++) {
             String[] currentProfile = allProfiles.get(i).split(" ");
-            if(currentProfile[0].equals(this.getName())){
-                this.maxUnlockedLevelIndex = Integer.parseInt(
-                    currentProfile[2]);
+            if (currentProfile[0].equals(this.getName())) {
+              this.maxUnlockedLevelIndex = 
+                Integer.parseInt(currentProfile[2]);
             }
         }
         return this.maxUnlockedLevelIndex;
     }
 
-    public String getName(){
+    
+    /** 
+     * @return {@link String}
+     */
+    public String getName() {
         return name;
     }
 
+    
+    /** 
+     * @return {@link String}
+     */
     public String getTimeAgoLastActive(){
         return dateLastActive.toString();
     }
@@ -180,8 +216,8 @@ public class Profile {
             BufferedWriter wr = new BufferedWriter(
                 new FileWriter(profileFile, false));
 
-            for(int i = 0; i < profileData.size(); i++){
-                if(profileData.get(i).split(" ")[0].equals(this.getName())){
+            for (int i = 0; i < profileData.size(); i++) {
+                if (profileData.get(i).split(" ")[0].equals(this.getName())) {
                     String profileString = this.getName() + " " + 
                         LocalDateTime.now().toString() + " " + 
                         String.valueOf(levelIndex);
@@ -190,7 +226,8 @@ public class Profile {
                 }
 
             }
-            for(int i = 0; i<profileData.size(); i++){
+
+            for (int i = 0; i < profileData.size(); i++) {
                 wr.write(profileData.get(i) + "\n");
             }
             wr.close();

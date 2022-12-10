@@ -23,7 +23,7 @@ public class MusicManager {
      * the games media player
      * @param audio
      */
-    public MusicManager(MediaPlayer audio){
+    public MusicManager(MediaPlayer audio) {
         MusicManager.audio = audio;
     }
 
@@ -31,7 +31,7 @@ public class MusicManager {
      * Creates the media track by extracting the file path from string.
      * @param s The path name of the file
      */
-    public static void setTrack(String s){
+    public static void setTrack(String s) {
         File musicFile = new File(s);
         MusicManager.track = new Media(musicFile.toURI().toString());
     }
@@ -39,7 +39,7 @@ public class MusicManager {
     /**
      * Plays a selected music track.
      */
-    public static void playTrack(){
+    public static void playTrack() {
         audio.stop();
         audio = new MediaPlayer(track);
         audio.play();

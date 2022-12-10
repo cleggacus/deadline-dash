@@ -16,9 +16,11 @@ import javafx.stage.Screen;
 
 /**
  * 
- * The class {@code Renderer} is an abstraction for drawing tiles to the Graphics Context.
+ * The class {@code Renderer} is an abstraction for 
+ * drawing tiles to the Graphics Context.
  * 
- * Renderer allows for images to be drawn at positions in a grid and be resized accoding to the canvas size.
+ * Renderer allows for images to be drawn at 
+ * positions in a grid and be resized accoding to the canvas size.
  * 
  * @author Liam Clegg
  * @version 1.0
@@ -76,7 +78,7 @@ public class Renderer {
      *      The height in tiles of the grid.
      */
     public int getViewHeight() {
-        return (int)viewHeight;
+        return (int) viewHeight;
     }
 
     
@@ -87,9 +89,10 @@ public class Renderer {
      *      The width in tiles of the grid.
      */
     public int getViewWidth() {
-        return (int)viewWidth;
+        return (int) viewWidth;
     }
 
+    
     /**
      * Gets the amount the canvas is offset due to canvas and grid size.
      * 
@@ -111,8 +114,10 @@ public class Renderer {
         return Math.floor(offsetY);
     }
 
+
     /**
-     * Sets the padding that should be added to the canvas so empty space can be added around the grid.
+     * Sets the padding that should be added to 
+     * the canvas so empty space can be added around the grid.
      * 
      * @param top
      *      The number of pixels that should be added to the top of the grid.
@@ -150,8 +155,10 @@ public class Renderer {
         this.drawImage(image, x, y, 1);
     }
 
+
     /**
-     * Draws an image at the position (x, y) in the grid at a given scale proportional to the tile.
+     * Draws an image at the position (x, y) in 
+     * the grid at a given scale proportional to the tile.
      * 
      * @param image
      *      The image that will be drawn.
@@ -179,18 +186,34 @@ public class Renderer {
         );
     }
 
+    
+    /** 
+     * @param x
+     * @param y
+     * @param width
+     * @param height
+     * @param color
+     */
     public void drawRect(double x, double y, double width, double height, Color color) {
         this.graphicsContext.setFill(color);
 
         width *= tileSize;
         height *= tileSize;
 
-        double drawX = x*this.tileSize + this.offsetX + (tileSize - width)/2;
-        double drawY = y*this.tileSize + this.offsetY + (tileSize - height)/2;
+        double drawX = x * this.tileSize + 
+            this.offsetX + (tileSize - width) / 2;
+        double drawY = y * this.tileSize + 
+            this.offsetY + (tileSize - height) / 2;
 
         this.graphicsContext.fillRect(drawX, drawY, width, height);
     }
 
+    
+    /** 
+     * @param x
+     * @param y
+     * @param scale
+     */
     public void drawShadow(double x, double y, double scale) {
         double shadowOffset = 0.1;
 
@@ -203,17 +226,30 @@ public class Renderer {
         this.graphicsContext.setGlobalAlpha(1);
     }
 
+    
+    /** 
+     * @param x
+     * @param y
+     * @param amount
+     */
     public void setLightPosition(double x, double y, double amount) {
         setLightPosition(x, y, amount, Color.rgb(255, 190, 158, 1));
     }
 
+    
+    /** 
+     * @param x
+     * @param y
+     * @param amount
+     * @param color
+     */
     public void setLightPosition(double x, double y, double amount, Color color) {
         Screen screen = Screen.getPrimary();
         double scaleX = screen.getOutputScaleX();
         double scaleY = screen.getOutputScaleY();
 
-        x = (x+0.5)*this.tileSize + this.offsetX;
-        y = (y+0.5)*this.tileSize + this.offsetY;
+        x = (x + 0.5) * this.tileSize + this.offsetX;
+        y = (y + 0.5) * this.tileSize + this.offsetY;
 
         x *= scaleX;
         y *= scaleY;
@@ -223,7 +259,8 @@ public class Renderer {
         Light.Point light = new Light.Point();
         light.setX(x);
         light.setY(y);
-        light.setZ(amount * 0.2 * Math.sqrt(scaleX * canvas.getWidth() * canvas.getHeight()));
+        light.setZ(amount * 0.2 * 
+            Math.sqrt(scaleX * canvas.getWidth() * canvas.getHeight()));
         light.setColor(color);
 
         Lighting lighting = new Lighting();
@@ -232,29 +269,35 @@ public class Renderer {
         effects.add(lighting);
     }
 
+
     /**
      * To be run at the start of every frame.
-     * Clears the canvas and updates the Renderer details if canvas has been resized
+     * Clears the canvas and updates 
+     * the Renderer details if canvas has been resized
      */
     public void newFrame() {
         Canvas canvas = graphicsContext.getCanvas();
 
-        if(canvas.getEffect() != null) {
+        if (canvas.getEffect() != null) {
             this.graphicsContext.setFill(Color.BLACK);
-            this.graphicsContext.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+            this.graphicsContext.fillRect(
+                0, 0, canvas.getWidth(), canvas.getHeight());
         } else {
-            this.graphicsContext.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+            this.graphicsContext.clearRect(
+                0, 0, canvas.getWidth(), canvas.getHeight());
         }
 
         this.getViewInfo();
         this.drawOutline();
 
 
-        if(effects.size() > 0) {
+        if (effects.size() > 0) {
             Lighting brightest = effects.get(0);
 
-            for(Lighting lighting : effects) {
-                if(((Point)lighting.getLight()).getZ() > ((Point)brightest.getLight()).getZ()) {
+            for (Lighting lighting : effects) {
+                if (((Point)lighting.getLight()).getZ() > 
+                    ((Point)brightest.getLight()).getZ()) {
+
                     brightest = lighting;
                 }
             }
@@ -263,7 +306,7 @@ public class Renderer {
 
             Effect blend = this.effects.get(0);
 
-            for(int i = 1; i < effects.size(); i++) {
+            for (int i = 1; i < effects.size(); i++) {
                 blend = new Blend(
                     BlendMode.ADD,
                     blend, 
@@ -278,20 +321,29 @@ public class Renderer {
         this.effects.clear();
     }
 
+    /**
+     * 
+     */
     private void drawOutline() {
-        Image top = new Image(getClass().getResource("brick_top.png").toString());
-        Image bottom = new Image(getClass().getResource("brick_bottom.png").toString());
-        Image left = new Image(getClass().getResource("brick_left.png").toString());
-        Image right = new Image(getClass().getResource("brick_right.png").toString());
-        Image bottomLeft = new Image(getClass().getResource("brick_bottom_left.png").toString());
-        Image bottomRight = new Image(getClass().getResource("brick_bottom_right.png").toString());
+        Image top = new Image(
+            getClass().getResource("brick_top.png").toString());
+        Image bottom = new Image(
+            getClass().getResource("brick_bottom.png").toString());
+        Image left = new Image(
+            getClass().getResource("brick_left.png").toString());
+        Image right = new Image(
+            getClass().getResource("brick_right.png").toString());
+        Image bottomLeft = new Image(
+            getClass().getResource("brick_bottom_left.png").toString());
+        Image bottomRight = new Image(
+            getClass().getResource("brick_bottom_right.png").toString());
 
-        for(int x = 0; x < this.viewWidth; x++) {
+        for (int x = 0; x < this.viewWidth; x++) {
             this.drawImage(top, x, -1);
             this.drawImage(bottom, x, this.viewHeight);
         }
 
-        for(int y = -1; y < this.viewHeight; y++) {
+        for (int y = -1; y < this.viewHeight; y++) {
             this.drawImage(left, -1, y);
             this.drawImage(right, this.viewWidth, y);
         }
@@ -299,6 +351,7 @@ public class Renderer {
         this.drawImage(bottomRight, this.viewWidth, this.viewHeight);
         this.drawImage(bottomLeft, -1, this.viewHeight);
     }
+
 
     /**
      * Updates the info for resizing the canvas and setting the offsets.
@@ -309,14 +362,14 @@ public class Renderer {
         double canvasHeight = canvas.getHeight() - (topPadding + bottomPadding);
         double canvasWidth = canvas.getWidth() - (leftPadding + rightPadding);
 
-        double viewWidth = this.viewWidth + (8/24.0);
-        double viewHeight = this.viewHeight + (28/24.0);
+        double viewWidth = this.viewWidth + (8 / 24.0);
+        double viewHeight = this.viewHeight + (28 / 24.0);
 
         double canvasRatio = canvasWidth / canvasHeight;
         double viewRatio = viewWidth / viewHeight;
 
 
-        if(canvasRatio > viewRatio) {
+        if (canvasRatio > viewRatio) {
             this.tileSize = canvasHeight / viewHeight;
             this.offsetX = (canvasWidth - (this.tileSize * viewWidth)) / 2;
             this.offsetY = 0;
@@ -327,6 +380,6 @@ public class Renderer {
         }
 
         this.offsetY += topPadding + tileSize;
-        this.offsetX += leftPadding + tileSize * (4/24.0);
+        this.offsetX += leftPadding + tileSize * (4 / 24.0);
     }
 }
