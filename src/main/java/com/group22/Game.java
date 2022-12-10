@@ -231,7 +231,8 @@ public class Game extends Engine {
         int width = currentLevel.getWidth();
         int height = currentLevel.getHeight();
 
-        this.getGamePane().getLevelComplete().setIsLastLevel(this.isLastLevel());
+        this.getGamePane().getLevelComplete()
+            .setIsLastLevel(this.isLastLevel());
         this.getGamePane().getPlaying().setGameLevel(currentLevel.getTitle());
 
         this.tiles = currentLevel.getTiles();
@@ -264,7 +265,8 @@ public class Game extends Engine {
         int width = currentLevel.getWidth();
         int height = currentLevel.getHeight();
 
-        this.getGamePane().getLevelComplete().setIsLastLevel(this.isLastLevel());
+        this.getGamePane().getLevelComplete()
+            .setIsLastLevel(this.isLastLevel());
         this.getGamePane().getPlaying().setGameLevel(currentLevel.getTitle());
 
         this.tiles = currentLevel.getTiles();
@@ -301,11 +303,15 @@ public class Game extends Engine {
         this.setGameState(GameState.ReplayOver);
     }
 
+    /**
+     * 
+     */
     public void setLevelFinish(){
-        if(this.replaying) {
+        if (this.replaying) {
             setReplayOver();
         } else {
-            this.getGamePane().getLevelComplete().setStats(this.score, this.time);
+            this.getGamePane().getLevelComplete().setStats(
+                this.score, this.time);
             this.level.completeLevel(this.profile, replay, score);
             this.setProfile(this.getProfile());
             this.setGameState(GameState.LevelComplete);
