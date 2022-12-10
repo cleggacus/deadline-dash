@@ -41,6 +41,8 @@ public class Bomb extends Entity {
 
     public class Lazer extends Entity {
         private double time = 0;
+        private double lightTimer = 0;
+        private int bombEdgeDistance;
         private Bomb bomb;
         private boolean isVertical;
         private boolean isHorizantal;
@@ -61,6 +63,17 @@ public class Bomb extends Entity {
 
             this.getSprite().setImage(
                 "item/farron/lazer_" + suffix + ".png");
+
+            int bombEdgeDistanceX = Math.max(
+                Game.getInstance().getRenderer().getViewWidth() - 
+                this.bomb.getX(), this.bomb.getX());
+
+            int bombEdgeDistanceY = Math.max(
+                Game.getInstance().getRenderer().getViewHeight() - 
+                this.bomb.getY(), this.bomb.getY());
+
+            this.bombEdgeDistance = Math.max(
+                bombEdgeDistanceX, bombEdgeDistanceY);
         }
 
         @Override
@@ -68,11 +81,14 @@ public class Bomb extends Entity {
             if (this.isActive) {
                 super.draw(renderer);
 
-                if (Game.getInstance().getPlayer().hasTorch()) {
+                if (
+                    Game.getInstance().getPlayer().hasTorch() &&
+                    this.lightTimer <= ANIMATION_DURATION/bombEdgeDistance
+                ) {
                     renderer.setLightPosition(
                         this.getDrawX(), 
                         this.getDrawY(),
-                        0.1,
+                        0.5,
                         Color.PINK);
                 }
             }
@@ -84,6 +100,10 @@ public class Bomb extends Entity {
         @Override
         protected void update() {
             this.time += Game.getInstance().getDelta();
+
+            if (this.isActive) {
+                this.lightTimer += Game.getInstance().getDelta();
+            }
             
             this.updateShake();
             this.updateIsActive();
@@ -100,22 +120,11 @@ public class Bomb extends Entity {
         }
 
         private void updateIsActive() {
-            Renderer renderer = Game.getInstance().getRenderer();
-            
             double animationTime = time / ANIMATION_DURATION;
 
             int bombDisplacementX = Math.abs(this.getX() - this.bomb.getX());
             int bombDisplacementY = Math.abs(this.getY() - this.bomb.getY());
             int bombDisplacement = bombDisplacementX + bombDisplacementY;
-
-            int bombEdgeDistanceX = Math.max(
-                renderer.getViewWidth() - this.bomb.getX(), this.bomb.getX());
-
-            int bombEdgeDistanceY = Math.max(
-                renderer.getViewHeight() - this.bomb.getY(), this.bomb.getY());
-
-            int bombEdgeDistance = Math.max(
-                bombEdgeDistanceX, bombEdgeDistanceY);
 
             double visibleFrame = 
                 (double)bombDisplacement / (double)bombEdgeDistance;

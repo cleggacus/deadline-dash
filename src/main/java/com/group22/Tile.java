@@ -1,5 +1,6 @@
 package com.group22;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -26,6 +27,8 @@ public class Tile extends Entity {
     private static Image[] tileSprites;
     private static HashMap<TileLayout, Image> cachedSprites = new HashMap<>();
 
+    private double lightAmount = 0;
+    private boolean isLighting = false;
     private TileLayout tileLayout = new TileLayout();
 
     /**
@@ -74,6 +77,37 @@ public class Tile extends Entity {
             }
 
             return false;
+        }
+
+        public TileColor getMajorityColor() {
+            TileColor[] tiles = new TileColor[] {
+                topLeft, topRight,
+                bottomLeft, bottomRight
+            };
+
+            ArrayList<TileColor> colors = new ArrayList<>();
+            ArrayList<Integer> instances = new ArrayList<>();
+
+            for (TileColor tileColor : tiles) {
+                int i = colors.indexOf(tileColor);
+
+                if (i == -1) {
+                    colors.add(tileColor);
+                    instances.add(1);
+                } else {
+                    instances.set(i, instances.get(i) + 1);
+                }
+            }
+
+            int largest = 0;
+
+            for (int i = 0; i < instances.size(); i++) {
+                if (instances.get(i) > instances.get(largest)) {
+                    largest = i;
+                }
+            }
+
+            return colors.get(largest);
         }
 
         @Override
@@ -184,6 +218,10 @@ public class Tile extends Entity {
             this.tileLayout.bottomRight == tileColor;
     }
 
+    public void lightUp() {
+        this.isLighting = true;
+    }
+
     /**
      * Not implimented.
      */
@@ -194,7 +232,28 @@ public class Tile extends Entity {
      * Not implimented.
      */
     @Override
-    protected void update() {}
+    protected void update() {
+        if (this.isLighting) {
+            this.lightAmount += 4*Game.getInstance().getDelta();
+        }
+
+        if (this.lightAmount >= 1) {
+            this.isLighting = false;
+        }
+
+        if (this.lightAmount > 0) {
+            Game.getInstance().getRenderer().setLightPosition(
+                this.getDrawX(), 
+                this.getDrawY(), 
+                this.lightAmount*0.2,
+                this.tileLayout.getMajorityColor().color
+            );
+
+            if (!this.isLighting) {
+                this.lightAmount -= 4*Game.getInstance().getDelta();
+            }
+        }
+    }
 
     /**
      * Renders the image for the current tile based on its colors.

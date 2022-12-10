@@ -80,6 +80,10 @@ public class Game extends Engine {
         return this.tiles[x][y].hasColor(color);
     }
 
+    public void lightUpTile(int x, int y) {
+        this.tiles[x][y].lightUp();
+    }
+
     /**
      * This function adds the given number of seconds to the time variable
      * 

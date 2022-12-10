@@ -140,11 +140,12 @@ public class Player extends LandMover {
         }
 
         if(torch) {
-            Game.getInstance().getRenderer().setLightPosition(getDrawX(), getDrawY(), 0.15);
+            // Game.getInstance().getRenderer().setLightPosition(getDrawX(), getDrawY(), 0.15);
+            Game.getInstance().lightUpTile(getX(), getY());
         }
+
         if(Game.getInstance().getLastKeyReleased() != null){
             Game.getInstance().resetLastKeyReleased();
         }
-
     }
 }
