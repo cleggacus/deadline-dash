@@ -280,20 +280,25 @@ public class SmartMover extends LandMover {
      */
     @Override
     protected void updateMovement() {
-        if (path.isEmpty()) {
-            isAtDoor();
-            findPath();
-        } else if (alterPath()) {
-            findPath();
-        }
+        if(isBlocked(nextLeft(), getY()) && isBlocked(nextRight(), getY()) &&
+        isBlocked(this.getX(), nextUp()) && isBlocked(this.getX(), nextDown())){
 
-        int destinationX = path.get(0);
-        int destinationY = path.get(1);
-        move(destinationX - this.getX(), destinationY - this.getY());
-        
-        if (this.getX() == destinationX && this.getY() == destinationY) {
-            path.remove(0);
-            path.remove(0);
+        } else {
+            if (path.isEmpty()) {
+                isAtDoor();
+                findPath();
+            } else if (alterPath()) {
+                findPath();
+            }
+
+            int destinationX = path.get(0);
+            int destinationY = path.get(1);
+            move(destinationX - this.getX(), destinationY - this.getY());
+            
+            if (this.getX() == destinationX && this.getY() == destinationY) {
+                path.remove(0);
+                path.remove(0);
+            }
         }
     }
 
