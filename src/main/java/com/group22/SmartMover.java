@@ -13,6 +13,13 @@ import java.util.Random;
  */
 public class SmartMover extends LandMover {
 
+    /**
+     * The smart movers path is stored as an arraylist of coordinates, each
+     * coordinate is made up of two numbers the first being the X coordinate
+     * and the second being the Y coordinate. It is possible to do stuff with
+     * the first and last coordinates in the list because you always know where
+     * they are.
+     */
     private ArrayList<Integer> path = new ArrayList<>();
     /**
      * The constructor for the smartmover entity class.
@@ -267,6 +274,10 @@ public class SmartMover extends LandMover {
         return true;
     }
 
+    /**
+     * When the smart mover is at the door and all pickups have been collected
+     * then the level ends and the player receives a gameover.
+     */
     private void isAtDoor() {
         ArrayList<PickUp> pickups = 
             new ArrayList<>(Game.getInstance().getEntities(Loot.class));
