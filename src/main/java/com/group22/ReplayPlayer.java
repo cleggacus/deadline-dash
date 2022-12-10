@@ -2,11 +2,20 @@ package com.group22;
 
 import java.util.ArrayList;
 
+/**
+ * 
+ */
 public class ReplayPlayer extends LandMover {
 
     private ArrayList<ReplayFrame> frames;
     private int x;
     private int y;
+    /**
+     * 
+     * @param x
+     * @param y
+     * @param frames
+     */
     public ReplayPlayer(int x, int y, ArrayList<ReplayFrame> frames) {
         super(x, y);
         this.frames = frames;
@@ -49,27 +58,33 @@ public class ReplayPlayer extends LandMover {
         this.moveEvery = 0.15;
     }
     
+    /**
+     * 
+     */
     @Override
     protected void updateMovement() {
-        if(this.x == 1){
+        if (this.x == 1) {
             this.getSprite().setImageSet("right");
             move(this.x, this.y);
             this.x = 0;
             this.y = 0;
         }
-        if(this.x == -1){
+
+        if (this.x == -1) {
             this.getSprite().setImageSet("left");
             move(this.x, this.y);
             this.x = 0;
             this.y = 0;
         }
-        if(this.y == 1){
+
+        if (this.y == 1) {
             this.getSprite().setImageSet("up");
             move(this.x, this.y);
             this.x = 0;
             this.y = 0;
         }
-        if(this.y == -1){
+
+        if (this.y == -1) {
             this.getSprite().setImageSet("down");
             move(this.x, this.y);
             this.x = 0;
@@ -77,39 +92,45 @@ public class ReplayPlayer extends LandMover {
         }
 
         ArrayList<Door> doors = Game.getInstance().getEntities(Door.class);
-        ArrayList<PickUp> pickUps = Game.getInstance().getEntities(PickUp.class);
+        ArrayList<PickUp> pickUps = 
+            Game.getInstance().getEntities(PickUp.class);
 
         boolean touchingDoor = false;
         boolean touchingPickup = false;
 
-        for(Door door : doors) {
-            if(door.getX() == this.getX() && this.getY() == door.getY()) {
+        for (Door door : doors) {
+            if (door.getX() == this.getX() && this.getY() == door.getY()) {
                 touchingDoor = true;
             }
         }
 
-        for(PickUp pickUp : pickUps) {
-            if(pickUp.getX() == this.getX() && this.getY() == pickUp.getY()) {
+        for (PickUp pickUp : pickUps) {
+            if (pickUp.getX() == this.getX() && this.getY() == pickUp.getY()) {
                 touchingPickup = true;
             }
         }
 
-        if(touchingDoor)
+        if (touchingDoor) {
             this.setSpriteOffset(0, 0);
-        else if(touchingPickup)
+        } else if (touchingPickup) {
             this.setSpriteOffset(0, -0.5);
-        else
+        } else {
             this.setSpriteOffset(0, -0.25);
+        }
 
     }
 
+    /**
+     * 
+     */
     @Override
-    protected void update(){
-        if(frames.size() == 0){
+    protected void update() {
+        if (frames.size() == 0) {
             Game.getInstance().setReplayOver();
             return;
         }
-        if(frames.get(0).getKeyTime() <= Game.getInstance().getTimeElapsed()){
+        
+        if (frames.get(0).getKeyTime() <= Game.getInstance().getTimeElapsed()) {
             this.x = frames.get(0).getX() - this.getX();
             this.y = frames.get(0).getY() - this.getY();
             frames.remove(0);

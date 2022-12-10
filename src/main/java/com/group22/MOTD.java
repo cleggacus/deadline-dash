@@ -9,25 +9,40 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.net.UnknownHostException;
 
+/**
+ * 
+ */
 public class MOTD {
-    private static final String API_PUZZLE_URL = "http://cswebcat.swan.ac.uk/puzzle";
-    private static final String API_SOLUTION_URL = "http://cswebcat.swansea.ac.uk/message";
+    private static final String API_PUZZLE_URL = 
+        "http://cswebcat.swan.ac.uk/puzzle";
+    private static final String API_SOLUTION_URL = 
+        "http://cswebcat.swansea.ac.uk/message";
 
+    
+    /** 
+     * @return {@link String}
+     */
     public static String getMOTD() {
         String puzzle = fetch(API_PUZZLE_URL);
-        String result = fetch(API_SOLUTION_URL + "?solution=" + solvePuzzle(puzzle));
+        String result = 
+            fetch(API_SOLUTION_URL + "?solution=" + solvePuzzle(puzzle));
 
         return result;
     }
 
+    
+    /** 
+     * @param puzzleString
+     * @return {@link String}
+     */
     private static String solvePuzzle(String puzzleString) {
         String result = "";
 
-        for(int i = 0; i < puzzleString.length(); i++) {
+        for (int i = 0; i < puzzleString.length(); i++) {
             boolean isBackward = i % 2 == 0;
             char c = puzzleString.charAt(i);
 
-            c += (isBackward ? -1 : 1) * (i+1);
+            c += (isBackward ? -1 : 1) * (i + 1);
 
             result += wrapAZ(c);
         }
@@ -38,20 +53,30 @@ public class MOTD {
         return result;
     }
 
+    
+    /** 
+     * @param c
+     * @return char
+     */
     private static char wrapAZ(char c) {
         int range = 'Z' - 'A' + 1;
 
-        while(c > 'Z') {
+        while (c > 'Z') {
             c -= range;
         }
 
-        while(c < 'A') {
+        while (c < 'A') {
             c += range;
         }
 
         return c;
     }
 
+    
+    /** 
+     * @param urlString
+     * @return {@link String}
+     */
     private static String fetch(String urlString) {
         String content = "";
 
@@ -61,11 +86,12 @@ public class MOTD {
 
             conn.setRequestMethod("GET");
 
-            if(conn.getResponseCode() == 200) {
+            if (conn.getResponseCode() == 200) {
                 content = getContent(conn);
             }
         } catch (UnknownHostException e) {
-            content = "Can't get message of the day. Check your internet connection.";
+            content = 
+                "Can't get message of the day. Check your internet connection.";
         } catch (MalformedURLException | ProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -75,6 +101,11 @@ public class MOTD {
         return content;
     }
 
+    
+    /** 
+     * @param conn
+     * @return {@link String}
+     */
     private static String getContent(HttpURLConnection conn) {
         String content = "";
 

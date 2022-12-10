@@ -46,6 +46,7 @@ public class SmartMover extends LandMover {
                 if (branch.isTarget()) {
                     targetFound = true;
                 }
+                
                 ArrayList<Branch> connections = new ArrayList<>();
                 Branch left = new Branch(
                     branch.getLeft(), branch.getY(), branch.getPath());
@@ -147,12 +148,14 @@ public class SmartMover extends LandMover {
                     iter.remove();
                     i--;
                 }
+
                 shouldRemove = false;
                 for (ArrayList<Integer> pathA : paths) {
                     if (paths.get(i).size() > pathA.size()) {
                         shouldRemove = true;
                     }
                 }
+
                 iter.next();
                 i++;
             }
@@ -250,6 +253,7 @@ public class SmartMover extends LandMover {
             iter.next();
             i++;
         }
+
         if (shouldRemove == true) {
             entities.remove(entities.size() - 1);
         }
@@ -264,9 +268,10 @@ public class SmartMover extends LandMover {
     }
 
     private void isAtDoor() {
-        ArrayList<PickUp> pickups
-        = new ArrayList<>(Game.getInstance().getEntities(Loot.class));
+        ArrayList<PickUp> pickups = 
+            new ArrayList<>(Game.getInstance().getEntities(Loot.class));
         pickups.addAll(Game.getInstance().getEntities(Lever.class));
+        
         if (pickups.isEmpty() && 
             this.getX() == Game.getInstance().getDoor().getX() && 
             this.getY() == Game.getInstance().getDoor().getY()) {
@@ -280,8 +285,10 @@ public class SmartMover extends LandMover {
      */
     @Override
     protected void updateMovement() {
-        if(isBlocked(nextLeft(), getY()) && isBlocked(nextRight(), getY()) &&
-        isBlocked(this.getX(), nextUp()) && isBlocked(this.getX(), nextDown())){
+        if (isBlocked(nextLeft(), getY()) && 
+            isBlocked(nextRight(), getY()) &&
+            isBlocked(this.getX(), nextUp()) && 
+            isBlocked(this.getX(), nextDown())) {
 
         } else {
             if (path.isEmpty()) {
@@ -305,4 +312,7 @@ public class SmartMover extends LandMover {
     @Override
     protected void update() {}
     
+    public String toString(){
+        return ("smartmover " + getX() + " " + getY());
+    }
 }
