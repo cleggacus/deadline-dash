@@ -136,11 +136,18 @@ public class Bomb extends Entity {
     /**
      * @param x         the horizontal position of a bomb on the map
      * @param y         the vertical position of a bomb on the map
+     * @param c         the amount of time elapsed since the bomb is triggered,
+     *                  default is 0 so when you save the bomb keeps its info.
      */
-    public Bomb(int x, int y) {
+    public Bomb(int x, int y, double c) {
         super(x, y);
         this.countdownEntity = new Countdown(this);
         this.fuze = false;
+        if(c > 0){
+            this.time = c;
+            this.fuze = true;
+            this.activateBomb();
+        }
         this.explosion = false;
         this.getSprite().addImageSet("tick", Sprite.createImageFade(
             "item/farron/farron0.png",
@@ -282,6 +289,10 @@ public class Bomb extends Entity {
 
     @Override
     protected void updateMovement() {}
+
+    public String toString(){
+        return ("bomb " + getX() + " " + getY() + " " + getTime());
+    }
 
     private void createLazers() {
         int width = Game.getInstance().getRenderer().getViewWidth();

@@ -312,4 +312,7 @@ public class SmartMover extends LandMover {
     @Override
     protected void update() {}
     
+    public String toString(){
+        return ("smartmover " + getX() + " " + getY());
+    }
 }
