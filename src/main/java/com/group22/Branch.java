@@ -68,7 +68,7 @@ public class Branch {
         this.path.add(posX);
         this.path.add(posY);
 
-        if(isTarget()){
+        if (isTarget()){
             targetPaths.add(this.path);
         }
         this.setLeft();
@@ -85,12 +85,12 @@ public class Branch {
         boolean found = false;
         int i = this.getX();
 
-        while(i > 0 && !found) {
+        while (i > 0 && !found) {
             i--;
             found = isMoveLegal(i - this.getX(), 0);
         }
 
-        if(!found || isBlocked(i, this.getY())) {
+        if (!found || isBlocked(i, this.getY())) {
             this.leftConnection = this.getX();
         } else {
             this.leftConnection = i;
@@ -107,12 +107,12 @@ public class Branch {
         int i = this.getX();
         int width = Game.getInstance().getViewWidth();
 
-        while(i < width-1 && !found) {
+        while (i < width - 1 && !found) {
             i++;
             found = isMoveLegal(i - this.getX(), 0);
         }
 
-        if(!found || isBlocked(i, this.getY())) {
+        if (!found || isBlocked(i, this.getY())) {
             this.rightConnection = this.getX();
         } else {
             this.rightConnection = i;
@@ -128,12 +128,12 @@ public class Branch {
         int i = this.getY();
         int height = Game.getInstance().getViewHeight();
 
-        while(i < height-1 && !found) {
+        while (i < height - 1 && !found) {
             i++;
             found = isMoveLegal(0, i - this.getY());
         }
 
-        if(!found || isBlocked(this.getX(), i)) {
+        if (!found || isBlocked(this.getX(), i)) {
             this.downConnection = this.getY();
         } else {
             this.downConnection = i;
@@ -149,12 +149,12 @@ public class Branch {
         boolean found = false;
         int i = this.getY();
 
-        while(i > 0 && !found) {
+        while (i > 0 && !found) {
             i--;
             found = isMoveLegal(0, i - this.getY());
         }
 
-        if(!found || isBlocked(this.getX(), i)) {
+        if (!found || isBlocked(this.getX(), i)) {
             this.upConnection = this.getY();
         } else {
             this.upConnection = i;
@@ -235,7 +235,7 @@ public class Branch {
     public Boolean isUniqueBranch(){
         Boolean isUnique = true;
         for (Branch branch : existingBranches){
-            if(this.getX() == branch.getX() && this.getY() == branch.getY()){
+            if (this.getX() == branch.getX() && this.getY() == branch.getY()){
                 isUnique = false;
             }
         }
@@ -255,7 +255,7 @@ public class Branch {
      *      If the x and y added to the current position is a valid colour.
      */
     private boolean isMoveLegal(int x, int y) {
-        if(!Game.getInstance().isInBounds(this.getX() + x, this.getY() + y))
+        if (!Game.getInstance().isInBounds(this.getX() + x, this.getY() + y))
             return false;
 
         return Game.getInstance().colorMatch(this.getX()
@@ -271,7 +271,7 @@ public class Branch {
         ArrayList<PickUp> pickups
         = new ArrayList<>(Game.getInstance().getEntities(Loot.class));
         pickups.addAll(Game.getInstance().getEntities(Lever.class));
-        if(pickups.isEmpty()){
+        if (pickups.isEmpty()){
             if (this.getX() == Game.getInstance().getDoor().getX()
             && this.getY() == Game.getInstance().getDoor().getY()){
                 return true;
@@ -319,13 +319,13 @@ public class Branch {
      * @return If the destination has been blocked by a bomb or gate.
      */
     protected boolean isBlocked(int x, int y){
-        for(Class<? extends Entity> entityClass : COLLIDERS) {
+        for (Class<? extends Entity> entityClass : COLLIDERS) {
             ArrayList<? extends Entity> entities
             = Game.getInstance().getEntities(entityClass);
 
-            for(Entity entity : entities){
-                if(entity instanceof Gate && ((Gate) entity).getGateIsOpen()){
-                } else if(x ==  entity.getX() && y == entity.getY()){
+            for (Entity entity : entities){
+                if (entity instanceof Gate && ((Gate) entity).getGateIsOpen()){
+                } else if (x ==  entity.getX() && y == entity.getY()){
                     return true;
                 }
                 }
