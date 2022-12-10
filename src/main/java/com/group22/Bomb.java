@@ -2,6 +2,8 @@ package com.group22;
 
 import java.util.ArrayList;
 
+import javafx.scene.paint.Color;
+
 
 public class Bomb extends Entity {
 
@@ -63,26 +65,16 @@ public class Bomb extends Entity {
 
         @Override
         public void draw(Renderer renderer) {
-            double animationTime = time / ANIMATION_DURATION;
-
-            int bombDisplacementX = Math.abs(this.getX() - this.bomb.getX());
-            int bombDisplacementY = Math.abs(this.getY() - this.bomb.getY());
-            int bombDisplacement = bombDisplacementX + bombDisplacementY;
-
-            int bombEdgeDistanceX = Math.max(
-                renderer.getViewWidth() - this.bomb.getX(), this.bomb.getX());
-
-            int bombEdgeDistanceY = Math.max(
-                renderer.getViewHeight() - this.bomb.getY(), this.bomb.getY());
-
-            int bombEdgeDistance = Math.max(
-                bombEdgeDistanceX, bombEdgeDistanceY);
-
-            double visibleFrame = 
-                (double)bombDisplacement / (double)bombEdgeDistance;
-
-            if (animationTime >= visibleFrame) {
+            if (this.isActive) {
                 super.draw(renderer);
+
+                if (Game.getInstance().getPlayer().hasTorch()) {
+                    renderer.setLightPosition(
+                        this.getDrawX(), 
+                        this.getDrawY(),
+                        0.1,
+                        Color.PINK);
+                }
             }
         }
 

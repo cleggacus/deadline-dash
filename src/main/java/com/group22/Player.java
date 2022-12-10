@@ -51,6 +51,10 @@ public class Player extends LandMover {
         this.setSpriteOffset(0, -0.3);
         this.moveEvery = 0.15;
     }
+
+    public boolean hasTorch() {
+        return this.torch;
+    }
     
     public void isAtDoor(){
         ArrayList<PickUp> pickups

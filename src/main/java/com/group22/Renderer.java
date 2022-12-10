@@ -271,6 +271,8 @@ public class Renderer {
             }
 
             canvas.setEffect(blend);
+        } else {
+            canvas.setEffect(null);
         }
 
         this.effects.clear();

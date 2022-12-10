@@ -63,7 +63,7 @@ lever 13 4 B
 gate 10 4 B false
 lever 14 4 R
 gate 11 4 R false
-player 2 1
+player 2 1 torch
 flyingassassin 5 5 v
 flyingassassin 5 5 h
 -

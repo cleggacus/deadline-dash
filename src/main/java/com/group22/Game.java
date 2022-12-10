@@ -17,7 +17,6 @@ public class Game extends Engine {
     private double time;
     private int score; 
     private Tile[][] tiles;
-    private Entity player;
     private List<Level> levels;
     private int currentLevelIndex;
     private Level level;
@@ -60,9 +59,8 @@ public class Game extends Engine {
 
     }
 
-    public Entity getPlayer() {
-        // Returning the player entity.
-        return this.player;
+    public Player getPlayer() {
+        return this.getEntities(Player.class).get(0);
     }
 
     /**
