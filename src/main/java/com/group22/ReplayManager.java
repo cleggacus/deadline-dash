@@ -67,11 +67,9 @@ public class ReplayManager {
                   return -1;
                 return 0;
             });
-
-            return replays;
         }
 
-        return null;
+        return replays;
     }
 
     
@@ -160,7 +158,6 @@ public class ReplayManager {
             replayWriter.append(score + "\n");
 
             for (ReplayFrame frame : replay.getFrames()) {
-                System.out.println("frame " + frame.getKeyTime());
                 replayWriter.append(frame.getX() + " " + 
                     frame.getY() + " " + frame.getKeyTime() + "\n");
             }

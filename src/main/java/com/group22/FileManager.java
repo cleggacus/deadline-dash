@@ -39,6 +39,11 @@ public class FileManager {
                 return name.startsWith(startsWith) && name.endsWith(endsWith);
             }
         });
+
+        if (matchingFiles == null) {
+            matchingFiles = new File[0];
+        }
+
         return matchingFiles;
     }
 
