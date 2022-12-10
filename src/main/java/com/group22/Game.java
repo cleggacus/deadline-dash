@@ -28,6 +28,7 @@ public class Game extends Engine {
 
     private static Game instance;
 
+
     /**
      * Creates Game.
      * Set to private so multiple instances cannot be created.
@@ -36,6 +37,7 @@ public class Game extends Engine {
         super();
     }
 
+
     /** 
      * This method is used so the public game data can be accessed
      * in other parts of the applicaiton. The instance of Game is created
@@ -43,7 +45,6 @@ public class Game extends Engine {
      * 
      * @return Game
      */
-    
     public static synchronized Game getInstance() {
         if (Game.instance == null) {
             Game.instance = new Game();
@@ -53,12 +54,22 @@ public class Game extends Engine {
         return Game.instance;
     }
     
+    
+    /** 
+     * @param x
+     * @param y
+     * @param keyTime
+     */
     public void newReplayFrame(int x, int y, double keyTime) {
         ReplayFrame frame = new ReplayFrame(x, y, keyTime);
         this.replay.storeFrame(frame);
 
     }
 
+    
+    /** 
+     * @return Player
+     */
     public Player getPlayer() {
         return this.getEntities(Player.class).get(0);
     }
@@ -76,10 +87,22 @@ public class Game extends Engine {
         return this.tiles[x1][y1].colorMatch(this.tiles[x2][y2]);
     }
 
+    
+    /** 
+     * @param x
+     * @param y
+     * @param color
+     * @return boolean
+     */
     public boolean tileHasColor(int x, int y, TileColor color) {
         return this.tiles[x][y].hasColor(color);
     }
 
+    
+    /** 
+     * @param x
+     * @param y
+     */
     public void lightUpTile(int x, int y) {
         this.tiles[x][y].lightUp();
     }
@@ -120,15 +143,27 @@ public class Game extends Engine {
         return timeElapsed;
     }
 
+    
+    /** 
+     * @return int
+     */
     public int getFramesElapsed() {
         return framesElapsed;
     }
 
+    
+    /** 
+     * @return Door
+     */
     public Door getDoor() {
         return this.getEntities(Door.class).get(0);
     }
 
 
+    
+    /** 
+     * @return Level
+     */
     public Level getLevel() {
         return this.level;
     }
@@ -192,8 +227,12 @@ public class Game extends Engine {
 
     }
 
+    
+    /** 
+     * @param savedState
+     */
     @Override
-    protected void startSavedState(SavedState savedState){
+    protected void startSavedState(SavedState savedState) {
         this.replaying = false;
         this.setScore(savedState.getScore());
         Level currentLevel = this.levels.get(savedState.getLevelIndex());
@@ -220,6 +259,10 @@ public class Game extends Engine {
         this.replay = new Replay(this.level.getTitle(), this.getUsername());
     }
 
+
+    /**
+     * 
+     */
     @Override
     protected void start() {
         this.replaying = false;
@@ -250,24 +293,37 @@ public class Game extends Engine {
         this.replay = new Replay(this.level.getTitle(), this.getUsername());
     }
 
-    public void setGameOver(){
+
+    /**
+     * 
+     */
+    public void setGameOver() {
         this.getGamePane().getGameOver().setStats(this.score, this.time);
         this.setGameState(GameState.GameOver);
     }
 
-    public void setReplayOver(){
+
+    /**
+     * 
+     */
+    public void setReplayOver() {
         this.getGamePane().getReplayOver().setStats(
             replay.getScore(), this.time);
 
         this.setGameState(GameState.ReplayOver);
     }
 
-    public void setLevelFinish(){
+
+    /**
+     * 
+     */
+    public void setLevelFinish() {
         this.getGamePane().getFinish().setStats(this.score, this.time);
         this.level.completeLevel(this.profile, replay, score);
         this.setProfile(this.getProfile());
         this.setGameState(GameState.LevelComplete);
     }
+
 
     /**
      * Overridden update method from {@code Engine}.
@@ -308,7 +364,7 @@ public class Game extends Engine {
      * 
      * @param level The level to start from.
      */
-    public void startFromLevel(int level){
+    public void startFromLevel(int level) {
         this.currentLevelIndex = level;
         this.setGameState(GameState.Playing);
     }
@@ -318,6 +374,10 @@ public class Game extends Engine {
         this.setGameState(GameState.Playing);
     }
 
+    
+    /** 
+     * @return boolean
+     */
     public boolean isLastLevel() {
         return this.currentLevelIndex >= this.levels.size() - 1;
     }
@@ -335,6 +395,9 @@ public class Game extends Engine {
         this.getGamePane().getLevelSelector().addLevels(this.levels);
     }
 
+    /**
+     * 
+     */
     private void setUpProfiles() {
         Profile checkProfiles = new Profile();
         ProfileSelector profileSelector = 
@@ -368,6 +431,10 @@ public class Game extends Engine {
         }
     }
 
+    
+    /** 
+     * @param profile
+     */
     private void setProfile(Profile profile) {
         this.profile = profile;
         this.getGamePane().getLevelSelector().clearLevels();
@@ -376,10 +443,17 @@ public class Game extends Engine {
         this.setUpLeveles();
     }
 
-    public Profile getProfile(){
+    
+    /** 
+     * @return Profile
+     */
+    public Profile getProfile() {
         return this.profile;
     }
 
+    /**
+     * 
+     */
     public void saveState() {
         SavedStateManager stateManager = new SavedStateManager();
 
@@ -391,4 +465,5 @@ public class Game extends Engine {
             time, 
             getLevel().getIndex());
     }
+    
 }

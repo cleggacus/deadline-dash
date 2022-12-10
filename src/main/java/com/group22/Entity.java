@@ -4,9 +4,11 @@ package com.group22;
 
 /**
  * 
- * The class {@code Entity} is used for anything that is drawn or updated in the {@code Engine}.
+ * The class {@code Entity} is used for anything 
+ * that is drawn or updated in the {@code Engine}.
  * 
- * An extending class has to override the methods {@link #update()} and {@link #updateMovement()}.
+ * An extending class has to override the methods 
+ * {@link #update()} and {@link #updateMovement()}.
  * 
  * @author Liam Clegg
  * @version 1.0
@@ -72,14 +74,26 @@ public abstract class Entity {
         this.sprite = sprite;
     }
 
+    /**
+     * 
+     * @return
+     */
     public int getX() {
         return this.x;
     }
 
+    /**
+     * 
+     * @return
+     */
     public int getY() {
         return this.y;
     }
 
+    /**
+     * 
+     * @param shadow
+     */
     public void setShadow(boolean shadow) {
         this.shadow = shadow;
     }
@@ -93,6 +107,9 @@ public abstract class Entity {
         this.update();
     }
 
+    /**
+     * 
+     */
     public void resetMovementUpdate() {
         this.timeSinceMove = this.moveEvery;
     }
@@ -107,7 +124,7 @@ public abstract class Entity {
         double delta = Game.getInstance().getDelta();
         this.timeSinceMove += delta;
 
-        if(this.timeSinceMove >= this.moveEvery) {
+        if (this.timeSinceMove >= this.moveEvery) {
             this.animationType = TransitionType.NONE;
             this.fromX = this.x;
             this.fromY = this.y;
@@ -117,8 +134,9 @@ public abstract class Entity {
             this.timeSinceMove -= this.moveEvery;
         }
 
-        if(this.moveEvery <= delta)
+        if (this.moveEvery <= delta){
             this.timeSinceMove = 0;
+        }
     }
 
     
@@ -129,21 +147,28 @@ public abstract class Entity {
      *      The renderer used to draw to.
      */
     public void draw(Renderer renderer) {
-        if(this.sprite.getCurrentImage() == null)
+        if (this.sprite.getCurrentImage() == null) {
             return;
+        }
 
-        if(this.shadow) {
+        if (this.shadow) {
             renderer.drawShadow(getDrawX(), getDrawY(), 0.7);
         }
 
-        renderer.drawImage(this.sprite.getCurrentImage(), getDrawX(), getDrawY(), getDrawScale());
+        renderer.drawImage(this.sprite.getCurrentImage(), 
+            getDrawX(), getDrawY(), getDrawScale());
     }
 
+    /**
+     * 
+     * @return
+     */
     public double getDrawScale() {
-        if(this.animationType == TransitionType.SCALE) 
-            return Math.abs((this.timeSinceMove / this.moveEvery)*2-1);
-        else
+        if (this.animationType == TransitionType.SCALE) {
+            return Math.abs((this.timeSinceMove / this.moveEvery) * 2 - 1);
+        } else {
             return 1;
+        }
     }
 
     /**
@@ -213,14 +238,14 @@ public abstract class Entity {
     protected abstract void update();
 
     /**
-     * Gets the Y position the renderer should renderer based on animation and offset.
+     * Gets the Y position the renderer 
+     * should render based on animation and offset.
      * 
      * @return
      *      Y position for renderering
      */
     public double getDrawY() {
         double percent = this.timeSinceMove / this.moveEvery;
-
         double offsetDistance = this.spriteOffsetY - this.fromSpriteOffsetY;
         double animOffsetY = this.fromSpriteOffsetY + offsetDistance*percent;
 
@@ -228,16 +253,14 @@ public abstract class Entity {
             case LINEAR:
                 double distance = this.y - this.fromY;
                 double animY = this.fromY + distance*percent;
-
                 return animOffsetY + animY;
             case BOB:
                 double period = 2;
                 double amount = 0.1;
-
                 double bobDistance = this.y - this.fromY;
                 double bobAnimY = this.fromY + bobDistance*percent;
-
-                return animOffsetY + bobAnimY + amount * Math.sin(2 * Math.PI * percent * period);
+                return animOffsetY + bobAnimY + amount * 
+                    Math.sin(2 * Math.PI * percent * period);
             case SCALE:
                 return animOffsetY + (percent > 0.5 ? this.y : fromY);
             default:
@@ -247,7 +270,8 @@ public abstract class Entity {
 
 
     /**
-     * Gets the X position the renderer should renderer based on animation and offset.
+     * Gets the X position the renderer should 
+     * render based on animation and offset.
      * 
      * @return
      *      X position for renderering
@@ -256,7 +280,7 @@ public abstract class Entity {
         double percent = this.timeSinceMove / this.moveEvery;
 
         double offsetDistance = this.spriteOffsetX - this.fromSpriteOffsetX;
-        double animOffsetX = this.fromSpriteOffsetX + offsetDistance*percent;
+        double animOffsetX = this.fromSpriteOffsetX + offsetDistance * percent;
 
         switch(this.animationType) {
             case LINEAR: 
