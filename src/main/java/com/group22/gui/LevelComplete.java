@@ -20,6 +20,7 @@ public class LevelComplete extends MenuPane {
         this.addButton("EXIT", 
             () -> Game.getInstance().setGameState(GameState.Start));
 
+        this.addParagraph("");
         this.stats = this.addParagraph("");
 
         this.getStyleClass().add("levelcomplete-menu");

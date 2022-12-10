@@ -31,7 +31,7 @@ public class GamePane extends StatePane<GameState> {
         this.levelSelector = new LevelSelector(this);
         this.replaysBrowser = new ReplaysBrowser(this);
         this.savesBrowser = new SavesBrowser(this);
-        this.replayOver = new ReplayOver(this);
+        this.replayOver = new ReplayOver();
         this.playing = new Playing(this);
         this.paused = new Paused(this);
         this.gameOver = new GameOver(this);
@@ -69,7 +69,7 @@ public class GamePane extends StatePane<GameState> {
         return gameOver;
     }
 
-    public LevelComplete getFinish() {
+    public LevelComplete getLevelComplete() {
         return levelComplete;
     }
 

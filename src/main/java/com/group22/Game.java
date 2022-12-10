@@ -21,7 +21,6 @@ public class Game extends Engine {
     private int currentLevelIndex;
     private Level level;
     private Profile profile;
-    private double timeElapsed;
     private Replay replay;
     private int framesElapsed;
     private boolean replaying;
@@ -111,15 +110,6 @@ public class Game extends Engine {
         return time;
     }
 
-    /**
-     * This function returns the first door in the list of entities
-     * 
-     * @return The door entity.
-     */
-    public double getTimeElapsed() {
-        return timeElapsed;
-    }
-
     public int getFramesElapsed() {
         return framesElapsed;
     }
@@ -161,6 +151,7 @@ public class Game extends Engine {
      */
     protected void startReplay(Replay replay, int levelIndex) {
         this.replaying = true;
+        this.replay = replay;
         this.setScore(0);
 
         Level currentLevel = this.levels.get(levelIndex);
@@ -173,7 +164,6 @@ public class Game extends Engine {
 
         this.tiles = currentLevel.getTiles();
         this.time = currentLevel.getTimeToComplete();
-        this.timeElapsed = 0;
         this.framesElapsed = 0;
 
         this.setViewSize(width, height);
@@ -202,12 +192,11 @@ public class Game extends Engine {
         int width = currentLevel.getWidth();
         int height = currentLevel.getHeight();
 
-        this.getGamePane().getFinish().setIsLastLevel(this.isLastLevel());
+        this.getGamePane().getLevelComplete().setIsLastLevel(this.isLastLevel());
         this.getGamePane().getPlaying().setGameLevel(currentLevel.getTitle());
 
         this.tiles = currentLevel.getTiles();
         this.time = savedState.getTime();
-        this.timeElapsed = savedState.getTime();
         this.framesElapsed = 0;
 
         this.setViewSize(width, height);
@@ -232,12 +221,11 @@ public class Game extends Engine {
         int width = currentLevel.getWidth();
         int height = currentLevel.getHeight();
 
-        this.getGamePane().getFinish().setIsLastLevel(this.isLastLevel());
+        this.getGamePane().getLevelComplete().setIsLastLevel(this.isLastLevel());
         this.getGamePane().getPlaying().setGameLevel(currentLevel.getTitle());
 
         this.tiles = currentLevel.getTiles();
         this.time = currentLevel.getTimeToComplete();
-        this.timeElapsed = 0;
         this.framesElapsed = 0;
 
         this.setViewSize(width, height);
@@ -263,10 +251,14 @@ public class Game extends Engine {
     }
 
     public void setLevelFinish(){
-        this.getGamePane().getFinish().setStats(this.score, this.time);
-        this.level.completeLevel(this.profile, replay, score);
-        this.setProfile(this.getProfile());
-        this.setGameState(GameState.LevelComplete);
+        if(this.replaying) {
+            setReplayOver();
+        } else {
+            this.getGamePane().getLevelComplete().setStats(this.score, this.time);
+            this.level.completeLevel(this.profile, replay, score);
+            this.setProfile(this.getProfile());
+            this.setGameState(GameState.LevelComplete);
+        }
     }
 
     /**
@@ -290,7 +282,6 @@ public class Game extends Engine {
      */
     private void updateTime() {
         this.time -= this.getDelta();
-        this.timeElapsed += this.getDelta();
         this.framesElapsed += 1;
 
         if (this.time <= 0) {

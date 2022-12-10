@@ -7,6 +7,7 @@ import javafx.scene.input.KeyCode;
  * 
  */
 public class Player extends LandMover {
+    protected double time;
     private KeyCode lastDown;
     private boolean torch;
 
@@ -56,11 +57,11 @@ public class Player extends LandMover {
             "character/tile011.png",
         });
 
+        this.getSprite().setImageSet("idle");
         this.setSpriteOffset(0, -0.3);
         this.moveEvery = 0.15;
     }
 
-    
     /** 
      * @return boolean
      */
@@ -92,40 +93,56 @@ public class Player extends LandMover {
         return ("player " + getX() + " " + getY());
     }
 
+    @Override
+    protected void move(int x, int y) {
+        if (x == 1) {
+            this.getSprite().setImageSet("right");
+        } else if (x == -1) {
+            this.getSprite().setImageSet("left");
+        } else if (y == 1) {
+            this.getSprite().setImageSet("down");
+        } else if (y == -1) {
+            this.getSprite().setImageSet("up");
+        } else {
+            this.getSprite().setImageSet("idle");
+        }
 
-    /**
-     * 
-     */
+        super.move(x, y);
+    }
+
+    protected void moveWithReplay(int x, int y) {
+        Game.getInstance().newReplayFrame(x, y, this.time);
+        this.move(x, y);
+    }
+
     @Override
     protected void updateMovement() {
-        this.getSprite().setImageSet("idle");
-        double keyTime = Game.getInstance().getTimeElapsed();
-
-        isAtDoor();
         if (this.lastDown == null) {
             this.lastDown = Game.getInstance().getLastKeyDown(
                 KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D);
         }
         
         if (this.lastDown == KeyCode.W) {
-            this.getSprite().setImageSet("up");
-            keyTime = Game.getInstance().getTimeElapsed();
-            move(0, -1);
+            moveWithReplay(0, -1);
         } else if (lastDown == KeyCode.S) {
-            this.getSprite().setImageSet("down");
-            keyTime = Game.getInstance().getTimeElapsed();
-            move(0, 1);
+            moveWithReplay(0, 1);
         } else if (lastDown == KeyCode.A) {
-            this.getSprite().setImageSet("left");
-            keyTime = Game.getInstance().getTimeElapsed();
-            move(-1, 0);
+            moveWithReplay(-1, 0);
         } else if (lastDown == KeyCode.D) {
-            this.getSprite().setImageSet("right");
-            keyTime = Game.getInstance().getTimeElapsed();
-            move(1, 0);
+            moveWithReplay(1, 0);
         }
 
-        Game.getInstance().newReplayFrame(this.getX(), this.getY(), keyTime);
+        this.lastDown = null;
+    }
+
+
+    /**
+     * 
+     */
+    @Override
+    protected void update() {
+        isAtDoor();
+
         ArrayList<Door> doors = Game.getInstance().getEntities(Door.class);
         ArrayList<PickUp> pickUps = 
             Game.getInstance().getEntities(PickUp.class);
@@ -151,15 +168,7 @@ public class Player extends LandMover {
         } else {
             this.setSpriteOffset(0, -0.25);
         }
-        this.lastDown = null;
-    }
 
-
-    /**
-     * 
-     */
-    @Override
-    protected void update() {
         if (
             Game.getInstance().getKeyDown(KeyCode.W) || 
             Game.getInstance().getKeyDown(KeyCode.S) || 
@@ -171,13 +180,13 @@ public class Player extends LandMover {
         }
 
         if (torch) {
-            // Game.getInstance().getRenderer().setLightPosition(getDrawX(), getDrawY(), 0.15);
             Game.getInstance().lightUpTile(getX(), getY());
         }
 
         if (Game.getInstance().getLastKeyReleased() != null) {
             Game.getInstance().resetLastKeyReleased();
         }
-    }
 
+        this.time += Game.getInstance().getDelta();
+    }
 }

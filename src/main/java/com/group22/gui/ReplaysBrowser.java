@@ -33,6 +33,7 @@ public class ReplaysBrowser extends MenuPane {
 
     public void setReplays(String level, int levelIndex) {
         this.replaysMenu.getChildren().clear();
+
         ArrayList<Replay> replays = this.replayManager.getReplaysFromLevelTitle(level);
         if (replays.size() == 0){
             this.replaysMenu.addH2("No plays yet!");
