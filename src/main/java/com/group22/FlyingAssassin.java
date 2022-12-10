@@ -4,7 +4,8 @@ import java.util.ArrayList;
 
 /**
  * 
- * The class {@code FlyingAssassin} impliments an entity which moves across the board in a straight line regardless of the tiles. 
+ * The class {@code FlyingAssassin} impliments an entity which 
+ * moves across the board in a straight line regardless of the tiles. 
  * Turns 180 degrees if it hits a wall.
  * If it occupies same space as player then the player loses
  * 
@@ -16,6 +17,12 @@ public class FlyingAssassin extends Entity {
     private int moveByX;
     private boolean isVertical;
 
+    /**
+     * 
+     * @param x
+     * @param y
+     * @param isVertical
+     */
     public FlyingAssassin(int x, int y, boolean isVertical) {
         super(x, y);
         this.getSprite().setImage("NPC/FlyingAssassin.png");
@@ -27,18 +34,29 @@ public class FlyingAssassin extends Entity {
     }
     
 
-    public boolean getIsVertical(){
+    
+    /** 
+     * @return boolean
+     */
+    public boolean getIsVertical() {
         return isVertical;
     }
 
+    
+    /** 
+     * @return String
+     */
     @Override
-    public String toString(){
-        return ("flyingassassin " + getX() + " " + getY() + " " + (getIsVertical() ? "v" : "h"));
+    public String toString() {
+        return ("flyingassassin " + getX() + " " + getY() + 
+            " " + (getIsVertical() ? "v" : "h"));
     }
 
     @Override
     protected void updateMovement() {
-        if(!Game.getInstance().isInBounds(getX()+this.moveByX, getY()+this.moveByY)){
+        if (!Game.getInstance().isInBounds(getX() +
+            this.moveByX, getY() + this.moveByY)) {
+
             this.moveByY = -this.moveByY;
             this.moveByX = -this.moveByX;
         }
@@ -51,15 +69,13 @@ public class FlyingAssassin extends Entity {
 
     @Override
     protected void update() {
-        // TODO Auto-generated method stub
-        
-        ArrayList<LandMover> landMovers = Game.getInstance().getEntities(LandMover.class);
+        ArrayList<LandMover> landMovers = 
+            Game.getInstance().getEntities(LandMover.class);
 
-        for(LandMover landMover : landMovers) {
-            if(
-                landMover.getX() == this.getX() && 
-                landMover.getY() == this.getY()
-            ) {
+        for (LandMover landMover : landMovers) {
+            if (landMover.getX() == this.getX() && 
+                landMover.getY() == this.getY()) {
+                    
                 Game.getInstance().removeEntity(landMover);
             }
         }
