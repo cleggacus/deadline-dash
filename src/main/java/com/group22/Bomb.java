@@ -162,8 +162,9 @@ public class Bomb extends Entity {
             activateBomb();
         }
 
-        this.explosion = this.time >= COUNTDOWN - ANIMATION_DURATION;
-
+        if(this.time >= COUNTDOWN - ANIMATION_DURATION) {
+            this.explosion = true;
+        }
     }
 
     @Override
