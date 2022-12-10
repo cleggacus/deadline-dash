@@ -9,7 +9,11 @@ package com.group22;
  * @version 1.0
  */
 public class LevelFormatException extends Exception  {
-    public LevelFormatException(String message){
+    /**
+     * 
+     * @param message
+     */
+    public LevelFormatException(String message) {
         super(message);
     }
 }

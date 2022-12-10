@@ -79,9 +79,9 @@ public class Level {
 
     /**
      * Getter for the level's {@link Replay}'s.
-     * @return {@link ArrayList} of type {@link} Replay}'s
+     * @return {@link ArrayList} of type {@link Replay}'s
      */
-    public ArrayList<Replay> getReplays(){
+    public ArrayList<Replay> getReplays() {
         return replays;
     }
     
@@ -89,7 +89,7 @@ public class Level {
      * Getter for the total time to complete the level at the begining
      * @return int
      */
-    public int getTimeToComplete(){
+    public int getTimeToComplete() {
         return timeToComplete;
     }
 
@@ -102,11 +102,12 @@ public class Level {
      * {@link ArrayList}, returns 11 if the player didn't
      * qualify for the top 10.
      */
-    public int getScorePosition(int score){
-        if (this.replays.size() == 0){
+    public int getScorePosition(int score) {
+        if (this.replays.size() == 0) {
             return 1;
         }
-        for (int i = 0; i < 10; i++){
+
+        for (int i = 0; i < 10; i++) {
             if (this.replays.size() == i)
                 return i + 1;
             final int LEVEL_HIGHSCORE = this.replays.get(i).getScore();
@@ -123,14 +124,15 @@ public class Level {
      * the replays file.
      * 
      * @param profile The {@link Profile} of the user
-     * @param score the score the user got
+     * @param score the score the user ended the level with
      */
-    public void completeLevel(Profile profile, Replay replay, int score){
+    public void completeLevel(Profile profile, Replay replay, int score) {
         final int PROFILE_UNLOCKED_INDEX = profile.getMaxUnlockedLevelIndex();
         if (PROFILE_UNLOCKED_INDEX == this.getIndex()) {
-            profile.setUnlockedLevelIndex(this.getIndex()+1);
+            profile.setUnlockedLevelIndex(this.getIndex() + 1);
         }
         final int SCORE_POS = this.getScorePosition(score);
+
         if (SCORE_POS <= 10) {
             this.replayManager.saveReplay(this, replay, score);
         }
@@ -140,7 +142,7 @@ public class Level {
      * Getter for retrieving the {@link Tile} objects for the level
      * @return Tile[][]
      */
-    public Tile[][] getTiles(){
+    public Tile[][] getTiles() {
         return tiles;
     }
 
@@ -150,7 +152,7 @@ public class Level {
      * array of entity data.
      * @return {@link ArrayList} of a {@link String} array
      */
-    public ArrayList<String[]> getEntities(){
+    public ArrayList<String[]> getEntities() {
         return entities;
     }
 
@@ -159,7 +161,7 @@ public class Level {
      * Getter for retrieving the height of the level
      * @return int
      */
-    public int getHeight(){
+    public int getHeight() {
         return height;
     }
 
@@ -168,9 +170,10 @@ public class Level {
      * Getter for retrieving the width of the level
      * @return int
      */
-    public int getWidth(){
+    public int getWidth() {
         return width;
     }
+
 
     /**
      * It checks if the entity is a player or a door, and if it is,
@@ -181,18 +184,24 @@ public class Level {
      * @param entity The entity to be checked
      * @throws LevelFormatException
      */
-    private void isValidEntity(Entity entity) throws LevelFormatException{
+    private void isValidEntity(Entity entity) throws LevelFormatException {
         if (entity instanceof Player) {
             this.playerPresent = true;
         }
+
         if (entity instanceof Door) {
             this.doorPresent = true;
         }
-        if (entity.getX() > this.width - 1)
+
+        if (entity.getX() > this.width - 1) {
             throw new LevelFormatException("Entity out of bounds in x");
-        if (entity.getY() > this.height - 1)
+        }
+
+        if (entity.getY() > this.height - 1) {
             throw new LevelFormatException("Entity out of bounds in y");
+        }
     }
+
 
     /**
      * This function checks if the level has a {@link Player}
@@ -209,6 +218,7 @@ public class Level {
             throw new LevelFormatException("Door not present for level "
             + this.getTitle());
     }
+
 
     /**
      * It takes the data from the level file and creates an {@link ArrayList}
@@ -244,7 +254,7 @@ public class Level {
      * 
      * @return {@link ArrayList} of type {@link Entity}
      */
-    private ArrayList<Entity> tilesToEntities(){
+    private ArrayList<Entity> tilesToEntities() {
         ArrayList<Entity> entities = new ArrayList<Entity>();
 
         for (Tile[] yTiles : tiles) {
@@ -255,9 +265,14 @@ public class Level {
         return entities;
     }
 
-    public ArrayList<Entity> getTilesAsEntities(){
+    /**
+     * 
+     * @return
+     */
+    public ArrayList<Entity> getTilesAsEntities() {
         return tilesToEntities();
     }
+
 
     /**
      * It takes an array of strings, and returns an {@link Entity} of the
@@ -268,8 +283,7 @@ public class Level {
      * @return returns an {@link Entity} object.
      * @throws LevelFormatException
      */
-    public Entity parseEntity(String[] entity) 
-        throws LevelFormatException{
+    public Entity parseEntity(String[] entity) throws LevelFormatException {
         switch(entity[0]){
             case("player"):
                 return new Player(
@@ -277,7 +291,7 @@ public class Level {
                     Integer.parseInt(entity[2]),
                     entity.length >= 4 && entity[3].equals("torch"));
             case("door"):
-                if (entity.length != 3)
+                if (entity.length != 3) 
                     throw new LevelFormatException(
                         "door has " 
                         + (entity.length < 3 ? "too few" : "too many")

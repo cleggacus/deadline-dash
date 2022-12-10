@@ -19,10 +19,12 @@ public class LevelManager {
     private int linePos;
     private static ArrayList<Level> levels;
     private static final String LEVEL_FILE_PATH =
-    "src/main/resources/com/group22/levels.txt";
+        "src/main/resources/com/group22/levels.txt";
 
-    private LevelManager(){
-    }
+    /**
+     * 
+     */
+    private LevelManager() {}
 
     /**
      * If the instance is null, create a new instance and
@@ -39,19 +41,27 @@ public class LevelManager {
         return LevelManager.instance;
     }
 
-    private void onInitialized(){
+    /**
+     * 
+     */
+    private void onInitialized() {
         this.fileManager = new FileManager();
         this.replayManager = new ReplayManager();
         File levelFile = new File(LEVEL_FILE_PATH);
         ArrayList<String> data = fileManager.getDataFromFile(levelFile);
-
         this.linePos = 0;
         levels = new ArrayList<Level>();
         levels = setUpLevels(levels, data);
     }
 
+    
+    /** 
+     * @param levels
+     * @param data
+     * @return {@link ArrayList}{@link Level}
+     */
     private ArrayList<Level> setUpLevels(
-        ArrayList<Level> levels, ArrayList<String> data){
+        ArrayList<Level> levels, ArrayList<String> data) {
 
         try{
             this.linePos = 0;
@@ -62,7 +72,8 @@ public class LevelManager {
             final int TIME_TO_COMPLETE = Integer.parseInt(data.get(linePos));
             this.linePos += 1;
 
-            final int[] WIDTH_HEIGHT_SPLIT = Arrays.stream(data.get(linePos).split(" ")).mapToInt(
+            final int[] WIDTH_HEIGHT_SPLIT = Arrays.stream(
+                data.get(linePos).split(" ")).mapToInt(
                 Integer::parseInt).toArray();
             this.linePos += 1;
 
@@ -71,10 +82,10 @@ public class LevelManager {
 
             Tile[][] tiles = new Tile[WIDTH][HEIGHT];
             ArrayList<String[]> entities = new ArrayList<String[]>();
-            for(int y=0; y < HEIGHT; y++){
+            for (int y = 0; y < HEIGHT; y++) {
                 final String[] SPLIT_ROW = data.get(linePos).split(" ");
                 this.linePos += 1;
-                for(int x=0; x < WIDTH; x++){
+                for (int x = 0; x < WIDTH; x++) {
                     tiles[x][y] = new Tile(x, y);
                     tiles[x][y].setTileLayout(SPLIT_ROW[x]);
                 }
@@ -84,7 +95,7 @@ public class LevelManager {
             final int NUM_ENTITIES = Integer.parseInt(data.get(linePos));
             this.linePos += 1;
 
-            for(int i=0; i < NUM_ENTITIES; i++){
+            for (int i = 0; i < NUM_ENTITIES; i++) {
                 final String[] SPLIT_ENTITIES = data.get(linePos).split(" ");
                 this.linePos += 1;
                 entities.add(SPLIT_ENTITIES);
@@ -92,20 +103,22 @@ public class LevelManager {
             //TODO validateEntities();
             this.linePos += 1;
 
-            ArrayList<Replay> replays = this.replayManager.getReplaysFromLevelTitle(TITLE);
+            ArrayList<Replay> replays = 
+                this.replayManager.getReplaysFromLevelTitle(TITLE);
         
             final Level CURRENT_LEVEL = new Level(
                 TITLE, TIME_TO_COMPLETE, HEIGHT, WIDTH, 
                 tiles, entities, replays, levels.size());
             levels.add(CURRENT_LEVEL);
 
-            if(data.size() > this.linePos){
-                return setUpLevels(levels, new ArrayList<String>(data.subList(this.linePos, data.size())));
+            if (data.size() > this.linePos) {
+                return setUpLevels(levels, 
+                new ArrayList<String>(data.subList(this.linePos, data.size())));
             } else {
                 return levels;
             }
 
-        } catch(Exception e){
+        } catch(Exception e) {
             e.printStackTrace();
         }
 
@@ -113,7 +126,11 @@ public class LevelManager {
         
     }
 
-    public ArrayList<Level> getAllLevels(){
+    
+    /** 
+     * @return {@link ArrayList}{@link Level}
+     */
+    public ArrayList<Level> getAllLevels() {
         return levels;
     }
 }

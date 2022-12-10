@@ -4,7 +4,8 @@ import java.util.ArrayList;
 
 /**
  * 
- * The class {@code LandMover} impliments movement that follows the game tile colors.
+ * The class {@code LandMover} impliments 
+ * movement that follows the game tile colors.
  * 
  * @author Liam Clegg
  * @version 1.0
@@ -17,12 +18,14 @@ public abstract class LandMover extends Entity {
         Gate.class
     };
 
+
     /**
      * Creates LandMover at 0, 0
      */
     public LandMover() {
         super();
     }
+
 
     /**
      * Creates a LandMover at position x, y.
@@ -36,6 +39,7 @@ public abstract class LandMover extends Entity {
         super(x, y);
     }
     
+
     /** 
      * Moves entity by (x, y) according to the tile colors
      * 
@@ -50,12 +54,12 @@ public abstract class LandMover extends Entity {
         int newX = this.getMovedX(x);
         int newY = this.getMovedY(y);
 
-        if(!isBlocked(newX, newY)) {
+        if (!isBlocked(newX, newY)) {
             int moveX = newX - this.getX();
             int moveY = newY - this.getY();
 
 
-            if(Math.abs(moveY) > 1 || Math.abs(moveX) > 1) {
+            if (Math.abs(moveY) > 1 || Math.abs(moveX) > 1) {
                 super.move(moveX, moveY, TransitionType.SCALE);
             } else {
                 super.move(moveX, moveY, type);
@@ -78,12 +82,13 @@ public abstract class LandMover extends Entity {
      */
 
     protected boolean isBlocked(int x, int y){
-        for(Class<? extends Entity> entityClass : COLLIDERS) {
-            ArrayList<? extends Entity> entities = Game.getInstance().getEntities(entityClass);
+        for (Class<? extends Entity> entityClass : COLLIDERS) {
+            ArrayList<? extends Entity> entities = 
+                Game.getInstance().getEntities(entityClass);
 
-            for(Entity entity : entities){
-                if(entity instanceof Gate && ((Gate) entity).getGateIsOpen()){
-                } else if (x ==  entity.getX() && y == entity.getY()){
+            for (Entity entity : entities) {
+                if (entity instanceof Gate && ((Gate) entity).getGateIsOpen()) {
+                } else if (x ==  entity.getX() && y == entity.getY()) {
                     return true;
                 }
             }
@@ -92,12 +97,19 @@ public abstract class LandMover extends Entity {
     }
 
 
+    
+    /** 
+     * @param x
+     * @param y
+     * @return boolean
+     */
     protected boolean isMoveLegal(int x, int y) {
-        if(!Game.getInstance().isInBounds(this.getX() + x, this.getY() + y))
+        if (!Game.getInstance().isInBounds(this.getX() + x, this.getY() + y)) {
             return false;
+        }
 
-
-        return Game.getInstance().colorMatch(this.getX(), this.getY(), this.getX() + x, this.getY() + y);
+        return Game.getInstance().colorMatch(this.getX(), 
+            this.getY(), this.getX() + x, this.getY() + y);
     }
 
     /**
@@ -111,14 +123,15 @@ public abstract class LandMover extends Entity {
         boolean found = false;
         int i = this.getY();
 
-        while(i > 0 && !found) {
+        while (i > 0 && !found) {
             i--;
             found = isMoveLegal(0, i - this.getY());
         }
 
-        if(!found)
+        if (!found) {
             i = this.getY();
-        
+        }
+
         return i;
     }
 
@@ -134,19 +147,21 @@ public abstract class LandMover extends Entity {
         int i = this.getY();
         int height = Game.getInstance().getViewHeight();
 
-        while(i < height-1 && !found) {
+        while (i < height - 1 && !found) {
             i++;
             found = isMoveLegal(0, i - this.getY());
         }
 
-        if(!found)
+        if (!found) {
             i = this.getY();
+        }
         
         return i;
     }
 
     /**
-     * Gets the next tile with the correct color to the left of the current tile.
+     * Gets the next tile with the correct 
+     * color to the left of the current tile.
      * 
      * @return
      *      The x position of the tile found.
@@ -156,20 +171,22 @@ public abstract class LandMover extends Entity {
         boolean found = false;
         int i = this.getX();
 
-        while(i > 0 && !found) {
+        while (i > 0 && !found) {
             i--;
             found = isMoveLegal(i - this.getX(), 0);
         }
 
-        if(!found)
+        if (!found) {
             i = this.getX();
-        
+        }
+
         return i;
     }
 
 
     /**
-     * Gets the next tile with the correct color to the right of the current tile.
+     * Gets the next tile with the correct 
+     * color to the right of the current tile.
      * 
      * @return
      *      The x position of the tile found.
@@ -180,26 +197,32 @@ public abstract class LandMover extends Entity {
         int i = this.getX();
         int width = Game.getInstance().getViewWidth();
 
-        while(i < width-1 && !found) {
+        while (i < width - 1 && !found) {
             i++;
             found = isMoveLegal(i - this.getX(), 0);
         }
 
-        if(!found)
+        if (!found) {
             i = this.getX();
-        
+        }
+
         return i;
     }
 
+    
+    /** 
+     * @param x
+     * @return int
+     */
     private int getMovedX(int x) {
         int newX = this.getX();
 
-        while(x > 0) {
+        while (x > 0) {
             newX = nextRight();
             x--;
         }
 
-        while(x < 0) {
+        while (x < 0) {
             newX = nextLeft();
             x++;
         }
@@ -207,15 +230,20 @@ public abstract class LandMover extends Entity {
         return newX;
     }
 
+    
+    /** 
+     * @param y
+     * @return int
+     */
     private int getMovedY(int y) {
         int newY = this.getY();
 
-        while(y > 0) {
+        while (y > 0) {
             newY = nextDown();
             y--;
         }
 
-        while(y < 0) {
+        while (y < 0) {
             newY = nextUp();
             y++;
         }
