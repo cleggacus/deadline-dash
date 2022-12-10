@@ -8,18 +8,17 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
 public class LevelComplete extends MenuPane {
-    private GamePane gamePane;
     private Label stats;
     private Button nextLevelButton;
 
-    public LevelComplete(GamePane gamePane) {
-        this.gamePane = gamePane;
-
+    public LevelComplete() {
         this.addH1("FIN");
-        this.addButton("RESTART", () -> Game.getInstance().setGameState(GameState.Playing));
+        this.addButton("RESTART", 
+            () -> Game.getInstance().setGameState(GameState.Playing));
         this.nextLevelButton = this.addButton("NEXT LEVEL", () -> {});
 
-        this.addButton("EXIT", () -> gamePane.setState(GameState.Start));
+        this.addButton("EXIT", 
+            () -> Game.getInstance().setGameState(GameState.Start));
 
         this.stats = this.addParagraph("");
 
@@ -35,7 +34,7 @@ public class LevelComplete extends MenuPane {
         this.nextLevelButton.setText(isLast ? "CREDITS" : "NEXT LEVEL");
 
         this.nextLevelButton.setOnMouseClicked(e -> {
-            if(isLast) {
+            if (isLast) {
                 Game.getInstance().setGameState(GameState.CREDITS);
             } else {
                 Game.getInstance().startFromNextLevel();

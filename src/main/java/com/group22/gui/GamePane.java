@@ -35,7 +35,7 @@ public class GamePane extends StatePane<GameState> {
         this.playing = new Playing(this);
         this.paused = new Paused(this);
         this.gameOver = new GameOver(this);
-        this.levelComplete = new LevelComplete(this);
+        this.levelComplete = new LevelComplete();
         this.credits = new Credits();
 
         // Add panes with there visible states
