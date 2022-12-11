@@ -42,7 +42,7 @@ public class Clock extends PickUp {
 
     /**
      * @return String of a clocks X coordinate, Y coordinate and the value of
-     * that clocks time.
+     * that clocks time to be saved/loaded.
      */
     @Override
     public String toString() {
