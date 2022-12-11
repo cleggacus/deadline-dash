@@ -12,6 +12,7 @@ import com.group22.gui.base.ListButton.OnClickEvent;
 
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
+
 /** LevelSelector is the menu in which users pick which level they want to play.
  *  It allows the user to navigate to the replays and saves browsers for each
  *  level. It also displays levels that the user hasn't unlocked yet.
@@ -155,7 +156,14 @@ public class LevelSelector extends MenuPane {
         }
     }
 
-    public Button createButton(String name, OnClickEvent onClick) {
+    /**
+     * Helper to create a button for the footer buttons.
+     * 
+     * @param name Text in button.
+     * @param onClick Called when button is clicked.
+     * @return The button which is created.
+     */
+    private Button createButton(String name, OnClickEvent onClick) {
         Button button = new Button(name);
         button.setOnAction(e -> onClick.run());
         return button;
