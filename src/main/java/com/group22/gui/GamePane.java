@@ -46,7 +46,7 @@ public class GamePane extends StatePane<GameState> {
         this.setStyling();
 
         // Create panes
-        this.profileSelector = new ProfileSelector(this);
+        this.profileSelector = new ProfileSelector();
         this.startMenu = new StartMenu(this);
         this.levelSelector = new LevelSelector(this);
         this.replaysBrowser = new ReplaysBrowser(this);

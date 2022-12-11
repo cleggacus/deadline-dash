@@ -1,23 +1,32 @@
 package com.group22.gui;
 
+import com.group22.Game;
 import com.group22.GameState;
 import com.group22.gui.base.MenuPane;
 
 /**
- * Class that adds profile to a gui element to allow
+ * The Class {@code ProfileSelector} adds profile to a gui element to allow
  * the user to select, create or delete one.
+ * 
+ * @author Liam Clegg
+ * @version 1.0
  */
 public class ProfileSelector extends MenuPane {
+    /** Event thats called when a profile is added to the GUI. */
     private ProfileAddedEvent profileAddedEvent;
+    /** Event thats called when a profile is selected from the GUI. */
     private ProfileSelectEvent profileSelectEvent;
+    /** Event thats called when a profile is removed from the GUI. */
     private ProfileRemovedEvent profileRemovedEvent;
-
+    /** Username of the selected profile. */
     private String username;
-    private GamePane gamePane;
+    /** Menu which contains the profiles. */
     private MenuPane profileMenu;
 
-    public ProfileSelector(GamePane gamePane) {
-        this.gamePane = gamePane;
+    /**
+     * Creates a ProfileSelector pane.
+     */
+    public ProfileSelector() {
         this.profileMenu = new MenuPane();
 
         this.addH1("PROFILE");
@@ -28,7 +37,7 @@ public class ProfileSelector extends MenuPane {
     }
 
     /**
-     * This function returns the username of the user
+     * This method returns the username of the user.
      * 
      * @return The username of the user.
      */
@@ -45,18 +54,20 @@ public class ProfileSelector extends MenuPane {
     public void addProfile(String profile) {
         String sanitized = profile.toLowerCase().replaceAll(" ", "_");
 
-        if(this.profileAddedEvent != null)
+        if (this.profileAddedEvent != null) {
             this.profileAddedEvent.run(sanitized);
+        }
 
         this.profileMenu.addListButton(sanitized.toUpperCase(), () -> {
             this.profileSelectEvent.run(sanitized);
             this.username = sanitized;
-            this.gamePane.setState(GameState.Start);
+            Game.getInstance().setGameState(GameState.Start);
         }, node -> {
             this.profileMenu.remove(node);
 
-            if(this.profileRemovedEvent != null)
+            if (this.profileRemovedEvent != null) {
                 this.profileRemovedEvent.run(sanitized);
+            }
         });
     }
 
@@ -93,14 +104,27 @@ public class ProfileSelector extends MenuPane {
         this.profileSelectEvent = profileSelectEvent;
     }
 
+    /**
+     * Event used for when profile is added and calls run when added.
+     * Takes the profile which is added.
+     */
     public interface ProfileAddedEvent {
         void run(String profile);
     }
 
+    /**
+     * Event used for when profile is removed and calls run when removed.
+     * Takes the profile which is removed.
+     */
     public interface ProfileRemovedEvent {
         void run(String profile);
     }
 
+
+    /**
+     * Event used for when profile is selected and calls run when selected.
+     * Takes the profile which is selected.
+     */
     public interface ProfileSelectEvent {
         void run(String profile);
     }
