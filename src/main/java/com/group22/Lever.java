@@ -29,7 +29,6 @@ public class Lever extends PickUp {
             TileColor.getFromLabel(leverColour.charAt(0)).color);
     }
 
-    
     /** 
      * @param leverColour setter for the colour of a lever
      */
@@ -37,28 +36,12 @@ public class Lever extends PickUp {
         this.leverColour = leverColour;
     }
 
-    
-    /** 
-     * @param leverIsOpen
-     */
-    protected void setIsOpened(Boolean leverIsOpen) {
-        this.leverIsOpen = leverIsOpen;
-    }
 
-    
     /** 
      * @return String the colour of a lever
      */
     public String getLeverColour() {
         return this.leverColour;
-    }
-
-
-    /**
-     * @return Boolean
-     */
-    public Boolean getIsOpen() {
-        return this.leverIsOpen;
     }
 
     

@@ -10,8 +10,10 @@ package com.group22;
  * @version 1.0
  */
 public class Door extends Entity {
+    /** variable for animation timer*/
     private static final double OPEN_ANIMATION_DURATION = 0.1;
     private double openTimer = 0;
+    /** variable for wether door is open or not */
     private boolean isOpen = false;
 
     /**

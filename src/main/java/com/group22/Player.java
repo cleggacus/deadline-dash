@@ -114,6 +114,10 @@ public class Player extends LandMover {
         this.move(x, y);
     }
 
+    /**
+     *
+     */
+
     @Override
     protected void updateMovement() {
         if (this.lastDown == null) {
