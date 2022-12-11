@@ -6,10 +6,18 @@ import com.group22.gui.base.MenuPane;
 
 import javafx.stage.Stage;
 
+/**
+ * The {@code Paused} class extends MenuPane is a pause menu.
+ */
 public class Paused extends MenuPane {
-    public Paused(GamePane gamePane) {
+
+    /**
+     * Creates the Paused menu.
+     */
+    public Paused() {
         this.addH1("PAUSED");
-        this.addButton("RESUME", () -> gamePane.setState(GameState.Playing));
+        this.addButton("RESUME", 
+            () -> Game.getInstance().setGameState(GameState.Playing));
         this.addButton("RESTART", () -> {
             Game.getInstance().setGameState(GameState.GameOver);
             Game.getInstance().setGameState(GameState.Playing);
@@ -22,7 +30,8 @@ public class Paused extends MenuPane {
             stage.setFullScreen(!stage.isFullScreen());
         });
 
-        this.addButton("EXIT", () -> gamePane.setState(GameState.Start));
+        this.addButton("EXIT", 
+            () -> Game.getInstance().setGameState(GameState.Start));
 
         this.getStyleClass().add("pause-menu");
     }
