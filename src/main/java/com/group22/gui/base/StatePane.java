@@ -16,7 +16,10 @@ import javafx.scene.layout.StackPane;
  * @version 1.0
  */
 public class StatePane<T extends Enum<T>> extends StackPane {
+    /** Value of the current state of the StatePane. */
     private T currentState;
+    /** Hash map which maps a state to the panes which are visible 
+     * with the given state. */
     private HashMap<T, ArrayList<Integer>> activationMap;
 
     /**
