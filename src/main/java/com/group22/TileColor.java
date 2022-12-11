@@ -26,8 +26,8 @@ public enum TileColor {
     /**
      * Constructor for enum to store color and label
      * 
-     * @param color
-     * @param label
+     * @param color the color of a tile
+     * @param label the letter corresponding to the color
      */
     TileColor(Color color, char label) {
         this.color = color;
@@ -35,9 +35,9 @@ public enum TileColor {
     }
 
     /**
-     * Gets the tile color with the corrisponding label
+     * Gets the tile color with the corresponding label
      * 
-     * @param label
+     * @param label the letter corresponding to the color
      * @return TileColor
      */
     public static TileColor getFromLabel(char label) {
@@ -50,6 +50,9 @@ public enum TileColor {
         return null;
     }
 
+    /**
+     * @return String of the colour of a tile to be saved/loaded.
+     */
     @Override
     public String toString() {
         return this.label + "";
