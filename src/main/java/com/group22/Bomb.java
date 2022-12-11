@@ -117,14 +117,16 @@ public class Bomb extends Entity {
         }
 
         /**
-         * @param renderer
-         * Will add a light effect to the laser as it travels if
-         * the player has a torch.
+         * Handles how the entity is drawn on to the context.
+         * Used to handle when the sprite should be visible in the animation.
+         * 
+         * @param renderer used to handle drawing to the context.
          */
         @Override
         public void draw(Renderer renderer) {
             if (this.isActive) {
                 super.draw(renderer);
+
                 if (
                     Game.getInstance().getPlayer().hasTorch() &&
                     this.lightTimer <= ANIMATION_DURATION/bombEdgeDistance
@@ -301,9 +303,10 @@ public class Bomb extends Entity {
     }
 
     /** 
-     * @param renderer
-     * Draws the countdown sprite. Creates the lasers if they do not exist,
-     * then draws the lasers.
+     * Handles how the entity is drawn on to the context.
+     * Used to to make sure lazer and countdown entities are drawn.
+     * 
+     * @param renderer used to handle drawing to the context.
      */
     @Override
     public void draw(Renderer renderer) {
