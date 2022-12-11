@@ -27,6 +27,8 @@
   </module>
 
   <module name="TreeWalker">
+    <module name="DeclarationOrderCheck"/>
+    <module name="ModifierOrder"/>
     <module name="WhitespaceAround">
       <property name="tokens"
         value="LITERAL_IF,LITERAL_FOR,LITERAL_ELSE,LITERAL_WHILE, ASSIGN,MINUS_ASSIGN,PLUS_ASSIGN,PLUS,MINUS,EQUAL,NOT_EQUAL"/>
