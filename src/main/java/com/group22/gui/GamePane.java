@@ -91,7 +91,7 @@ public class GamePane extends StatePane<GameState> {
     }
 
     /**
-     * Gets the GameOver pane.
+     * Gets the {@link #gameOver} pane.
      * 
      * @return Instance of GameOver pane.
      */
@@ -100,7 +100,7 @@ public class GamePane extends StatePane<GameState> {
     }
 
     /**
-     * Gets the LevelComplete pane.
+     * Gets the {@link #levelComplete} pane.
      * 
      * @return Instance of LevelComplete pane.
      */
@@ -109,7 +109,7 @@ public class GamePane extends StatePane<GameState> {
     }
 
     /**
-     * Gets the Playing pane.
+     * Gets the {@link #playing} pane.
      * 
      * @return Instance of Playing pane.
      */
@@ -118,7 +118,7 @@ public class GamePane extends StatePane<GameState> {
     }
 
     /**
-     * Gets the StartMenu pane.
+     * Gets the {@link #playing} pane.
      * 
      * @return Instance of StartMenu pane.
      */
@@ -127,7 +127,7 @@ public class GamePane extends StatePane<GameState> {
     }
 
     /**
-     * Gets the SavesBrowser pane.
+     * Gets the {@link #savesBrowser} pane.
      * 
      * @return Instance of SavesBrowser pane.
      */
@@ -136,7 +136,7 @@ public class GamePane extends StatePane<GameState> {
     }
 
     /**
-     * Gets the ProfileSelector pane.
+     * Gets the {@link #profileSelector} pane.
      * 
      * @return Instance of ProfileSelector pane.
      */
@@ -145,7 +145,7 @@ public class GamePane extends StatePane<GameState> {
     }
 
     /**
-     * Gets the LevelSelector pane.
+     * Gets the {@link #levelSelector} pane.
      * 
      * @return Instance of LevelSelector pane.
      */
@@ -154,7 +154,7 @@ public class GamePane extends StatePane<GameState> {
     }
 
     /**
-     * Gets the ReplaysBrowser pane.
+     * Gets the {@link #replaysBrowser} pane.
      * 
      * @return Instance of ReplaysBrowser pane.
      */
@@ -163,7 +163,7 @@ public class GamePane extends StatePane<GameState> {
     }
 
     /**
-     * Gets the ReplayOver pane.
+     * Gets the {@link #replayOver} pane.
      * 
      * @return Instance of ReplayOver pane.
      */
