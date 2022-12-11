@@ -90,7 +90,7 @@ public class Player extends LandMover {
      */
     @Override
     public String toString() {
-        return ("player " + getX() + " " + getY());
+        return ("player " + getX() + " " + getY() + (torch ? " torch" : ""));
     }
 
     @Override
@@ -109,7 +109,8 @@ public class Player extends LandMover {
     }
 
     protected void moveWithReplay(int x, int y) {
-        Game.getInstance().newReplayFrame(x, y, this.time);
+        ReplayFrame frame = new ReplayFrame(x, y, this.time);
+        Game.getInstance().addFrameToReplay(frame);
         this.move(x, y);
     }
 

@@ -24,7 +24,6 @@ public class Game extends Engine {
     private Profile profile;
     private Replay replay;
     private SavedState savedState;
-    private int framesElapsed;
 
     /**
      * Creates Game.
@@ -52,41 +51,37 @@ public class Game extends Engine {
     }
     
     /** 
-     * @return Player
+     * Gets the player entity in the currently loaded level.
+     * 
+     * @return the player in the current level.
      */
     public Player getPlayer() {
         return this.getEntities(Player.class).get(0);
     }
 
-    public String getUsername() {
-        return this.getGamePane().getProfileSelector().getUsername();
-    }
 
+    /**
+     * Gets the tile entity at a given coordinate.
+     * 
+     * @param x tile x position
+     * @param y tile y position
+     * @return the tile at postiion (x, y)
+     */
     public Tile getTile(int x, int y) {
         return this.tiles[x][y];
     }
-    
+
     /** 
-     * @param x
-     * @param y
-     * @param keyTime
-     */
-    public void newReplayFrame(int x, int y, double keyTime) {
-        ReplayFrame frame = new ReplayFrame(x, y, keyTime);
-        this.replay.storeFrame(frame);
-    }
-
-    /**
-     * This function adds the given number of seconds to the time variable
+     * Gets the door entity in the currently loaded level.
      * 
-     * @param seconds The amount of time to add to the timer.
+     * @return the door in the current level.
      */
-    public void addTime(double seconds) {
-        this.time += seconds;
+    public Door getDoor() {
+        return this.getEntities(Door.class).get(0);
     }
 
     /**
-     * This function returns the score of the player
+     * This method returns the score of the player
      * 
      * @return The score of the player.
      */
@@ -95,47 +90,53 @@ public class Game extends Engine {
     }
 
     /**
-     * This function returns the time left of a level
+     * This method returns the time left of a level
      * 
      * @return The time variable is being returned.
      */
     public double getTime() {
         return time;
     }
-
     
     /** 
-     * @return int
+     * @return Profile
      */
-    public int getFramesElapsed() {
-        return framesElapsed;
-    }
-
-    
-    /** 
-     * @return Door
-     */
-    public Door getDoor() {
-        return this.getEntities(Door.class).get(0);
-    }
-
-
-    
-    /** 
-     * @return Level
-     */
-    public Level getLevel() {
-        return this.level;
+    public Profile getProfile() {
+        return this.profile;
     }
 
     /**
-     * This function takes an integer as an argument and
-     * adds it to the score variable
-     *
-     * @param amount The amount to increment the score by.
+     * 
      */
-    public void incrementScore(int amount) {
-        this.setScore(this.score + amount);
+    public void saveState() {
+        SavedStateManager stateManager = new SavedStateManager();
+
+        stateManager.createState(
+            this.level.getTitle(), 
+            getProfile().getName(),
+            getEntities(), 
+            score, 
+            time, 
+            this.level.getIndex());
+    }
+    
+    /** 
+     * Adds a new frame to the current replay instance.
+     * Used to construct the game replay.
+     * 
+     * @param frame the frame to be added to replay.
+     */
+    public void addFrameToReplay(ReplayFrame frame) {
+        this.replay.storeFrame(frame);
+    }
+
+    /**
+     * This methods adds the given number of seconds to the time variable
+     * 
+     * @param seconds The amount of time to add to the timer.
+     */
+    public void addTime(double seconds) {
+        this.time += seconds;
     }
 
     /**
@@ -148,82 +149,15 @@ public class Game extends Engine {
         this.getGamePane().getPlaying().setGameScore(score);
     }
 
-    private void setupLevel() {
-        this.setScore(0);
-
-        int width = this.level.getWidth();
-        int height = this.level.getHeight();
-
-        this.getGamePane().getLevelComplete()
-            .setIsLastLevel(this.isLastLevel());
-
-        this.getGamePane()
-            .getPlaying().setGameLevel(this.level.getTitle());
-
-        this.tiles = this.level.getTiles();
-        this.time = this.level.getTimeToComplete();
-        this.framesElapsed = 0;
-
-        this.setViewSize(width, height);
-
-        try {
-            if (savedState != null) {
-                this.addEntities(this.savedState.getEntities());
-            } else {
-                this.addEntities(this.level.createEntities());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void startPlaying() {
-        this.getGamePane().getLevelComplete()
-            .setIsLastLevel(this.isLastLevel());
-
-        if (this.savedState != null) {
-            this.setScore(savedState.getScore());
-            this.time = savedState.getTime();
-        }
-
-        this.replay = new Replay(this.level.getTitle(), this.getUsername());
-    }
-
     /**
-     *  Sets the score to 0, sets the level to the one selected
-     *  sets the width and height, sets the time, and
-     *  adds the entities.
+     * This method takes an integer as an argument and
+     * adds it to the score variable
+     *
+     * @param amount The amount to increment the score by.
      */
-    private void startReplaying() {
-        Player player = this.level.getPlayerFromEntities(getEntities());
-
-        ReplayPlayer replayPlayer =  
-            new ReplayPlayer(player.getX(), player.getY(),  replay.getFrames());
-
-        this.addEntity(replayPlayer);
-        this.removeEntity(player);
+    public void incrementScore(int amount) {
+        this.setScore(this.score + amount);
     }
-
-    /**
-     * 
-     */
-    @Override
-    protected void start() {
-        this.setupLevel();
-
-        // Playing and replaying starts
-        switch (this.getGameState()) {
-            case PLAYING:
-                startPlaying();
-                break;
-            case REPLAYING:
-                startReplaying();
-                break;
-            default:
-                break;
-        }
-    }
-
 
     /**
      * 
@@ -232,7 +166,6 @@ public class Game extends Engine {
         this.getGamePane().getGameOver().setStats(this.score, this.time);
         this.setGameState(GameState.GAME_OVER);
     }
-
 
     /**
      * 
@@ -260,37 +193,6 @@ public class Game extends Engine {
     }
 
     /**
-     * Overridden update method from {@code Engine}.
-     */
-    @Override
-    protected void update() {
-        updateTime();
-        this.getGamePane().getPlaying().setGameScore(this.score);
-        Player player = this.level.getPlayerFromEntities(this.getEntities());
-
-        if (player == null && this.getGameState() != GameState.REPLAYING) {
-            this.setGameOver();
-        }
-    }
-
-    /**
-     * This function updates the time in the game
-     * and if the time is less than or equal to 0, it sets
-     * the game state to GameOver.
-     */
-    private void updateTime() {
-        this.time -= this.getDelta();
-        this.framesElapsed += 1;
-
-        if (this.time <= 0) {
-            this.time = 0;
-            this.setGameState(GameState.GAME_OVER);
-        }
-
-        this.getGamePane().getPlaying().setGameTime(this.time);
-    }
-
-    /**
      * This function sets the current level index 
      * to the level passed in, and sets the game state to
      * playing
@@ -308,7 +210,7 @@ public class Game extends Engine {
      */
     public void startSavedState(SavedState savedState) {
         this.savedState = savedState;
-        this.replay = new Replay(this.level.getTitle(), this.getUsername());
+        this.level = this.levels.get(savedState.getLevelIndex());
         this.setGameState(GameState.PLAYING);
     }
 
@@ -332,6 +234,114 @@ public class Game extends Engine {
      */
     public boolean isLastLevel() {
         return this.levels.indexOf(this.level) >= this.levels.size() - 1;
+    }
+
+    /**
+     * Inherited method called on game start.
+     */
+    @Override
+    protected void start() {
+        this.setupLevel();
+
+        switch (this.getGameState()) {
+            case PLAYING:
+                startPlaying();
+                break;
+            case REPLAYING:
+                startReplaying();
+                break;
+            default:
+                break;
+        }
+    }
+
+    /**
+     * Overridden update method from {@code Engine}.
+     */
+    @Override
+    protected void update() {
+        updateTime();
+        this.getGamePane().getPlaying().setGameScore(this.score);
+        Player player = this.level.getPlayerFromEntities(this.getEntities());
+
+        if (player == null && this.getGameState() != GameState.REPLAYING) {
+            this.setGameOver();
+        }
+    }
+
+    /**
+     * This function updates the time in the game
+     * and if the time is less than or equal to 0, it sets
+     * the game state to GameOver.
+     */
+    private void updateTime() {
+        this.time -= this.getDelta();
+
+        if (this.time <= 0) {
+            this.time = 0;
+            this.setGameState(GameState.GAME_OVER);
+        }
+
+        this.getGamePane().getPlaying().setGameTime(this.time);
+    }
+
+    /**
+     * Sets up the level to be played from start.
+     */
+    private void setupLevel() {
+        this.setScore(0);
+
+        int width = this.level.getWidth();
+        int height = this.level.getHeight();
+
+        this.getGamePane().getLevelComplete()
+            .setIsLastLevel(this.isLastLevel());
+
+        this.getGamePane()
+            .getPlaying().setGameLevel(this.level.getTitle());
+
+        this.tiles = this.level.getTiles();
+        this.time = this.level.getTimeToComplete();
+
+        this.setViewSize(width, height);
+
+        try {
+            if (savedState == null) {
+                this.addEntities(this.level.createEntities());
+            } else {
+                this.addEntities(this.savedState.getEntities());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Starts game given Playing game state
+     */
+    private void startPlaying() {
+        this.getGamePane().getLevelComplete()
+            .setIsLastLevel(this.isLastLevel());
+
+        if (this.savedState != null) {
+            this.setScore(savedState.getScore());
+            this.time = savedState.getTime();
+        }
+
+        this.replay = new Replay(this.level.getTitle(), getProfile().getName());
+    }
+
+    /**
+     * Starts game given Replaying game state
+     */
+    private void startReplaying() {
+        Player player = this.level.getPlayerFromEntities(getEntities());
+
+        ReplayPlayer replayPlayer =  
+            new ReplayPlayer(player.getX(), player.getY(),  replay.getFrames());
+
+        this.addEntity(replayPlayer);
+        this.removeEntity(player);
     }
 
     private void onInitialized() {
@@ -393,28 +403,5 @@ public class Game extends Engine {
         this.getGamePane().getLevelSelector().setProfile(profile);
         this.getGamePane().getStartMenu().setUsername(profile.getName());
         this.setUpLeveles();
-    }
-
-    
-    /** 
-     * @return Profile
-     */
-    public Profile getProfile() {
-        return this.profile;
-    }
-
-    /**
-     * 
-     */
-    public void saveState() {
-        SavedStateManager stateManager = new SavedStateManager();
-
-        stateManager.createState(
-            getLevel().getTitle(), 
-            getUsername(), 
-            getEntities(), 
-            score, 
-            time, 
-            getLevel().getIndex());
     }
 }

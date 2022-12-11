@@ -43,7 +43,7 @@ public class SavesBrowser extends MenuPane {
         this.savesMenu.getChildren().clear();
 
         ArrayList<SavedState> savedStates = this.savedStateManager
-            .getStates(level, Game.getInstance().getUsername());
+            .getStates(level, Game.getInstance().getProfile().getName());
 
         if (savedStates.size() == 0) {
             this.savesMenu.addH2("No saves yet!");
