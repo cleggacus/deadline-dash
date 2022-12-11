@@ -119,6 +119,11 @@ public class GamePane extends StatePane<GameState> {
         return false;
     }
 
+    /**
+     * 
+     * @param state
+     * @return
+     */
     public boolean isRenderedState(GameState state) {
         for (GameState gameState : RENDERED_STATES)  {
             if (state == gameState) {
@@ -206,7 +211,7 @@ public class GamePane extends StatePane<GameState> {
      * 
      * @return Instance of ReplayOver pane.
      */
-    public ReplayOver getReplayOver(){
+    public ReplayOver getReplayOver() {
         return replayOver;
     }
 

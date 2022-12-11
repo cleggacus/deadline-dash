@@ -83,8 +83,8 @@ public class ImageList extends ScrollPane {
         String text, 
         String path, 
         OnClickEvent onClickEvent, 
-        Button[] footerButtons
-    ) {
+        Button[] footerButtons) {
+            
         BorderPane outer = new BorderPane();
 
         StackPane hoverImage = createHoverImage(text, path);

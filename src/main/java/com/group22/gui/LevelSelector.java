@@ -80,13 +80,17 @@ public class LevelSelector extends MenuPane {
     /**
      * This function clears the imageList of all items
      */
-    public void clearLevels(){
+    public void clearLevels() {
         this.imageList = new ImageList();
         this.replace(this.imageList, 1);
 
     }
 
-    public void setProfile(Profile profile){
+    /**
+     * 
+     * @param profile
+     */
+    public void setProfile(Profile profile) {
         this.currentProfile = profile;
     }
 

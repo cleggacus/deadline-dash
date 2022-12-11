@@ -132,6 +132,10 @@ public abstract class Engine {
     }
 
 
+    
+    /** 
+     * @return GameState
+     */
     public GameState getGameState() {
         return this.gamePane.getCurrentState();
     }
@@ -159,7 +163,8 @@ public abstract class Engine {
     
     /** 
      * Creates a scene containing a game pane.
-     * A scene must be created for the game to be viewed and the keyboard manager to function.
+     * A scene must be created for the game to 
+     * be viewed and the keyboard manager to function.
      * 
      * @return 
      *      The scene containing the game pane.
@@ -184,7 +189,8 @@ public abstract class Engine {
 
     
     /** 
-     * If the key is currently being pressed down this method return true otherwise it returns false.
+     * If the key is currently being pressed 
+     * down this method return true otherwise it returns false.
      * 
      * @param keyCode
      *      The key code of the key to be checked.
@@ -196,16 +202,24 @@ public abstract class Engine {
         return this.keyboardManager.getKeyState(keyCode);
     }
 
-    public KeyCode getLastKeyReleased(){
+    
+    /** 
+     * @return KeyCode
+     */
+    public KeyCode getLastKeyReleased() {
         return this.keyboardManager.getLastKeyReleased();
     }
 
-    public void resetLastKeyReleased(){
+    /**
+     * 
+     */
+    public void resetLastKeyReleased() {
         this.keyboardManager.resetLastKeyReleased();
     }
     
     /** 
-     * Checks if the key is being pressed down on the frame which the method is called.
+     * Checks if the key is being pressed 
+     * down on the frame which the method is called.
      * 
      * @param keyCode
      *      The key code of the key to be checked.
@@ -219,7 +233,8 @@ public abstract class Engine {
 
     
     /** 
-     * Checks if the key is being released on the frame which the method is called.
+     * Checks if the key is being released 
+     * on the frame which the method is called.
      * 
      * @param keyCode
      *      The key code of the key to be checked.
@@ -231,6 +246,11 @@ public abstract class Engine {
         return this.keyboardManager.getKeyUp(keyCode);
     }
 
+    
+    /** 
+     * @param ...keyCodes
+     * @return KeyCode
+     */
     public KeyCode getLastKeyDown(KeyCode ...keyCodes) {
         return this.keyboardManager.getLastKeyDown(keyCodes);
     }
@@ -280,13 +300,15 @@ public abstract class Engine {
 
     /**
      * This method needs to be overridden through extending the class.
-     * The update method is called every frame after the entities have been updated.
+     * The update method is called every frame after 
+     * the entities have been updated.
      */
     protected abstract void update();
 
     /**
      * This method needs to be overridden through extending the class.
-     * THe start method is called when the game is put into the Playing state from either Start or GameOver.
+     * THe start method is called when the game is put into 
+     * the Playing state from either Start or GameOver.
      */
     protected abstract void start();
 
@@ -315,7 +337,8 @@ public abstract class Engine {
     }
 
     /** 
-     * This method is called every frame before the frame is drawn to the GraphicsContext.
+     * This method is called every frame before 
+     * the frame is drawn to the GraphicsContext.
      * 
      * @param now
      *      Current time in nano secconds.
@@ -342,8 +365,9 @@ public abstract class Engine {
      *      The current time in nano seconds.
      */
     private void updateTimer(long now) {
-        if(this.lastTime == 0)
+        if (this.lastTime == 0) {
             this.lastTime = now;
+        }
 
         this.delta = 0.000000001 * (now - lastTime);
         this.lastTime = now;
@@ -353,12 +377,13 @@ public abstract class Engine {
      * Updates the state based on actions like keyboard inputs.
      */
     private void updateState() {
-        if(this.getKeyDown(KeyCode.ESCAPE)) {
-            if(this.gamePane.getCurrentState() == GameState.PLAYING)
+        if (this.getKeyDown(KeyCode.ESCAPE)) {
+            if (this.gamePane.getCurrentState() == GameState.PLAYING) {
                 this.setGameState(GameState.PAUSED);
 
-            else if(this.gamePane.getCurrentState() == GameState.PAUSED)
+            } else if (this.gamePane.getCurrentState() == GameState.PAUSED) {
                 this.setGameState(GameState.PLAYING);
+            }
         }
     }
 
@@ -368,11 +393,11 @@ public abstract class Engine {
     private void updateEntities() {
         ArrayList<Entity> entities = new ArrayList<Entity>(this.entities);
 
-        for(Entity entity : entities) {
+        for (Entity entity : entities) {
             entity.callUpdate();
         }
 
-        for(Entity entity : entities) {
+        for (Entity entity : entities) {
             entity.callUpdateMovement();
         }
     }
@@ -390,7 +415,7 @@ public abstract class Engine {
     private void draw() {
         GameState gameState = this.gamePane.getCurrentState();
 
-        if (this.gamePane.isRenderedState(gameState)){
+        if (this.gamePane.isRenderedState(gameState))  {
             this.renderer.newFrame();
             this.gamePane.getPlaying()
                 .setInfoBarPadding(this.renderer.getOffsetX());

@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 import javafx.scene.paint.Color;
 
-
+/**
+ * 
+ */
 public class Bomb extends Entity {
 
     private static final double ANIMATION_DURATION = 0.2;
@@ -15,7 +17,14 @@ public class Bomb extends Entity {
     private boolean fuze;
     private boolean explosion;
 
+    /**
+     * 
+     */
     public class Countdown extends Entity {
+        /**
+         * 
+         * @param bomb
+         */
         public Countdown(Bomb bomb) {
             super(bomb.getX(), bomb.getY());
 
@@ -26,19 +35,31 @@ public class Bomb extends Entity {
             });
         }
 
+        /**
+         * 
+         */
         public void activateCountdown() {
             this.getSprite().setAnimationSpeed(COUNTDOWN);
             this.getSprite().setImageSet("tick");
             this.getSprite().setAnimationType(AnimationType.SINGLE);
         }
 
+        /**
+         * 
+         */
         @Override
         protected void updateMovement() {}
 
+        /**
+         * 
+         */
         @Override
         protected void update() {} 
     }
 
+    /**
+     * 
+     */
     public class Lazer extends Entity {
         private double time = 0;
         private double lightTimer = 0;
@@ -48,6 +69,12 @@ public class Bomb extends Entity {
         private boolean isHorizantal;
         private boolean isActive;
 
+        /**
+         * 
+         * @param x
+         * @param y
+         * @param bomb
+         */
         public Lazer(int x, int y, Bomb bomb) {
             super(x, y);
 
@@ -76,6 +103,9 @@ public class Bomb extends Entity {
                 bombEdgeDistanceX, bombEdgeDistanceY);
         }
 
+        /**
+         * 
+         */
         @Override
         public void draw(Renderer renderer) {
             if (this.isActive) {
@@ -94,9 +124,15 @@ public class Bomb extends Entity {
             }
         }
 
+        /**
+         * 
+         */
         @Override
         protected void updateMovement() {}
 
+        /**
+         * 
+         */
         @Override
         protected void update() {
             this.time += Game.getInstance().getDelta();
@@ -109,6 +145,9 @@ public class Bomb extends Entity {
             this.updateIsActive();
         }
 
+        /**
+         * 
+         */
         private void updateShake() {
             double shakeAmount = 0.1*Math.sin(
                 this.time * Math.PI * 2 * 
@@ -119,6 +158,9 @@ public class Bomb extends Entity {
                 isHorizantal ? shakeAmount : 0);
         }
 
+        /**
+         * 
+         */
         private void updateIsActive() {
             double animationTime = time / ANIMATION_DURATION;
 
@@ -143,7 +185,7 @@ public class Bomb extends Entity {
         super(x, y);
         this.countdownEntity = new Countdown(this);
         this.fuze = false;
-        if(c > 0){
+        if (c > 0) {
             this.time = c;
             this.fuze = true;
             this.activateBomb();
@@ -158,10 +200,17 @@ public class Bomb extends Entity {
         this.getSprite().setImage("item/farron/farron0.png");
     }
 
+    
+    /** 
+     * @return double
+     */
     public double getTime() {
         return time;
     }
 
+    /**
+     * 
+     */
     public void detonateBomb() {
         ArrayList<Entity> allEntity = new ArrayList<>();
 
@@ -181,10 +230,9 @@ public class Bomb extends Entity {
         Game.getInstance().removeEntity(this);
 
         for (Entity entity : allEntity) {
-            if (
-                entity.getX() == this.getX() ||
-                entity.getY() == this.getY()
-            ) {
+            if (entity.getX() == this.getX() ||
+                entity.getY() == this.getY()) {
+
                 if (entity instanceof Bomb) {
                     Bomb bomb = (Bomb) entity;
                     bomb.explosion = true;
@@ -196,6 +244,9 @@ public class Bomb extends Entity {
         }
     }
 
+    /**
+     * 
+     */
     public void activateBomb() {
         this.countdownEntity.activateCountdown();
 
@@ -224,12 +275,15 @@ public class Bomb extends Entity {
             }
         }
 
-
         if (this.time >= COUNTDOWN) {
             detonateBomb();
         }
     }
 
+    
+    /** 
+     * @param renderer
+     */
     @Override
     public void draw(Renderer renderer) {
         super.draw(renderer);
@@ -257,6 +311,9 @@ public class Bomb extends Entity {
         // }
     }
 
+    /**
+     * 
+     */
     @Override
     protected void update() {
         for (Lazer lazer : lazers) {
@@ -287,13 +344,24 @@ public class Bomb extends Entity {
         }
     }
 
+    
+    /** 
+     *
+     */
     @Override
     protected void updateMovement() {}
 
+    
+    /** 
+     * @return String
+     */
     public String toString(){
         return ("bomb " + getX() + " " + getY() + " " + getTime());
     }
 
+    /**
+     * 
+     */
     private void createLazers() {
         int width = Game.getInstance().getRenderer().getViewWidth();
         int height = Game.getInstance().getRenderer().getViewHeight();

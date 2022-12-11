@@ -19,7 +19,7 @@ public class Clock extends PickUp {
      * @param posY the vertical position on the map
      * @param time a temporal value to use on the level timer
      */
-    public Clock(int posX, int posY, double time){
+    public Clock(int posX, int posY, double time) {
         super(posX, posY);
         setTime(time);
         this.getSprite().setImage("item/clock.png");
@@ -40,8 +40,11 @@ public class Clock extends PickUp {
         return this.time;
     }
 
+    /**
+     * 
+     */
     @Override
-    public String toString(){
+    public String toString() {
         return ("clock " + getX() + " " + getY() + " " + getTime());
     }
 
@@ -52,7 +55,7 @@ public class Clock extends PickUp {
      */
     @Override
     public void activatePickUpEffect(LandMover landMover) {
-        if (landMover instanceof Player){
+        if (landMover instanceof Player) {
             Game.getInstance().addTime(time);
         } else {
             Game.getInstance().addTime(-time);

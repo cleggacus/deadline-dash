@@ -1,6 +1,5 @@
 package com.group22;
 
-
 /**
  * Door class is a subclass of Entity and is an entity which is drawn to screen
  *
@@ -10,7 +9,6 @@ package com.group22;
  * @author Cellan Lees
  * @version 1.0
  */
-
 public class Door extends Entity {
     private static final double OPEN_ANIMATION_DURATION = 0.1;
     private double openTimer = 0;
@@ -22,10 +20,8 @@ public class Door extends Entity {
      * no need for a setter as can assume is open is false at start of game
      * @param doorX
      * @param doorY
-     * @param
      */
-
-    public Door(int doorX, int doorY){
+    public Door(int doorX, int doorY) {
         super(doorX,doorY);
         this.setSpriteOffset(0, -0.3);
         this.getSprite().addImageSet("closed", new String[] {
@@ -37,40 +33,53 @@ public class Door extends Entity {
         });
     }
 
+    
+    /** 
+     * @param isOpen
+     */
     public void setIsOpen(boolean isOpen) {
         this.isOpen = isOpen;
     }
 
-
-
-    public Boolean getGateIsOpen(){
+    
+    /** 
+     * @return Boolean
+     */
+    public Boolean getGateIsOpen() {
         return this.gateIsOpen;
     }
 
+    
+    /** 
+     * @return String
+     */
     @Override
-    public String toString(){
+    public String toString() {
         return ("door " + getX() + " " + getY());
     }
 
+    
+    /** 
+     * 
+     */
     @Override
-    protected void updateMovement() {
-        // TODO Auto-generated method stub
-        
-    }
+    protected void updateMovement() {}
 
+    /**
+     * 
+     */
     @Override
     protected void update() {
-        // TODO Auto-generated method stub
-        if(this.isOpen) {
+        if (this.isOpen) {
             this.getSprite().setImageSet("open");
             this.openTimer += Game.getInstance().getDelta();
         } else {
             this.getSprite().setImageSet("closed");
         }
 
-        if(this.openTimer >= Door.OPEN_ANIMATION_DURATION) {
-            Game.getInstance().incrementScore
-            ((int) Game.getInstance().getTime() * 10);
+        if (this.openTimer >= Door.OPEN_ANIMATION_DURATION) {
+            Game.getInstance().incrementScore(
+                (int) Game.getInstance().getTime() * 10);
             Game.getInstance().setLevelFinish();
         }
     }

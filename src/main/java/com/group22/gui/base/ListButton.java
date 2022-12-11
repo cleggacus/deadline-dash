@@ -26,8 +26,8 @@ public class ListButton extends BorderPane {
         String text, 
         OnClickEvent onClick, 
         String removeText, 
-        RemoveButtonEvent onClickRemove
-    ) {
+        RemoveButtonEvent onClickRemove) {
+            
         Button b1 = new Button();
         b1.setText(text);
         b1.setOnAction(e -> onClick.run());

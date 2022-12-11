@@ -60,8 +60,8 @@ public class MenuPane extends GridPane {
     public ListButton addListButton(
         String name, 
         OnClickEvent onClick,
-        RemoveButtonEvent onClickRemove
-    ) {
+        RemoveButtonEvent onClickRemove) {
+            
         ListButton listButton = 
             new ListButton(name, onClick, "-", onClickRemove);
 
