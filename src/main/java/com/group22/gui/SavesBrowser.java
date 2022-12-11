@@ -50,6 +50,7 @@ public class SavesBrowser extends MenuPane {
             this.savesMenu.addParagraph(
                 "Save in the pause menu and load it here later.");
         }
+        
         for (SavedState savedState : savedStates) {
             this.savesMenu.addButton(
                 TimeUtil.getTimeAgo(savedState.getTimeOfSave()),

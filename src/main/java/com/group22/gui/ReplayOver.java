@@ -39,7 +39,7 @@ public class ReplayOver extends MenuPane {
      * @param score Sets {@link #scoreLabel} text to score value.
      * @param time Sets {@link #timeLabel} text to score value.
      */
-    public void setStats(int score, double time){
+    public void setStats(int score, double time) {
         this.timeLabel.setText("Time: " + TimeUtil.getLevelTimeLeft(time));
         this.scoreLabel.setText("Score: " + String.valueOf(score));
     }
