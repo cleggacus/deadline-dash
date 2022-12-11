@@ -14,12 +14,10 @@ public class ReplaysBrowser extends MenuPane {
     private String username;
     private GamePane gamePane;
     private MenuPane replaysMenu;
-    private TimeUtil relativeTime;
     private ReplayManager replayManager;
 
     public ReplaysBrowser(GamePane gamePane) {
         this.gamePane = gamePane;
-        this.relativeTime = new TimeUtil();
         this.replaysMenu = new MenuPane();
         this.replayManager = new ReplayManager();
         this.addH1("REPLAYS");
@@ -42,7 +40,7 @@ public class ReplaysBrowser extends MenuPane {
         for(Replay replay : replays){
             this.replaysMenu.addButton(replay.getUsername() + ": " + replay.getScore(),
             () -> Game.getInstance().setReplay(GameState.Playing, replay, levelIndex));
-            this.replaysMenu.addSmallPrint(this.relativeTime.getTimeAgo(replay.getTimeOfSave()));
+            this.replaysMenu.addSmallPrint(TimeUtil.getTimeAgo(replay.getTimeOfSave()));
         }
     }
 

@@ -10,18 +10,12 @@ import java.util.concurrent.TimeUnit;
  * 
  */
 public class TimeUtil {
-
-    /**
-     * 
-     */
-    public TimeUtil(){}
-
     
     /** 
      * @param pastTime
      * @return String
      */
-    public String getTimeAgo(LocalDateTime pastTime) {
+    public static String getTimeAgo(LocalDateTime pastTime) {
         Period dateBetween = Period.between(
             pastTime.toLocalDate(), LocalDateTime.now().toLocalDate());
 
@@ -62,7 +56,7 @@ public class TimeUtil {
      * @param seconds
      * @return String
      */
-    public String getStringifiedTime(int seconds) {
+    public static String getStringifiedTime(int seconds) {
         if (seconds >= 60) {
             long minute = TimeUnit.SECONDS.toMinutes(seconds);
             int secMinusMin = (int) (seconds - (60*minute));
@@ -81,7 +75,7 @@ public class TimeUtil {
      * @param seconds
      * @return String
      */
-    public String getLevelTimeLeft(double seconds) {
+    public static String getLevelTimeLeft(double seconds) {
         final DecimalFormat df = new DecimalFormat("0.00");
         if (seconds >= 60) {
             long minute = TimeUnit.SECONDS.toMinutes((long) seconds);

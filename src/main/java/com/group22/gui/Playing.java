@@ -1,8 +1,8 @@
 package com.group22.gui;
 
-import com.group22.TimeUtil;
-
 import java.text.DecimalFormat;
+
+import com.group22.TimeUtil;
 
 import javafx.geometry.Insets;
 import javafx.scene.CacheHint;
@@ -33,8 +33,6 @@ public class Playing extends StackPane {
     private BorderPane infoBar;
     /** GraphicsContext to the containing canvas element. */
     private GraphicsContext graphicsContext;
-    /** TimeUtil instance used for parsing the time text. */
-    private TimeUtil timeUtil = new TimeUtil();
 
     /**
      * Creates a Playing pane.
@@ -76,7 +74,7 @@ public class Playing extends StackPane {
      * @param time The game time number.
      */
     public void setGameTime(double time) {
-        this.timeLabel.setText("TIME: " + this.timeUtil.getLevelTimeLeft(time));
+        this.timeLabel.setText("TIME: " + TimeUtil.getLevelTimeLeft(time));
     }
 
     /**

@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import com.group22.Game;
 import com.group22.GameState;
 import com.group22.Level;
-import com.group22.Replay;
-import com.group22.ReplayManager;
 import com.group22.SavedState;
 import com.group22.SavedStateManager;
 import com.group22.TimeUtil;
@@ -17,12 +15,10 @@ public class SavesBrowser extends MenuPane {
     private String username;
     private GamePane gamePane;
     private MenuPane savesMenu;
-    private TimeUtil relativeTime;
     private SavedStateManager savedStateManager;
 
     public SavesBrowser(GamePane gamePane) {
         this.gamePane = gamePane;
-        this.relativeTime = new TimeUtil();
         this.savesMenu = new MenuPane();
         this.savedStateManager = new SavedStateManager();
         this.addH1("SAVES");
@@ -39,7 +35,7 @@ public class SavesBrowser extends MenuPane {
             this.savesMenu.addParagraph("Save in the pause menu and load it here later.");
         }
         for (SavedState savedState : savedStates) {
-            this.savesMenu.addButton(this.relativeTime.getTimeAgo(savedState.getTimeOfSave()),
+            this.savesMenu.addButton(TimeUtil.getTimeAgo(savedState.getTimeOfSave()),
             () -> Game.getInstance().setSavedState(savedState));
             this.savesMenu.addSmallPrint("Score: " + savedState.getScore());
             String time = String.format("Time: %f", savedState.getTime());
