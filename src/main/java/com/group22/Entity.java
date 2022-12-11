@@ -111,7 +111,7 @@ public abstract class Entity {
      * 
      */
     public void resetMovementUpdate() {
-        this.timeSinceMove = this.moveEvery;
+        this.timeSinceMove = 0;
     }
 
 

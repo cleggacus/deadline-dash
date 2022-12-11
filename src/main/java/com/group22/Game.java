@@ -14,19 +14,17 @@ import com.group22.gui.ProfileSelector;
  * @version 1.0
  */
 public class Game extends Engine {
+    private static Game instance;
+
     private double time;
     private int score; 
     private Tile[][] tiles;
     private List<Level> levels;
-    private int currentLevelIndex;
     private Level level;
     private Profile profile;
     private Replay replay;
+    private SavedState savedState;
     private int framesElapsed;
-    private boolean replaying;
-
-    private static Game instance;
-
 
     /**
      * Creates Game.
@@ -71,6 +69,10 @@ public class Game extends Engine {
      */
     public Player getPlayer() {
         return this.getEntities(Player.class).get(0);
+    }
+
+    public String getUsername() {
+        return this.getGamePane().getProfileSelector().getUsername();
     }
 
     /**
@@ -178,109 +180,80 @@ public class Game extends Engine {
         this.getGamePane().getPlaying().setGameScore(score);
     }
 
-    @Override
+    private void setupLevel() {
+        this.setScore(0);
+
+        int width = this.level.getWidth();
+        int height = this.level.getHeight();
+
+        this.getGamePane().getLevelComplete()
+            .setIsLastLevel(this.isLastLevel());
+
+        this.getGamePane()
+            .getPlaying().setGameLevel(this.level.getTitle());
+
+        this.tiles = this.level.getTiles();
+        this.time = this.level.getTimeToComplete();
+        this.framesElapsed = 0;
+
+        this.setViewSize(width, height);
+
+        try {
+            if (savedState != null) {
+                this.addEntities(this.savedState.getEntities());
+            } else {
+                this.addEntities(this.level.createEntities());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void startPlaying() {
+        this.getGamePane().getLevelComplete()
+            .setIsLastLevel(this.isLastLevel());
+
+        if (this.savedState != null) {
+            this.setScore(savedState.getScore());
+            this.time = savedState.getTime();
+        }
+
+        this.replay = new Replay(this.level.getTitle(), this.getUsername());
+    }
+
     /**
      *  Sets the score to 0, sets the level to the one selected
      *  sets the width and height, sets the time, and
      *  adds the entities.
      */
-    protected void startReplay(Replay replay, int levelIndex) {
-        this.replaying = true;
-        this.replay = replay;
-        this.setScore(0);
+    private void startReplaying() {
+        Player player = this.level.getPlayerFromEntities(getEntities());
 
-        Level currentLevel = this.levels.get(levelIndex);
-        this.level = currentLevel;
-
-        int width = currentLevel.getWidth();
-        int height = currentLevel.getHeight();
-
-        this.getGamePane().getPlaying().setGameLevel(currentLevel.getTitle());
-
-        this.tiles = currentLevel.getTiles();
-        this.time = currentLevel.getTimeToComplete();
-        this.framesElapsed = 0;
-
-        this.setViewSize(width, height);
-
-        try {
-            this.addEntities(currentLevel.createEntities());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        Player player = this.level.getPlayerFromEntities(this.entities);
         ReplayPlayer replayPlayer =  
             new ReplayPlayer(player.getX(), player.getY(),  replay.getFrames());
+
         this.addEntity(replayPlayer);
         this.removeEntity(player);
-
     }
-
-    
-    /** 
-     * @param savedState
-     */
-    @Override
-    protected void startSavedState(SavedState savedState) {
-        this.replaying = false;
-        this.setScore(savedState.getScore());
-        Level currentLevel = this.levels.get(savedState.getLevelIndex());
-        this.level = currentLevel;
-
-        int width = currentLevel.getWidth();
-        int height = currentLevel.getHeight();
-
-        this.getGamePane().getLevelComplete()
-            .setIsLastLevel(this.isLastLevel());
-        this.getGamePane().getPlaying().setGameLevel(currentLevel.getTitle());
-
-        this.tiles = currentLevel.getTiles();
-        this.time = savedState.getTime();
-        this.framesElapsed = 0;
-
-        this.setViewSize(width, height);
-
-        try {
-            this.addEntities(savedState.getEntities());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        this.replay = new Replay(this.level.getTitle(), this.getUsername());
-    }
-
 
     /**
      * 
      */
     @Override
     protected void start() {
-        this.replaying = false;
+        this.setupLevel();
 
-        this.setScore(0);
-
-        Level currentLevel = this.levels.get(this.currentLevelIndex);
-        this.level = currentLevel;
-
-        int width = currentLevel.getWidth();
-        int height = currentLevel.getHeight();
-
-        this.getGamePane().getLevelComplete()
-            .setIsLastLevel(this.isLastLevel());
-        this.getGamePane().getPlaying().setGameLevel(currentLevel.getTitle());
-
-        this.tiles = currentLevel.getTiles();
-        this.time = currentLevel.getTimeToComplete();
-        this.framesElapsed = 0;
-
-        this.setViewSize(width, height);
-
-        try {
-            this.addEntities(currentLevel.createEntities());
-        } catch (Exception e) {
-            e.printStackTrace();
+        // Playing and replaying starts
+        switch (this.getGameState()) {
+            case PLAYING:
+                startPlaying();
+                break;
+            case REPLAYING:
+                startReplaying();
+                break;
+            default:
+                break;
         }
-        this.replay = new Replay(this.level.getTitle(), this.getUsername());
     }
 
 
@@ -307,7 +280,7 @@ public class Game extends Engine {
      * 
      */
     public void setLevelFinish(){
-        if (this.replaying) {
+        if (this.getGameState() == GameState.REPLAYING) {
             setReplayOver();
         } else {
             this.getGamePane().getLevelComplete().setStats(
@@ -327,7 +300,7 @@ public class Game extends Engine {
         this.getGamePane().getPlaying().setGameScore(this.score);
         Player player = this.level.getPlayerFromEntities(this.getEntities());
 
-        if (player == null && !this.replaying) {
+        if (player == null && this.getGameState() != GameState.REPLAYING) {
             this.setGameOver();
         }
     }
@@ -357,21 +330,40 @@ public class Game extends Engine {
      * @param level The level to start from.
      */
     public void startFromLevel(int level) {
-        this.currentLevelIndex = level;
+        this.savedState = null;
+        this.level = this.levels.get(level);
         this.setGameState(GameState.PLAYING);
+    }
+
+    /** 
+     * @param savedState
+     */
+    public void startSavedState(SavedState savedState) {
+        this.savedState = savedState;
+        this.replay = new Replay(this.level.getTitle(), this.getUsername());
+        this.setGameState(GameState.PLAYING);
+    }
+
+    public void replayFromLevel(int level, Replay replay) {
+        this.savedState = null;
+        this.level = this.levels.get(level);
+        this.replay = replay;
+        this.setGameState(GameState.REPLAYING);
     }
 
     public void startFromNextLevel() {
-        this.currentLevelIndex++;
-        this.setGameState(GameState.PLAYING);
+        if (!this.isLastLevel()) {
+            int newLevelIndex = this.levels.indexOf(this.level) + 1;
+            this.level = this.levels.get(newLevelIndex);
+            this.setGameState(GameState.PLAYING);
+        }
     }
 
-    
     /** 
      * @return boolean
      */
     public boolean isLastLevel() {
-        return this.currentLevelIndex >= this.levels.size() - 1;
+        return this.levels.indexOf(this.level) >= this.levels.size() - 1;
     }
 
     private void onInitialized() {
@@ -396,14 +388,14 @@ public class Game extends Engine {
             this.getGamePane().getProfileSelector();
 
         profileSelector.setProfileAddedEvent(username -> {
-                Profile profile = new Profile(username, LocalDateTime.now());
+            Profile profile = new Profile(username, LocalDateTime.now());
 
-                if (!profile.exists()){
-                    profile.saveToFile();
-                } else {
-                    profile.updateTimeActive();
-                }
-            });
+            if (!profile.exists()){
+                profile.saveToFile();
+            } else {
+                profile.updateTimeActive();
+            }
+        });
 
         profileSelector.setOnProfileRemoved(username -> {
                 Profile deleteProfile = new Profile();
@@ -457,5 +449,4 @@ public class Game extends Engine {
             time, 
             getLevel().getIndex());
     }
-    
 }

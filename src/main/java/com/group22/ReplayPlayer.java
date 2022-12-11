@@ -21,18 +21,22 @@ public class ReplayPlayer extends Player {
 
     @Override
     protected void updateMovement() {
-        while (frames.size() > 0 && frames.get(0).getKeyTime() < this.time) {
+        this.getSprite().setImageSet("idle");
+    }
+
+    @Override
+    protected void update() {
+        super.update();
+
+        if (frames.size() > 0 && frames.get(0).getKeyTime() < this.time) {
             this.move(
                 frames.get(0).getX(),
                 frames.get(0).getY()
             );
 
             frames.remove(0);
-        }
-    }
 
-    @Override
-    protected void update() {
-        super.update();
+            this.resetMovementUpdate();
+        }
     }
 }

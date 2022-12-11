@@ -13,6 +13,20 @@ import javafx.scene.effect.GaussianBlur;
  * @version 1.0
  */
 public class GamePane extends StatePane<GameState> {
+    /** Contains the playing states. */
+    public static final GameState[] PLAYING_STATES = new GameState[] {
+        GameState.PLAYING,
+        GameState.REPLAYING
+    };
+
+    /* Contains the rendered states. */
+    public static final GameState[] RENDERED_STATES = new GameState[] {
+        GameState.PLAYING,
+        GameState.REPLAYING,
+        GameState.GAME_OVER,
+        GameState.PAUSED
+    };
+
     /** GameOver pane, shown with GAME_OVER state. */
     private GameOver gameOver;
     /** LevelComplete pane, shown with LEVEL_COMPLETE state. */
@@ -59,14 +73,13 @@ public class GamePane extends StatePane<GameState> {
         this.credits = new Credits();
 
         // Add panes with there visible states
+        this.addPane(this.playing, RENDERED_STATES);
         this.addPane(this.profileSelector, GameState.PROFILE_SELECTOR);
         this.addPane(this.startMenu, GameState.START);
         this.addPane(this.replaysBrowser, GameState.REPLAYS_BROWSER);
         this.addPane(this.replayOver, GameState.REPLAY_OVER);
         this.addPane(this.levelSelector, GameState.LEVEL_SELECTOR);
         this.addPane(this.savesBrowser, GameState.SAVES_BROWSER);
-        this.addPane(this.playing, 
-            GameState.PLAYING, GameState.PAUSED, GameState.GAME_OVER);
         this.addPane(this.gameOver, GameState.GAME_OVER);
         this.addPane(this.levelComplete, GameState.LEVEL_COMPLETE);
         this.addPane(this.paused, GameState.PAUSED);
@@ -82,12 +95,38 @@ public class GamePane extends StatePane<GameState> {
     public void setState(GameState state) {
         super.setState(state);
 
-        if (state != GameState.PLAYING) {
+        if (isPlayingState(state)) {
+            this.playing.setEffect(null);
+        } else {
             GaussianBlur blur = new GaussianBlur(20);
             this.playing.setEffect(blur);
-        } else {
-            this.playing.setEffect(null);
         }
+    }
+
+    /**
+     * Gets if a game is a playing state (Where the non GUI game logic is run).
+     * 
+     * @param state the state to check if it is playing.
+     * @return true if the given state is a playing state.
+     */
+    public boolean isPlayingState(GameState state) {
+        for (GameState gameState : PLAYING_STATES)  {
+            if (state == gameState) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean isRenderedState(GameState state) {
+        for (GameState gameState : RENDERED_STATES)  {
+            if (state == gameState) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**

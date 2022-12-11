@@ -103,8 +103,6 @@ public class Player extends LandMover {
             this.getSprite().setImageSet("down");
         } else if (y == -1) {
             this.getSprite().setImageSet("up");
-        } else {
-            this.getSprite().setImageSet("idle");
         }
 
         super.move(x, y);
@@ -121,14 +119,16 @@ public class Player extends LandMover {
             this.lastDown = Game.getInstance().getLastKeyDown(
                 KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D);
         }
+
+        this.getSprite().setImageSet("idle");
         
         if (this.lastDown == KeyCode.W) {
             moveWithReplay(0, -1);
-        } else if (lastDown == KeyCode.S) {
+        } else if (this.lastDown == KeyCode.S) {
             moveWithReplay(0, 1);
-        } else if (lastDown == KeyCode.A) {
+        } else if (this.lastDown == KeyCode.A) {
             moveWithReplay(-1, 0);
-        } else if (lastDown == KeyCode.D) {
+        } else if (this.lastDown == KeyCode.D) {
             moveWithReplay(1, 0);
         }
 
@@ -175,7 +175,7 @@ public class Player extends LandMover {
             Game.getInstance().getKeyDown(KeyCode.A) || 
             Game.getInstance().getKeyDown(KeyCode.D)) {
                 
-            lastDown = Game.getInstance().getLastKeyDown(
+            this.lastDown = Game.getInstance().getLastKeyDown(
                 KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D);
         }
 

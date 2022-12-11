@@ -12,7 +12,8 @@ import javafx.scene.input.KeyCode;
  * 
  * The class {@code Engine} handles the underlining mechanisms for the game.
  * 
- * An extending class has to override the method {@link #update()} which is executed every frame after entities are updated.
+ * An extending class has to override the method {@link #update()} 
+ * which is executed every frame after entities are updated.
  * 
  * @author Liam Clegg
  * @version 1.0
@@ -26,16 +27,20 @@ public abstract class Engine {
     /** List of entities which are updated and rendered in Game. */
     protected ArrayList<Entity> entities;
 
+    /** All the GUI is contained in gamePane. */
     private GamePane gamePane;
+    /** Renderer is used to draw tiles in correct locations. */
     private Renderer renderer;
+    /** gameLoop which is used to update the state of the game. */
     private AnimationTimer gameLoop;
+    /** keyboard manager used for keypolling to reduce 
+     * complexity in updated methods */
     private KeyboardManager keyboardManager;
 
     /** Time passed from the last frame in seconds. */
     private double delta = 0;
     /** Time when the last frame updated in nanoseconds. */
     private long lastTime = 0;
-    private KeyCode keyReleased;
 
     /**
      * Creates a new Engine.
@@ -43,7 +48,8 @@ public abstract class Engine {
     public Engine() {
         this.gamePane = new GamePane();
         this.keyboardManager = new KeyboardManager();
-        this.renderer = new Renderer(this.gamePane.getPlaying().getGraphicsContext());
+        this.renderer = 
+            new Renderer(this.gamePane.getPlaying().getGraphicsContext());
         this.renderer.setPadding(50, 0, 0, 0);
         this.entities = new ArrayList<>();
 
@@ -52,16 +58,18 @@ public abstract class Engine {
         this.setGameState(GameState.PROFILE_SELECTOR);
     }
 
-    public String getUsername() {
-        return this.gamePane.getProfileSelector().getUsername();
-    }
-
+    /**
+     * Gets the {@link #renderer} used for drawing.
+     * 
+     * @return the games renderer.
+     */
     public Renderer getRenderer() {
         return renderer;
     }
 
     /**
-     * Gets an ArrayList of all entities that are a given class or inherits that class.
+     * Gets an ArrayList of all entities that are a given class or 
+     * inherits that class.
      * 
      * @param withClass
      *      The class that extends {@code Entity} to check.
@@ -72,8 +80,8 @@ public abstract class Engine {
     public <T extends Entity>ArrayList<T> getEntities(Class<T> withClass) {
         ArrayList<T> returnEntities = new ArrayList<>();
 
-        for(Entity entity : this.entities) {
-            if(withClass.isAssignableFrom(entity.getClass())) {
+        for (Entity entity : this.entities) {
+            if (withClass.isAssignableFrom(entity.getClass())) {
                 returnEntities.add((T)entity);
             }
         }
@@ -83,6 +91,8 @@ public abstract class Engine {
 
     /**
      * Gets an the array list of entities in the engine instasnce.
+     * Note: this is a copy of the array list and cannot be used 
+     * to add or remove entities.
      * 
      * @return ArrayList of entities
      */
@@ -90,14 +100,24 @@ public abstract class Engine {
         return new ArrayList<>(this.entities);
     }
 
+    /**
+     * Adds a given entity to the game if entity has not already been added.
+     * 
+     * @param entity the entity that will be added.
+     */
     public void addEntity(Entity entity) {
-        if(!this.entities.contains(entity)) {
+        if (!this.entities.contains(entity)) {
             this.entities.add(entity);
         }
     }
 
+    /**
+     * Adds a list of entities to the game if they have not already been added.
+     * 
+     * @param entity the entities that will be added.
+     */
     public void addEntities(ArrayList<Entity> entities) {
-        for(Entity entity : entities) {
+        for (Entity entity : entities) {
             this.addEntity(entity);
         }
     }
@@ -105,61 +125,36 @@ public abstract class Engine {
     /**
      * Removes entity from the array list of {@link #entities}.
      * 
-     * @param entity
-     *      The entity to remove.
+     * @param entity the entity to remove.
      */
     public void removeEntity(Entity entity) {
         this.entities.remove(entity);
     }
 
+
+    public GameState getGameState() {
+        return this.gamePane.getCurrentState();
+    }
+
     /** 
      * Sets the current game state of the {@code Engine}.
      * 
-     * @param gameState 
-     *      The new game state.
+     * @param gameState the new game state.
      */
     public void setGameState(GameState gameState) {
         GameState currentGameState = this.gamePane.getCurrentState();
 
-        if(gameState == currentGameState)
-            return;
+        boolean wasNotPlaying = currentGameState != GameState.PAUSED;
+        boolean isPlaying = this.gamePane.isPlayingState(gameState);
 
-        boolean restart = 
-            currentGameState != GameState.PAUSED && 
-            gameState == GameState.PLAYING;
+        boolean restart = wasNotPlaying && isPlaying;
 
-        if(restart) {
+        this.gamePane.setState(gameState);
+
+        if (restart) {
             this.entities.clear();
             this.start();
         }
-
-        this.gamePane.setState(gameState);
-    }
-
-    public void setReplay(GameState gameState, Replay replay, int levelIndex){
-        GameState currentGameState = this.gamePane.getCurrentState();
-
-        if(gameState == currentGameState)
-            return;
-
-        boolean restart = 
-            currentGameState != GameState.PAUSED && 
-            gameState == GameState.PLAYING;
-
-        if(restart) {
-            this.entities.clear();
-            this.startReplay(replay, levelIndex);
-        }
-
-        this.gamePane.setState(gameState);
-
-    }
-
-    public void setSavedState(SavedState savedState){
-        this.entities.clear();
-        this.startSavedState(savedState);
-        this.gamePane.setState(GameState.PLAYING);
-
     }
     
     /** 
@@ -295,10 +290,6 @@ public abstract class Engine {
      */
     protected abstract void start();
 
-    protected abstract void startReplay(Replay replay, int i);
-
-    protected abstract void startSavedState(SavedState savedState);
-
     /**
      * Gets the current GamePane GUI element.
      * 
@@ -334,7 +325,7 @@ public abstract class Engine {
         this.updateState();
         this.gamePane.update();
 
-        if(this.gamePane.getCurrentState() == GameState.PLAYING) {
+        if (this.gamePane.isPlayingState(this.getGameState())) {
             this.update();
             this.updateEntities();
         }
@@ -399,16 +390,14 @@ public abstract class Engine {
     private void draw() {
         GameState gameState = this.gamePane.getCurrentState();
 
-        if(
-            gameState == GameState.PLAYING ||
-            gameState == GameState.PAUSED ||
-            gameState == GameState.GAME_OVER
-        ){
+        if (this.gamePane.isRenderedState(gameState)){
             this.renderer.newFrame();
-            this.gamePane.getPlaying().setInfoBarPadding(this.renderer.getOffsetX());
+            this.gamePane.getPlaying()
+                .setInfoBarPadding(this.renderer.getOffsetX());
 
-            for(Entity entity : this.entities)
+            for (Entity entity : this.entities) {
                 entity.draw(renderer);
+            }
         }
     }
 
