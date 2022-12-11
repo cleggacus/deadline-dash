@@ -40,8 +40,8 @@ public class GameOver extends MenuPane {
     /**
      * Sets the stats in the GameOver pane.
      * 
-     * @param score integer for the score to be displayed.
-     * @param time double for the time to be displayed.
+     * @param score value to be set in {@link #scoreLabel} text.
+     * @param time value to be set in {@link #timeLabel} text.
      */
     public void setStats(int score, double time) {
         this.scoreLabel.setText("SCORE: " + score);
