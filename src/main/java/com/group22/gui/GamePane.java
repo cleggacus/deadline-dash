@@ -19,7 +19,7 @@ public class GamePane extends StatePane<GameState> {
         GameState.REPLAYING
     };
 
-    /* Contains the rendered states. */
+    /** Contains the rendered states. */
     public static final GameState[] RENDERED_STATES = new GameState[] {
         GameState.PLAYING,
         GameState.REPLAYING,

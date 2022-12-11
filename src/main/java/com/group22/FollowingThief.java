@@ -56,21 +56,17 @@ public class FollowingThief extends LandMover {
      * If no valid move, the {@code FollowingThief} will reverse 
      * its loop direction.
      */
-    public void goingRight() {
+    private void goingRight() {
         if ((hasNextUp() && clockwise) || 
             ((!hasNextRight() && hasNextUp() && !clockwise))) {
 
             this.move(0,-1, TransitionType.BOB);
-            if (!clockwise) {
-                movingDirection = "up";
-            }
+            movingDirection = "up";
         } else if ((hasNextDown() && !clockwise) || 
             (!hasNextRight() && hasNextDown() && clockwise)) {
 
             this.move(0,1, TransitionType.BOB);
-            if (clockwise) {
-                movingDirection = "down";
-            }
+            movingDirection = "down";
         } else if (hasNextRight()) {
             move(1,0, TransitionType.BOB);
             movingDirection = "right";
@@ -89,21 +85,17 @@ public class FollowingThief extends LandMover {
      * If no valid move, the {@code FollowingThief} will reverse 
      * its loop direction.
      */
-    public void goingLeft() {
+    private void goingLeft() {
         if ((hasNextDown() && clockwise) || 
             ((!hasNextLeft() && hasNextDown() && !clockwise))) {
 
             this.move(0,1, TransitionType.BOB);
-            if (!clockwise) {
-                movingDirection = "down";
-            }
+            movingDirection = "down";
         } else if ((hasNextUp() && !clockwise) || 
             (!hasNextLeft() && hasNextUp() && clockwise)) {
 
             this.move(0,-1, TransitionType.BOB);
-            if (clockwise) {
-                movingDirection = "up";
-            }
+            movingDirection = "up";
         } else if (hasNextLeft()) {
             this.move(-1,0, TransitionType.BOB);
             movingDirection = "left";
@@ -122,21 +114,17 @@ public class FollowingThief extends LandMover {
      * If no valid move, the {@code FollowingThief} will reverse 
      * its loop direction.
      */
-    public void goingUp() {
+    private void goingUp() {
         if ((hasNextLeft() && clockwise) || 
             ((!hasNextUp() && hasNextLeft() && !clockwise))) {
 
             this.move(-1,0, TransitionType.BOB);
-            if (!clockwise) {
-                movingDirection = "left";
-            }
+            movingDirection = "left";
         } else if ((hasNextRight() && !clockwise) || 
             ((!hasNextUp() && hasNextRight() && clockwise))) {
 
             this.move(1,0, TransitionType.BOB);
-            if (clockwise) {
-                movingDirection = "right";
-            }
+            movingDirection = "right";
         } else if (hasNextUp()) {
             this.move(0,-1, TransitionType.BOB);
             movingDirection = "up";
@@ -155,21 +143,17 @@ public class FollowingThief extends LandMover {
      * If no valid move, the {@code FollowingThief} will reverse 
      * its loop direction.
      */
-    public void goingDown() {
+    private void goingDown() {
         if ((hasNextRight() && clockwise) || 
             (!hasNextDown() && hasNextRight() && !clockwise)) {
 
             this.move(1,0, TransitionType.BOB);
-            if (!clockwise) {
-                movingDirection = "right";
-            }
+            movingDirection = "right";
         } else if ((hasNextLeft() && !clockwise) || 
             (!hasNextDown() && hasNextLeft() && clockwise)) {
 
             this.move(-1,0, TransitionType.BOB);
-            if (clockwise) {
-                movingDirection = "left";
-            }
+            movingDirection = "left";
         } else if (hasNextDown()) {
             this.move(0,1, TransitionType.BOB);
             movingDirection = "down";
@@ -187,7 +171,7 @@ public class FollowingThief extends LandMover {
      * if the tile is in the upwards direction
      * @return Boolean
      */
-    public Boolean hasNextUp() {
+    private Boolean hasNextUp() {
         return nextUp() < this.getY() && !isBlocked(this.getX(), nextUp()) &&
             Game.getInstance().getTile(this.getX(), nextUp())
                 .hasColor(pathColor);
@@ -200,7 +184,7 @@ public class FollowingThief extends LandMover {
      * if the tile is in the downwards direction
      * @return Boolean
      */
-    public Boolean hasNextDown() {
+    private Boolean hasNextDown() {
         return nextDown() > this.getY() && 
             !isBlocked(this.getX(), nextDown()) &&
             Game.getInstance().getTile(this.getX(), nextDown())
@@ -214,7 +198,7 @@ public class FollowingThief extends LandMover {
      * if the tile is in the leftwards direction
      * @return Boolean
      */
-    public Boolean hasNextLeft() {
+    private Boolean hasNextLeft() {
         return nextLeft() < this.getX() && 
             !isBlocked(nextLeft(), this.getY()) &&
             Game.getInstance().getTile(nextLeft(), this.getY())
@@ -229,7 +213,7 @@ public class FollowingThief extends LandMover {
      * if the tile is in the rightwards direction
      * @return Boolean
      */
-    public Boolean hasNextRight() {
+    private Boolean hasNextRight() {
         return nextRight() > this.getX() && 
             !isBlocked(nextRight(), this.getY()) &&
             Game.getInstance().getTile(nextRight(), this.getY())
@@ -255,10 +239,15 @@ public class FollowingThief extends LandMover {
     @Override
     protected void updateMovement() {
         if (!(Game.getInstance().getTile(this.getX(), this.getY())
-.hasColor(pathColor))){
+            .hasColor(pathColor))) {
+                
             Game.getInstance().removeEntity(this);
         }
-        switch (movingDirection){
+
+        if (!hasNextDown() && !hasNextLeft()
+        && !hasNextRight() && !hasNextUp()) {
+        } else {
+        switch (movingDirection) {
             case "right":
                 goingRight();
             break;
@@ -271,6 +260,7 @@ public class FollowingThief extends LandMover {
             case "down":
                 goingDown();
             break;
+        }
         }
     }
 

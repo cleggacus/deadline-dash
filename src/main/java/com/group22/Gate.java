@@ -88,20 +88,19 @@ public class Gate extends Entity {
     }
 
     /**
-     * This method is unused by Bomb.
+     * This method is unused by Gate.
      */
     @Override
     protected void updateMovement() {}
 
     /**
-     * This method is unused by Bomb.
+     * This method is unused by Gate.
      */
     @Override
-    protected void update() {}
+    protected void update() {
 
-    /**
-     * This method is unused by Bomb.
-     */
-    public void activatePickUpEffect() {}
+    }
+
+
 
 }
