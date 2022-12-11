@@ -50,7 +50,7 @@ public class GamePane extends StatePane<GameState> {
         this.startMenu = new StartMenu(this);
         this.levelSelector = new LevelSelector(this);
         this.replaysBrowser = new ReplaysBrowser();
-        this.savesBrowser = new SavesBrowser(this);
+        this.savesBrowser = new SavesBrowser();
         this.replayOver = new ReplayOver();
         this.playing = new Playing();
         this.paused = new Paused();

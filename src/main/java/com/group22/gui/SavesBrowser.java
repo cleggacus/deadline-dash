@@ -10,33 +10,51 @@ import com.group22.SavedStateManager;
 import com.group22.TimeUtil;
 import com.group22.gui.base.MenuPane;
 
+/**
+ * The class {@code SavesBrowser} extends MenuPane and show a list of
+ * save states in the level
+ * 
+ * @author Liam Clegg
+ * @version 1.0
+ */
 public class SavesBrowser extends MenuPane {
-
-    private String username;
-    private GamePane gamePane;
     private MenuPane savesMenu;
     private SavedStateManager savedStateManager;
 
-    public SavesBrowser(GamePane gamePane) {
-        this.gamePane = gamePane;
+    /**
+     * Creates the SavesBrowser pane.
+     */
+    public SavesBrowser() {
         this.savesMenu = new MenuPane();
         this.savedStateManager = new SavedStateManager();
         this.addH1("SAVES");
         this.add(this.savesMenu.getAsScrollPane());
-        this.addButton("BACK", () -> this.gamePane.setState(
-            GameState.LEVEL_SELECTOR));
+        this.addButton("BACK", 
+            () -> Game.getInstance().setGameState(GameState.LEVEL_SELECTOR));
     }
 
+    /**
+     * Sets the menu to have stave states in given level.
+     * 
+     * @param level name of the level to be loaded.
+     * @param levelIndex number of the level to be loaded.
+     */
     public void setSavedStates(Level level, int levelIndex) {
         this.savesMenu.getChildren().clear();
-        ArrayList<SavedState> savedStates = this.savedStateManager.getStates(level, Game.getInstance().getUsername());
+
+        ArrayList<SavedState> savedStates = this.savedStateManager
+            .getStates(level, Game.getInstance().getUsername());
+
         if (savedStates.size() == 0) {
             this.savesMenu.addH2("No saves yet!");
-            this.savesMenu.addParagraph("Save in the pause menu and load it here later.");
+            this.savesMenu.addParagraph(
+                "Save in the pause menu and load it here later.");
         }
         for (SavedState savedState : savedStates) {
-            this.savesMenu.addButton(TimeUtil.getTimeAgo(savedState.getTimeOfSave()),
-            () -> Game.getInstance().setSavedState(savedState));
+            this.savesMenu.addButton(
+                TimeUtil.getTimeAgo(savedState.getTimeOfSave()),
+                () -> Game.getInstance().setSavedState(savedState));
+
             this.savesMenu.addSmallPrint("Score: " + savedState.getScore());
             String time = String.format("Time: %f", savedState.getTime());
             this.savesMenu.addSmallPrint(time);
