@@ -254,6 +254,10 @@ public class FollowingThief extends LandMover {
      */
     @Override
     protected void updateMovement() {
+        if (!(Game.getInstance().getTile(this.getX(), this.getY())
+.hasColor(pathColor))){
+            Game.getInstance().removeEntity(this);
+        }
         switch (movingDirection){
             case "right":
                 goingRight();
