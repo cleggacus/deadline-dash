@@ -14,7 +14,9 @@ import javafx.scene.control.Label;
  * @version 1.0
  */
 public class GameOver extends MenuPane {
+    /** The label element that contains the score. */
     private Label scoreLabel;
+    /** The label element that contains the time. */
     private Label timeLabel;
 
     /**
