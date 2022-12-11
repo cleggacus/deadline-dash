@@ -6,11 +6,13 @@ import javafx.scene.paint.Color;
 
 /**
  * {@code Bomb} is an extension of {@link Entity}.
- * {@code Bomb} can be interacted with by {@link LandMover} moving adjacent to a {@code Bomb},
- * upon which a 3-second countdown is begun. After which the {@code Bomb} will detonate
- * and an explosion along the {@code Bomb} X and Y position, removing any {@link Entity}
- * from the game, excluding {@link Door}. If another {@code Bomb} lies within the explosion,
+ * {@code Bomb} can be interacted with by {@link LandMover} moving 
+ * adjacent to a {@code Bomb}, upon which a 3-second countdown is begun. 
+ * After which the {@code Bomb} will detonate and an explosion along the 
+ * {@code Bomb} X and Y position, removing any {@link Entity} from the game, 
+ * excluding {@link Door}. If another {@code Bomb} lies within the explosion,
  * that {@code Bomb} will immediately detonate.
+ * 
  * @author Steffan William Borland
  * @version 1.0
  */
@@ -221,10 +223,12 @@ public class Bomb extends Entity {
     }
 
     /**
-     * Creates an ArrayList of all entities that bomb can interact with (LandMover, Flying Assassin &
-     * PickUps), checks whether these entities lie upon the bomb's X & Y axes. If that entity
-     * is a bomb then it will cause that bomb to trigger its explosion animation,
-     * as well as detonate. Otherwise, it will remove any entity that is lies upon the X & Y axes.
+     * Creates an ArrayList of all entities that bomb can interact with 
+     * (LandMover, Flying Assassin & PickUps), checks whether these 
+     * entities lie upon the bomb's X & Y axes. If that entity is a bomb 
+     * then it will cause that bomb to trigger its explosion animation,
+     * as well as detonate. Otherwise, it will remove any entity that 
+     * is lies upon the X & Y axes.
      */
     public void detonateBomb() {
         ArrayList<Entity> allEntity = new ArrayList<>();
@@ -261,8 +265,8 @@ public class Bomb extends Entity {
      * Begins the activation for a bomb once its trigger condition is met,
      * and will trigger the explosion animation once enough time has elapsed
      * based on the COUNTDOWN of a bomb and the ANIMATION_DURATION. After which
-     * it checks if any other bombs will be detonated and triggers their explosion
-     * animations also.
+     * it checks if any other bombs will be detonated and triggers their 
+     * explosion animations also.
      */
     public void activateBomb() {
         double shakeAmountX = 0.05 * 
@@ -325,9 +329,9 @@ public class Bomb extends Entity {
     /**
      * Checks every frame whether a bombs fuze has been triggered (LandMover
      * moving adjacent by 1 tile in X & Y directions). After which it will call
-     * the activateBomb method for the activated bomb. Will set the bombs' explosion
-     * animation once enough time has elapsed based on the COUNTDOWN of a bomb and
-     * the ANIMATION_DURATION.
+     * the activateBomb method for the activated bomb. Will set the bombs' 
+     * explosion animation once enough time has elapsed based on the COUNTDOWN 
+     * of a bomb and the ANIMATION_DURATION.
      */
     @Override
     protected void update() {
