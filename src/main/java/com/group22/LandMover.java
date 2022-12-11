@@ -108,8 +108,13 @@ public abstract class LandMover extends Entity {
             return false;
         }
 
-        return Game.getInstance().colorMatch(this.getX(), 
-            this.getY(), this.getX() + x, this.getY() + y);
+        Tile tile1 = Game.getInstance()
+            .getTile(this.getX(), this.getY());
+
+        Tile tile2 = Game.getInstance()
+            .getTile(this.getX() + x, this.getY() + y);
+
+        return tile1.colorMatch(tile2);
     }
 
     /**

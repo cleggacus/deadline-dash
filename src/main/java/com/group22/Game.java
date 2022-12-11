@@ -51,19 +51,6 @@ public class Game extends Engine {
         return Game.instance;
     }
     
-    
-    /** 
-     * @param x
-     * @param y
-     * @param keyTime
-     */
-    public void newReplayFrame(int x, int y, double keyTime) {
-        ReplayFrame frame = new ReplayFrame(x, y, keyTime);
-        this.replay.storeFrame(frame);
-
-    }
-
-    
     /** 
      * @return Player
      */
@@ -75,37 +62,18 @@ public class Game extends Engine {
         return this.getGamePane().getProfileSelector().getUsername();
     }
 
-    /**
-     * Checks if theres a color at (x1, y1) thats in (x2, y2).
-     * 
-     * @param x1 The x coordinate of the first tile
-     * @param y1 The y-coordinate of the first tile
-     * @param x2 The x coordinate of the second tile
-     * @param y2 The y coordinate of the second tile
-     * @return
-     */
-    public boolean colorMatch(int x1, int y1, int x2, int y2) {
-        return this.tiles[x1][y1].colorMatch(this.tiles[x2][y2]);
+    public Tile getTile(int x, int y) {
+        return this.tiles[x][y];
     }
-
     
     /** 
      * @param x
      * @param y
-     * @param color
-     * @return boolean
+     * @param keyTime
      */
-    public boolean tileHasColor(int x, int y, TileColor color) {
-        return this.tiles[x][y].hasColor(color);
-    }
-
-    
-    /** 
-     * @param x
-     * @param y
-     */
-    public void lightUpTile(int x, int y) {
-        this.tiles[x][y].lightUp();
+    public void newReplayFrame(int x, int y, double keyTime) {
+        ReplayFrame frame = new ReplayFrame(x, y, keyTime);
+        this.replay.storeFrame(frame);
     }
 
     /**

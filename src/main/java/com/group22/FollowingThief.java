@@ -163,7 +163,8 @@ public class FollowingThief extends LandMover {
      */
     public Boolean hasNextUp() {
         return nextUp() < this.getY() && !isBlocked(this.getX(), nextUp()) &&
-            Game.getInstance().tileHasColor(this.getX(), nextUp(), pathColor);
+            Game.getInstance().getTile(this.getX(), nextUp())
+                .hasColor(pathColor);
     }
 
     
@@ -176,8 +177,8 @@ public class FollowingThief extends LandMover {
     public Boolean hasNextDown() {
         return nextDown() > this.getY() && 
             !isBlocked(this.getX(), nextDown()) &&
-            Game.getInstance().tileHasColor(this.getX(), nextDown(), pathColor);
-
+            Game.getInstance().getTile(this.getX(), nextDown())
+                .hasColor(pathColor);
     }
 
     
@@ -190,7 +191,8 @@ public class FollowingThief extends LandMover {
     public Boolean hasNextLeft() {
         return nextLeft() < this.getX() && 
             !isBlocked(nextLeft(), this.getY()) &&
-            Game.getInstance().tileHasColor(nextLeft(), this.getY(), pathColor);
+            Game.getInstance().getTile(nextLeft(), this.getY())
+                .hasColor(pathColor);
     }
 
     
@@ -204,8 +206,8 @@ public class FollowingThief extends LandMover {
     public Boolean hasNextRight() {
         return nextRight() > this.getX() && 
             !isBlocked(nextRight(), this.getY()) &&
-            Game.getInstance().tileHasColor(nextRight(), 
-            this.getY(), pathColor);
+            Game.getInstance().getTile(nextRight(), this.getY())
+                .hasColor(pathColor);
     }
     
     
