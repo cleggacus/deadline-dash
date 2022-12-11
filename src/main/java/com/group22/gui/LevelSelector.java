@@ -36,7 +36,8 @@ public class LevelSelector extends MenuPane {
 
         this.addH1("LEVELS");
         this.add(imageList);
-        this.addButton("GO BACK", () -> gamePane.setState(GameState.START));
+        this.addButton("GO BACK", 
+            () -> Game.getInstance().setGameState(GameState.START));
 
         this.imageList.prefHeightProperty().bind(
             this.heightProperty().multiply(0.5));
@@ -113,14 +114,16 @@ public class LevelSelector extends MenuPane {
                         // set replays in the replays browser for this level
                         this.gamePane.getReplaysBrowser().setReplays(
                             level.getTitle(), currentLevelIndex);
-                        this.gamePane.setState(GameState.REPLAYS_BROWSER);
+                        Game.getInstance()
+                            .setGameState(GameState.REPLAYS_BROWSER);
                     }),
                     createButton("💾", () -> {
                         /*  set saved states in the saves
                             browser for this level and user */
                         this.gamePane.getSavesBrowser().setSavedStates(
                             level, currentLevelIndex);
-                        this.gamePane.setState(GameState.SAVES_BROWSER);
+                        Game.getInstance()
+                            .setGameState(GameState.SAVES_BROWSER);
                     }),
                     createButton("⏵", () -> 
                         Game.getInstance().startFromLevel(currentLevelIndex)
@@ -139,14 +142,16 @@ public class LevelSelector extends MenuPane {
                         // set replays in the replays browser for this level
                         this.gamePane.getReplaysBrowser().setReplays(
                             level.getTitle(), currentLevelIndex);
-                        this.gamePane.setState(GameState.REPLAYS_BROWSER);
+                        Game.getInstance()
+                            .setGameState(GameState.REPLAYS_BROWSER);
                     }),
                     createButton("💾", () -> {
                         /*  set saved states in the saves
                             browser for this level and user */
                         this.gamePane.getSavesBrowser().setSavedStates(
                             level, currentLevelIndex);
-                        this.gamePane.setState(GameState.SAVES_BROWSER);
+                        Game.getInstance()
+                            .setGameState(GameState.SAVES_BROWSER);
                     }),
                     createButton("🔒", () -> 
                         lockClicked = currentLevelIndex
