@@ -34,6 +34,8 @@ public class Door extends Entity {
 
     
     /** 
+     * Sets the open state of the door.
+     * 
      * @param isOpen setter for isOpen
      */
     public void setIsOpen(boolean isOpen) {
@@ -41,6 +43,8 @@ public class Door extends Entity {
     }
     
     /** 
+     * Gets the string required to construct a saved Door.
+     * 
      * @return String of door X position -and Y position to be saved/loaded.
      */
     @Override
@@ -56,7 +60,7 @@ public class Door extends Entity {
     protected void updateMovement() {}
 
     /**
-     * 
+     * Checks if door is open and acts accordingly.
      */
     @Override
     protected void update() {

@@ -34,6 +34,8 @@ public class Bomb extends Entity {
      */
     public class Countdown extends Entity {
         /**
+         * Creates a Countdown Entity.
+         * 
          * @param bomb the bomb entity to create the countdown sprite for.
          */
         public Countdown(Bomb bomb) {
@@ -86,6 +88,8 @@ public class Bomb extends Entity {
         private boolean isActive;
 
         /**
+         * Creates a Laser Entity.
+         * 
          * @param x the horizontal position of a laser on the map.
          * @param y the vertical position of a laser on the map.
          * @param bomb the bomb for which the laser is for.
@@ -218,6 +222,8 @@ public class Bomb extends Entity {
     }
 
     /** 
+     * Gets the time of the bomb.
+     * 
      * @return double time in seconds.
      */
     public double getTime() {
@@ -367,8 +373,9 @@ public class Bomb extends Entity {
     }
 
     /** 
+     * Bomb constructor info for saving.
+     * 
      * @return String of bomb X position, Y position and the elapsed time
-     * if it has been activated to be saved/loaded.
      */
     public String toString(){
         return ("bomb " + getX() + " " + getY() + " " + getTime());

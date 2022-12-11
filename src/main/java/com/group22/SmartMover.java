@@ -323,12 +323,13 @@ public class SmartMover extends LandMover {
     }
 
     /**
-     * This method is unused by Bomb.
+     * This method is unused by smart mover.
      */
     @Override
     protected void update() {}
 
     /**
+     * Converts the object to string
      * @return String of smartmover's X position and Y position to be
      * saved/loaded.
      */
