@@ -105,6 +105,67 @@ public class ImageList extends ScrollPane {
     }
 
     /**
+     * Gets the column count of {@link #grid}.
+     * @return The number of elements in the {@code ImageList}.
+     */
+    public int getLength() {
+        return this.grid.getColumnCount();
+    }
+
+    /**
+     * Update method which allows hover animations in the game loop.
+     * 
+     * @param delta Time passed since last frame.
+     */
+    public void update(double delta) {
+
+        if (this.hoverImage >= 0) {
+            double amount = this.hoverTimer / duration;
+            amount = amount > 1 ? 1 : amount;
+
+            StackPane stackPane = this.stackPanes.get(hoverImage);
+            ImageView imageView = (ImageView)stackPane.getChildren().get(0);
+            BorderPane overlay = (BorderPane)stackPane.getChildren().get(1);
+            GaussianBlur gaussianBlur = new GaussianBlur(amount * 10);
+
+            imageView.setClip(new Rectangle(
+                stackPane.getWidth(), stackPane.getHeight()));
+            imageView.setEffect(gaussianBlur);
+            overlay.setOpacity(amount);
+
+            if (this.hoverTimer > duration) {
+                this.hoverImage = -1;
+                this.hoverTimer = 0;
+            } else {
+                this.hoverTimer += delta;
+            }
+        }
+
+        if (this.unhoverImage >= 0) {
+            double amount = 1 - (this.unhoverTimer / duration);
+            amount = amount < 0 ? 0 : amount;
+
+            StackPane stackPane = this.stackPanes.get(unhoverImage);
+            ImageView imageView = (ImageView)stackPane.getChildren().get(0);
+            BorderPane overlay = (BorderPane)stackPane.getChildren().get(1);
+
+            GaussianBlur gaussianBlur = new GaussianBlur(amount * 10);
+
+            imageView.setClip(new Rectangle(
+                stackPane.getWidth(), stackPane.getHeight()));
+            imageView.setEffect(gaussianBlur);
+            overlay.setOpacity(amount);
+
+            if (this.unhoverTimer > duration) {
+                this.unhoverImage = -1;
+                this.unhoverTimer = 0;
+            } else {
+                this.unhoverTimer += delta;
+            }
+        }
+    }
+
+    /**
      * Creates a GridPane that contains the footer from an array of buttons.
      * 
      * @param buttons Array of buttons that are in the footer.
@@ -193,66 +254,5 @@ public class ImageList extends ScrollPane {
         this.stackPanes.add(stackPane);
 
         return stackPane;
-    }
-
-    /**
-     * Gets the column count of {@link #grid}.
-     * @return The number of elements in the {@code ImageList}.
-     */
-    public int getLength() {
-        return this.grid.getColumnCount();
-    }
-
-    /**
-     * Update method which allows hover animations in the game loop.
-     * 
-     * @param delta Time passed since last frame.
-     */
-    public void update(double delta) {
-
-        if (this.hoverImage >= 0) {
-            double amount = this.hoverTimer / duration;
-            amount = amount > 1 ? 1 : amount;
-
-            StackPane stackPane = this.stackPanes.get(hoverImage);
-            ImageView imageView = (ImageView)stackPane.getChildren().get(0);
-            BorderPane overlay = (BorderPane)stackPane.getChildren().get(1);
-            GaussianBlur gaussianBlur = new GaussianBlur(amount * 10);
-
-            imageView.setClip(new Rectangle(
-                stackPane.getWidth(), stackPane.getHeight()));
-            imageView.setEffect(gaussianBlur);
-            overlay.setOpacity(amount);
-
-            if (this.hoverTimer > duration) {
-                this.hoverImage = -1;
-                this.hoverTimer = 0;
-            } else {
-                this.hoverTimer += delta;
-            }
-        }
-
-        if (this.unhoverImage >= 0) {
-            double amount = 1 - (this.unhoverTimer / duration);
-            amount = amount < 0 ? 0 : amount;
-
-            StackPane stackPane = this.stackPanes.get(unhoverImage);
-            ImageView imageView = (ImageView)stackPane.getChildren().get(0);
-            BorderPane overlay = (BorderPane)stackPane.getChildren().get(1);
-
-            GaussianBlur gaussianBlur = new GaussianBlur(amount * 10);
-
-            imageView.setClip(new Rectangle(
-                stackPane.getWidth(), stackPane.getHeight()));
-            imageView.setEffect(gaussianBlur);
-            overlay.setOpacity(amount);
-
-            if (this.unhoverTimer > duration) {
-                this.unhoverImage = -1;
-                this.unhoverTimer = 0;
-            } else {
-                this.unhoverTimer += delta;
-            }
-        }
     }
 }
