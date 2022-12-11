@@ -69,7 +69,7 @@ public class ReplayManager {
             });
         }
 
-        return replays;
+        return new ArrayList<>(replays);
     }
 
     
