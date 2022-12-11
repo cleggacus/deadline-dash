@@ -63,22 +63,6 @@ public class KeyboardManager {
         }));
     }
 
-    
-    /** 
-     * @return KeyCode
-     */
-    public KeyCode getLastKeyReleased() {
-        if (this.keyReleased != null) {
-            KeyCode keyToReturn = this.keyReleased;
-            return keyToReturn;
-        }
-        return null;
-    }
-
-    public void resetLastKeyReleased() {
-        this.keyReleased = null;
-    }
-
     /**
      * Should be called when a frame or given time period is updated.
      */

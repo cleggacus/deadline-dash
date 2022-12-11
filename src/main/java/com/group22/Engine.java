@@ -71,8 +71,7 @@ public abstract class Engine {
      * Gets an ArrayList of all entities that are a given class or 
      * inherits that class.
      * 
-     * @param withClass
-     *      The class that extends {@code Entity} to check.
+     * @param withClass The class that extends {@code Entity} to check.
      * 
      * @return ArrayList of entities
      */
@@ -132,8 +131,9 @@ public abstract class Engine {
     }
 
 
-    
     /** 
+     * Gets the current game state stored in the game pane.
+     * 
      * @return GameState
      */
     public GameState getGameState() {
@@ -166,8 +166,7 @@ public abstract class Engine {
      * A scene must be created for the game to 
      * be viewed and the keyboard manager to function.
      * 
-     * @return 
-     *      The scene containing the game pane.
+     * @return The scene containing the game pane.
      */
     public Scene createScene() {
         Scene scene = new Scene(this.gamePane, INITIAL_WIDTH, INITIAL_HEIGHT);
@@ -180,8 +179,7 @@ public abstract class Engine {
     /** 
      * Gets the change in time in seconds since the last frame was updated.
      * 
-     * @return
-     *      Time since last frame in seconds.
+     * @return Time since last frame in seconds.
      */
     public double getDelta() {
         return delta;
@@ -192,37 +190,19 @@ public abstract class Engine {
      * If the key is currently being pressed 
      * down this method return true otherwise it returns false.
      * 
-     * @param keyCode
-     *      The key code of the key to be checked.
+     * @param keyCode The key code of the key to be checked.
      * 
-     * @return
-     *      True if key is down, False if key is up.
+     * @return True if key is down, False if key is up.
      */
     public boolean getKeyState(KeyCode keyCode) {
         return this.keyboardManager.getKeyState(keyCode);
-    }
-
-    
-    /** 
-     * @return KeyCode
-     */
-    public KeyCode getLastKeyReleased() {
-        return this.keyboardManager.getLastKeyReleased();
-    }
-
-    /**
-     * 
-     */
-    public void resetLastKeyReleased() {
-        this.keyboardManager.resetLastKeyReleased();
     }
     
     /** 
      * Checks if the key is being pressed 
      * down on the frame which the method is called.
      * 
-     * @param keyCode
-     *      The key code of the key to be checked.
+     * @param keyCode The key code of the key to be checked.
      * 
      * @return
      *      True if key is being pressed on the current frame, False otherwise.
@@ -236,8 +216,7 @@ public abstract class Engine {
      * Checks if the key is being released 
      * on the frame which the method is called.
      * 
-     * @param keyCode
-     *      The key code of the key to be checked.
+     * @param keyCode The key code of the key to be checked.
      * 
      * @return
      *      True if key is being released on the current frame, False otherwise.
@@ -248,8 +227,11 @@ public abstract class Engine {
 
     
     /** 
-     * @param ...keyCodes
-     * @return KeyCode
+     * Gets the last key to be pressed that is currently down given a 
+     * set of key codes.
+     * 
+     * @param keyCodes The keys to check.
+     * @return KeyCode The key that was last pressed.
      */
     public KeyCode getLastKeyDown(KeyCode ...keyCodes) {
         return this.keyboardManager.getLastKeyDown(keyCodes);
@@ -258,14 +240,10 @@ public abstract class Engine {
     /**
      * Checks if a position is in the bounds of the current renderer view size.
      * 
-     * @param x
-     *      X position to check.
+     * @param x X position to check.
+     * @param y Y position to check.
      * 
-     * @param y
-     *      Y position to check.
-     * 
-     * @return
-     *      True if (x, y) is in renderers view.
+     * @return True if (x, y) is in renderers view.
      */
     public boolean isInBounds(int x, int y) {
         return
@@ -279,8 +257,7 @@ public abstract class Engine {
     /** 
      * Gets the height in number of tiles from the renderer.
      * 
-     * @return
-     *      The height in tiles of the grid.
+     * @return The height in tiles of the grid.
      */
     public int getViewHeight() {
         return this.renderer.getViewHeight();
@@ -290,8 +267,7 @@ public abstract class Engine {
     /** 
      * Gets the width in number of tiles from the renderer.
      * 
-     * @return
-     *      The width in tiles of the grid.
+     * @return The width in tiles of the grid.
      */
     public int getViewWidth() {
         return this.renderer.getViewWidth();
@@ -315,8 +291,7 @@ public abstract class Engine {
     /**
      * Gets the current GamePane GUI element.
      * 
-     * @return
-     *      The generated GamePane.
+     * @return The generated GamePane.
      */
     protected GamePane getGamePane() {
         return gamePane;
@@ -326,11 +301,9 @@ public abstract class Engine {
     /** 
      * Sets the width and height in tiles for the renderer.
      * 
-     * @param width
-     *      The width of the grid in tiles.
+     * @param width The width of the grid in tiles.
      * 
-     * @param height
-     *      The height of the grid in tiles.
+     * @param height The height of the grid in tiles.
      */
     protected void setViewSize(int width, int height) {
         this.renderer.setViewSize(width, height);
@@ -340,8 +313,7 @@ public abstract class Engine {
      * This method is called every frame before 
      * the frame is drawn to the GraphicsContext.
      * 
-     * @param now
-     *      Current time in nano secconds.
+     * @param now Current time in nano secconds.
      */
     private void callUpdate(long now) {
         this.updateTimer(now);
@@ -361,8 +333,7 @@ public abstract class Engine {
      * Updates timer by comparing current time and time of last frame update.
      * Sets delta to the change in time in seconds.
      * 
-     * @param now
-     *      The current time in nano seconds.
+     * @param now The current time in nano seconds.
      */
     private void updateTimer(long now) {
         if (this.lastTime == 0) {

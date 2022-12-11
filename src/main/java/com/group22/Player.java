@@ -184,10 +184,6 @@ public class Player extends LandMover {
             Game.getInstance().getTile(getX(), getY()).lightUp();
         }
 
-        if (Game.getInstance().getLastKeyReleased() != null) {
-            Game.getInstance().resetLastKeyReleased();
-        }
-
         this.time += Game.getInstance().getDelta();
     }
 }
