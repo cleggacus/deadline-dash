@@ -6,7 +6,6 @@ import com.group22.gui.base.ListButton.OnClickEvent;
 
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -16,21 +15,38 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
 
+/**
+ * 
+ * The class {@code ImageList} is a horizontal List gui element which extends 
+ * the ScrollPane JavaFX scene element. It contains an image, onClick event and
+ * some footer buttons.
+ * 
+ * @author Liam Clegg
+ * @version 1.0
+ */
 public class ImageList extends ScrollPane {
-    private double duration = 0.3;
+    /** Duration of hover animation in seconds. */
+    private static final double duration = 0.3;
+    /** Keeps current time in hover animation. */
     private double hoverTimer = 0;
+    /** Index of image in {@link #stackPanes} that is being hovered. */
     private int hoverImage = -1;
-
+    /** Keeps current time in unhover animation. */
     private double unhoverTimer = 0;
+    /** Index of image in {@link #stackPanes} that is being unhovered. */
     private int unhoverImage = -1;
-
+    /** GridPane that contains each element in list. */
     private GridPane grid;
+    /** Array list of stack panes that contains the item images. */
     private ArrayList<StackPane> stackPanes;
 
+    /**
+     * Creates an {@code ImageList} by setting up a grid pane and outer 
+     * scrollPane.
+    */
     public ImageList() {
         this.stackPanes = new ArrayList<>();
         this.getStyleClass().add("image-list");
@@ -46,10 +62,23 @@ public class ImageList extends ScrollPane {
         this.grid.setVgap(0);
     }
 
+    /**
+     * Gets the list of current {@link #stackPanes}.
+     * 
+     * @return A list of stackPanes containing images and overlays.
+     */
     public ArrayList<StackPane> getStackPanes() {
-        return stackPanes;
+        return this.stackPanes;
     }
 
+    /**
+     * Adds an element to the image list.
+     * 
+     * @param text Overlay text when image is hovered.
+     * @param path Path to the image in the element.
+     * @param onClickEvent Function thats called when elemnet is clicked.
+     * @param footerButtons Array of buttons in the footer of the element.
+     */
     public void addImage(
         String text, 
         String path, 
@@ -75,6 +104,12 @@ public class ImageList extends ScrollPane {
         this.grid.add(outer, this.grid.getColumnCount(), 0);
     }
 
+    /**
+     * Creates a GridPane that contains the footer from an array of buttons.
+     * 
+     * @param buttons Array of buttons that are in the footer.
+     * @return A footer made with a GridPane element.
+     */
     private GridPane createFooter(Button[] buttons) {
         GridPane gridPane = new GridPane();
 
@@ -98,6 +133,15 @@ public class ImageList extends ScrollPane {
         return gridPane;
     }
 
+    /**
+     * Creates the image view and image overlay for the list element.
+     * Adds the StackPane containing the image and overlay 
+     * to {@link #stackPanes}.
+     * 
+     * @param text Overlay text shown on hover.
+     * @param path Path to image in element.
+     * @return StackPane incuding the image and overlay hidden on top.
+     */
     private StackPane createHoverImage(String text, String path) {
         StackPane stackPane = new StackPane();
         stackPane.setMinHeight(0);
@@ -151,14 +195,19 @@ public class ImageList extends ScrollPane {
         return stackPane;
     }
 
+    /**
+     * Gets the column count of {@link #grid}.
+     * @return The number of elements in the {@code ImageList}.
+     */
     public int getLength() {
         return this.grid.getColumnCount();
     }
 
-    public Node getImage(int i){
-        return this.grid.getChildren().get(i);
-    }
-
+    /**
+     * Update method which allows hover animations in the game loop.
+     * 
+     * @param delta Time passed since last frame.
+     */
     public void update(double delta) {
 
         if (this.hoverImage >= 0) {
