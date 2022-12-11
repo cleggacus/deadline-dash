@@ -33,14 +33,14 @@ public class StatePane<T extends Enum<T>> extends StackPane {
     }
 
     /**
-     * Resets the state to make sure it is up to date.
+     * Resets the {@link #currentState} to make sure it is up to date.
      */
     public void refreshState() {
         this.setState(this.currentState);
     }
 
     /**
-     * Sets the current state of the pane.
+     * Sets the {@link #currentState} of the pane.
      * 
      * @param state Value of the new state.
      */
@@ -59,7 +59,7 @@ public class StatePane<T extends Enum<T>> extends StackPane {
     }
 
     /**
-     * Gets the current state.
+     * Gets the {@link #currentState}.
      * 
      * @return Current panes state.
      */

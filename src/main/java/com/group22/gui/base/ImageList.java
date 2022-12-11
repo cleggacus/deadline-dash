@@ -72,7 +72,7 @@ public class ImageList extends ScrollPane {
     }
 
     /**
-     * Adds an element to the image list.
+     * Adds an element to the image list contained in {@link #grid}.
      * 
      * @param text Overlay text when image is hovered.
      * @param path Path to the image in the element.
@@ -106,6 +106,7 @@ public class ImageList extends ScrollPane {
 
     /**
      * Gets the column count of {@link #grid}.
+     * 
      * @return The number of elements in the {@code ImageList}.
      */
     public int getLength() {
