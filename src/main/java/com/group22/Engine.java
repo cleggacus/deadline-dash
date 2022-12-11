@@ -49,7 +49,7 @@ public abstract class Engine {
 
         this.setUpGameLoop();
 
-        this.setGameState(GameState.ProfileSelector);
+        this.setGameState(GameState.PROFILE_SELECTOR);
     }
 
     public String getUsername() {
@@ -125,8 +125,8 @@ public abstract class Engine {
             return;
 
         boolean restart = 
-            currentGameState != GameState.Paused && 
-            gameState == GameState.Playing;
+            currentGameState != GameState.PAUSED && 
+            gameState == GameState.PLAYING;
 
         if(restart) {
             this.entities.clear();
@@ -143,8 +143,8 @@ public abstract class Engine {
             return;
 
         boolean restart = 
-            currentGameState != GameState.Paused && 
-            gameState == GameState.Playing;
+            currentGameState != GameState.PAUSED && 
+            gameState == GameState.PLAYING;
 
         if(restart) {
             this.entities.clear();
@@ -158,7 +158,7 @@ public abstract class Engine {
     public void setSavedState(SavedState savedState){
         this.entities.clear();
         this.startSavedState(savedState);
-        this.gamePane.setState(GameState.Playing);
+        this.gamePane.setState(GameState.PLAYING);
 
     }
     
@@ -334,7 +334,7 @@ public abstract class Engine {
         this.updateState();
         this.gamePane.update();
 
-        if(this.gamePane.getCurrentState() == GameState.Playing) {
+        if(this.gamePane.getCurrentState() == GameState.PLAYING) {
             this.update();
             this.updateEntities();
         }
@@ -363,11 +363,11 @@ public abstract class Engine {
      */
     private void updateState() {
         if(this.getKeyDown(KeyCode.ESCAPE)) {
-            if(this.gamePane.getCurrentState() == GameState.Playing)
-                this.setGameState(GameState.Paused);
+            if(this.gamePane.getCurrentState() == GameState.PLAYING)
+                this.setGameState(GameState.PAUSED);
 
-            else if(this.gamePane.getCurrentState() == GameState.Paused)
-                this.setGameState(GameState.Playing);
+            else if(this.gamePane.getCurrentState() == GameState.PAUSED)
+                this.setGameState(GameState.PLAYING);
         }
     }
 
@@ -400,9 +400,9 @@ public abstract class Engine {
         GameState gameState = this.gamePane.getCurrentState();
 
         if(
-            gameState == GameState.Playing ||
-            gameState == GameState.Paused ||
-            gameState == GameState.GameOver
+            gameState == GameState.PLAYING ||
+            gameState == GameState.PAUSED ||
+            gameState == GameState.GAME_OVER
         ){
             this.renderer.newFrame();
             this.gamePane.getPlaying().setInfoBarPadding(this.renderer.getOffsetX());

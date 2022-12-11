@@ -26,7 +26,7 @@ public class ReplayOver extends MenuPane {
     public ReplayOver() {
         this.addH1("REPLAY COMPLETE");
         this.addButton("EXIT", 
-            () -> Game.getInstance().setGameState(GameState.ReplaysBrowser));
+            () -> Game.getInstance().setGameState(GameState.REPLAYS_BROWSER));
         this.addParagraph("");
         this.scoreLabel = this.addParagraph("");
         this.timeLabel = this.addParagraph("");

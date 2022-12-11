@@ -20,10 +20,10 @@ public class Paused extends MenuPane {
     public Paused() {
         this.addH1("PAUSED");
         this.addButton("RESUME", 
-            () -> Game.getInstance().setGameState(GameState.Playing));
+            () -> Game.getInstance().setGameState(GameState.PLAYING));
         this.addButton("RESTART", () -> {
-            Game.getInstance().setGameState(GameState.GameOver);
-            Game.getInstance().setGameState(GameState.Playing);
+            Game.getInstance().setGameState(GameState.GAME_OVER);
+            Game.getInstance().setGameState(GameState.PLAYING);
         });
         this.addButton("SAVE", () -> {
             Game.getInstance().saveState();
@@ -34,7 +34,7 @@ public class Paused extends MenuPane {
         });
 
         this.addButton("EXIT", 
-            () -> Game.getInstance().setGameState(GameState.Start));
+            () -> Game.getInstance().setGameState(GameState.START));
 
         this.getStyleClass().add("pause-menu");
     }

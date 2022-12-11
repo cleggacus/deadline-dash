@@ -41,7 +41,7 @@ public class GamePane extends StatePane<GameState> {
      */
     public GamePane() {
         // Set initial state
-        super(GameState.ProfileSelector);
+        super(GameState.PROFILE_SELECTOR);
 
         this.setStyling();
 
@@ -59,17 +59,17 @@ public class GamePane extends StatePane<GameState> {
         this.credits = new Credits();
 
         // Add panes with there visible states
-        this.addPane(this.profileSelector, GameState.ProfileSelector);
-        this.addPane(this.startMenu, GameState.Start);
-        this.addPane(this.replaysBrowser, GameState.ReplaysBrowser);
-        this.addPane(this.replayOver, GameState.ReplayOver);
-        this.addPane(this.levelSelector, GameState.LevelSelector);
-        this.addPane(this.savesBrowser, GameState.SavesBrowser);
-        this.addPane(this.playing, GameState.Playing, GameState.Paused,
-        GameState.GameOver);
-        this.addPane(this.gameOver, GameState.GameOver);
-        this.addPane(this.levelComplete, GameState.LevelComplete);
-        this.addPane(this.paused, GameState.Paused);
+        this.addPane(this.profileSelector, GameState.PROFILE_SELECTOR);
+        this.addPane(this.startMenu, GameState.START);
+        this.addPane(this.replaysBrowser, GameState.REPLAYS_BROWSER);
+        this.addPane(this.replayOver, GameState.REPLAY_OVER);
+        this.addPane(this.levelSelector, GameState.LEVEL_SELECTOR);
+        this.addPane(this.savesBrowser, GameState.SAVES_BROWSER);
+        this.addPane(this.playing, GameState.PLAYING, GameState.PAUSED,
+        GameState.GAME_OVER);
+        this.addPane(this.gameOver, GameState.GAME_OVER);
+        this.addPane(this.levelComplete, GameState.LEVEL_COMPLETE);
+        this.addPane(this.paused, GameState.PAUSED);
         this.addPane(this.credits, GameState.CREDITS);
     }
 
@@ -82,7 +82,7 @@ public class GamePane extends StatePane<GameState> {
     public void setState(GameState state) {
         super.setState(state);
 
-        if (state != GameState.Playing) {
+        if (state != GameState.PLAYING) {
             GaussianBlur blur = new GaussianBlur(20);
             this.playing.setEffect(blur);
         } else {

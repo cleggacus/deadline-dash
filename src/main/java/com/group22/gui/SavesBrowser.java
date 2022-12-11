@@ -24,7 +24,7 @@ public class SavesBrowser extends MenuPane {
         this.addH1("SAVES");
         this.add(this.savesMenu.getAsScrollPane());
         this.addButton("BACK", () -> this.gamePane.setState(
-            GameState.LevelSelector));
+            GameState.LEVEL_SELECTOR));
     }
 
     public void setSavedStates(Level level, int levelIndex) {

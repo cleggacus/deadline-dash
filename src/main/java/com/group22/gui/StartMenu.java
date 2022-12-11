@@ -18,8 +18,8 @@ public class StartMenu extends BorderPane {
 
         this.welcomeLabel = topMenuPane.addH2("");
         centerMenu.addH1("DEADLINE DASH");
-        centerMenu.addButton("LEVELS", () -> gamePane.setState(GameState.LevelSelector));
-        centerMenu.addButton("CHANGE USER", () -> gamePane.setState(GameState.ProfileSelector));
+        centerMenu.addButton("LEVELS", () -> gamePane.setState(GameState.LEVEL_SELECTOR));
+        centerMenu.addButton("CHANGE USER", () -> gamePane.setState(GameState.PROFILE_SELECTOR));
 
         centerMenu.addButton("TOGGLE FULLSCREEN", () -> {
             Stage stage = (Stage)this.getScene().getWindow();

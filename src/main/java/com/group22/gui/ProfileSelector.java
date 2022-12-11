@@ -61,7 +61,7 @@ public class ProfileSelector extends MenuPane {
         this.profileMenu.addListButton(sanitized.toUpperCase(), () -> {
             this.profileSelectEvent.run(sanitized);
             this.username = sanitized;
-            Game.getInstance().setGameState(GameState.Start);
+            Game.getInstance().setGameState(GameState.START);
         }, node -> {
             this.profileMenu.remove(node);
 

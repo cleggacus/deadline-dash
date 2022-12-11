@@ -26,6 +26,6 @@ public class Credits extends MenuPane {
         this.addParagraph("STEFFAN BORLAND");
         this.addParagraph("EZANA TAREKE");
         this.addButton("EXIT", 
-            () -> Game.getInstance().setGameState(GameState.Start));
+            () -> Game.getInstance().setGameState(GameState.START));
     }
 }

@@ -289,7 +289,7 @@ public class Game extends Engine {
      */
     public void setGameOver() {
         this.getGamePane().getGameOver().setStats(this.score, this.time);
-        this.setGameState(GameState.GameOver);
+        this.setGameState(GameState.GAME_OVER);
     }
 
 
@@ -300,7 +300,7 @@ public class Game extends Engine {
         this.getGamePane().getReplayOver().setStats(
             replay.getScore(), this.time);
 
-        this.setGameState(GameState.ReplayOver);
+        this.setGameState(GameState.REPLAY_OVER);
     }
 
     /**
@@ -314,7 +314,7 @@ public class Game extends Engine {
                 this.score, this.time);
             this.level.completeLevel(this.profile, replay, score);
             this.setProfile(this.getProfile());
-            this.setGameState(GameState.LevelComplete);
+            this.setGameState(GameState.LEVEL_COMPLETE);
         }
     }
 
@@ -343,7 +343,7 @@ public class Game extends Engine {
 
         if (this.time <= 0) {
             this.time = 0;
-            this.setGameState(GameState.GameOver);
+            this.setGameState(GameState.GAME_OVER);
         }
 
         this.getGamePane().getPlaying().setGameTime(this.time);
@@ -358,12 +358,12 @@ public class Game extends Engine {
      */
     public void startFromLevel(int level) {
         this.currentLevelIndex = level;
-        this.setGameState(GameState.Playing);
+        this.setGameState(GameState.PLAYING);
     }
 
     public void startFromNextLevel() {
         this.currentLevelIndex++;
-        this.setGameState(GameState.Playing);
+        this.setGameState(GameState.PLAYING);
     }
 
     

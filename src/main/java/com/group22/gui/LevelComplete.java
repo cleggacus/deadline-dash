@@ -29,11 +29,11 @@ public class LevelComplete extends MenuPane {
     public LevelComplete() {
         this.addH1("FIN");
         this.addButton("RESTART", 
-            () -> Game.getInstance().setGameState(GameState.Playing));
+            () -> Game.getInstance().setGameState(GameState.PLAYING));
         this.nextLevelButton = this.addButton("NEXT LEVEL", () -> {});
 
         this.addButton("EXIT", 
-            () -> Game.getInstance().setGameState(GameState.Start));
+            () -> Game.getInstance().setGameState(GameState.START));
 
         // Used as a gap.
         this.addParagraph("");
