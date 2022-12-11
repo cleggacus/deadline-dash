@@ -34,7 +34,7 @@ public class GamePane extends StatePane<GameState> {
         this.replayOver = new ReplayOver();
         this.playing = new Playing(this);
         this.paused = new Paused(this);
-        this.gameOver = new GameOver(this);
+        this.gameOver = new GameOver();
         this.levelComplete = new LevelComplete();
         this.credits = new Credits();
 
