@@ -16,9 +16,9 @@ public class Lever extends PickUp {
 
     /**
      * 
-     * @param leverX
-     * @param leverY
-     * @param leverColour
+     * @param leverX the horizontal position of a lever on the map
+     * @param leverY the vertical position of a lever on the map
+     * @param leverColour the colour of a lever
      */
     public Lever(int leverX, int leverY, String leverColour) {
         super(leverX, leverY);
@@ -31,7 +31,7 @@ public class Lever extends PickUp {
 
     
     /** 
-     * @param leverColour
+     * @param leverColour setter for the colour of a lever
      */
     private void setLeverColour(String leverColour) {
         this.leverColour = leverColour;
@@ -47,14 +47,14 @@ public class Lever extends PickUp {
 
     
     /** 
-     * @return String
+     * @return String the colour of a lever
      */
     public String getLeverColour() {
         return this.leverColour;
     }
 
-    
-    /** 
+
+    /**
      * @return Boolean
      */
     public Boolean getIsOpen() {
@@ -63,7 +63,8 @@ public class Lever extends PickUp {
 
     
     /** 
-     * @return String
+     * @return String of lever X position, Y position and the colour to be
+     * saved/loaded.
      */
     @Override
     public String toString() {
