@@ -322,9 +322,16 @@ public class SmartMover extends LandMover {
         }
     }
 
+    /**
+     * This method is unused by Bomb.
+     */
     @Override
     protected void update() {}
-    
+
+    /**
+     * @return String of smartmover's X position and Y position to be
+     * saved/loaded.
+     */
     public String toString(){
         return ("smartmover " + getX() + " " + getY());
     }
