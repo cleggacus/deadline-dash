@@ -54,7 +54,8 @@ public class SavedStateManager {
      * @return {@link ArrayList}{@link SavedState}
      */
     public ArrayList<SavedState> getStates(Level level, String username){
-        String startsWith = level.getTitle().replace(" ", "-") + "_" + username;
+        String startsWith = level.getTitle()
+            .replace(" ", "-") + "_" + username + "_";
         File[] files = 
             fileManager.getMatchingFiles(statesFolder, startsWith, ".txt");
         ArrayList<SavedState> savedStates = new ArrayList<SavedState>();
@@ -63,7 +64,11 @@ public class SavedStateManager {
             ArrayList<String> data = fileManager.getDataFromFile(file);
             int score = Integer.parseInt(data.get(2));
             double time = Double.parseDouble(data.get(3));
-            
+
+            String filenameEnd = file.getName().split(startsWith)[1];
+            String localString = filenameEnd.split(".txt")[0].replace(",", ":");
+            LocalDateTime localDateTime = LocalDateTime.parse(localString);
+
             ArrayList<Entity> entities = new ArrayList<Entity>();
             entities.addAll(level.getTilesAsEntities());
             
@@ -76,9 +81,12 @@ public class SavedStateManager {
             }
 
             SavedState savedState = new SavedState(level.getTitle(), 
-                entities, score, time, LocalDateTime.now(), level.getIndex());
+                entities, score, time, localDateTime, level.getIndex());
             savedStates.add(savedState);
         }
+
+        savedStates.sort(
+            (a, b) -> b.getTimeOfSave().compareTo(a.getTimeOfSave()));
 
         return savedStates;
     }
