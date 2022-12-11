@@ -5,20 +5,40 @@ import com.group22.gui.base.StatePane;
 
 import javafx.scene.effect.GaussianBlur;
 
+/**
+ * The class {@code GamePane} extends state pane and uses GameState 
+ * to determine which panes should be visible.
+ * 
+ * @author Liam Clegg
+ * @version 1.0
+ */
 public class GamePane extends StatePane<GameState> {
-    // Panes
+    /** GameOver pane, shown with GAME_OVER state. */
     private GameOver gameOver;
+    /** LevelComplete pane, shown with LEVEL_COMPLETE state. */
     private LevelComplete levelComplete;
+    /** ReplayOver pane, shown with REPLAY_OVER state. */
     private ReplayOver replayOver;
+    /** Paused pane, shown with PAUSED state. */
     private Paused paused;
+    /** Playing pane, shown with PLAYING, PAUSED and GAME_OVER states. */
     private Playing playing;
+    /** ProfileSelector pane, shown with PROFILE_SELECTOR state. */
     private ProfileSelector profileSelector;
+    /** LevelSelector pane, shown with LEVEL_SELECTOR state. */
     private LevelSelector levelSelector;
+    /** StartMenu pane, shown with START_MENU state. */
     private StartMenu startMenu;
+    /** ReplaysBrowser pane, shown with REPLAYS_BROWSER state. */
     private ReplaysBrowser replaysBrowser;
+    /** SavesBrowser pane, shown with SAVES_BROWSER state. */
     private SavesBrowser savesBrowser;
+    /** Credits pane, shown with CREDITS state. */
     private Credits credits;
 
+    /**
+     * Creates a GamePane.
+     */
     public GamePane() {
         // Set initial state
         super(GameState.ProfileSelector);
@@ -53,11 +73,16 @@ public class GamePane extends StatePane<GameState> {
         this.addPane(this.credits, GameState.CREDITS);
     }
 
+    /**
+     * Used to set the GameState of the pane.
+     * 
+     * @param state The GameState which is set in GamePane.
+     */
     @Override
     public void setState(GameState state) {
         super.setState(state);
 
-        if(state != GameState.Playing) {
+        if (state != GameState.Playing) {
             GaussianBlur blur = new GaussianBlur(20);
             this.playing.setEffect(blur);
         } else {
@@ -65,46 +90,97 @@ public class GamePane extends StatePane<GameState> {
         }
     }
 
+    /**
+     * Gets the GameOver pane.
+     * 
+     * @return Instance of GameOver pane.
+     */
     public GameOver getGameOver() {
         return gameOver;
     }
 
+    /**
+     * Gets the LevelComplete pane.
+     * 
+     * @return Instance of LevelComplete pane.
+     */
     public LevelComplete getLevelComplete() {
         return levelComplete;
     }
 
+    /**
+     * Gets the Playing pane.
+     * 
+     * @return Instance of Playing pane.
+     */
     public Playing getPlaying() {
         return playing;
     }
 
+    /**
+     * Gets the StartMenu pane.
+     * 
+     * @return Instance of StartMenu pane.
+     */
     public StartMenu getStartMenu() {
         return startMenu;
     }
 
+    /**
+     * Gets the SavesBrowser pane.
+     * 
+     * @return Instance of SavesBrowser pane.
+     */
     public SavesBrowser getSavesBrowser() {
         return savesBrowser;
     }
 
+    /**
+     * Gets the ProfileSelector pane.
+     * 
+     * @return Instance of ProfileSelector pane.
+     */
     public ProfileSelector getProfileSelector() {
         return profileSelector;
     }
 
+    /**
+     * Gets the LevelSelector pane.
+     * 
+     * @return Instance of LevelSelector pane.
+     */
     public LevelSelector getLevelSelector() {
         return levelSelector;
     }
 
+    /**
+     * Gets the ReplaysBrowser pane.
+     * 
+     * @return Instance of ReplaysBrowser pane.
+     */
     public ReplaysBrowser getReplaysBrowser() {
         return replaysBrowser;
     }
 
+    /**
+     * Gets the ReplayOver pane.
+     * 
+     * @return Instance of ReplayOver pane.
+     */
     public ReplayOver getReplayOver(){
         return replayOver;
     }
 
+    /**
+     * Update method called in the game loop and required for animations.
+     */
     public void update() {
         this.levelSelector.update();
     }
 
+    /**
+     * Loads and sets the GamePane styling.
+     */
     private void setStyling() {
         this.getStylesheets().add(
             getClass().getResource("gamepane.css").toString());
