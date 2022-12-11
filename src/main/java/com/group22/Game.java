@@ -1,5 +1,6 @@
 package com.group22;
 
+import java.io.File;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -163,6 +164,10 @@ public class Game extends Engine {
      * 
      */
     public void setGameOver() {
+        File musicFile = 
+    new File("src/main/resources/com/group22/music/resuscitation-123871.mp3");
+        MusicManager.setTrack(musicFile);
+        MusicManager.playOnRepeat();
         this.getGamePane().getGameOver().setStats(this.score, this.time);
         this.setGameState(GameState.GAME_OVER);
     }
@@ -199,28 +204,52 @@ public class Game extends Engine {
      * 
      * @param level The level to start from.
      */
-    public void startFromLevel(int level) {
+    public void startFromLevel(int level) {    
+        File musicFile = 
+        new File("src/main/resources/com/group22/music/game-music-7408.mp3");
+        MusicManager.setTrack(musicFile);
+        MusicManager.playOnRepeat();
         this.savedState = null;
         this.level = this.levels.get(level);
         this.setGameState(GameState.PLAYING);
     }
 
     /** 
-     * @param savedState
+     * This function sets the current level index to that of the saved state
+     * loaded and sets the game state to playing
+     * @param savedState The save state being loaded.
      */
     public void startSavedState(SavedState savedState) {
+        File musicFile = 
+        new File("src/main/resources/com/group22/music/game-music-7408.mp3");
+        MusicManager.setTrack(musicFile);
+        MusicManager.playOnRepeat();
         this.savedState = savedState;
         this.level = this.levels.get(savedState.getLevelIndex());
         this.setGameState(GameState.PLAYING);
     }
 
+    /**
+     * This function sets the replay of a level and then sets
+     * the gamestate to replaying
+     * @param level The level being replayed.
+     * @param replay The replay of that level
+     */
     public void replayFromLevel(int level, Replay replay) {
+        File musicFile = 
+        new File("src/main/resources/com/group22/music/game-music-7408.mp3");
+        MusicManager.setTrack(musicFile);
+        MusicManager.playOnRepeat();
         this.savedState = null;
         this.level = this.levels.get(level);
         this.replay = replay;
         this.setGameState(GameState.REPLAYING);
     }
 
+    /**
+     * Upon completion of a level you can access the level's
+     * successor as long as it is not the last level.
+     */
     public void startFromNextLevel() {
         if (!this.isLastLevel()) {
             int newLevelIndex = this.levels.indexOf(this.level) + 1;
@@ -353,6 +382,10 @@ public class Game extends Engine {
      * and adds them to the levelSelector
      */
     private void setUpLeveles() {
+        File musicFile = 
+new File("src/main/resources/com/group22/music/sinnesloschen-beam-117362.mp3");
+        MusicManager.setTrack(musicFile);
+        MusicManager.playOnRepeat();
         this.levels = LevelManager.getInstance().getAllLevels();
         this.getGamePane().getLevelSelector().addLevels(this.levels);
     }
@@ -361,6 +394,10 @@ public class Game extends Engine {
      * 
      */
     private void setUpProfiles() {
+        File musicFile = 
+new File("src/main/resources/com/group22/music/sinnesloschen-beam-117362.mp3");
+        MusicManager.setTrack(musicFile);
+        MusicManager.playOnRepeat();
         Profile checkProfiles = new Profile();
         ProfileSelector profileSelector = 
             this.getGamePane().getProfileSelector();

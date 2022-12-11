@@ -16,9 +16,7 @@ import java.io.IOException;
  * @version 1.0
  */
 public class App extends Application {
-    private static final File MUSIC_FILE = 
-        new File("src/main/resources/com/group22/music/ramranch.mp3");
-    
+
     /** 
      * Is run when the application start and takes the primary stage.
      * 
@@ -41,10 +39,6 @@ public class App extends Application {
             new KeyCodeCombination(KeyCode.F));
 
         stage.show();
-
-        // Set music manager
-        MusicManager.setTrack(MUSIC_FILE);
-        MusicManager.playTrack();
     }
 
     
