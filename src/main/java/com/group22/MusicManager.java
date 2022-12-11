@@ -19,28 +19,21 @@ public class MusicManager {
     private static Media track;
 
     /**
-     * Constructor for music manager takes a media player and then turns it into
-     * the games media player
-     * @param audio
-     */
-    public MusicManager(MediaPlayer audio) {
-        MusicManager.audio = audio;
-    }
-
-    /**
      * Creates the media track by extracting the file path from string.
      * @param s The path name of the file
      */
-    public static void setTrack(String s) {
-        File musicFile = new File(s);
-        MusicManager.track = new Media(musicFile.toURI().toString());
+    public static void setTrack(File file) {
+        MusicManager.track = new Media(file.toURI().toString());
     }
 
     /**
      * Plays a selected music track.
      */
     public static void playTrack() {
-        audio.stop();
+        if (audio != null) {
+            audio.stop();
+        }
+
         audio = new MediaPlayer(track);
         audio.play();
     }
