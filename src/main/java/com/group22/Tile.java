@@ -249,7 +249,7 @@ public class Tile extends Entity {
             Game.getInstance().getRenderer().setLightPosition(
                 this.getDrawX(), 
                 this.getDrawY(), 
-                this.lightAmount*0.2,
+                this.lightAmount*0.1,
                 this.tileLayout.getMajorityColor().color
             );
 
