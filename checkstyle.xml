@@ -65,5 +65,9 @@
     <module name="EmptyCatchBlock">
       <property name="exceptionVariableName" value="expected"/>
     </module>
+    <module name="JavadocStyle">
+      <property name="checkFirstSentence" value="false" />
+      <property name="checkEmptyJavadoc" value="true" />
+    </module>
   </module>
 </module>
