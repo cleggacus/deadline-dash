@@ -56,7 +56,7 @@ public class FollowingThief extends LandMover {
      * If no valid move, the {@code FollowingThief} will reverse 
      * its loop direction.
      */
-    public void goingRight() {
+    private void goingRight() {
         if ((hasNextUp() && clockwise) || 
             ((!hasNextRight() && hasNextUp() && !clockwise))) {
 
@@ -85,7 +85,7 @@ public class FollowingThief extends LandMover {
      * If no valid move, the {@code FollowingThief} will reverse 
      * its loop direction.
      */
-    public void goingLeft() {
+    private void goingLeft() {
         if ((hasNextDown() && clockwise) || 
             ((!hasNextLeft() && hasNextDown() && !clockwise))) {
 
@@ -114,7 +114,7 @@ public class FollowingThief extends LandMover {
      * If no valid move, the {@code FollowingThief} will reverse 
      * its loop direction.
      */
-    public void goingUp() {
+    private void goingUp() {
         if ((hasNextLeft() && clockwise) || 
             ((!hasNextUp() && hasNextLeft() && !clockwise))) {
 
@@ -143,7 +143,7 @@ public class FollowingThief extends LandMover {
      * If no valid move, the {@code FollowingThief} will reverse 
      * its loop direction.
      */
-    public void goingDown() {
+    private void goingDown() {
         if ((hasNextRight() && clockwise) || 
             (!hasNextDown() && hasNextRight() && !clockwise)) {
 
@@ -171,7 +171,7 @@ public class FollowingThief extends LandMover {
      * if the tile is in the upwards direction
      * @return Boolean
      */
-    public Boolean hasNextUp() {
+    private Boolean hasNextUp() {
         return nextUp() < this.getY() && !isBlocked(this.getX(), nextUp()) &&
             Game.getInstance().getTile(this.getX(), nextUp())
                 .hasColor(pathColor);
@@ -184,7 +184,7 @@ public class FollowingThief extends LandMover {
      * if the tile is in the downwards direction
      * @return Boolean
      */
-    public Boolean hasNextDown() {
+    private Boolean hasNextDown() {
         return nextDown() > this.getY() && 
             !isBlocked(this.getX(), nextDown()) &&
             Game.getInstance().getTile(this.getX(), nextDown())
@@ -198,7 +198,7 @@ public class FollowingThief extends LandMover {
      * if the tile is in the leftwards direction
      * @return Boolean
      */
-    public Boolean hasNextLeft() {
+    private Boolean hasNextLeft() {
         return nextLeft() < this.getX() && 
             !isBlocked(nextLeft(), this.getY()) &&
             Game.getInstance().getTile(nextLeft(), this.getY())
@@ -213,7 +213,7 @@ public class FollowingThief extends LandMover {
      * if the tile is in the rightwards direction
      * @return Boolean
      */
-    public Boolean hasNextRight() {
+    private Boolean hasNextRight() {
         return nextRight() > this.getX() && 
             !isBlocked(nextRight(), this.getY()) &&
             Game.getInstance().getTile(nextRight(), this.getY())
@@ -239,13 +239,15 @@ public class FollowingThief extends LandMover {
     @Override
     protected void updateMovement() {
         if (!(Game.getInstance().getTile(this.getX(), this.getY())
-.hasColor(pathColor))){
+            .hasColor(pathColor))) {
+                
             Game.getInstance().removeEntity(this);
         }
+
         if (!hasNextDown() && !hasNextLeft()
-        && !hasNextRight() && !hasNextUp()){
+        && !hasNextRight() && !hasNextUp()) {
         } else {
-        switch (movingDirection){
+        switch (movingDirection) {
             case "right":
                 goingRight();
             break;
