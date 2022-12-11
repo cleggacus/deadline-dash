@@ -16,10 +16,10 @@ public class Door extends Entity {
     private boolean gateIsOpen = false;
 
     /**
-     * cosntructor calls super constructor
+     * constructor calls super constructor
      * no need for a setter as can assume is open is false at start of game
-     * @param doorX
-     * @param doorY
+     * @param doorX the horizontal position of a door on the map
+     * @param doorY the vertical position of a door on the map
      */
     public Door(int doorX, int doorY) {
         super(doorX,doorY);
@@ -51,7 +51,7 @@ public class Door extends Entity {
 
     
     /** 
-     * @return String
+     * @return String of door X position -and Y position to be saved/loaded.
      */
     @Override
     public String toString() {
@@ -60,7 +60,7 @@ public class Door extends Entity {
 
     
     /** 
-     * 
+     * This method is unused by door.
      */
     @Override
     protected void updateMovement() {}

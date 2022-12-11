@@ -8,7 +8,7 @@ import javafx.scene.paint.Color;
  * {@code Bomb} is an extension of {@link Entity}.
  * {@code Bomb} can be interacted with by {@link LandMover} moving adjacent to a {@code Bomb},
  * upon which a 3-second countdown is begun. After which the {@code Bomb} will detonate
- * and an explosion along the {@code Bomb} X and Y coordinates, removing any {@link Entity}
+ * and an explosion along the {@code Bomb} X and Y position, removing any {@link Entity}
  * from the game, excluding {@link Door}. If another {@code Bomb} lies within the explosion,
  * that {@code Bomb} will immediately detonate.
  * @author Steffan William Borland
@@ -189,6 +189,7 @@ public class Bomb extends Entity {
     }
 
     /**
+     * Creates a Bomb with X and Y position.
      * @param x the horizontal position of a bomb on the map
      * @param y the vertical position of a bomb on the map
      * @param c the amount of time elapsed since the bomb is triggered,
@@ -359,7 +360,7 @@ public class Bomb extends Entity {
     }
 
     /** 
-     * @return String of bomb X coordinate, Y coordinate and the elapsed time
+     * @return String of bomb X position, Y position and the elapsed time
      * if it has been activated to be saved/loaded.
      */
     public String toString(){

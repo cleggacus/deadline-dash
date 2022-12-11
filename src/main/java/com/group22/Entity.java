@@ -55,9 +55,10 @@ public abstract class Entity {
      */
     public Entity(){}
 
-
     /**
      * Creates an Entity with X and Y
+     * @param x the horizontal position of an entity on the map
+     * @param y the vertical position of an entity on the map
      */
     public Entity(int x, int y) {
         this.x = x;
@@ -76,7 +77,7 @@ public abstract class Entity {
 
     /**
      * 
-     * @return
+     * @return the X position of an entity.
      */
     public int getX() {
         return this.x;
@@ -84,7 +85,7 @@ public abstract class Entity {
 
     /**
      * 
-     * @return
+     * @return the Y position of an entity.
      */
     public int getY() {
         return this.y;
