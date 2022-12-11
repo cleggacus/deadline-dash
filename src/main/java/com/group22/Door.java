@@ -40,15 +40,6 @@ public class Door extends Entity {
     public void setIsOpen(boolean isOpen) {
         this.isOpen = isOpen;
     }
-
-    
-    /** 
-     * @return Boolean
-     */
-    public Boolean getGateIsOpen() {
-        return this.gateIsOpen;
-    }
-
     
     /** 
      * @return String of door X position -and Y position to be saved/loaded.

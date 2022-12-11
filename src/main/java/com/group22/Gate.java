@@ -17,10 +17,10 @@ public class Gate extends Entity {
 
     /**
      * 
-     * @param gateX
-     * @param gateY
-     * @param gateColour
-     * @param isOpen
+     * @param gateX the horizontal position of a gate on the map
+     * @param gateY the vertical position of a gate on the map
+     * @param gateColour the color of a gate
+     * @param isOpen true if a gate is open
      */
     public Gate(int gateX, int gateY, String gateColour, boolean isOpen) {
         super(gateX, gateY);
@@ -44,7 +44,7 @@ public class Gate extends Entity {
 
     
     /** 
-     * @param gateColour
+     * @param gateColour setter for the colour of a gate
      */
     private void setGateColour(String gateColour) {
         this.gateColour = gateColour;
@@ -52,7 +52,7 @@ public class Gate extends Entity {
 
     
     /** 
-     * @param gateIsOpen
+     * @param gateIsOpen setter for if a gate is open or not
      */
     protected void setGateIsOpen(Boolean gateIsOpen) {
         this.gateIsOpen = gateIsOpen;
@@ -62,7 +62,7 @@ public class Gate extends Entity {
     }
     
     /** 
-     * @return Boolean
+     * @return Boolean getter for if a gate is open or not
      */
     public Boolean getGateIsOpen() {
         return gateIsOpen;
@@ -70,7 +70,7 @@ public class Gate extends Entity {
 
     
     /** 
-     * @return String
+     * @return String of the colour of a gate
      */
     public String getGateColour() {
         return this.gateColour;
@@ -78,7 +78,8 @@ public class Gate extends Entity {
 
     
     /** 
-     * @return String
+     * @return String of gate X position, Y position, gate colour and
+     * if the gate is open or not.
      */
     @Override
     public String toString(){
@@ -87,24 +88,19 @@ public class Gate extends Entity {
     }
 
     /**
-     * 
+     * This method is unused by Bomb.
      */
     @Override
     protected void updateMovement() {}
-    
-    /**
-     * 
-     */
-    protected void removeGate(){}
 
     /**
-     * 
+     * This method is unused by Bomb.
      */
     @Override
     protected void update() {}
 
     /**
-     * 
+     * This method is unused by Bomb.
      */
     public void activatePickUpEffect() {}
 
