@@ -2,6 +2,7 @@ package com.group22.gui;
 
 import com.group22.Game;
 import com.group22.GameState;
+import com.group22.TimeUtil;
 import com.group22.gui.base.MenuPane;
 
 import javafx.scene.control.Button;
@@ -50,8 +51,7 @@ public class LevelComplete extends MenuPane {
      * @param time Time taken to complete the level.
      */
     public void setStats(int score, double time) {
-        String timeFinished = String.format("Time: %f", time);
-        this.timeLabel.setText(timeFinished );
+        this.timeLabel.setText("Time: " + TimeUtil.getLevelTimeLeft(time));
         this.scoreLabel.setText("Score: " + String.valueOf(score));
     }
 

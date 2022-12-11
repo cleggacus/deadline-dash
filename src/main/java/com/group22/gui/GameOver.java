@@ -2,6 +2,7 @@ package com.group22.gui;
 
 import com.group22.Game;
 import com.group22.GameState;
+import com.group22.TimeUtil;
 import com.group22.gui.base.MenuPane;
 
 import javafx.scene.control.Label;
@@ -44,6 +45,6 @@ public class GameOver extends MenuPane {
      */
     public void setStats(int score, double time) {
         this.scoreLabel.setText("SCORE: " + score);
-        this.timeLabel.setText("TIME: " + time);
+        this.timeLabel.setText("TIME: " + TimeUtil.getLevelTimeLeft(time));
     }
 }
