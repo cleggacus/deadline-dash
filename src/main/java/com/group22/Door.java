@@ -13,7 +13,6 @@ public class Door extends Entity {
     private static final double OPEN_ANIMATION_DURATION = 0.1;
     private double openTimer = 0;
     private boolean isOpen = false;
-    private boolean gateIsOpen = false;
 
     /**
      * constructor calls super constructor
