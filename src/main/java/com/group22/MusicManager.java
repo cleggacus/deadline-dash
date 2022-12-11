@@ -4,10 +4,10 @@ import java.io.File;
 
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
 
 /**
- * A music player that can set tracks and play tracks, maybe it will have more
- * complicated features like looping audio.
+ * A music player that can set tracks and play tracks and loop audio.
  * @author Lewis Meekings
  * @version 1.0
  */
@@ -19,8 +19,8 @@ public class MusicManager {
     private static Media track;
 
     /**
-     * Creates the media track by extracting the file path from string.
-     * @param s The path name of the file
+     * Creates the media track from file.
+     * @param file The file
      */
     public static void setTrack(File file) {
         MusicManager.track = new Media(file.toURI().toString());
@@ -35,6 +35,23 @@ public class MusicManager {
         }
 
         audio = new MediaPlayer(track);
+        audio.play();
+    }
+
+    /**
+     * Sets the audio to loop
+     */
+    public static void playOnRepeat() {
+        if (audio != null) {
+            audio.stop();
+        }
+
+        audio = new MediaPlayer(track);
+        audio.setOnEndOfMedia(new Runnable() {
+            public void run() {
+                audio.seek(Duration.ZERO);
+            }
+        });
         audio.play();
     }
 }

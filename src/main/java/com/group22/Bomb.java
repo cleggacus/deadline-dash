@@ -8,7 +8,6 @@ import javafx.scene.paint.Color;
  * 
  */
 public class Bomb extends Entity {
-
     private static final double ANIMATION_DURATION = 0.2;
     private static final int COUNTDOWN = 3;
     private ArrayList<Lazer> lazers = new ArrayList<>();
@@ -185,7 +184,7 @@ public class Bomb extends Entity {
         super(x, y);
         this.countdownEntity = new Countdown(this);
         this.fuze = false;
-        if (c > 0) {
+        if (c > 0 && c < COUNTDOWN) {
             this.time = c;
             this.fuze = true;
             this.activateBomb();
