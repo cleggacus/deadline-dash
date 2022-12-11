@@ -12,29 +12,9 @@ import java.util.ArrayList;
 public class Branch {
 
     /**
-     * The X and Y coordinates of this branch.
-     */
-    private int branchX;
-    private int branchY;
-
-    /**
-     * The connections  from the current branch, at most one per direction,
-     * right, left, down, up.
-     */
-    private int leftConnection;
-    private int rightConnection;
-    private int downConnection;
-    private int upConnection;
-
-    /**
      * An arraylist containing any branch that has already been used.
      */
     private static ArrayList<Branch> existingBranches = new ArrayList<>();
-
-    /**
-     * An array list containing all the coordinates to reach the current tile.
-     */
-    private ArrayList<Integer> path;
 
     /**
      * An array list of array lists, every array list in it is a path.
@@ -50,6 +30,26 @@ public class Branch {
         Bomb.class,  
         Gate.class
     };
+
+        /**
+     * The X and Y coordinates of this branch.
+     */
+    private int branchX;
+    private int branchY;
+
+    /**
+     * The connections  from the current branch, at most one per direction,
+     * right, left, down, up.
+     */
+    private int leftConnection;
+    private int rightConnection;
+    private int downConnection;
+    private int upConnection;
+    
+    /**
+     * An array list containing all the coordinates to reach the current tile.
+     */
+    private ArrayList<Integer> path;
 
     /**
      * Constructor for the branch, constructs branches of this branch, and adds
