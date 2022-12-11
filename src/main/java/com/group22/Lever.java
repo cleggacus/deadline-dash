@@ -10,7 +10,6 @@ import java.util.ArrayList;
  * @author Cellan Lees
  * @version 1.0
  */
-
 public class Lever extends PickUp {
     private String leverColour;
     private Boolean leverIsOpen = false;

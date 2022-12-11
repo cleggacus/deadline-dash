@@ -91,7 +91,7 @@ public class Profile {
      * @param name The name of the profile you want to get.
      * @return The {@link Profile} that matches the name.
      */
-    public Profile getFromName(String name){
+    public Profile getFromName(String name) {
         for (Profile p : this.allProfiles) {
             if (p.getName().equals(name)) {
                 return p;
@@ -105,7 +105,7 @@ public class Profile {
     /** 
      * @return {@link List}{@link String}
      */
-    private List<String> getAllProfilesData(){
+    private List<String> getAllProfilesData() {
         List<String> dataArray = new ArrayList<String>();
         try {
             Scanner sc = new Scanner(new File(profileFile));
@@ -127,7 +127,7 @@ public class Profile {
     /** 
      * @return {@link Boolean}
      */
-    public Boolean exists(){
+    public Boolean exists() {
         List<String> profileFileData = getAllProfilesData();
 
         for (int i = 0; i < profileFileData.size(); i++) {
@@ -143,7 +143,7 @@ public class Profile {
     /** 
      * @param username
      */
-    public void delete(String username){
+    public void delete(String username) {
         try{
             List<String> profileData = getAllProfilesData();
             BufferedWriter wr = new BufferedWriter(

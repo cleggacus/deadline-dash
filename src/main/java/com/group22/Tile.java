@@ -79,6 +79,10 @@ public class Tile extends Entity {
             return false;
         }
 
+        /**
+         * 
+         * @return
+         */
         public TileColor getMajorityColor() {
             TileColor[] tiles = new TileColor[] {
                 topLeft, topRight,

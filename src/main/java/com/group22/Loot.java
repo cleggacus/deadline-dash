@@ -10,7 +10,6 @@ package com.group22;
  * @author Rhys McGuire
  * @version 1.0
  */
-
 public class Loot extends PickUp {
     private int val;
 

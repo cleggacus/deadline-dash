@@ -21,6 +21,7 @@ public class SmartMover extends LandMover {
      * they are.
      */
     private ArrayList<Integer> path = new ArrayList<>();
+
     /**
      * The constructor for the smartmover entity class.
      * @param posX The horizontal position of this entity
@@ -83,6 +84,7 @@ public class SmartMover extends LandMover {
         }
         
         paths = Branch.getPaths();
+        
         if (paths.isEmpty()) {
                 randomMove();
         } else {
