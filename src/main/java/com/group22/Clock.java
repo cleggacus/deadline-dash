@@ -34,6 +34,8 @@ public class Clock extends PickUp {
     }
 
     /**
+     * Gets the time of the clock item.
+     * 
      * @return the time value of the object
      */
     public double getTime() {
@@ -41,6 +43,8 @@ public class Clock extends PickUp {
     }
 
     /**
+     * Gets the string required to construct the entitiy on save.
+     * 
      * @return String of a clocks X coordinate, Y coordinate and the value of
      * that clocks time to be saved/loaded.
      */

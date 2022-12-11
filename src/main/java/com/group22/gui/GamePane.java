@@ -120,9 +120,10 @@ public class GamePane extends StatePane<GameState> {
     }
 
     /**
+     * Gets if a game is a rendered state (Where the renderer is run).
      * 
-     * @param state
-     * @return
+     * @param state the state to check if it is rendered.
+     * @return true if the given state is a rendered state.
      */
     public boolean isRenderedState(GameState state) {
         for (GameState gameState : RENDERED_STATES)  {

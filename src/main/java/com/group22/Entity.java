@@ -76,6 +76,7 @@ public abstract class Entity {
     }
 
     /**
+     * Gets the x psoition of the entity.
      * 
      * @return the X position of an entity.
      */
@@ -84,6 +85,7 @@ public abstract class Entity {
     }
 
     /**
+     * Gets the y psoition of the entity.
      * 
      * @return the Y position of an entity.
      */
@@ -92,6 +94,7 @@ public abstract class Entity {
     }
 
     /**
+     * Sets if shadow is shown for enitty.
      * 
      * @param shadow
      */
@@ -109,7 +112,7 @@ public abstract class Entity {
     }
 
     /**
-     * 
+     * Resets the update movement frame.
      */
     public void resetMovementUpdate() {
         this.timeSinceMove = 0;
@@ -144,8 +147,7 @@ public abstract class Entity {
     /** 
      * Draws the {@link #sprite} at the position and draw offset of the entity.
      * 
-     * @param renderer
-     *      The renderer used to draw to.
+     * @param renderer The renderer used to draw to.
      */
     public void draw(Renderer renderer) {
         if (this.sprite.getCurrentImage() == null) {
@@ -161,6 +163,7 @@ public abstract class Entity {
     }
 
     /**
+     * Sets the scale of the sprite to be drawn.
      * 
      * @return
      */
@@ -175,8 +178,7 @@ public abstract class Entity {
     /**
      * Returns the sprite of the entitiy.
      * 
-     * @return
-     *      The current sprite element.
+     * @return The current sprite element.
      */
     public Sprite getSprite() {
         return sprite;
@@ -186,11 +188,8 @@ public abstract class Entity {
     /**
      * Moves the entitiy by (x, y) with a linear animation.
      * 
-     * @param x
-     *      How much to increment x position by.
-     * 
-     * @param y
-     *      How much to increment y position by.
+     * @param x How much to increment x position by.
+     * @param y How much to increment y position by.
      */
     protected void move(int x, int y) {
         move(x, y, TransitionType.LINEAR);
@@ -200,14 +199,9 @@ public abstract class Entity {
     /**
      * Moves the entitiy by (x, y) with a given animation.
      * 
-     * @param x
-     *      How much to increment x position by.
-     * 
-     * @param y
-     *      How much to increment y position by.
-     * 
-     * @param type
-     *      The transition aniamtion for the entity to move with.
+     * @param x How much to increment x position by.
+     * @param y How much to increment y position by.
+     * @param type The transition aniamtion for the entity to move with.
      */
     protected void move(int x, int y, TransitionType type) {
         this.animationType = type;
@@ -219,9 +213,10 @@ public abstract class Entity {
     }
 
     /**
+     * Sets the offset amount for the sprite to be drawn.
      * 
-     * @param x
-     * @param y
+     * @param x offset of sprite to be drawn on x axis
+     * @param y offset of sprite to be drawn on y axis
      */
     protected void setSpriteOffset(double x, double y) {
         this.fromSpriteOffsetY = this.spriteOffsetY;
@@ -247,8 +242,7 @@ public abstract class Entity {
      * Gets the Y position the renderer 
      * should render based on animation and offset.
      * 
-     * @return
-     *      Y position for renderering
+     * @return Y position for renderering
      */
     public double getDrawY() {
         double percent = this.timeSinceMove / this.moveEvery;
@@ -279,8 +273,7 @@ public abstract class Entity {
      * Gets the X position the renderer should 
      * render based on animation and offset.
      * 
-     * @return
-     *      X position for renderering
+     * @return X position for renderering
      */
     public double getDrawX() {
         double percent = this.timeSinceMove / this.moveEvery;

@@ -87,8 +87,10 @@ public class LevelSelector extends MenuPane {
     }
 
     /**
+     * Sets the current profile so the level selector has access to 
+     * whos playing.
      * 
-     * @param profile
+     * @param profile profile that is set.
      */
     public void setProfile(Profile profile) {
         this.currentProfile = profile;
