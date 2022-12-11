@@ -204,11 +204,7 @@ public class Game extends Engine {
      * 
      * @param level The level to start from.
      */
-    public void startFromLevel(int level) {    
-        File musicFile = 
-        new File("src/main/resources/com/group22/music/game-music-7408.mp3");
-        MusicManager.setTrack(musicFile);
-        MusicManager.playOnRepeat();
+    public void startFromLevel(int level) {
         this.savedState = null;
         this.level = this.levels.get(level);
         this.setGameState(GameState.PLAYING);
@@ -220,10 +216,6 @@ public class Game extends Engine {
      * @param savedState The save state being loaded.
      */
     public void startSavedState(SavedState savedState) {
-        File musicFile = 
-        new File("src/main/resources/com/group22/music/game-music-7408.mp3");
-        MusicManager.setTrack(musicFile);
-        MusicManager.playOnRepeat();
         this.savedState = savedState;
         this.level = this.levels.get(savedState.getLevelIndex());
         this.setGameState(GameState.PLAYING);
@@ -236,10 +228,6 @@ public class Game extends Engine {
      * @param replay The replay of that level
      */
     public void replayFromLevel(int level, Replay replay) {
-        File musicFile = 
-        new File("src/main/resources/com/group22/music/game-music-7408.mp3");
-        MusicManager.setTrack(musicFile);
-        MusicManager.playOnRepeat();
         this.savedState = null;
         this.level = this.levels.get(level);
         this.replay = replay;
@@ -271,12 +259,17 @@ public class Game extends Engine {
     @Override
     protected void start() {
         this.setupLevel();
-
+        File musicFile = 
+        new File("src/main/resources/com/group22/music/game-music-7408.mp3");
         switch (this.getGameState()) {
             case PLAYING:
+                MusicManager.setTrack(musicFile);
+                MusicManager.playOnRepeat();
                 startPlaying();
                 break;
             case REPLAYING:
+                MusicManager.setTrack(musicFile);
+                MusicManager.playOnRepeat();
                 startReplaying();
                 break;
             default:
