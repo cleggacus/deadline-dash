@@ -35,7 +35,7 @@ public class Door extends Entity {
 
     
     /** 
-     * @param isOpen
+     * @param isOpen setter for isOpen
      */
     public void setIsOpen(boolean isOpen) {
         this.isOpen = isOpen;
