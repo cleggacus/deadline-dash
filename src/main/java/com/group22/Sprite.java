@@ -260,7 +260,7 @@ public class Sprite {
      * @param imageCount
      * @return Image[]
      */
-    static public Image[] createImageFade(
+    public static Image[] createImageFade(
         String path1, String path2, int imageCount) {
         Image image1 = Sprite.imageFromPath(path1);
         Image image2 = Sprite.imageFromPath(path2);
@@ -274,7 +274,7 @@ public class Sprite {
      * @param imageCount
      * @return Image[]
      */
-    static public Image[] createImageFade(
+    public static Image[] createImageFade(
         Image image1, Image image2, int imageCount) {
         Image[] images = new Image[imageCount];
 
@@ -292,7 +292,7 @@ public class Sprite {
      * @param amount
      * @return Image
      */
-    static private Image createFade(Image image1, Image image2, double amount) {
+    private static Image createFade(Image image1, Image image2, double amount) {
         if (image1.getHeight() != image2.getHeight() || 
             image1.getWidth() != image2.getWidth()) {
             return image1;

@@ -52,6 +52,8 @@ public class FlyingAssassin extends Entity {
             " " + (getIsVertical() ? "v" : "h"));
     }
 
+
+    
     @Override
     protected void updateMovement() {
         if (!Game.getInstance().isInBounds(getX() +

@@ -213,7 +213,6 @@ public class Bomb extends Entity {
      */
     public void detonateBomb() {
         ArrayList<Entity> allEntity = new ArrayList<>();
-
         ArrayList<Bomb> bombs = Game.getInstance().getEntities(Bomb.class);
         ArrayList<LandMover> landMovers = 
             Game.getInstance().getEntities(LandMover.class);

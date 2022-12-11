@@ -34,8 +34,9 @@ public class Level {
      * @param levelIndex        the index of the level in the level file
      */
     public Level(String title, int timeToComplete, int height,
-    int width, Tile[][] tiles, ArrayList<String[]> entities,
-    ArrayList<Replay> replays, int levelIndex){
+        int width, Tile[][] tiles, ArrayList<String[]> entities,
+        ArrayList<Replay> replays, int levelIndex) {
+
         this.title = title;
         this.timeToComplete = timeToComplete;
         this.height = height;
@@ -283,7 +284,9 @@ public class Level {
      * @return returns an {@link Entity} object.
      * @throws LevelFormatException
      */
-    public Entity parseEntity(String[] entity) throws LevelFormatException {
+    public Entity parseEntity(String[] entity) 
+        throws LevelFormatException {
+            
         switch(entity[0]){
             case("player"):
                 return new Player(

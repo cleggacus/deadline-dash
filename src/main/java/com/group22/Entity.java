@@ -217,6 +217,11 @@ public abstract class Entity {
         this.y += y;
     }
 
+    /**
+     * 
+     * @param x
+     * @param y
+     */
     protected void setSpriteOffset(double x, double y) {
         this.fromSpriteOffsetY = this.spriteOffsetY;
         this.fromSpriteOffsetX = this.spriteOffsetX;

@@ -95,23 +95,17 @@ public class Gate extends Entity {
     /**
      * 
      */
-    protected void removeGate(){
-
-    }
+    protected void removeGate(){}
 
     /**
      * 
      */
     @Override
-    protected void update() {
-
-    }
+    protected void update() {}
 
     /**
      * 
      */
-    public void activatePickUpEffect() {
-
-    }
+    public void activatePickUpEffect() {}
 
 }

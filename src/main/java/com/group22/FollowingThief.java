@@ -1,21 +1,25 @@
 package com.group22;
 /** 
- * The class FollowingThief extends the Landmover class.
- * FollowingThief follows a set path around the game, interacting with 
- * any other entities in its path.
+ * The class {@code FollowingThief} extends the {@link Landmover} class.
+ * {@code FollowingThief} follows a set path around the game, interacting with 
+ * all other {@link entity} objects in its path.
+ * 
+ * @author Rhys McGuire
+ * @version 1.0
  */
-
 public class FollowingThief extends LandMover {
-    public TileColor pathColor;
+    private TileColor pathColor;
     private String movingDirection = "right";
     private Boolean clockwise;
 
     /**
-     * The constructor for the FollowingThief entity class.
-     * @param posX The horizontal position of this entity
-     * @param posY The vertical position of this entity
-     * @param color The color of the tiles the entity follows
-     * @param clockwise The direction that the entity moves arount the game
+     * Creates a new {@code followingThief} {@link entity}, using 
+     * information from the {@code levels.txt} file.
+     * @param posX The horizontal starting position.
+     * @param posY The vertical starting position.
+     * @param color The {@link TileColor} the {@code FollowingThief} follows.
+     * @param clockwise The direction that the {@code FollowingThief} 
+     *                  moves around the game.
      * 
      */
     public FollowingThief(int posX, int posY, TileColor color, Boolean clockwise) {
@@ -28,7 +32,8 @@ public class FollowingThief extends LandMover {
 
     
     /** 
-     * @param color
+     * Sets the color of the path from the {@code levels.txt} file info
+     * @param color the colour of the path to follow.
      */
     public void setPathColor(TileColor color) {
         pathColor = color;
@@ -36,14 +41,20 @@ public class FollowingThief extends LandMover {
 
     
     /** 
-     * @return TileColor
+     * Gets the colour of the path to follow
+     * @return The {@link TileColor} to follow
      */
     public TileColor getPathColor() {
         return pathColor;
     }
 
     /**
-     * 
+     * Calculates the next tile to move to, if the last move direction
+     * was rightwards. Depends on if the {@code FollowingThief} is
+     * moving round an anti/clockwise loop, and if there is a tile 
+     * matching the required color in the required direction. 
+     * If no valid move, the {@code FollowingThief} will reverse 
+     * its loop direction.
      */
     public void goingRight() {
         if ((hasNextUp() && clockwise) || 
@@ -71,7 +82,12 @@ public class FollowingThief extends LandMover {
     } 
 
     /**
-     * 
+     * Calculates the next tile to move to, if the last move direction
+     * was leftwards. Depends on if the {@code FollowingThief} is
+     * moving round an anti/clockwise loop, and if there is a tile 
+     * matching the required color in the required direction. 
+     * If no valid move, the {@code FollowingThief} will reverse 
+     * its loop direction.
      */
     public void goingLeft() {
         if ((hasNextDown() && clockwise) || 
@@ -99,7 +115,12 @@ public class FollowingThief extends LandMover {
     }
 
     /**
-     * 
+     * Calculates the next tile to move to, if the last move direction
+     * was upwards. Depends on if the {@code FollowingThief} is
+     * moving round an anti/clockwise loop, and if there is a tile 
+     * matching the required color in the required direction. 
+     * If no valid move, the {@code FollowingThief} will reverse 
+     * its loop direction.
      */
     public void goingUp() {
         if ((hasNextLeft() && clockwise) || 
@@ -127,7 +148,12 @@ public class FollowingThief extends LandMover {
     }
 
     /**
-     * 
+     * Calculates the next tile to move to, if the last move direction
+     * was downwards. Depends on if the {@code FollowingThief} is
+     * moving round an anti/clockwise loop, and if there is a tile 
+     * matching the required color in the required direction. 
+     * If no valid move, the {@code FollowingThief} will reverse 
+     * its loop direction.
      */
     public void goingDown() {
         if ((hasNextRight() && clockwise) || 
@@ -212,7 +238,9 @@ public class FollowingThief extends LandMover {
     
     
     /** 
-     * @return String
+     * returns a {@link String} containing the {@code FollowingThief}'s 
+     * position, path color and loop direction.
+     * @return {@link String}
      */
     @Override
     public String toString() {
@@ -221,7 +249,8 @@ public class FollowingThief extends LandMover {
     }
 
     /**
-     * 
+     * Updates the movement of the {@code FollowingThief}.
+     * An overridden method inherited from {@link Entity}.
      */
     @Override
     protected void updateMovement() {
@@ -242,7 +271,7 @@ public class FollowingThief extends LandMover {
     }
 
     /**
-     * 
+     * Unused method, inherited from {@link Entity}.
      */
     @Override
     protected void update() {}
