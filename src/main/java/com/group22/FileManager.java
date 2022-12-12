@@ -57,10 +57,8 @@ public class FileManager {
      * @return File[]   An array of files which were found.
      */
     public File[] getMatchingFiles(
-        String folder, String startsWith, String endsWith) {
-
-        File file = new File(folder);
-        File[] matchingFiles = file.listFiles(new FilenameFilter() {
+        File folder, String startsWith, String endsWith) {
+        File[] matchingFiles = folder.listFiles(new FilenameFilter() {
             public boolean accept(File dir, String name) {
                 return name.startsWith(startsWith) && name.endsWith(endsWith);
             }

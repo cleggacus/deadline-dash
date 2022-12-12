@@ -1,6 +1,7 @@
 package com.group22;
 
 import java.io.File;
+import java.net.URISyntaxException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -165,8 +166,15 @@ public class Game extends Engine {
      * Sets state to game over at the end of game.
      */
     public void setGameOver() {
-        File musicFile = 
-    new File("src/main/resources/com/group22/music/resuscitation-123871.mp3");
+        File musicFile = null;
+
+        try {
+            musicFile = new File(this.getClass()
+                .getResource("music/resuscitation-123871.mp3").toURI());
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+
         MusicManager.setTrack(musicFile);
         MusicManager.playOnRepeat();
         this.getGamePane().getGameOver().setStats(this.score, this.time);
@@ -382,8 +390,15 @@ public class Game extends Engine {
      * and adds them to the levelSelector
      */
     private void setUpLeveles() {
-        File musicFile = 
-new File("src/main/resources/com/group22/music/sinnesloschen-beam-117362.mp3");
+        File musicFile = null;
+
+        try {
+            musicFile = new File(this.getClass()
+                .getResource("music/sinnesloschen-beam-117362.mp3").toURI());
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+
         MusicManager.setTrack(musicFile);
         MusicManager.playOnRepeat();
         this.levels = LevelManager.getInstance().getAllLevels();
@@ -395,8 +410,15 @@ new File("src/main/resources/com/group22/music/sinnesloschen-beam-117362.mp3");
      * game profile data.
      */
     private void setUpProfiles() {
-        File musicFile = 
-new File("src/main/resources/com/group22/music/sinnesloschen-beam-117362.mp3");
+        File musicFile = null;
+
+        try {
+            musicFile = new File(this.getClass()
+                .getResource("music/sinnesloschen-beam-117362.mp3").toURI());
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+
         MusicManager.setTrack(musicFile);
         MusicManager.playOnRepeat();
         Profile checkProfiles = new Profile();

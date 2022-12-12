@@ -1,6 +1,8 @@
 package com.group22;
 
 import java.io.File;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -13,8 +15,8 @@ import java.util.Arrays;
  * @version 1.1
  */
 public class LevelManager {
-    private static final String LEVEL_FILE_PATH =
-        "src/main/resources/com/group22/levels.txt";
+    private static final URL LEVEL_FILE_PATH =
+        LevelManager.class.getResource("levels.txt");
     private static ArrayList<Level> levels;
     private static LevelManager instance;
     private FileManager fileManager;
@@ -44,8 +46,7 @@ public class LevelManager {
     private void onInitialized() {
         this.fileManager = new FileManager();
         this.replayManager = new ReplayManager();
-        File levelFile = new File(LEVEL_FILE_PATH);
-        ArrayList<String> data = fileManager.getDataFromFile(levelFile);
+        ArrayList<String> data = fileManager.getDataFromFile(getFile());
         this.linePos = 0;
         levels = new ArrayList<Level>();
         levels = setUpLevels(levels, data);
@@ -144,5 +145,15 @@ public class LevelManager {
      */
     public ArrayList<Level> getAllLevels() {
         return levels;
+    }
+
+    private File getFile() {
+        try {
+            return new File(LEVEL_FILE_PATH.toURI());
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }

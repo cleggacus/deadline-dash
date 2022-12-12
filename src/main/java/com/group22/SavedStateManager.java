@@ -1,6 +1,8 @@
 package com.group22;
 
 import java.io.File;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -13,7 +15,8 @@ import java.util.ArrayList;
  * @version 1.1
  */
 public class SavedStateManager {
-    private String statesFolder = "src/main/resources/com/group22/states/";
+    private static final URL STATE_FOLDER = 
+        SavedStateManager.class.getResource("states");
     private FileManager fileManager;
 
     /**
@@ -22,8 +25,7 @@ public class SavedStateManager {
      */
     public SavedStateManager() {
         fileManager = new FileManager();
-        File statesFolderFile = new File(statesFolder);
-        statesFolderFile.mkdir();
+        getFolder().mkdir();
     }
 
     
@@ -60,7 +62,8 @@ public class SavedStateManager {
         String fileName = level.getTitle().replace(" ", "-") +
             "_" + username + "_" +
             LocalDateTime.now().toString().replace(":", ",") + ".txt";
-        File file = new File(statesFolder + fileName);
+        String dir = getFolder().getPath();
+        File file = new File(dir + "/" + fileName);
 
         fileManager.saveFile(data, file);
     }
@@ -77,7 +80,7 @@ public class SavedStateManager {
             .replace(" ", "-") + "_" + username + "_";
         // find matching files
         File[] files = 
-            fileManager.getMatchingFiles(statesFolder, startsWith, ".txt");
+            fileManager.getMatchingFiles(getFolder(), startsWith, ".txt");
         ArrayList<SavedState> savedStates = new ArrayList<SavedState>();
 
         // loop all files and create {@link SavedState} objects for them
@@ -114,5 +117,15 @@ public class SavedStateManager {
             (a, b) -> b.getTimeOfSave().compareTo(a.getTimeOfSave()));
 
         return savedStates;
+    }
+
+    private File getFolder() {
+        try {
+            return new File(STATE_FOLDER.toURI());
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }

@@ -1,6 +1,8 @@
 package com.group22;
 
 import java.io.File;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,8 +16,8 @@ import java.util.List;
  */
 public class ReplayManager {
     //private Level level;
-    private static final String REPLAY_FOLDER = 
-        "src/main/resources/com/group22/replays/";
+    private static final URL REPLAY_FOLDER = 
+        ReplayManager.class.getResource("replays");
     private FileManager fileManager;
 
     /**
@@ -24,8 +26,7 @@ public class ReplayManager {
      */
     public ReplayManager() {
         this.fileManager = new FileManager();
-        File replayFolder = new File(REPLAY_FOLDER);
-        replayFolder.mkdir();
+        getReplayFolder().mkdir();
     }
 
     
@@ -52,7 +53,7 @@ public class ReplayManager {
         // Create a file name friendly string by replacing spaces with hyphens
         String levelTitleForFilePath = levelTitle.replace(" ", "-");
         File[] matchingFiles = fileManager.getMatchingFiles(
-            REPLAY_FOLDER, levelTitleForFilePath, ".txt");
+            getReplayFolder(), levelTitleForFilePath, ".txt");
         
         ArrayList<Replay> replays = new ArrayList<Replay>();
 
@@ -100,7 +101,7 @@ public class ReplayManager {
         // Create a file name friendly string by replacing spaces with hyphens
         String levelTitleForFilePath = levelTitle.replace(" ", "-");
         File[] matchingFiles = fileManager.getMatchingFiles(
-            REPLAY_FOLDER, levelTitleForFilePath, ".txt");
+            getReplayFolder(), levelTitleForFilePath, ".txt");
         int worstScoreIndex = 0;
 
         // loop all matched files
@@ -132,7 +133,7 @@ public class ReplayManager {
         // Create a file name friendly string by replacing spaces with hyphens
         String levelNameForFilePath = levelTitle.replace(" ", "-");
         File[] matchingFiles = fileManager.getMatchingFiles(
-            REPLAY_FOLDER, levelNameForFilePath, ".txt");
+            getReplayFolder(), levelNameForFilePath, ".txt");
         return matchingFiles.length;
 
     }
@@ -184,7 +185,8 @@ public class ReplayManager {
             levelNameForFile + "_" + String.valueOf(score) + "_" + 
             replay.getUsername() + "_" + timeForFile + ".txt" ;
 
-        File replayFile = new File(REPLAY_FOLDER + fileName);
+        File replayFile = new File(
+            getReplayFolder().getPath() + "/" + fileName);
         ArrayList<String> replayData = new ArrayList<String>();
 
         replayData.add(replay.getLevelName());
@@ -198,5 +200,15 @@ public class ReplayManager {
         }
 
         fileManager.saveFile(replayData, replayFile);
+    }
+
+    private File getReplayFolder() {
+        try {
+            return new File(REPLAY_FOLDER.toURI());
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }
