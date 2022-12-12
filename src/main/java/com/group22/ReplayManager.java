@@ -73,10 +73,14 @@ public class ReplayManager {
             }
             // sort the replays by descending score
             replays.sort((Replay r1, Replay r2) -> {
-                if (r1.getScore() < r2.getScore())
+                if (r1.getScore() < r2.getScore()) {
                   return 1;
-                if (r1.getScore() > r2.getScore())
+                }
+
+                if (r1.getScore() > r2.getScore()) {
                   return -1;
+                }
+
                 return 0;
             });
         }
