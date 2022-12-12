@@ -99,9 +99,11 @@ public abstract class LandMover extends Entity {
 
     
     /** 
-     * @param x
-     * @param y
-     * @return boolean
+     * Checks if a move of x, y is a tile the entity can move to.
+     * 
+     * @param x check if you move by x
+     * @param y check if you move by y
+     * @return returns true if the move is legal
      */
     protected boolean isMoveLegal(int x, int y) {
         if (!Game.getInstance().isInBounds(this.getX() + x, this.getY() + y)) {
@@ -216,8 +218,9 @@ public abstract class LandMover extends Entity {
 
     
     /** 
-     * @param x
-     * @return int
+     * Returns the x postion if the entity move by a given x value.
+     * @param x postiion x value to move.
+     * @return the result x position
      */
     private int getMovedX(int x) {
         int newX = this.getX();
@@ -237,8 +240,9 @@ public abstract class LandMover extends Entity {
 
     
     /** 
-     * @param y
-     * @return int
+     * Returns the y postion if the entity move by a given y value.
+     * @param y postiion y value to move.
+     * @return the result y position
      */
     private int getMovedY(int y) {
         int newY = this.getY();
