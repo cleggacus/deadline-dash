@@ -1,9 +1,9 @@
 package com.group22;
 
 /**
- * Door class is a subclass of Entity and is an entity which is drawn to screen
+ * {@code Door} class is a subclass of {@code Entity} and is an entity which is drawn to screen
  *
- * Each instance owns its own values for coordinates which are inherited
+ * Each instance has its own values for coordinates which are inherited
  *
  *
  * @author Cellan Lees

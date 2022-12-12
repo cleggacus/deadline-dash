@@ -4,17 +4,22 @@ import java.util.ArrayList;
 import javafx.scene.input.KeyCode;
 
 /**
- * 
+ * Author Liam Clegg
+ * version 1.0
+ *{@code Player} hold info about the players movements as well as other
+ * inherited from {@code LandMover}.
  */
 public class Player extends LandMover {
     protected double time;
     private KeyCode lastDown;
     private boolean torch;
+    private boolean touchingDoor = false;
+    private boolean touchingPickup = false;
 
     /**
-     * 
-     * @param x
-     * @param y
+     * creates an entity with starting position sets in super class
+     * @param x coords
+     * @param y coords
      * @param torch
      */
     public Player(int x, int y, boolean torch) {
@@ -70,7 +75,9 @@ public class Player extends LandMover {
     }
     
     /**
-     * 
+     * checks to see if the player character is at the door
+     * if they are then checks whether all loot has been removed from
+     * arraylist to et the levels door as open
      */
     public void isAtDoor() {
         ArrayList<PickUp> pickups = 
@@ -85,7 +92,8 @@ public class Player extends LandMover {
     }
 
     
-    /** 
+    /**
+     * tostring for player returns x positon y position and torch details
      * @return String
      */
     @Override
@@ -108,6 +116,12 @@ public class Player extends LandMover {
         super.move(x, y);
     }
 
+    /**
+     * to allow replays with previous players movements
+     * @param x x coordinate
+     * @param y y coordinate
+     */
+
     protected void moveWithReplay(int x, int y) {
         ReplayFrame frame = new ReplayFrame(x, y, this.time);
         Game.getInstance().addFrameToReplay(frame);
@@ -115,7 +129,7 @@ public class Player extends LandMover {
     }
 
     /**
-     *
+     * records movements to be reran later
      */
 
     @Override
@@ -142,7 +156,9 @@ public class Player extends LandMover {
 
 
     /**
-     * 
+     * refreshed by frame to check what the player is touching
+     * handles sprite offset to appear as animation
+     *
      */
     @Override
     protected void update() {
@@ -151,8 +167,7 @@ public class Player extends LandMover {
         ArrayList<Door> doors = Game.getInstance().getEntities(Door.class);
         ArrayList<PickUp> pickUps = 
             Game.getInstance().getEntities(PickUp.class);
-        boolean touchingDoor = false;
-        boolean touchingPickup = false;
+
 
         for (Door door : doors) {
             if (door.getX() == this.getX() && this.getY() == door.getY()) {

@@ -3,7 +3,7 @@ package com.group22;
 import java.util.ArrayList;
 
 /**
- * Lever class is a subclass of Pickup and is an entity which is drawn to screen
+ * {@code Lever} class is a subclass of {@code Pickup} and is an entity which is drawn to screen
  * Each instance owns its own values for 
  * coordinates which are inherited and also a colour
  *

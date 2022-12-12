@@ -1,7 +1,7 @@
 package com.group22;
 
 /**
- * Gate class is a subclass of Entity and is drawn to screen
+ * {@code Gate} class is a subclass of {@code Entity} and is drawn to screen
  *
  * Each instance owns its own values for coordinates 
  * which are inherited and also a colour
