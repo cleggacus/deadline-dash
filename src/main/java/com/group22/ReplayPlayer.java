@@ -17,8 +17,8 @@ public class ReplayPlayer extends Player {
      * @param y
      * @param frames
      */
-    public ReplayPlayer(int x, int y, ArrayList<ReplayFrame> frames) {
-        super(x, y, true);
+    public ReplayPlayer(int x, int y, Boolean hasTorch, ArrayList<ReplayFrame> frames) {
+        super(x, y, hasTorch);
         this.frames = frames;
     }
 

@@ -363,7 +363,7 @@ public class Game extends Engine {
         Player player = this.level.getPlayerFromEntities(getEntities());
 
         ReplayPlayer replayPlayer =  
-            new ReplayPlayer(player.getX(), player.getY(),  replay.getFrames());
+            new ReplayPlayer(player.getX(), player.getY(), player.hasTorch(), replay.getFrames());
 
         this.addEntity(replayPlayer);
         this.removeEntity(player);
