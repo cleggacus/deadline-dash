@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * checks for collision with thieves.
  * 
  * @author Lewis Meekings
- * @version 1.0
+ * @version 1.1
  */
 public abstract class PickUp extends Entity {
     

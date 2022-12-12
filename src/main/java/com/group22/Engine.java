@@ -16,7 +16,7 @@ import javafx.scene.input.KeyCode;
  * which is executed every frame after entities are updated.
  * 
  * @author Liam Clegg
- * @version 1.0
+ * @version 1.1
  */
 public abstract class Engine {
     /** Initial windows width when the application is launched. */

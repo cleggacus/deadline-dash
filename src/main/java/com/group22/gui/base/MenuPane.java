@@ -19,7 +19,7 @@ import javafx.scene.layout.GridPane;
  * which makes it easy to make simple menus and vertical lists.
  * 
  * @author Liam Clegg
- * @version 1.0
+ * @version 1.1
  */
 public class MenuPane extends GridPane {
 

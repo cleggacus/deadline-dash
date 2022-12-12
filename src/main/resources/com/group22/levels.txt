@@ -48,7 +48,7 @@ player 2 1 torch
 flyingassassin 5 5 v
 flyingassassin 5 5 h
 -
-Test Level 2
+Stuarts office
 120
 15 9
 BBBB BBBB BCBC RRRR CCCC RRRR CCCC RRYY CCCC RRRR CCCC RRRR CBCB BBBB BBBB
@@ -60,7 +60,7 @@ YYYY CCCC CCCC CCCC RRRR CCCC CBCC RRRR BCCC CCCC GGGG CCCC CCCC CCCC YYYY
 CCBB YYBB CCBC CCCC CCCC CCCC CCCC RRGG CCCC CCCC CCCC CCCC CCCB MMBB CCBB
 BBBB BBBB BGBG CCCC GGGG CCCC GGGG MBBM GGGG CCCC GGGG CCCC GBGB BBBB BBBB
 YBBY BBBB BCBC GGGG CCCC GGGG CCCC GGGG CCCC GGGG CCCC GGGG CBCB BBBB YYYY
-11
+19
 door 7 4
 loot 3 0 200
 loot 11 0 150
@@ -71,9 +71,17 @@ loot 14 8 100
 bomb 14 7 3
 player 1 1
 flyingassassin 0 0 h
+flyingassassin 2 2 h
+flyingassassin 5 6 h
+flyingassassin 7 2 h
+flyingassassin 10 1 h
 flyingassassin 14 8 h
+flyingassassin 3 3 v
+flyingassassin 9 8 v
+flyingassassin 11 5 v
+flyingassassin 13 2 v
 -
-Test level 3
+Locked door test
 10
 6 5
 MMRR RRRR RRRR RRBB RRRR RRMM
@@ -81,10 +89,11 @@ MRMR MMMM MMMM MMMM MMMM MMMM
 MMRR RRRR RRRR RRBB RRRR RRMM
 MRMR MMMM MMMM MMMM MMMM MMMM
 MMRR RRRR RRRR RRBB RRRR RRMM
-3
+4
 clock 2 1 15
 door 1 2
 player 1 1
+loot 3 3 150
 -
 Floor follower test
 120

@@ -1,13 +1,12 @@
 package com.group22;
 
 /**
- * Door class is a subclass of Entity and is an entity which is drawn to screen
- *
- * Each instance owns its own values for coordinates which are inherited
- *
+ * {@code Door} class is a subclass of {@code Entity} and is an entity which
+ * is drawn to screen
+ * Each instance has its own values for coordinates which are inherited
  *
  * @author Cellan Lees
- * @version 1.0
+ * @version 1.1
  */
 public class Door extends Entity {
     /** variable for animation timer*/

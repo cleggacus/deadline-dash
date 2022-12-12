@@ -12,7 +12,7 @@ import java.io.IOException;
  * entry point for the game containing main method.
  * 
  * @author Liam Clegg
- * @version 1.0
+ * @version 1.1
  */
 public class App extends Application {
 

@@ -25,7 +25,7 @@ import javafx.scene.shape.Rectangle;
  * some footer buttons.
  * 
  * @author Liam Clegg
- * @version 1.0
+ * @version 1.1
  */
 public class ImageList extends ScrollPane {
     /** Duration of hover animation in seconds. */

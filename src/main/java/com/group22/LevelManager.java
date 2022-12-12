@@ -10,7 +10,7 @@ import java.util.Arrays;
  * of {@link Level}'s.
  * 
  * @author Sam Austin
- * @version 1.0
+ * @version 1.1
  */
 public class LevelManager {
     private static LevelManager instance;

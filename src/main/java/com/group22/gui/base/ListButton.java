@@ -9,7 +9,7 @@ import javafx.scene.layout.BorderPane;
  * right of it and extends BorderPane.
  * 
  * @author Liam Clegg
- * @version 1.0
+ * @version 1.1
  */
 public class ListButton extends BorderPane {
 

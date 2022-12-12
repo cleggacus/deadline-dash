@@ -17,7 +17,7 @@ import javafx.scene.layout.StackPane;
  *  It allows the user to navigate to the replays and saves browsers for each
  *  level. It also displays levels that the user hasn't unlocked yet.
  * @author Sam Austin
- * @version 1.0
+ * @version 1.1
 */
 public class LevelSelector extends MenuPane {
     private double shakeTimer = 0;

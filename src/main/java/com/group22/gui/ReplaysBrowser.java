@@ -14,7 +14,7 @@ import com.group22.gui.base.MenuPane;
  * replays which can be viewed.
  * 
  * @author Liam Clegg
- * @version 1.0
+ * @version 1.1
  */
 public class ReplaysBrowser extends MenuPane {
     /** The menu which contains the list of replays. */

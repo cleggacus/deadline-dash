@@ -8,7 +8,7 @@ import javafx.scene.paint.Color;
  * tile colors and store the corrisponding color and label.
  * 
  * @author Liam Clegg
- * @version 1.0
+ * @version 1.1
  */
 public enum TileColor {
     GREEN(Color.rgb(138, 244, 144, 1), 'G'), 

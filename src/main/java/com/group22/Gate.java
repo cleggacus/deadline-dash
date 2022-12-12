@@ -1,14 +1,14 @@
 package com.group22;
 
 /**
- * Gate class is a subclass of Entity and is drawn to screen
+ * {@code Gate} class is a subclass of {@code Entity} and is drawn to screen
  *
  * Each instance owns its own values for coordinates 
  * which are inherited and also a colour
  *
  *
  * @author Cellan Lees
- * @version 1.0
+ * @version 1.1
  */
 public class Gate extends Entity {
 

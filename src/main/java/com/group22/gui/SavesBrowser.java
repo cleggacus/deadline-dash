@@ -15,7 +15,7 @@ import com.group22.gui.base.MenuPane;
  * save states in the level
  * 
  * @author Liam Clegg
- * @version 1.0
+ * @version 1.1
  */
 public class SavesBrowser extends MenuPane {
     private MenuPane savesMenu;

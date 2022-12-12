@@ -13,7 +13,7 @@ import javafx.scene.layout.StackPane;
  * allows different panes to be shown based on a given state.
  * 
  * @author Liam Clegg
- * @version 1.0
+ * @version 1.1
  */
 public class StatePane<T extends Enum<T>> extends StackPane {
     /** Value of the current state of the StatePane. */
