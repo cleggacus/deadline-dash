@@ -119,6 +119,11 @@ public class SavedStateManager {
         return savedStates;
     }
 
+    /**
+     * gets states folder as file.
+     * 
+     * @return states folder as file.
+     */
     private File getFolder() {
         try {
             return new File(STATE_FOLDER.toURI());

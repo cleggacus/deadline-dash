@@ -202,6 +202,10 @@ public class ReplayManager {
         fileManager.saveFile(replayData, replayFile);
     }
 
+    /**
+     * gets file for replays folder.
+     * @return file replays folder.
+     */
     private File getReplayFolder() {
         try {
             return new File(REPLAY_FOLDER.toURI());

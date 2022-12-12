@@ -147,6 +147,11 @@ public class LevelManager {
         return levels;
     }
 
+    /**
+     * gets the file used for levels data 
+     * 
+     * @return file used for levels data
+     */
     private File getFile() {
         try {
             return new File(LEVEL_FILE_PATH.toURI());
