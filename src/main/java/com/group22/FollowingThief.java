@@ -22,7 +22,12 @@ public class FollowingThief extends LandMover {
      *                  moves around the game.
      * 
      */
-    public FollowingThief(int posX, int posY, TileColor color, Boolean clockwise) {
+    public FollowingThief(
+        int posX, 
+        int posY, 
+        TileColor color, 
+        Boolean clockwise
+    ) {
         super(posX, posY);
         this.clockwise = clockwise;
         this.pathColor = color;        
