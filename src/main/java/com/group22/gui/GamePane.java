@@ -10,7 +10,7 @@ import javafx.scene.effect.GaussianBlur;
  * to determine which panes should be visible.
  * 
  * @author Liam Clegg
- * @version 1.0
+ * @version 1.1
  */
 public class GamePane extends StatePane<GameState> {
     /** Contains the playing states. */

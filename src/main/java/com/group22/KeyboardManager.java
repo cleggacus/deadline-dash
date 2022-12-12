@@ -14,7 +14,7 @@ import javafx.scene.input.KeyCode;
  * and emulates a key polling system using hash sets.
  * 
  * @author Liam Clegg
- * @version 1.0
+ * @version 1.1
  */
 public class KeyboardManager {
     private HashSet<KeyCode> keysDown;

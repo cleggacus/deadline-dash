@@ -5,7 +5,7 @@ package com.group22;
  * all other {@link entity} objects in its path.
  * 
  * @author Rhys McGuire
- * @version 1.0
+ * @version 1.1
  */
 public class FollowingThief extends LandMover {
     private TileColor pathColor;

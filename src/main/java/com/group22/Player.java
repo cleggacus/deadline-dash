@@ -5,7 +5,7 @@ import javafx.scene.input.KeyCode;
 
 /**
  * Author Liam Clegg
- * version 1.0
+ * version 1.1
  *{@code Player} hold info about the players movements as well as other
  * inherited from {@code LandMover}.
  */

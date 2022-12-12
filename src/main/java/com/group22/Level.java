@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * The {@code Level} class represents an instance of a level in the game.
  * 
  * @author Sam Austin
- * @version 1.0
+ * @version 1.1
  */
 public class Level {
     private String title = "";

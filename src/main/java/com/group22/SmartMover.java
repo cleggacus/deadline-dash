@@ -9,7 +9,7 @@ import java.util.Random;
  * discovered with its branches through the branch class. The smart mover can
  * also change its path if the pickup it is after is blown up or collected.
  * @author Lewis Meekings
- * @version 1.0
+ * @version 1.1
  */
 public class SmartMover extends LandMover {
 

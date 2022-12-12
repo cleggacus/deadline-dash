@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * coordinates which are inherited and also a colour
  *
  * @author Cellan Lees
- * @version 1.0
+ * @version 1.1
  */
 public class Lever extends PickUp {
     private String leverColour;

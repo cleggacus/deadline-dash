@@ -20,7 +20,7 @@ import javafx.stage.Stage;
  * contains the game contents.
  * 
  * @author Liam Clegg
- * @version 1.0
+ * @version 1.1
  */
 public class Playing extends StackPane {
     /** Label which contains the time text. */

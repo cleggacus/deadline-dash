@@ -12,7 +12,7 @@ import com.group22.gui.ProfileSelector;
  * pattern and can be used with the {@link #getInstance()} method.
  * 
  * @author Liam Clegg
- * @version 1.0
+ * @version 1.1
  */
 public class Game extends Engine {
     private static Game instance;

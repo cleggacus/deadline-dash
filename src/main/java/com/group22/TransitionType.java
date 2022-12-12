@@ -5,7 +5,7 @@ package com.group22;
  * a transition for an entity when they move.
  * 
  * @author Liam Clegg
- * @version 1.0
+ * @version 1.1
  */
 public enum TransitionType {
     LINEAR, BOB, SCALE, NONE

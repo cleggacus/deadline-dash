@@ -9,7 +9,7 @@ import com.group22.gui.base.MenuPane;
  * of the game. 
  * 
  * @author Liam Clegg
- * @version 1.0
+ * @version 1.1
  */
 public class Credits extends MenuPane {
 

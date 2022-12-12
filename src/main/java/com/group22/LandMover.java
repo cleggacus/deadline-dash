@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * movement that follows the game tile colors.
  * 
  * @author Liam Clegg
- * @version 1.0
+ * @version 1.1
  */
 public abstract class LandMover extends Entity {
     @SuppressWarnings("unchecked")

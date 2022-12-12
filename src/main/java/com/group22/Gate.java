@@ -8,7 +8,7 @@ package com.group22;
  *
  *
  * @author Cellan Lees
- * @version 1.0
+ * @version 1.1
  */
 public class Gate extends Entity {
 

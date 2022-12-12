@@ -12,7 +12,7 @@ import javafx.scene.control.Label;
  * replay has ended.
  * 
  * @author Liam Clegg
- * @version 1.0
+ * @version 1.1
  */
 public class ReplayOver extends MenuPane {
     /** Label which contains score text. */

@@ -9,7 +9,7 @@ import com.group22.gui.base.MenuPane;
  * the user to select, create or delete one.
  * 
  * @author Liam Clegg
- * @version 1.0
+ * @version 1.1
  */
 public class ProfileSelector extends MenuPane {
     /** Event thats called when a profile is added to the GUI. */

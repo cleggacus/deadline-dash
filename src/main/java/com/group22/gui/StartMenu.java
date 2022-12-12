@@ -14,7 +14,7 @@ import javafx.stage.Stage;
  * This shows the welcome text and message of the day.
  * 
  * @author Liam Clegg
- * @version 1.0
+ * @version 1.1
  */
 public class StartMenu extends BorderPane {
     /** Label which contains the welcome text. */

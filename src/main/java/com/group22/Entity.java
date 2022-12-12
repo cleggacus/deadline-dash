@@ -11,7 +11,7 @@ package com.group22;
  * {@link #update()} and {@link #updateMovement()}.
  * 
  * @author Liam Clegg
- * @version 1.0
+ * @version 1.1
  */
 public abstract class Entity {
     /** Time between moveUpdates in seconds. */
