@@ -9,16 +9,16 @@ import java.util.ArrayList;
  * @version 1.0
  */
 public class Level {
-    private String title;
-    private int timeToComplete;
-    private int height;
-    private int width;
-    private Tile[][] tiles;
-    private ArrayList<String[]> entities;
-    private ArrayList<Replay> replays;
+    private String title = "";
+    private int timeToComplete = 0;
+    private int height = 0;
+    private int width = 0;
+    private Tile[][] tiles = new Tile[0][0];
+    private ArrayList<String[]> entities = new ArrayList<>();
+    private ArrayList<Replay> replays = new ArrayList<>();
     private boolean playerPresent = false;
     private boolean doorPresent = false;    
-    private int levelIndex;
+    private int levelIndex = 0;
     private ReplayManager replayManager = new ReplayManager();
 
     /**
@@ -33,18 +33,21 @@ public class Level {
      * @param replays           ArrayList of {@link Replay}'s for the level
      * @param levelIndex        the index of the level in the level file
      */
-    public Level(String title, int timeToComplete, int height,
-        int width, Tile[][] tiles, ArrayList<String[]> entities,
-        ArrayList<Replay> replays, int levelIndex) {
+    public Level(String title, int timeToComplete, 
+        Tile[][] tiles, ArrayList<String[]> entities, 
+        int levelIndex) {
 
         this.title = title;
         this.timeToComplete = timeToComplete;
-        this.height = height;
-        this.width = width;
+        this.height = tiles[0].length;
+        this.width = tiles.length;
         this.tiles = tiles;
         this.entities = entities;
-        this.replays = replays;
         this.levelIndex = levelIndex;
+    }
+
+    public void setReplays(ArrayList<Replay> replays) {
+        this.replays = replays;
     }
 
     /**

@@ -107,8 +107,11 @@ public class LevelManager {
                 this.replayManager.getReplaysFromLevelTitle(TITLE);
         
             final Level CURRENT_LEVEL = new Level(
-                TITLE, TIME_TO_COMPLETE, HEIGHT, WIDTH, 
-                tiles, entities, replays, levels.size());
+                TITLE, TIME_TO_COMPLETE,
+                tiles, entities, levels.size());
+
+            CURRENT_LEVEL.setReplays(replays);
+
             levels.add(CURRENT_LEVEL);
 
             if (data.size() > this.linePos) {
