@@ -409,7 +409,7 @@ public class Level {
         return new Clock(
             Integer.parseInt(entity[1]),
             Integer.parseInt(entity[2]),
-            Integer.parseInt(entity[3])
+            Double.parseDouble(entity[3])
             );
     }
 
