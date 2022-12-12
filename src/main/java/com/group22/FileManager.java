@@ -8,19 +8,25 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
+ * The {@code FileManager} class has methods which ease the loading of
+ * text files.
  * 
+ * @author Sam Austin
+ * @version 1.0
  */
 public class FileManager {
 
-    /**
-     * 
-     */
     public FileManager(){}
 
     
     /** 
-     * @param file
-     * @return {@link ArrayList} {@link String}
+     * This method takes in a {@link File} and returns an
+     * {@link ArrayList} of {@link String}'s with the data from
+     * the file.
+     * @param file The {@link File} from which the data will be
+     * retrieved.
+     * @return {@link ArrayList} {@link String} Each String object in this
+     * ArrayList is one line from the file.
      */
     public ArrayList<String> getDataFromFile(File file) {
         ArrayList<String> dataArray = new ArrayList<String>();
@@ -44,16 +50,17 @@ public class FileManager {
 
     
     /** 
-     * @param folder
-     * @param startsWith
-     * @param endsWith
-     * @return File[]
+     * Checks a folder for files which start and end with a given string.
+     * @param folder    The folder in which files are checked
+     * @param startsWith    The string that matching file names begin with.
+     * @param endsWith  The string that the matching file names end with.
+     * @return File[]   An array of files which were found.
      */
     public File[] getMatchingFiles(
         String folder, String startsWith, String endsWith) {
 
-        File f = new File(folder);
-        File[] matchingFiles = f.listFiles(new FilenameFilter() {
+        File file = new File(folder);
+        File[] matchingFiles = file.listFiles(new FilenameFilter() {
             public boolean accept(File dir, String name) {
                 return name.startsWith(startsWith) && name.endsWith(endsWith);
             }
@@ -68,8 +75,10 @@ public class FileManager {
 
     
     /** 
-     * @param dataArray
-     * @param file
+     * Saves given data to a given file.
+     * @param dataArray Each String represents a line to write to
+     * the file.
+     * @param file The file to be written to.
      */
     public void saveFile(ArrayList<String> dataArray, File file) {
         try (FileWriter writer = new FileWriter(file, true)) {

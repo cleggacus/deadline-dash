@@ -1,7 +1,12 @@
 package com.group22;
 
 /**
+ * The {@code ReplayFrame} class represents a point in time for
+ * the replay with the x,y coordinates of the player and the time
+ * of the frame in relation to the game time.
  * 
+ * @author Sam Austin
+ * @version 1.1
  */
 public class ReplayFrame {
     private int x;
@@ -9,10 +14,10 @@ public class ReplayFrame {
     private double keyTime;
 
     /**
-     * 
-     * @param x
-     * @param y
-     * @param keyTime
+     * Creates a ReplayFrame with the given parameters.
+     * @param x x coordinate of the player
+     * @param y y coordinate of the player
+     * @param keyTime the time of the frame in relation to the game time
      */
     public ReplayFrame(int x, int y, double keyTime) {
         this.x = x;
@@ -22,8 +27,8 @@ public class ReplayFrame {
 
 
     /**
-     * 
-     * @return
+     * Getter for the time in relation to the game time of the frame
+     * @return double
      */
     public double getKeyTime() {
         return this.keyTime;
@@ -31,7 +36,7 @@ public class ReplayFrame {
 
 
     /**
-     * 
+     * Getter for the x coordinate of the player
      * @return
      */
     public int getX() {
@@ -40,7 +45,7 @@ public class ReplayFrame {
 
     
     /**
-     * 
+     * Getter for the y coordinate of the player
      * @return
      */
     public int getY() {

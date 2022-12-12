@@ -10,7 +10,7 @@ package com.group22;
  */
 public class LevelFormatException extends Exception  {
     /**
-     * 
+     * Create the exception
      * @param message
      */
     public LevelFormatException(String message) {

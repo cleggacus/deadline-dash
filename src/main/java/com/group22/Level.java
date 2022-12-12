@@ -132,11 +132,14 @@ public class Level {
      */
     public void completeLevel(Profile profile, Replay replay, int score) {
         final int PROFILE_UNLOCKED_INDEX = profile.getMaxUnlockedLevelIndex();
+
+        // unlock the next level for the current profile
         if (PROFILE_UNLOCKED_INDEX == this.getIndex()) {
             profile.setUnlockedLevelIndex(this.getIndex() + 1);
         }
         final int SCORE_POS = this.getScorePosition(score);
 
+        // save the replay if in the top 10
         if (SCORE_POS <= 10) {
             this.replayManager.saveReplay(this, replay, score);
         }
@@ -241,11 +244,14 @@ public class Level {
 
         entities.addAll(this.tilesToEntities());
         
+        // for each entity, create it and check if it is valid
         for (String[] entityData : this.getEntities()) {
             final Entity entity = parseEntity(entityData);
             isValidEntity(entity);
             entities.add(entity);
         }
+
+        // check the level is valid after creating all entities
         isValidLevel();
         
         return entities;
@@ -270,7 +276,8 @@ public class Level {
     }
 
     /**
-     * 
+     * Returns an ArrayList of Entity's of type Tile by
+     * calling {@link tilesToEntities}
      * @return
      */
     public ArrayList<Entity> getTilesAsEntities() {
@@ -289,9 +296,21 @@ public class Level {
      */
     public Entity parseEntity(String[] entity) 
         throws LevelFormatException {
-            
+        
+        /* 
+         * Switch through all possible entities, throw an exception
+         * if not in the list.
+         */
         switch(entity[0]){
             case("player"):
+                // throw exception if formatted incorrectly in the level file
+                if (entity.length < 3) 
+                    throw new LevelFormatException(
+                        "player has " 
+                        + (entity.length < 3 ? "too few" : "too many")
+                        + " applicable attributes in " + this.getTitle());
+
+                // return the new object
                 return new Player(
                     Integer.parseInt(entity[1]),
                     Integer.parseInt(entity[2]),
@@ -302,91 +321,110 @@ public class Level {
                         "door has " 
                         + (entity.length < 3 ? "too few" : "too many")
                         + " applicable attributes in " + this.getTitle());
+
                 return new Door(
                     Integer.parseInt(entity[1]),
-                    Integer.parseInt(entity[2]));
+                    Integer.parseInt(entity[2])
+                    );
+
             case("clock"):
                 if (entity.length != 4)
                     throw new LevelFormatException(
                         "clock has " 
                         + (entity.length < 4 ? "too few" : "too many")
                         + " applicable attributes in " + this.getTitle());
+
                 return new Clock(
                     Integer.parseInt(entity[1]),
                     Integer.parseInt(entity[2]),
                     Integer.parseInt(entity[3])
                     );
+
             case("bomb"):
                 if (entity.length != 4)
                     throw new LevelFormatException(
                         "bomb has" 
                         + (entity.length < 4 ? "too few" : "too many")
                         + " applicable attributes in " + this.getTitle());
+
                 return new Bomb(
                     Integer.parseInt(entity[1]),
                     Integer.parseInt(entity[2]),
                     Double.parseDouble(entity[3]));
+
             case("followingthief"):
                 if (entity.length != 5)
                     throw new LevelFormatException(
                         "followingthief has" 
                         + (entity.length < 5 ? "too few" : "too many")
                         + " applicable attributes in " + this.getTitle());
+
                 return new FollowingThief(
                     Integer.parseInt(entity[1]),
                     Integer.parseInt(entity[2]), 
                     TileColor.getFromLabel(entity[3].toCharArray()[0]),
                     Boolean.parseBoolean(entity[4]));
+
             case("lever"):
                 if (entity.length != 4)
                     throw new LevelFormatException(
                         "lever has" 
                         + (entity.length < 4 ? "too few" : "too many")
                         + " applicable attributes in " + this.getTitle());
+
                 return new Lever(
                     Integer.parseInt(entity[1]),
                     Integer.parseInt(entity[2]),
                     entity[3]);
+
             case("gate"):
                 if (entity.length != 5)
                     throw new LevelFormatException(
                         "gate has" 
                         + (entity.length < 5 ? "too few" : "too many")
                         + " applicable attributes in " + this.getTitle());
+
                 return new Gate(
                     Integer.parseInt(entity[1]),
                     Integer.parseInt(entity[2]),
                     entity[3],
                     Boolean.parseBoolean(entity[4]));
+
             case("loot"):
                 if (entity.length != 4)
                     throw new LevelFormatException(
                         "loot has" 
                         + (entity.length < 4 ? "too few" : "too many")
                         + " applicable attributes in " + this.getTitle());
+
                 return new Loot(
                     Integer.parseInt(entity[1]),
                     Integer.parseInt(entity[2]),
                     Integer.parseInt(entity[3]));
+
             case("flyingassassin"):
                 if (entity.length != 4)
                     throw new LevelFormatException(
                         "flyingassassin has" 
                         + (entity.length < 4 ? "too few" : "too many")
                         + " applicable attributes in " + this.getTitle());
+
                 return new FlyingAssassin(
                     Integer.parseInt(entity[1]),
                     Integer.parseInt(entity[2]),
                     entity[3].equals("v"));
+
             case("smartmover"):
             if (entity.length != 3)
                 throw new LevelFormatException(
                     "smartmover has" 
                     + (entity.length < 3 ? "too few" : "too many")
                     + " applicable attributes in " + this.getTitle());
+
                 return new SmartMover(
                     Integer.parseInt(entity[1]),
                     Integer.parseInt(entity[2]));
+                    
             default:
                 throw  new LevelFormatException(
                     "Entity name is not applicable."

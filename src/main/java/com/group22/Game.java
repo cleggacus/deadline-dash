@@ -113,12 +113,11 @@ public class Game extends Engine {
         SavedStateManager stateManager = new SavedStateManager();
 
         stateManager.createState(
-            this.level.getTitle(), 
+            this.level, 
             getProfile().getName(),
             getEntities(), 
             score, 
-            time, 
-            this.level.getIndex());
+            time);
     }
     
     /** 

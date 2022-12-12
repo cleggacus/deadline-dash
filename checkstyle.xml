@@ -27,7 +27,6 @@
   </module>
 
   <module name="TreeWalker">
-    <module name="DeclarationOrder"/>
     <module name="ModifierOrder"/>
     <module name="WhitespaceAround">
       <property name="tokens"
