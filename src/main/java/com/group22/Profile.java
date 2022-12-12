@@ -14,10 +14,10 @@ import java.time.LocalDateTime;
  * @version 1.1
  */
 public class Profile {
-    private LocalDateTime dateLastActive;
-    private String name;
     private static final String PROFILE_FILE = 
         "src/main/resources/com/group22/profiles.txt";
+    private LocalDateTime dateLastActive;
+    private String name;
     private Integer maxUnlockedLevelIndex;
     private List<Profile> allProfiles;
     private FileManager fileManager = new FileManager();

@@ -7,13 +7,18 @@ import java.time.Period;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * {@code TimeUtil} class contains util methods for parsing time to strings.
  * 
+ * @author Liam Clegg
+ * @version 1.0.0
  */
 public class TimeUtil {
     
     /** 
-     * @param pastTime
-     * @return String
+     * Gets the amount of time ago as a string from a local date time.
+     * 
+     * @param pastTime the time to compare against
+     * @return String representing the time passed.
      */
     public static String getTimeAgo(LocalDateTime pastTime) {
         Period dateBetween = Period.between(
@@ -53,8 +58,10 @@ public class TimeUtil {
 
     
     /** 
-     * @param seconds
-     * @return String
+     * Gets seconds as a string parsed time in minutes and seconds.
+     * 
+     * @param seconds number of seconds to parse.
+     * @return The string representing the parsed time.
      */
     public static String getStringifiedTime(int seconds) {
         if (seconds >= 60) {
@@ -72,8 +79,10 @@ public class TimeUtil {
 
     
     /** 
-     * @param seconds
-     * @return String
+     * Returns a parsed string of time left for the level.
+     * 
+     * @param seconds number of seconds left in the level to parse.
+     * @return The parsed string in mins and seconds of time left in level.
      */
     public static String getLevelTimeLeft(double seconds) {
         final DecimalFormat df = new DecimalFormat("0.00");

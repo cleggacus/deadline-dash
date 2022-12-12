@@ -3,7 +3,8 @@ package com.group22;
 import java.util.ArrayList;
 
 /**
- * {@code Lever} class is a subclass of {@code Pickup} and is an entity which is drawn to screen
+ * {@code Lever} class is a subclass of {@code Pickup} 
+ * and is an entity which is drawn to screen
  * Each instance owns its own values for 
  * coordinates which are inherited and also a colour
  *
@@ -12,9 +13,9 @@ import java.util.ArrayList;
  */
 public class Lever extends PickUp {
     private String leverColour;
-    private Boolean leverIsOpen = false;
 
     /**
+     * Creates a lever.
      * 
      * @param leverX the horizontal position of a lever on the map
      * @param leverY the vertical position of a lever on the map
@@ -30,6 +31,8 @@ public class Lever extends PickUp {
     }
 
     /** 
+     * Sets the level color by label.
+     * 
      * @param leverColour setter for the colour of a lever
      */
     private void setLeverColour(String leverColour) {
@@ -38,6 +41,8 @@ public class Lever extends PickUp {
 
 
     /** 
+     * Gets the label color of the lever.
+     * 
      * @return String the colour of a lever
      */
     public String getLeverColour() {
@@ -46,6 +51,8 @@ public class Lever extends PickUp {
 
     
     /** 
+     * {@inheritDoc}
+     * 
      * @return String of lever X position, Y position and the colour to be
      * saved/loaded.
      */

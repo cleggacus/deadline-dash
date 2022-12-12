@@ -13,13 +13,13 @@ import java.util.Arrays;
  * @version 1.1
  */
 public class LevelManager {
+    private static final String LEVEL_FILE_PATH =
+        "src/main/resources/com/group22/levels.txt";
+    private static ArrayList<Level> levels;
     private static LevelManager instance;
     private FileManager fileManager;
     private ReplayManager replayManager;
     private int linePos;
-    private static ArrayList<Level> levels;
-    private static final String LEVEL_FILE_PATH =
-        "src/main/resources/com/group22/levels.txt";
 
     private LevelManager() {}
 

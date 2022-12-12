@@ -51,6 +51,8 @@ public enum TileColor {
     }
 
     /**
+     * {@inheritDoc}
+     * 
      * @return String of the colour of a tile to be saved/loaded.
      */
     @Override
