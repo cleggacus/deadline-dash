@@ -100,14 +100,16 @@ public class Game extends Engine {
     }
     
     /** 
-     * @return Profile
+     * Gets the current profile
+     * 
+     * @return current profile
      */
     public Profile getProfile() {
         return this.profile;
     }
 
     /**
-     * 
+     * Saves the current state of the game.
      */
     public void saveState() {
         SavedStateManager stateManager = new SavedStateManager();
@@ -161,7 +163,7 @@ public class Game extends Engine {
     }
 
     /**
-     * 
+     * Sets state to game over at the end of game.
      */
     public void setGameOver() {
         File musicFile = 
@@ -173,7 +175,7 @@ public class Game extends Engine {
     }
 
     /**
-     * 
+     * Sets state to replay over at the end of a replay.
      */
     public void setReplayOver() {
         this.getGamePane().getReplayOver().setStats(
@@ -183,7 +185,7 @@ public class Game extends Engine {
     }
 
     /**
-     * 
+     * Sets state to level finish when level has been completed
      */
     public void setLevelFinish(){
         if (this.getGameState() == GameState.REPLAYING) {
@@ -247,14 +249,16 @@ public class Game extends Engine {
     }
 
     /** 
-     * @return boolean
+     * Gets if the current level is the last level.
+     * 
+     * @return 
      */
     public boolean isLastLevel() {
         return this.levels.indexOf(this.level) >= this.levels.size() - 1;
     }
 
     /**
-     * Inherited method called on game start.
+     * {@inheritDoc}
      */
     @Override
     protected void start() {
@@ -278,7 +282,7 @@ public class Game extends Engine {
     }
 
     /**
-     * Overridden update method from {@code Engine}.
+     * {@inheritDoc}
      */
     @Override
     protected void update() {
@@ -384,7 +388,8 @@ new File("src/main/resources/com/group22/music/sinnesloschen-beam-117362.mp3");
     }
 
     /**
-     * 
+     * Called to setup the profile selector data and initialize the 
+     * game profile data.
      */
     private void setUpProfiles() {
         File musicFile = 
@@ -425,7 +430,9 @@ new File("src/main/resources/com/group22/music/sinnesloschen-beam-117362.mp3");
 
     
     /** 
-     * @param profile
+     * Sets the current profile value.
+     * 
+     * @param profile the currently selected profile.
      */
     private void setProfile(Profile profile) {
         this.profile = profile;
