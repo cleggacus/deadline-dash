@@ -19,10 +19,13 @@ public class ReplayManager {
     private FileManager fileManager;
 
     /**
-     * Create an instance of ReplayManager
+     * Create an instance of ReplayManager, create the replays
+     * folder if it doesn't exist
      */
     public ReplayManager() {
         this.fileManager = new FileManager();
+        File replayFolder = new File(REPLAY_FOLDER);
+        replayFolder.mkdir();
     }
 
     

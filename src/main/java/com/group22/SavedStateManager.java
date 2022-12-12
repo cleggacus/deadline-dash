@@ -16,8 +16,14 @@ public class SavedStateManager {
     private String statesFolder = "src/main/resources/com/group22/states/";
     private FileManager fileManager;
 
+    /**
+     * Create an instance of the SavedStateManager, create the
+     * states folder if it doesn't exist
+     */
     public SavedStateManager() {
         fileManager = new FileManager();
+        File statesFolderFile = new File(statesFolder);
+        statesFolderFile.mkdir();
     }
 
     
