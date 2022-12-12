@@ -18,10 +18,11 @@ public class FlyingAssassin extends Entity {
     private boolean isVertical;
 
     /**
+     * Creates the flying assasin.
      * 
-     * @param x
-     * @param y
-     * @param isVertical
+     * @param x initial x position.
+     * @param y initial y position
+     * @param isVertical true if vertical and false if horizontal
      */
     public FlyingAssassin(int x, int y, boolean isVertical) {
         super(x, y);
@@ -32,29 +33,22 @@ public class FlyingAssassin extends Entity {
         this.moveByX = isVertical ? 0 : 1;
         this.moveByY = isVertical ? 1 : 0;
     }
-    
 
     
     /** 
-     * @return boolean
-     */
-    public boolean getIsVertical() {
-        return isVertical;
-    }
-
-    
-    /** 
-     * @return String
+     * {@inheritDoc}
+     * Used for saving a save state.
      */
     @Override
     public String toString() {
         return ("flyingassassin " + getX() + " " + getY() + 
-            " " + (getIsVertical() ? "v" : "h"));
+            " " + (this.isVertical ? "v" : "h"));
     }
 
     /**
-     *  An overridden method inherited from {@link Entity}.
-     * for every frame in the game update the flying assassins position
+     * {@inheritDoc}
+     * An overridden method inherited from {@link Entity}.
+     * For every frame in the game update the flying assassins position
      */
     
     @Override
@@ -71,7 +65,8 @@ public class FlyingAssassin extends Entity {
     }
 
     /**
-     *  An overridden method inherited from {@link Entity}.
+     * {@inheritDoc}
+     * An overridden method inherited from {@link Entity}.
      * updates on frame to see if it collides with any entities and remove them
      */
 
