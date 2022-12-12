@@ -16,6 +16,7 @@ public class Gate extends Entity {
     private String gateColour;
 
     /**
+     * Creates a gate.
      * 
      * @param gateX the horizontal position of a gate on the map
      * @param gateY the vertical position of a gate on the map
@@ -44,6 +45,8 @@ public class Gate extends Entity {
 
     
     /** 
+     * Sets the color of the gate using a tile color label.
+     * 
      * @param gateColour setter for the colour of a gate
      */
     private void setGateColour(String gateColour) {
@@ -52,6 +55,8 @@ public class Gate extends Entity {
 
     
     /** 
+     * Sets the gate to be open.
+     * 
      * @param gateIsOpen setter for if a gate is open or not
      */
     protected void setGateIsOpen(Boolean gateIsOpen) {
@@ -62,6 +67,8 @@ public class Gate extends Entity {
     }
     
     /** 
+     * Gets if the gate is open.
+     * 
      * @return Boolean getter for if a gate is open or not
      */
     public Boolean getGateIsOpen() {
@@ -70,6 +77,8 @@ public class Gate extends Entity {
 
     
     /** 
+     * Gets the label of the gate color.
+     * 
      * @return String of the colour of a gate
      */
     public String getGateColour() {
@@ -78,6 +87,8 @@ public class Gate extends Entity {
 
     
     /** 
+     * {@inheritDoc}
+     * 
      * @return String of gate X position, Y position, gate colour and
      * if the gate is open or not.
      */
