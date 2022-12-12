@@ -198,7 +198,7 @@ public class Sprite {
      * add a given image to a set of length one with the tag "default".
      * This method also will set the current image set to "default"
      * 
-     * @param image
+     * @param path
      *      The path of the image relative to resources that 
      *      will be used for the sprite.
      */

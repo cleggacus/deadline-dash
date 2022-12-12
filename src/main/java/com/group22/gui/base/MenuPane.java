@@ -178,8 +178,9 @@ public class MenuPane extends GridPane {
      * @param i Index of the element which will be removed.
      */
     public void replace(Node node, int i) {
-        if (i < 0 || i >= this.getRowCount())
+        if (i < 0 || i >= this.getRowCount()) {
             return;
+        }
 
         this.add(node, 0, i);
     }

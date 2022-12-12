@@ -10,9 +10,8 @@ import javafx.scene.paint.Color;
  * adjacent to a {@code Bomb}, upon which a 3-second countdown is begun. 
  * After which the {@code Bomb} will detonate and an explosion along the 
  * {@code Bomb} X and Y position, removing any {@link Entity} from the game, 
- * excluding {@link Door}. If another {@code Bomb} lies within the explosion,
- * that {@code Bomb} will immediately detonate.
- * 
+ * excluding {@link Door} and {@link Gate}. If another {@code Bomb} lies
+ * within the explosion, that {@code Bomb} will immediately detonate.
  * @author Steffan William Borland
  * @version 1.1
  */

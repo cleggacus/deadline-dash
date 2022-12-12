@@ -117,11 +117,15 @@ public class Level {
         }
 
         for (int i = 0; i < 10; i++) {
-            if (this.replays.size() == i)
+            if (this.replays.size() == i) {
                 return i + 1;
+            }
+
             final int LEVEL_HIGHSCORE = this.replays.get(i).getScore();
-            if (LEVEL_HIGHSCORE <= score)
+
+            if (LEVEL_HIGHSCORE <= score) {
                 return i + 1;
+            }
         }
         return 11;
     }
@@ -223,12 +227,15 @@ public class Level {
      * @throws LevelFormatException
      */
     private void isValidLevel() throws LevelFormatException{
-        if (!this.playerPresent)
+        if (!this.playerPresent) {
             throw new LevelFormatException("Player not present for level "
             + this.getTitle());
-        if (!this.doorPresent)
+        }
+
+        if (!this.doorPresent) {
             throw new LevelFormatException("Door not present for level "
             + this.getTitle());
+        }
     }
 
 

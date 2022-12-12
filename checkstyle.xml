@@ -27,6 +27,10 @@
   </module>
 
   <module name="TreeWalker">
+    <module name="NeedBraces">
+      <property name="allowSingleLineStatement" value="true"/>
+    </module>
+
     <module name="ModifierOrder"/>
     <module name="WhitespaceAround">
       <property name="tokens"
