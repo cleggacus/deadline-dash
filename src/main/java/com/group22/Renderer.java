@@ -23,7 +23,7 @@ import javafx.stage.Screen;
  * positions in a grid and be resized accoding to the canvas size.
  * 
  * @author Liam Clegg
- * @version 1.0
+ * @version 1.1
  */
 public class Renderer {
     private static final double DEFAULT_WIDTH = 15;

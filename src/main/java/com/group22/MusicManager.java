@@ -9,7 +9,7 @@ import javafx.util.Duration;
 /**
  * A music player that can set tracks and play tracks and loop audio.
  * @author Lewis Meekings
- * @version 1.0
+ * @version 1.1
  */
 public class MusicManager {
     /**

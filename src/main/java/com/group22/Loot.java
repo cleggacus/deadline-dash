@@ -8,7 +8,7 @@ package com.group22;
  * If interacted with by a {@link Player}, the {@link Game} score 
  * will be updated, depending on how much the {@code Loot} value is. 
  * @author Rhys McGuire
- * @version 1.0
+ * @version 1.1
  */
 public class Loot extends PickUp {
     private int val;

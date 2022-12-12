@@ -6,7 +6,7 @@ package com.group22;
  * and {@link LevelManager} classes.
  * 
  * @author Sam Austin
- * @version 1.0
+ * @version 1.1
  */
 public class LevelFormatException extends Exception  {
     /**

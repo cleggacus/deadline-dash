@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * path, paths with a target on and potential new branches it is connected to.
  * Has a method to test each branch for uniqueness.
  * @author Lewis Meekings
- * @version 1.0
+ * @version 1.1
  */
 public class Branch {
 

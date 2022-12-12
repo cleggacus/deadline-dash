@@ -10,7 +10,7 @@ import javafx.stage.Stage;
  * The {@code Paused} class extends MenuPane is a pause menu.
  * 
  * @author Liam Clegg
- * @version 1.0
+ * @version 1.1
  */
 public class Paused extends MenuPane {
 

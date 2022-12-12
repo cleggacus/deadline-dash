@@ -12,7 +12,7 @@ import javafx.scene.control.Label;
  * which extends MenuPane.
  * 
  * @author Liam Clegg
- * @version 1.0
+ * @version 1.1
  */
 public class GameOver extends MenuPane {
     /** The label element that contains the score. */

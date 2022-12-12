@@ -13,7 +13,7 @@ import javafx.scene.control.Label;
  * level is completed.
  * 
  * @author Liam Clegg
- * @version 1.0
+ * @version 1.1
  */
 public class LevelComplete extends MenuPane {
     /** Label which holds the score value. */

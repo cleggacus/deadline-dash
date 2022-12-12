@@ -19,7 +19,7 @@ import javafx.scene.paint.Color;
  * 4 colors and a grey scale tile sprite.
  * 
  * @author Liam Clegg
- * @version 1.0
+ * @version 1.1
  */
 public class Tile extends Entity {
     private static final TileColor DEFAULT_TILE_COLOR = TileColor.BLUE;

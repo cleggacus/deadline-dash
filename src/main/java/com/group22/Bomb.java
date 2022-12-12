@@ -14,7 +14,7 @@ import javafx.scene.paint.Color;
  * that {@code Bomb} will immediately detonate.
  * 
  * @author Steffan William Borland
- * @version 1.0
+ * @version 1.1
  */
 public class Bomb extends Entity {
     private static final double ANIMATION_DURATION = 0.2;

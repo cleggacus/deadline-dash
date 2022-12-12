@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * If it occupies same space as player then the player loses
  * 
  * @author Ezana Tareke
- * @version 1.0
+ * @version 1.1
  */
 public class FlyingAssassin extends Entity {
     private int moveByY;
@@ -52,7 +52,10 @@ public class FlyingAssassin extends Entity {
             " " + (getIsVertical() ? "v" : "h"));
     }
 
-
+    /**
+     *  An overridden method inherited from {@link Entity}.
+     * for every frame in the game update the flying assassins position
+     */
     
     @Override
     protected void updateMovement() {
@@ -64,10 +67,13 @@ public class FlyingAssassin extends Entity {
         }
 
         this.move(this.moveByX, this.moveByY);
-
-
         
     }
+
+    /**
+     *  An overridden method inherited from {@link Entity}.
+     * updates on frame to see if it collides with any entities and remove them
+     */
 
     @Override
     protected void update() {

@@ -17,7 +17,7 @@ import javafx.scene.paint.Color;
  * switching between the different image sets.
  * 
  * @author Liam Clegg
- * @version 1.0
+ * @version 1.1
  */
 public class Sprite {
     private static HashMap<String, Image> imageCache = new HashMap<>();

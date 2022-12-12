@@ -7,7 +7,7 @@ package com.group22;
  * the level timer.
  * 
  * @author Lewis Meekings
- * @version 1.0
+ * @version 1.1
  */
 public class Clock extends PickUp {
     
