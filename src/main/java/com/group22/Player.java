@@ -68,7 +68,9 @@ public class Player extends LandMover {
     }
 
     /** 
-     * @return boolean
+     * Gets whether the player has a torch.
+     * 
+     * @return true if player has torch.
      */
     public boolean hasTorch() {
         return this.torch;
