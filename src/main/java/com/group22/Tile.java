@@ -32,7 +32,10 @@ public class Tile extends Entity {
     private TileLayout tileLayout = new TileLayout();
 
     /**
+     * Stores the layout of the four tiles and is used for image caching.
      * 
+     * @author Liam Clegg
+     * @version 1.1
      */
     public class TileLayout {
         public TileColor topLeft = DEFAULT_TILE_COLOR;
@@ -41,11 +44,12 @@ public class Tile extends Entity {
         public TileColor bottomRight = DEFAULT_TILE_COLOR;
 
         /**
+         * Sets the colours in the tile.
          * 
-         * @param topLeft
-         * @param topRight
-         * @param bottomLeft
-         * @param bottomRight
+         * @param topLeft top left tile color
+         * @param topRight top right tile color
+         * @param bottomLeft bottom left tile color
+         * @param bottomRight bottom right tile color
          */
         public void setValues(TileColor topLeft, TileColor topRight, 
                 TileColor bottomLeft, TileColor bottomRight) {
@@ -60,9 +64,10 @@ public class Tile extends Entity {
         }
 
         /**
+         * Gets if there is a matching color in the 2 tile layouts.
          * 
-         * @param tileLayout
-         * @return
+         * @param tileLayout the tilelayout to compare.
+         * @return weather there is a color match.
          */
         public boolean matches(TileLayout tileLayout) {
             char[] arr1 = this.toString().toCharArray();
@@ -80,8 +85,9 @@ public class Tile extends Entity {
         }
 
         /**
+         * Gets the majority color in the tile layout.
          * 
-         * @return
+         * @return the tile color that occurs the most in the layout.
          */
         public TileColor getMajorityColor() {
             TileColor[] tiles = new TileColor[] {
@@ -114,11 +120,17 @@ public class Tile extends Entity {
             return colors.get(largest);
         }
 
+        /**
+         * {@inheritDoc}}
+         */
         @Override
         public int hashCode() {
             return Objects.hash(topLeft, topRight, bottomLeft, bottomRight);
         }
 
+        /**
+         * {@inheritDoc}}
+         */
         @Override
         public String toString() {
             return 
@@ -211,8 +223,10 @@ public class Tile extends Entity {
 
     
     /** 
-     * @param tileColor
-     * @return boolean
+     * Checks if the tile has a given color in it.
+     * 
+     * @param tileColor the color to check in the layout.
+     * @return if color is in tile.
      */
     public boolean hasColor(TileColor tileColor) {
         return 
@@ -222,6 +236,9 @@ public class Tile extends Entity {
             this.tileLayout.bottomRight == tileColor;
     }
 
+    /**
+     * Enables the tile to light up in the renderer.
+     */
     public void lightUp() {
         this.isLighting = true;
     }

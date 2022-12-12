@@ -34,9 +34,10 @@ public class Sprite {
     public Sprite() {}
 
     /**
+     * Gets an image from a given path and caches the image.
      * 
-     * @param path
-     * @return
+     * @param path path of the image.
+     * @return An image object of the image at the path.
      */
     public static Image imageFromPath(String path) {
         String resourcePath = Sprite.class.getResource(path).toString();
@@ -114,7 +115,9 @@ public class Sprite {
 
     
     /** 
-     * @return int
+     * Gets the number of images in the currently selected set.
+     * 
+     * @return number of images in current set.
      */
     public int getCurrentImageCount() {
         if (this.images.get(this.currentImageSet) == null) {
@@ -217,7 +220,9 @@ public class Sprite {
 
     
     /** 
-     * @param animationType
+     * Set the animation type for the sprite set.
+     * 
+     * @param animationType type of animaiton.
      */
     public void setAnimationType(AnimationType animationType) {
         this.animationType = animationType;
@@ -225,8 +230,10 @@ public class Sprite {
 
     
     /** 
-     * @param applyColor
-     * @return Image
+     * Applys a color to an image through multiplication.
+     * 
+     * @param applyColor the color thats applied.
+     * @return The image after it has been colourized
      */
     public Image applyColor(Color applyColor) {
         Image loaded = this.getCurrentImage();
@@ -255,10 +262,12 @@ public class Sprite {
     }
     
     /** 
-     * @param path1
-     * @param path2
-     * @param imageCount
-     * @return Image[]
+     * Creates images in between 2 images for a given number of intervals.
+     * 
+     * @param path1 the path of the first image.
+     * @param path2 the path of the second image.
+     * @param imageCount the number of images to be generated.
+     * @return Image[] the array of generated images.
      */
     public static Image[] createImageFade(
         String path1, String path2, int imageCount) {
@@ -269,10 +278,12 @@ public class Sprite {
 
     
     /** 
-     * @param image1
-     * @param image2
-     * @param imageCount
-     * @return Image[]
+     * Creates images in between 2 images for a given number of intervals.
+     * 
+     * @param image1 the first image
+     * @param image2 the second image.
+     * @param imageCount the number of images to be generated.
+     * @return Image[] the array of generated images.
      */
     public static Image[] createImageFade(
         Image image1, Image image2, int imageCount) {
@@ -287,10 +298,12 @@ public class Sprite {
 
     
     /** 
-     * @param image1
-     * @param image2
-     * @param amount
-     * @return Image
+     * Creates a fade between 2 images with a given amount through the fade.
+     * 
+     * @param image1 the first image.
+     * @param image2 the second image.
+     * @param amount the amount the image has been faded.
+     * @return The image after it has been faded
      */
     private static Image createFade(Image image1, Image image2, double amount) {
         if (image1.getHeight() != image2.getHeight() || 

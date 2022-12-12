@@ -22,7 +22,6 @@ public class KeyboardManager {
     private HashSet<KeyCode> keysUp;
 
     private Scene scene;
-    private KeyCode keyReleased;
 
     /**
      * Creates a keyboard manager.
@@ -32,9 +31,10 @@ public class KeyboardManager {
      */
     public KeyboardManager() {}
 
-    
     /** 
-     * @param scene
+     * Sets the schene to apply the key events to.
+     * 
+     * @param scene scene to apply events to.
      */
     public void setScene(Scene scene) {
         if (this.scene != null) {
@@ -58,7 +58,6 @@ public class KeyboardManager {
         }));
 
         scene.setOnKeyReleased((e -> {
-            this.keyReleased = e.getCode();
             keysUp.add(e.getCode());
         }));
     }
@@ -110,10 +109,12 @@ public class KeyboardManager {
         return keysPress.get(keyCode) != null;
     }
 
-    
     /** 
-     * @param ...keyCodes
-     * @return KeyCode
+     * Gets the last key to be pressed that is currently down given a 
+     * set of key codes.
+     * 
+     * @param keyCodes The keys to check.
+     * @return KeyCode The key that was last pressed.
      */
     public KeyCode getLastKeyDown(KeyCode ...keyCodes) {
         long lastTime = -1;

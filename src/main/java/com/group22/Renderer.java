@@ -131,7 +131,12 @@ public class Renderer {
      * @param left
      *      The number of pixels that should be added to the top left the grid.
      */
-    public void setPadding(double top, double right, double bottom, double left) {
+    public void setPadding(
+        double top, 
+        double right, 
+        double bottom, 
+        double left
+    ) {
         this.topPadding = top;
         this.bottomPadding = bottom;
         this.leftPadding = left;
@@ -186,30 +191,9 @@ public class Renderer {
         );
     }
 
-    
     /** 
-     * @param x
-     * @param y
-     * @param width
-     * @param height
-     * @param color
-     */
-    public void drawRect(double x, double y, double width, double height, Color color) {
-        this.graphicsContext.setFill(color);
-
-        width *= tileSize;
-        height *= tileSize;
-
-        double drawX = x * this.tileSize + 
-            this.offsetX + (tileSize - width) / 2;
-        double drawY = y * this.tileSize + 
-            this.offsetY + (tileSize - height) / 2;
-
-        this.graphicsContext.fillRect(drawX, drawY, width, height);
-    }
-
-    
-    /** 
+     * Draws a shadow sprite at location.
+     * 
      * @param x
      * @param y
      * @param scale
@@ -228,9 +212,11 @@ public class Renderer {
 
     
     /** 
-     * @param x
-     * @param y
-     * @param amount
+     * Adds a default color light on current frame in a given location.
+     * 
+     * @param x light position x
+     * @param y light position y
+     * @param amount brightness of light
      */
     public void setLightPosition(double x, double y, double amount) {
         setLightPosition(x, y, amount, Color.rgb(255, 190, 158, 1));
@@ -238,12 +224,19 @@ public class Renderer {
 
     
     /** 
-     * @param x
-     * @param y
-     * @param amount
-     * @param color
+     * Adds a light on current frame in a given location and color.
+     * 
+     * @param x light position x
+     * @param y light position y
+     * @param amount brightness of light
+     * @param color color of the light
      */
-    public void setLightPosition(double x, double y, double amount, Color color) {
+    public void setLightPosition(
+        double x, 
+        double y, 
+        double amount, 
+        Color color
+    ) {
         Screen screen = Screen.getPrimary();
         double scaleX = screen.getOutputScaleX();
         double scaleY = screen.getOutputScaleY();
@@ -322,7 +315,7 @@ public class Renderer {
     }
 
     /**
-     * 
+     * Draws brick tiles outline around tile grid.
      */
     private void drawOutline() {
         Image top = new Image(

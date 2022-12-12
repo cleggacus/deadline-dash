@@ -10,7 +10,12 @@ import java.net.URL;
 import java.net.UnknownHostException;
 
 /**
+ * The class {@code MOTD} handles the get requests for the api for the 
+ * message of the day. It is used for both requests and solving the puzzle
+ * given from the api.
  * 
+ * @author Liam Clegg
+ * @version 1.0
  */
 public class MOTD {
     private static final String API_PUZZLE_URL = 
@@ -20,7 +25,9 @@ public class MOTD {
 
     
     /** 
-     * @return {@link String}
+     * Gets the current message of the day by requesting the motd api.
+     * 
+     * @return A string containing the message of the day.
      */
     public static String getMOTD() {
         String puzzle = fetch(API_PUZZLE_URL);
@@ -32,8 +39,10 @@ public class MOTD {
 
     
     /** 
-     * @param puzzleString
-     * @return {@link String}
+     * Solves the puzzle given from the message of the day api.
+     * 
+     * @param puzzleString puzzle string given from the api
+     * @return the solution string from the puzzle
      */
     private static String solvePuzzle(String puzzleString) {
         String result = "";
@@ -55,8 +64,10 @@ public class MOTD {
 
     
     /** 
-     * @param c
-     * @return char
+     * Wraps char alphabet around from Z to A or A to Z
+     * 
+     * @param c char to be wrapped
+     * @return char after wrap
      */
     private static char wrapAZ(char c) {
         int range = 'Z' - 'A' + 1;
@@ -74,8 +85,11 @@ public class MOTD {
 
     
     /** 
-     * @param urlString
-     * @return {@link String}
+     * Fetches using a get request at a given url and returns
+     * with a string response.
+     * 
+     * @param urlString url string to be requested.
+     * @return The response string.
      */
     private static String fetch(String urlString) {
         String content = "";
@@ -103,8 +117,10 @@ public class MOTD {
 
     
     /** 
-     * @param conn
-     * @return {@link String}
+     * Gets the content from the reponse as string.
+     * 
+     * @param conn connection for to get the content from.
+     * @return Response content string.
      */
     private static String getContent(HttpURLConnection conn) {
         String content = "";
