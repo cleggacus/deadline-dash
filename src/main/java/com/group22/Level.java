@@ -46,6 +46,11 @@ public class Level {
         this.levelIndex = levelIndex;
     }
 
+    
+    /** 
+     * Setter for the replays for the level
+     * @param replays
+     */
     public void setReplays(ArrayList<Replay> replays) {
         this.replays = replays;
     }

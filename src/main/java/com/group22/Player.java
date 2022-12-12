@@ -103,6 +103,9 @@ public class Player extends LandMover {
         return ("player " + getX() + " " + getY() + (torch ? " torch" : ""));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void move(int x, int y) {
         if (x == 1) {
@@ -133,7 +136,6 @@ public class Player extends LandMover {
     /**
      * records movements to be reran later
      */
-
     @Override
     protected void updateMovement() {
         if (this.lastDown == null) {

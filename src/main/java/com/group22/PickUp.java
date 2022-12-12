@@ -29,7 +29,7 @@ public abstract class PickUp extends Entity {
     public abstract void activatePickUpEffect(LandMover landMover);
 
     /**
-     * 
+     * {@inheritDoc}
      */
     @Override
     protected void update() {
@@ -46,7 +46,7 @@ public abstract class PickUp extends Entity {
     }
 
     /**
-     * 
+     * {@inheritDoc}
      */
     @Override
     protected void updateMovement() {}
