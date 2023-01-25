@@ -4,16 +4,33 @@
 
 
 <p align="center">
+  <a href="#">
+    <img alt="Stars" src="https://img.shields.io/github/stars/cleggacus/deadline-dash?color=yellow&style=for-the-badge">
+  </a>
+  &nbsp;
+  <a href="https://github.com/cleggacus/my-paste-bin/issueshttps://trpc.io/discord">
+    <img alt="Issues" src="https://img.shields.io/github/issues/cleggacus/deadline-dash?color=red&style=for-the-badge" />
+  </a>
+  &nbsp;
+  <a href="https://github.com/cleggacus/my-paste-bin/blob/main/LICENSE">
+    <img alt="LICENSE" src="https://img.shields.io/github/license/cleggacus/deadline-dash?label=license&style=for-the-badge" />
+  </a>
+</p>
+
+<p align="center">
     <img alt="JAVA" src="https://img.shields.io/badge/JavaFX-007AFF?style=for-the-badge&logo=javafx&logoColor=white"/>
     &nbsp;
     <img alt="JAVA" src="https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=java&logoColor=white"/>
     &nbsp;
-    <img alt="LICENSE" src="https://img.shields.io/badge/license-MIT-red?style=for-the-badge"/>
 </p>
 
 <p align="center">
     Deadline Dash is a puzzle game made with java (17) and javafx (17) and is based on the game Jewel Chase (incuded in Microsoft Entertainment Pack: The Puzzle Collection). 
 </p>
+
+<br/>
+
+<img style="width: 100%" alt="image" src="https://i.imgur.com/hxzVHtO.jpg"/>
 
 <br/>
 
@@ -62,6 +79,12 @@ You can also generate javadoc using maven with the following command. The docs c
 ```bash
 mvn javadoc:javadoc
 ```
+
+<br/>
+
+![](https://i.imgur.com/HaAr4Vs.png)  |  ![](https://i.imgur.com/GooRw1U.png) | ![](https://i.imgur.com/To8dGKZ.png) | ![](https://i.imgur.com/xFxaCMn.png)
+:------------------------------------:|:-------------------------------------:|:------------------------------------:|:-----------------------------------:
+![](https://i.imgur.com/Qkw1Bcj.png)  |  ![](https://i.imgur.com/kR2yNo2.png) | ![](https://i.imgur.com/pV5qhcU.png) | ![](https://i.imgur.com/Rd6UvmX.png)
 
 <br/>
 
