@@ -23,35 +23,35 @@ public class MusicManager {
      * @param file The file
      */
     public static void setTrack(File file) {
-        MusicManager.track = new Media(file.toURI().toString());
+        // MusicManager.track = new Media(file.toURI().toString());
     }
 
     /**
      * Plays a selected music track.
      */
     public static void playTrack() {
-        if (audio != null) {
-            audio.stop();
-        }
+        // if (audio != null) {
+        //     audio.stop();
+        // }
 
-        audio = new MediaPlayer(track);
-        audio.play();
+        // audio = new MediaPlayer(track);
+        // audio.play();
     }
 
     /**
      * Sets the audio to loop
      */
     public static void playOnRepeat() {
-        if (audio != null) {
-            audio.stop();
-        }
+        // if (audio != null) {
+        //     audio.stop();
+        // }
 
-        audio = new MediaPlayer(track);
-        audio.setOnEndOfMedia(new Runnable() {
-            public void run() {
-                audio.seek(Duration.ZERO);
-            }
-        });
-        audio.play();
+        // audio = new MediaPlayer(track);
+        // audio.setOnEndOfMedia(new Runnable() {
+        //     public void run() {
+        //         audio.seek(Duration.ZERO);
+        //     }
+        // });
+        // audio.play();
     }
 }

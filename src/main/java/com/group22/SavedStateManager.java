@@ -15,8 +15,6 @@ import java.util.ArrayList;
  * @version 1.1
  */
 public class SavedStateManager {
-    private static final URL STATE_FOLDER = 
-        SavedStateManager.class.getResource("states");
     private FileManager fileManager;
 
     /**
@@ -125,12 +123,7 @@ public class SavedStateManager {
      * @return states folder as file.
      */
     private File getFolder() {
-        try {
-            return new File(STATE_FOLDER.toURI());
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-
-        return null;
+        String path = SavedStateManager.class.getResource("").toString() +  "states";
+        return new File(path);
     }
 }
